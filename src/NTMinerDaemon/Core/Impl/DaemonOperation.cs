@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Core.Impl {
     public class DaemonOperation : IDaemonOperation {
-        private static readonly string _minerClientControllerName = RpcRoot.GetControllerName<IMinerClientController>();
+        private static readonly string _minerClientControllerName = ControllerUtil.GetControllerName<IMinerClientController>();
 
         public DaemonOperation() { }
 

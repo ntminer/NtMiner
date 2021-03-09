@@ -15,6 +15,7 @@ namespace NTMiner.Vms {
         private bool _isAutoFanSpeed;
         private int _coreVoltage;
         private int _memoryVoltage;
+        private int _currentMemoryTimingLevel;
 
         public GpuProfileViewModel() {
         }
@@ -31,6 +32,7 @@ namespace NTMiner.Vms {
             _gpuVm = gpuVm;
             _coreVoltage = data.CoreVoltage;
             _memoryVoltage = data.MemoryVoltage;
+            _currentMemoryTimingLevel = data.CurrentMemoryTimingLevel;
         }
 
         public void Update(IGpuProfile data) {
@@ -52,6 +54,7 @@ namespace NTMiner.Vms {
             this._cool = data.Cool;
             this._coreVoltage = data.CoreVoltage;
             this._memoryVoltage = data.MemoryVoltage;
+            this._currentMemoryTimingLevel = data.CurrentMemoryTimingLevel;
 
             OnPropertyChanged(nameof(CoreClockDelta));
             OnPropertyChanged(nameof(MemoryClockDelta));
@@ -60,6 +63,7 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(Cool));
             OnPropertyChanged(nameof(CoreVoltage));
             OnPropertyChanged(nameof(MemoryVoltage));
+            OnPropertyChanged(nameof(CurrentMemoryTimingLevel));
         }
 
         public string GetId() {
@@ -184,6 +188,17 @@ namespace NTMiner.Vms {
                 if (_cool != value) {
                     _cool = value;
                     OnPropertyChanged(nameof(Cool));
+                    Save();
+                }
+            }
+        }
+
+        public int CurrentMemoryTimingLevel {
+            get => _currentMemoryTimingLevel;
+            set {
+                if (_currentMemoryTimingLevel != value) {
+                    _currentMemoryTimingLevel = value;
+                    OnPropertyChanged(nameof(CurrentMemoryTimingLevel));
                     Save();
                 }
             }

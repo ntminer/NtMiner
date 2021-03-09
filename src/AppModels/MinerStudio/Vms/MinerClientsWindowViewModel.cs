@@ -183,7 +183,7 @@ namespace NTMiner.MinerStudio.Vms {
                     wallet = this.Wallet;
                 }
             }
-            MinerStudioService.Instance.QueryClientsAsync(new QueryClientsRequest {
+            MinerStudioRoot.MinerStudioService.QueryClientsAsync(new QueryClientsRequest {
                 PageIndex = this.PageIndex,
                 PageSize = this.PageSize,
                 WorkId = workId,
@@ -204,7 +204,7 @@ namespace NTMiner.MinerStudio.Vms {
             });
             2.SecondsDelay().ContinueWith(t => {
                 if (this.CountDown == 0) {
-                    this.CountDown = 10;
+                    this.ResetCountDown();
                     this.IsLoading = false;
                 }
             });
@@ -212,7 +212,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         private void AddEventPath() {
             VirtualRoot.BuildEventPath<QueryClientsResponseEvent>("收到QueryClientsResponse响应后刷新界面", LogEnum.DevConsole, path: message => {
-                this.CountDown = 10;
+                this.ResetCountDown();
                 this.IsLoading = false;
                 var response = message.Response;
                 if (response.IsSuccess()) {
@@ -436,8 +436,8 @@ namespace NTMiner.MinerStudio.Vms {
                         suffix: "01",
                         namesByObjectId: this.SelectedMinerClients.Select(a => new Tuple<string, string>(a.Id, string.Empty)).ToList(),
                         onOk: () => {
-                            this.CountDown = 10;
-                            MinerStudioService.Instance.UpdateClientsAsync(nameof(MinerClientViewModel.WorkerName), vm.NamesByObjectId.ToDictionary(a => a.Item1, a => (object)a.Item2), callback: (response, e) => {
+                            this.ResetCountDown();
+                            MinerStudioRoot.MinerStudioService.UpdateClientsAsync(nameof(MinerClientViewModel.WorkerName), vm.NamesByObjectId.ToDictionary(a => a.Item1, a => (object)a.Item2), callback: (response, e) => {
                                 if (response.IsSuccess()) {
                                     foreach (var kv in vm.NamesByObjectId) {
                                         var item = this.SelectedMinerClients.FirstOrDefault(a => a.Id == kv.Item1);
@@ -478,8 +478,8 @@ namespace NTMiner.MinerStudio.Vms {
                 }
                 else {
                     this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定删除选中的矿机吗？", title: "确认", onYes: () => {
-                        this.CountDown = 10;
-                        MinerStudioService.Instance.RemoveClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
+                        this.ResetCountDown();
+                        MinerStudioRoot.MinerStudioService.RemoveClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
                             if (!response.IsSuccess()) {
                                 VirtualRoot.Out.ShowError("删除矿机失败：" + response.ReadMessage(e), autoHideSeconds: 4, toConsole: true);
                             }
@@ -499,7 +499,7 @@ namespace NTMiner.MinerStudio.Vms {
                 else {
                     this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定重启选中的电脑吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
-                            MinerStudioService.Instance.RestartWindowsAsync(item);
+                            MinerStudioRoot.MinerStudioService.RestartWindowsAsync(item);
                         }
                     }));
                 }
@@ -513,7 +513,7 @@ namespace NTMiner.MinerStudio.Vms {
                 else {
                     this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定关闭选中的电脑吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
-                            MinerStudioService.Instance.ShutdownWindowsAsync(item);
+                            MinerStudioRoot.MinerStudioService.ShutdownWindowsAsync(item);
                         }
                     }));
                 }
@@ -528,7 +528,7 @@ namespace NTMiner.MinerStudio.Vms {
                     this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定将选中的矿机开始挖矿吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
                             // 不能直接调用item的StopMine命令，因为该命令内部会有弹窗确认
-                            MinerStudioService.Instance.StartMineAsync(item, item.WorkId);
+                            MinerStudioRoot.MinerStudioService.StartMineAsync(item, item.WorkId);
                         }
                     }));
                 }
@@ -543,7 +543,7 @@ namespace NTMiner.MinerStudio.Vms {
                     this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定将选中的矿机停止挖矿吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
                             // 不能直接调用item的StopMine命令，因为该命令内部会有弹窗确认
-                            MinerStudioService.Instance.StopMineAsync(item);
+                            MinerStudioRoot.MinerStudioService.StopMineAsync(item);
                         }
                     }));
                 }
@@ -560,7 +560,7 @@ namespace NTMiner.MinerStudio.Vms {
                 else {
                     this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定启用选中的矿机的Windows远程桌面功能吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
-                            MinerStudioService.Instance.EnableRemoteDesktopAsync(item);
+                            MinerStudioRoot.MinerStudioService.EnableRemoteDesktopAsync(item);
                         }
                     }));
                 }
@@ -599,7 +599,7 @@ namespace NTMiner.MinerStudio.Vms {
                 else {
                     this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定禁用选中的矿机的Windows自动更新功能吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
-                            MinerStudioService.Instance.BlockWAUAsync(item);
+                            MinerStudioRoot.MinerStudioService.BlockWAUAsync(item);
                         }
                     }));
                 }
@@ -633,7 +633,7 @@ namespace NTMiner.MinerStudio.Vms {
                                 ["Auto"] = virtualMemoryMb
                             };
                             foreach (var item in this.SelectedMinerClients) {
-                                MinerStudioService.Instance.SetVirtualMemoryAsync(item, data);
+                                MinerStudioRoot.MinerStudioService.SetVirtualMemoryAsync(item, data);
                             }
                         }
                     });
@@ -657,11 +657,11 @@ namespace NTMiner.MinerStudio.Vms {
                     btnNoToolTip: "注意：关闭计算模式挖矿算力会减半",
                     message: $"过程大概需要花费5到10秒钟，最好矿机没有处在挖矿中否则内核会重启。", title: "A卡计算模式", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
-                            MinerStudioService.Instance.SwitchRadeonGpuAsync(item, on: true);
+                            MinerStudioRoot.MinerStudioService.SwitchRadeonGpuAsync(item, on: true);
                         }
                     }, onNo: () => {
                         foreach (var item in SelectedMinerClients) {
-                            MinerStudioService.Instance.SwitchRadeonGpuAsync(item, on: false);
+                            MinerStudioRoot.MinerStudioService.SwitchRadeonGpuAsync(item, on: false);
                         }
                         return true;
                     }, btnYesText: "开启计算模式", btnNoText: "关闭计算模式");
@@ -837,7 +837,18 @@ namespace NTMiner.MinerStudio.Vms {
             VirtualRoot.BuildEventPath<MinerStudioServiceSwitchedEvent>("切换了群控后台客户端服务类型后刷新矿机列表", LogEnum.DevConsole, path: message => {
                 this.OnPropertyChanged(nameof(NetTypeToolTip));
                 this.OnPropertyChanged(nameof(NetTypeText));
-                this.QueryMinerClients();
+                if (message.ServiceType == MinerStudioServiceType.Out) {
+                    if (!MinerStudioRoot.WsClient.IsOpen) {
+                        // 等它1秒
+                        1.SecondsDelay().ContinueWith(t => this.QueryMinerClients());
+                    }
+                    else {
+                        this.QueryMinerClients();
+                    }
+                }
+                else {
+                    this.QueryMinerClients();
+                }
             }, this.GetType());
             VirtualRoot.BuildCmdPath<UpdateMinerClientVmCommand>(path: message => {
                 var vm = _minerClients.FirstOrDefault(a => a.Id == message.ClientData.Id);
@@ -1193,10 +1204,18 @@ namespace NTMiner.MinerStudio.Vms {
 
         public int CountDown {
             get { return _countDown; }
-            set {
+            private set {
                 _countDown = value;
                 OnPropertyChanged(nameof(CountDown));
             }
+        }
+
+        public void DownCountDown() {
+            this.CountDown -= 1;
+        }
+
+        public void ResetCountDown() {
+            this.CountDown = 10;
         }
 
         private static readonly List<int> _pageSizeItems = new List<int>() { 10, 20, 30, 40 };

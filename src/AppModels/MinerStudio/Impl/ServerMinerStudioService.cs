@@ -8,13 +8,20 @@ using System.Collections.Generic;
 
 namespace NTMiner.MinerStudio.Impl {
     public class ServerMinerStudioService : IServerMinerStudioService {
-        public ServerMinerStudioService() {
+        internal ServerMinerStudioService() {
         }
 
+        private static void ShowWarn() {
+            VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+        }
         #region QueryClientsAsync
         public void QueryClientsAsync(QueryClientsRequest query) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                // 如果是刚刚登录，Ws连接可能正在连接中还没连上了就不用提示和服务器失去连接了。
+                if ((DateTime.Now - RpcRoot.LoginedOn).Seconds < 2) {
+                    return;
+                }
+                ShowWarn();
                 return;
             }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.QueryClientDatas) {
@@ -44,7 +51,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region EnableRemoteDesktopAsync
         public void EnableRemoteDesktopAsync(IMinerData client) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.EnableRemoteDesktop) {
@@ -78,7 +85,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region BlockWAUAsync
         public void BlockWAUAsync(IMinerData client) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.BlockWAU) {
@@ -92,7 +99,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region SwitchRadeonGpuAsync
         public void SwitchRadeonGpuAsync(IMinerData client, bool on) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.SwitchRadeonGpu) {
@@ -107,7 +114,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region RestartWindowsAsync
         public void RestartWindowsAsync(IMinerData client) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.RestartWindows) {
@@ -121,7 +128,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region ShutdownWindowsAsync
         public void ShutdownWindowsAsync(IMinerData client) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ShutdownWindows) {
@@ -136,7 +143,7 @@ namespace NTMiner.MinerStudio.Impl {
         // ReSharper disable once InconsistentNaming
         public void UpgradeNTMinerAsync(IMinerData client, string ntminerFileName) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.UpgradeNTMiner) {
@@ -151,7 +158,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region SetAutoBootStartAsync
         public void SetAutoBootStartAsync(IMinerData client, SetAutoBootStartRequest request) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.SetAutoBootStart) {
@@ -166,7 +173,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region StartMineAsync
         public void StartMineAsync(IMinerData client, Guid workId) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             // localJson和serverJson在服务端将消息通过ws通道发送给挖矿端前根据workId填充
@@ -182,7 +189,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region StopMineAsync
         public void StopMineAsync(IMinerData client) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.StopMine) {
@@ -196,7 +203,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region GetDrivesAsync
         public void GetDrivesAsync(IMinerData client) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.GetDrives) {
@@ -210,7 +217,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region SetVirtualMemoryAsync
         public void SetVirtualMemoryAsync(IMinerData client, Dictionary<string, int> data) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.SetVirtualMemory) {
@@ -225,7 +232,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region GetLocalIpsAsync
         public void GetLocalIpsAsync(IMinerData client) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.GetLocalIps) {
@@ -239,7 +246,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region SetLocalIpsAsync
         public void SetLocalIpsAsync(IMinerData client, List<LocalIpInput> data) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.SetLocalIps) {
@@ -254,7 +261,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region GetOperationResultsAsync
         public void GetOperationResultsAsync(IMinerData client, long afterTime) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.GetOperationResults) {
@@ -269,7 +276,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region GetSelfWorkLocalJsonAsync
         public void GetSelfWorkLocalJsonAsync(IMinerData client) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.GetSelfWorkLocalJson) {
@@ -283,7 +290,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region SaveSelfWorkLocalJsonAsync
         public void SaveSelfWorkLocalJsonAsync(IMinerData client, string localJson, string serverJson) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             if (string.IsNullOrEmpty(localJson) || string.IsNullOrEmpty(serverJson)) {
@@ -307,7 +314,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region GetGpuProfilesJsonAsync
         public void GetGpuProfilesJsonAsync(IMinerData client) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.GetGpuProfilesJson) {
@@ -321,7 +328,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region SaveGpuProfilesJsonAsync
         public void SaveGpuProfilesJsonAsync(IMinerData client, string json) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                ShowWarn();
                 return;
             }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.SaveGpuProfilesJson) {

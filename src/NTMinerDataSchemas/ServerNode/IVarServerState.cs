@@ -21,5 +21,6 @@
         double ProcessMemoryMb { get; }
         long ThreadCount { get; }
         long HandleCount { get; }
+        string AvailableFreeSpaceInfo { get; }
     }
 }

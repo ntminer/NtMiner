@@ -47,7 +47,17 @@ namespace NTMiner.Views {
             }
             Window owner = (Window)sender;
             _instance.Left = owner.Left + (owner.Width - _instance.Width) / 2;
-            _instance.Top = owner.Top + 4;
+            if (owner.WindowState == WindowState.Maximized) {
+                _instance.Top = 8;
+            }
+            else {
+                if (owner.Top > 80) {
+                    _instance.Top = owner.Top - 80;
+                }
+                else {
+                    _instance.Top = owner.Top + 4;
+                }
+            }
         }
 
         private static void Owner_Deactivated(object sender, EventArgs e) {

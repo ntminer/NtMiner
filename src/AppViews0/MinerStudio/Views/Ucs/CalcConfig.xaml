@@ -78,28 +78,51 @@
 			</ItemsControl>
 		</ScrollViewer>
 		<TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="数据来自鱼池首页，每10分钟自动刷新一次" Foreground="Red"></TextBlock>
-		<controls:KbButton
-			Grid.Row="2"
-			Command="{Binding Save}" 
-			VerticalAlignment="Bottom"
-			HorizontalAlignment="Center"
-			Margin="0 10 0 0"
-			Padding="15 2"
-			Background="{StaticResource BtnBackground}"
-			Foreground="{StaticResource BtnForeground}"
-			CornerRadius="2">
-			<WrapPanel>
-				<Path
-					Width="12"
-					Height="12"
-					Data="{StaticResource Icon_Ok}"
-					Fill="{StaticResource BtnForeground}"
-					Stretch="Fill" />
-				<TextBlock
-					Padding="4"
-					VerticalAlignment="Center"
-					Text="确定" />
-			</WrapPanel>
-		</controls:KbButton>
+        <WrapPanel Grid.Row="2" Margin="0 10 0 0" HorizontalAlignment="Center">
+            <controls:KbButton
+				Command="{Binding Save}" 
+				VerticalAlignment="Bottom"
+				HorizontalAlignment="Center"
+				Padding="15 2"
+				Background="{StaticResource BtnBackground}"
+				Foreground="{StaticResource BtnForeground}"
+				CornerRadius="2">
+                <WrapPanel>
+                    <Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_Ok}"
+						Fill="{StaticResource BtnForeground}"
+						Stretch="Fill" />
+                    <TextBlock
+						Padding="4"
+						VerticalAlignment="Center"
+						Text="确定" />
+                </WrapPanel>
+            </controls:KbButton>
+            <controls:KbButton
+                Margin="20 0 0 0"
+				Command="{Binding Clear}" 
+                ToolTip="清理掉已经下架的币种"
+				VerticalAlignment="Bottom"
+				HorizontalAlignment="Center"
+				Padding="15 2"
+				Background="{StaticResource BtnBackground}"
+				Foreground="{StaticResource BtnForeground}"
+				CornerRadius="2">
+                <WrapPanel>
+                    <Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_Clear}"
+						Fill="{StaticResource BtnForeground}"
+						Stretch="Fill" />
+                    <TextBlock
+						Padding="4"
+						VerticalAlignment="Center"
+						Text="清理" />
+                </WrapPanel>
+            </controls:KbButton>
+        </WrapPanel>
 	</Grid>
 </UserControl>

@@ -21,38 +21,20 @@ namespace NTMiner.Gpus.Impl {
             VirtualRoot.RaiseEvent(new GpuStateChangedEvent(Guid.Empty, gpu));
         }
 
-        public void OverClock(
-            int gpuIndex, int coreClockMHz, int coreClockVoltage, int memoryClockMHz, 
-            int memoryClockVoltage, int powerLimit, int tempLimit, int fanSpeed) {
+        public void OverClock(int gpuIndex, OverClockValue value) {
             if (gpuIndex == NTMinerContext.GpuAllId) {
                 foreach (var gpu in NTMinerContext.Instance.GpuSet.AsEnumerable()) {
                     if (gpu.Index == NTMinerContext.GpuAllId) {
                         continue;
                     }
-                    _gpuHelper.OverClock(
-                        gpu, 
-                        coreClockMHz, 
-                        coreClockVoltage, 
-                        memoryClockMHz, 
-                        memoryClockVoltage, 
-                        powerLimit, 
-                        tempLimit, 
-                        fanSpeed);
+                    _gpuHelper.OverClock(gpu, value);
                 }
             }
             else {
                 if (!NTMinerContext.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
                     return;
                 }
-                _gpuHelper.OverClock(
-                    gpu, 
-                    coreClockMHz, 
-                    coreClockVoltage, 
-                    memoryClockMHz, 
-                    memoryClockVoltage, 
-                    powerLimit, 
-                    tempLimit, 
-                    fanSpeed);
+                _gpuHelper.OverClock(gpu, value);
             }
         }
 
@@ -74,7 +56,7 @@ namespace NTMiner.Gpus.Impl {
         }
 
         public void Restore() {
-            OverClock(NTMinerContext.GpuAllId, 0, 0, 0, 0, 0, 0, 0);
+            OverClock(gpuIndex: NTMinerContext.GpuAllId, OverClockValue.RestoreValue);
             RefreshGpuState(NTMinerContext.GpuAllId);
         }
 

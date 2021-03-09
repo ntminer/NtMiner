@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Services.Official {
     public class UserMinerGroupService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<IUserMinerGroupController>();
+        private readonly string _controllerName = ControllerUtil.GetControllerName<IUserMinerGroupController>();
 
         internal UserMinerGroupService() {
         }

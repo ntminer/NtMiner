@@ -25,7 +25,7 @@ namespace NTMiner {
         /// <summary>
         /// autoHideSeconds 0表示不自动隐藏，即需要手动点击"知道了"按钮隐藏
         /// </summary>
-        void ShowWarn(string message, string header = "警告", int autoHideSeconds = 0, bool toConsole = false);
+        void ShowWarn(string message, string header = "注意", int autoHideSeconds = 0, bool toConsole = false);
 
         /// <summary>
         /// autoHideSeconds 0表示不自动隐藏，即需要手动点击"知道了"按钮隐藏

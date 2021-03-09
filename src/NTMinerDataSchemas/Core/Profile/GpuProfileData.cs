@@ -16,6 +16,7 @@ namespace NTMiner.Core.Profile {
             this.TempLimit = 0;
             this.IsAutoFanSpeed = false;
             this.Cool = 90;
+            this.CurrentMemoryTimingLevel = -1;
         }
 
         public string GetId() {
@@ -33,6 +34,8 @@ namespace NTMiner.Core.Profile {
         public int CoreVoltage { get; set; }
         public int MemoryVoltage { get; set; }
 
+        public int CurrentMemoryTimingLevel { get; set; }
+
         public int PowerCapacity { get; set; }
 
         public int TempLimit { get; set; }
@@ -42,7 +45,7 @@ namespace NTMiner.Core.Profile {
         public int Cool { get; set; }
 
         public override string ToString() {
-            return $"{CoinId.ToString()}{Index.ToString()}{CoreClockDelta.ToString()}{MemoryClockDelta.ToString()}{CoreVoltage.ToString()}{MemoryVoltage.ToString()}{PowerCapacity.ToString()}{TempLimit.ToString()}{IsAutoFanSpeed.ToString()}{Cool.ToString()}";
+            return $"{CoinId.ToString()}{Index.ToString()}{CoreClockDelta.ToString()}{MemoryClockDelta.ToString()}{CoreVoltage.ToString()}{MemoryVoltage.ToString()}{CurrentMemoryTimingLevel.ToString()}{PowerCapacity.ToString()}{TempLimit.ToString()}{IsAutoFanSpeed.ToString()}{Cool.ToString()}";
         }
     }
 }

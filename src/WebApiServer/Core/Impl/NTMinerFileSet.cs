@@ -2,12 +2,11 @@
 using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NTMiner.Core.Impl {
     public class NTMinerFileSet : SetBase, INTMinerFileSet {
         private readonly Dictionary<Guid, NTMinerFileData> _dicById = new Dictionary<Guid, NTMinerFileData>();
-
+        private DateTime _lastChangedOn = DateTime.MinValue;
         public NTMinerFileSet() {
         }
 
@@ -18,7 +17,14 @@ namespace NTMiner.Core.Impl {
                     _dicById.Add(item.Id, item);
                 }
             }
-            RefreshLatest();
+            CacheLatest();
+        }
+
+        public DateTime LastChangedOn {
+            get {
+                InitOnece();
+                return _lastChangedOn;
+            }
         }
 
         private NTMinerFileData _latestMinerClientFile;
@@ -29,8 +35,17 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        private void RefreshLatest() {
-            _latestMinerClientFile = _dicById.Values.Where(a => a.AppType == NTMinerAppType.MinerClient).OrderByDescending(a => a.GetVersion()).FirstOrDefault();
+        private NTMinerFileData _latestMinerStudioFile;
+        public NTMinerFileData LatestMinerStudioFile {
+            get {
+                InitOnece();
+                return _latestMinerStudioFile;
+            }
+        }
+
+        public IEnumerable<NTMinerFileData> AsEnumerable() {
+            InitOnece();
+            return _dicById.Values;
         }
 
         public void AddOrUpdate(NTMinerFileData data) {
@@ -47,14 +62,9 @@ namespace NTMiner.Core.Impl {
                         _dicById.Add(data.Id, data);
                         col.Insert(data);
                     }
-                    RefreshLatest();
+                    CacheLatest();
                 }
             }
-        }
-
-        public List<NTMinerFileData> GetAll() {
-            InitOnece();
-            return _dicById.Values.ToList();
         }
 
         public void RemoveById(Guid id) {
@@ -66,9 +76,35 @@ namespace NTMiner.Core.Impl {
                         var col = db.GetCollection<NTMinerFileData>();
                         col.Delete(id);
                     }
-                    RefreshLatest();
+                    CacheLatest();
                 }
             }
+        }
+
+        private void CacheLatest() {
+            foreach (var item in _dicById.Values) {
+                switch (item.AppType) {
+                    case NTMinerAppType.MinerClient:
+                        if (_latestMinerClientFile == null) {
+                            _latestMinerClientFile = item;
+                        }
+                        else if (item.GetVersion() > _latestMinerClientFile.GetVersion()) {
+                            _latestMinerClientFile = item;
+                        }
+                        break;
+                    case NTMinerAppType.MinerStudio:
+                        if (_latestMinerStudioFile == null) {
+                            _latestMinerStudioFile = item;
+                        }
+                        else if (item.GetVersion() > _latestMinerStudioFile.GetVersion()) {
+                            _latestMinerStudioFile = item;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            _lastChangedOn = DateTime.Now;
         }
     }
 }

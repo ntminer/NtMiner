@@ -19,16 +19,16 @@ namespace NTMiner {
                         SortNumber = Count + 1
                     }.Edit.Execute(FormType.Add);
                 });
-                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新VM内存", LogEnum.DevConsole,
                     path: message => {
                         _dicById.Clear();
                         Init();
                     }, location: this.GetType());
-                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole,
                     path: message => {
                         OnPropertyChangeds();
                     }, location: this.GetType());
-                BuildEventPath<GroupAddedEvent>("添加了组后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<GroupAddedEvent>("调整VM内存", LogEnum.DevConsole,
                     path: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             GroupViewModel groupVm = new GroupViewModel(message.Source);
@@ -36,7 +36,7 @@ namespace NTMiner {
                             OnPropertyChangeds();
                         }
                     }, location: this.GetType());
-                BuildEventPath<GroupUpdatedEvent>("更新了组后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<GroupUpdatedEvent>("调整VM内存", LogEnum.DevConsole,
                     path: (message) => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out GroupViewModel vm)) {
                             int sortNumber = vm.SortNumber;
@@ -47,7 +47,7 @@ namespace NTMiner {
                             }
                         }
                     }, location: this.GetType());
-                BuildEventPath<GroupRemovedEvent>("删除了组后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<GroupRemovedEvent>("调整VM内存", LogEnum.DevConsole,
                     path: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();

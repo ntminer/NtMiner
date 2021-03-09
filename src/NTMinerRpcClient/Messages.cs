@@ -10,4 +10,14 @@ namespace NTMiner {
 
         public MinerStudioServiceType ServiceType { get; private set; }
     }
+
+    [MessageType(description: "刷新开源矿工程序版本文件集")]
+    public class RefreshNTMinerFileSetCommand : Cmd {
+        public RefreshNTMinerFileSetCommand() { }
+    }
+
+    [MessageType(description: "开源矿工程序版本文件集初始化后")]
+    public class NTMinerFileSetInitedEvent : EventBase {
+        public NTMinerFileSetInitedEvent() { }
+    }
 }

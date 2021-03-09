@@ -138,7 +138,7 @@ namespace NTMiner.MinerStudio.Views {
                     #region
                     var minerClients = Vm.MinerClients.ToArray();
                     if (Vm.CountDown > 0) {
-                        Vm.CountDown = Vm.CountDown - 1;
+                        Vm.DownCountDown();
                         foreach (var item in minerClients) {
                             item.OnPropertyChanged(nameof(item.LastActivedOnText));
                         }
@@ -150,6 +150,7 @@ namespace NTMiner.MinerStudio.Views {
                         }
                     }
                     else if (Vm.CountDown == 0) {
+                        Vm.ResetCountDown();
                         MinerStudioRoot.MinerClientsWindowVm.QueryMinerClients(isAuto: true);
                     }
                     #endregion

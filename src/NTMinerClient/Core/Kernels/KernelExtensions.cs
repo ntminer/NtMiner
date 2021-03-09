@@ -107,7 +107,7 @@ namespace NTMiner.Core.Kernels {
             if (kernel == null || string.IsNullOrEmpty(kernel.Package)) {
                 return false;
             }
-            string fileFullName = GetPackageFileFullName(kernel);
+            string fileFullName = kernel.GetPackageFileFullName();
             return File.Exists(fileFullName);
         }
 
@@ -120,14 +120,14 @@ namespace NTMiner.Core.Kernels {
 
         public static bool ExtractPackage(this IKernel kernel) {
             try {
-                string kernelDir = GetKernelDirFullName(kernel);
+                string kernelDir = kernel.GetKernelDirFullName();
                 if (string.IsNullOrEmpty(kernelDir)) {
                     return false;
                 }
                 if (!Directory.Exists(kernelDir)) {
                     Directory.CreateDirectory(kernelDir);
                 }
-                string packageZipFileFullName = GetPackageFileFullName(kernel);
+                string packageZipFileFullName = kernel.GetPackageFileFullName();
                 if (string.IsNullOrEmpty(packageZipFileFullName)) {
                     return false;
                 }

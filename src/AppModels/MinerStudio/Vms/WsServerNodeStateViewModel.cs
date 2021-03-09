@@ -17,6 +17,7 @@ namespace NTMiner.MinerStudio.Vms {
         private double _processMemoryMb;
         private long _threadCount;
         private long _handleCount;
+        private string _availableFreeSpaceInfo;
         private CpuData _cpu;
         private CpuDataViewModel _cpuVm;
 
@@ -41,6 +42,7 @@ namespace NTMiner.MinerStudio.Vms {
             _processMemoryMb = data.ProcessMemoryMb;
             _threadCount = data.ThreadCount;
             _handleCount = data.HandleCount;
+            _availableFreeSpaceInfo = data.AvailableFreeSpaceInfo;
             _cpu = data.Cpu;
             _cpuVm = new CpuDataViewModel(data.Cpu);
         }
@@ -58,6 +60,7 @@ namespace NTMiner.MinerStudio.Vms {
             this.ProcessMemoryMb = data.ProcessMemoryMb;
             this.ThreadCount = data.ThreadCount;
             this.HandleCount = data.HandleCount;
+            this.AvailableFreeSpaceInfo = data.AvailableFreeSpaceInfo;
         }
 
         public string Address {
@@ -226,6 +229,18 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_handleCount != value) {
                     _handleCount = value;
                     OnPropertyChanged(nameof(HandleCount));
+                }
+            }
+        }
+
+        public string AvailableFreeSpaceInfo {
+            get {
+                return _availableFreeSpaceInfo;
+            }
+            set {
+                if (_availableFreeSpaceInfo != value) {
+                    _availableFreeSpaceInfo = value;
+                    OnPropertyChanged(nameof(AvailableFreeSpaceInfo));
                 }
             }
         }

@@ -54,26 +54,6 @@ namespace NTMiner.Daemon {
             });
         }
 
-        public static void RunDevConsoleAsync(string poolIp, string consoleTitle) {
-            if (ClientAppType.IsMinerStudio) {
-                return;
-            }
-            Task.Factory.StartNew(() => {
-                if (!File.Exists(MinerClientTempPath.DevConsoleFileFullName)) {
-                    ExtractResource(NTKeyword.DevConsoleFileName);
-                    Logger.OkDebugLine("DevConsole解压成功");
-                }
-                else if (HashUtil.Sha1(File.ReadAllBytes(MinerClientTempPath.DevConsoleFileFullName)) != ThisDevConsoleFileVersion) {
-                    Windows.TaskKill.Kill(NTKeyword.DevConsoleFileName, waitForExit: true);
-                    ExtractResource(NTKeyword.DevConsoleFileName);
-                    Logger.OkDebugLine("发现新版DevConsole，更新成功");
-                }
-                string argument = poolIp + " " + consoleTitle;
-                Process.Start(MinerClientTempPath.DevConsoleFileFullName, argument);
-                Logger.OkDebugLine("DevConsole启动成功");
-            });
-        }
-
         private static void ExtractResource(string name) {
             try {
                 Type type = typeof(DaemonUtil);
@@ -83,29 +63,6 @@ namespace NTMiner.Daemon {
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
-            }
-        }
-
-        private static string s_thisDevConsoleFileVersion;
-        private static string ThisDevConsoleFileVersion {
-            get {
-                if (s_thisDevConsoleFileVersion == null) {
-                    try {
-                        string name = NTKeyword.DevConsoleFileName;
-                        Type type = typeof(DaemonUtil);
-                        Assembly assembly = type.Assembly;
-                        using (var stream = assembly.GetManifestResourceStream(type, name)) {
-                            byte[] data = new byte[stream.Length];
-                            stream.Read(data, 0, data.Length);
-                            s_thisDevConsoleFileVersion = HashUtil.Sha1(data);
-                        }
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e);
-                        s_thisDevConsoleFileVersion = string.Empty;
-                    }
-                }
-                return s_thisDevConsoleFileVersion;
             }
         }
 

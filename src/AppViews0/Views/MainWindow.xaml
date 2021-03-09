@@ -172,15 +172,6 @@
 						Foreground="{StaticResource ThemeForeground}"
                         Content="TestHost">
                     </CheckBox>
-                    <CheckBox 
-                        Margin="0 0 12 0"
-						FocusVisualStyle="{x:Null}"
-						Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
-						Cursor="Hand"
-						Foreground="{StaticResource ThemeForeground}"
-						IsChecked="{Binding IsUseDevConsole}">
-                        <TextBlock Text="DevConsole" Foreground="{StaticResource ThemeForeground}"></TextBlock>
-                    </CheckBox>
                     <WrapPanel 
                         Margin="0 0 20 0" 
                         VerticalAlignment="Center"
@@ -246,19 +237,18 @@
                     <ColumnDefinition x:Name="LeftDrawerGrip" Width="16"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <StackPanel 
-                    Background="White">
+                <StackPanel Background="White">
                     <StackPanel.LayoutTransform>
-                        <RotateTransform Angle="-90"/>
+                        <RotateTransform Angle="90"/>
                     </StackPanel.LayoutTransform>
                     <controls:KbButton 
                         x:Name="BtnLeftDrawerGrip"
-                        HorizontalAlignment="Right"
+                        HorizontalAlignment="Left"
                         Height="16"
                         Padding="4 0" 
                         BorderThickness="0"
+                        Background="#2D2D30"
                         Foreground="White"
-                        Background="Black"
                         Click="BtnLeftDrawerGrip_Click"
                         MouseDoubleClick="BtnLeftDrawerGrip_MouseDoubleClick"
                         Content="开始挖矿">

@@ -60,10 +60,13 @@ namespace NTMiner.Report {
                 IsDisableAntiSpyware = workProfile.IsDisableAntiSpyware,
                 IsDisableUAC = workProfile.IsDisableUAC,
                 IsDisableWAU = workProfile.IsDisableWAU,
+                Is1080PillEnabled = workProfile.Is1080PillEnabled,
+                IsPreventDisplaySleep = workProfile.IsPreventDisplaySleep,
+                IsAutoReboot = workProfile.IsAutoReboot,
                 LocalServerMessageTimestamp = VirtualRoot.LocalServerMessageSetTimestamp,
                 KernelSelfRestartCount = 0,
                 IsAutoBoot = workProfile.IsAutoBoot,
-                IsAutoStart = NTMinerRegistry.GetIsAutoStart(),
+                IsAutoStart = workProfile.IsAutoStart,
                 AutoStartDelaySeconds = workProfile.AutoStartDelaySeconds,
                 Version = EntryAssemblyInfo.CurrentVersionStr,
                 BootOn = root.CreatedOn,
@@ -74,7 +77,6 @@ namespace NTMiner.Report {
                 MinerName = workProfile.MinerName,
                 GpuInfo = root.GpuSetInfo,
                 ClientId = NTMinerContext.Id,
-                CpuId = Windows.Cpu.Instance.CpuId,
                 MACAddress = macAddress,
                 LocalIp = localIps,
                 MainCoinCode = string.Empty,
@@ -129,6 +131,12 @@ namespace NTMiner.Report {
                 HighCpuSeconds = workProfile.HighCpuSeconds,
                 IsOuterUserEnabled = workProfile.IsOuterUserEnabled,
                 ReportOuterUserId = NTMinerRegistry.GetOuterUserId(),
+                IsLowSpeedRestartComputer = false,
+                LowSpeedRestartComputerMinutes = 0,
+                LowSpeed = 0,
+                IsLowSpeedReOverClock = false,
+                LowSpeedReOverClockMinutes = 0,
+                OverClockLowSpeed = 0,
                 GpuTable = root.GpusSpeed.AsEnumerable().Where(a => a.Gpu.Index != NTMinerContext.GpuAllId).Select(a => a.ToGpuSpeedData()).ToArray()
             };
             if (workProfile.MineWork != null) {
@@ -140,6 +148,12 @@ namespace NTMiner.Report {
                 speedDto.MainCoinCode = mainCoin.Code;
                 ICoinProfile coinProfile = workProfile.GetCoinProfile(mainCoin.GetId());
                 speedDto.MainCoinWallet = coinProfile.Wallet;
+                speedDto.IsLowSpeedRestartComputer = coinProfile.IsLowSpeedRestartComputer;
+                speedDto.LowSpeed = coinProfile.LowSpeed;
+                speedDto.LowSpeedRestartComputerMinutes = coinProfile.LowSpeedRestartComputerMinutes;
+                speedDto.IsLowSpeedReOverClock = coinProfile.IsLowSpeedReOverClock;
+                speedDto.LowSpeedReOverClockMinutes = coinProfile.LowSpeedReOverClockMinutes;
+                speedDto.OverClockLowSpeed = coinProfile.OverClockLowSpeed;
                 if (root.ServerContext.PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
                     speedDto.MainCoinPool = mainCoinPool.Server;
                     if (root.IsMining) {

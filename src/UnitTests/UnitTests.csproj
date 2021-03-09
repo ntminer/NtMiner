@@ -42,6 +42,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Aliyun.OSS, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Aliyun.OSS.SDK.2.8.0\lib\Aliyun.OSS.dll</HintPath>
+    </Reference>
     <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
     </Reference>
@@ -58,6 +61,10 @@
       <HintPath>..\ThirdPartyDlls\OpenHardwareMonitorLib.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
+    <Reference Include="Qiniu, Version=7.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdPartyDlls\Qiniu.dll</HintPath>
+    </Reference>
     <Reference Include="StackExchange.Redis, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\StackExchange.Redis.1.2.6\lib\net45\StackExchange.Redis.dll</HintPath>
     </Reference>
@@ -90,6 +97,8 @@
     <Compile Include="BoxTests.cs" />
     <Compile Include="ConvertTests.cs" />
     <Compile Include="CpuTests.cs" />
+    <Compile Include="DataSchema\DataSchemaTests.cs" />
+    <Compile Include="DataSchema\DataSchemaLogger.cs" />
     <Compile Include="DependencyObjectTests.cs" />
     <Compile Include="DotNet45Tests.cs" />
     <Compile Include="EncodingTests.cs" />
@@ -104,6 +113,8 @@
     <Compile Include="NameValueCollectionTests.cs" />
     <Compile Include="NTMinerDataSchemasTests.cs" />
     <Compile Include="NTStopwatchTests.cs" />
+    <Compile Include="OSSTests.cs" />
+    <Compile Include="PerformanceCounterTests.cs" />
     <Compile Include="PInvokeTests.cs" />
     <Compile Include="RamTests.cs" />
     <Compile Include="CryptographyTests.cs" />
@@ -114,6 +125,7 @@
     <Compile Include="ShardingHasherTests.cs" />
     <Compile Include="SpeedTests.cs" />
     <Compile Include="StackTraceTests.cs" />
+    <Compile Include="StopwatchTests.cs" />
     <Compile Include="StreamTests.cs" />
     <Compile Include="TestUtil.cs" />
     <Compile Include="UnitTest1.cs" />
@@ -132,12 +144,16 @@
     <Compile Include="RedisTests.cs" />
     <Compile Include="PartialTests.cs" />
     <Compile Include="UriTests.cs" />
+    <Compile Include="VersionTests.cs" />
     <Compile Include="WebSocketTests.cs" />
     <Compile Include="WMITests.cs" />
     <Compile Include="WsMessageTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="DataSchema\GpuProfilesJsonDb.schema" />
+    <None Include="DataSchema\LocalJsonDb.schema" />
+    <None Include="DataSchema\ServerJsonDb.schema" />
     <None Include="data\clientDatas.json" />
     <None Include="data\speedData.json" />
     <None Include="packages.config" />

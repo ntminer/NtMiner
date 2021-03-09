@@ -16,8 +16,9 @@
 	Width="324">
 	<UserControl.Resources>
 		<ResourceDictionary>
+            <sys:Double x:Key="LeftWidth">40</sys:Double>
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
-				<Setter Property="Width" Value="40"></Setter>
+                <Setter Property="Width" Value="{StaticResource LeftWidth}"></Setter>
 				<Setter Property="FontSize" Value="11"></Setter>
 			</Style>
 		</ResourceDictionary>
@@ -502,13 +503,15 @@
 				Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.CustomArgs, Mode=TwoWay}">
 			</TextBox>
         </WrapPanel>
-        <WrapPanel Margin="0 0 0 4" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.GpuInputSegmentVms,Converter={StaticResource NoRecordInvertVisibilityConverter}}">
-            <TextBlock Style="{StaticResource LblTb}" />
+        <Border Margin="0 0 0 4" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.GpuInputSegmentVms,Converter={StaticResource NoRecordInvertVisibilityConverter}}">
             <ItemsControl
 			    ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.GpuInputSegmentVms}"
 			    BorderThickness="0"
 			    VerticalAlignment="Center"
 			    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl.Margin>
+                    <Thickness Left="{StaticResource LeftWidth}"></Thickness>
+                </ItemsControl.Margin>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel>
@@ -526,7 +529,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        </WrapPanel>
+        </Border>
         <Grid Margin="0 0 0 4" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsSupportDevicesArg, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>

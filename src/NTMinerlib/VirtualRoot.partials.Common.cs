@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Management;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -21,32 +20,46 @@ namespace NTMiner {
         private static PerformanceCounter _memoryCounter;
         private static PerformanceCounter _threadCounter;
         private static PerformanceCounter _handleCounter;
-        private static bool _isPerformanceCounterInited = false;
         private static readonly object _lockForPerformanceCounter = new object();
         private static void PerformanceCounterInitOnece() {
-            if (!_isPerformanceCounterInited) {
+            string processInstanceName = GetProcessInstanceName();
+            if (_memoryCounter == null || _memoryCounter.InstanceName != processInstanceName) {
                 lock (_lockForPerformanceCounter) {
-                    if (!_isPerformanceCounterInited) {
-                        string processInstanceName = _appProcess.ProcessName;
-                        PerformanceCounterCategory cat = new PerformanceCounterCategory("Process");
-                        // 同一个程序如果运行多次，对应的多个进程名称是通过后缀#1、#2、#3...区分的
-                        string[] instanceNames = cat.GetInstanceNames().Where(a => a.StartsWith(_appProcess.ProcessName)).ToArray();
-                        foreach (string instanceName in instanceNames) {
-                            using (PerformanceCounter cnt = new PerformanceCounter("Process", "ID Process", instanceName, true)) {
-                                int val = (int)cnt.RawValue;
-                                if (val == _appProcess.Id) {
-                                    processInstanceName = instanceName;
-                                    break;
-                                }
-                            }
-                        }
+                    if (_memoryCounter == null || _memoryCounter.InstanceName != processInstanceName) {
+                        _memoryCounter?.Dispose();
+                        _threadCounter?.Dispose();
+                        _handleCounter?.Dispose();
                         _memoryCounter = new PerformanceCounter("Process", "Working Set - Private", processInstanceName, readOnly: true);
                         _threadCounter = new PerformanceCounter("Process", "Thread Count", processInstanceName, readOnly: true);
                         _handleCounter = new PerformanceCounter("Process", "Handle Count", processInstanceName, readOnly: true);
-                        _isPerformanceCounterInited = true;
                     }
                 }
             }
+        }
+
+        private static int[] _processIds = new int[0];
+        private static string _processInstanceName = _appProcess.ProcessName;
+        private static string GetProcessInstanceName() {
+            int[] processIds = Process.GetProcessesByName(_appProcess.ProcessName).Select(a => a.Id).ToArray();
+            bool isChanged = _processIds.Length != processIds.Length || _processIds.Any(a => !processIds.Contains(a));
+            if (isChanged) {
+                _processIds = processIds;
+                string processInstanceName = _appProcess.ProcessName;
+                PerformanceCounterCategory cat = new PerformanceCounterCategory("Process");
+                // 同一个程序如果运行多次，对应的多个进程名称是通过后缀#1、#2、#3...区分的
+                string[] instanceNames = cat.GetInstanceNames().Where(a => a.StartsWith(_appProcess.ProcessName)).ToArray();
+                foreach (string instanceName in instanceNames) {
+                    using (PerformanceCounter cnt = new PerformanceCounter("Process", "ID Process", instanceName, true)) {
+                        int val = (int)cnt.RawValue;
+                        if (val == _appProcess.Id) {
+                            processInstanceName = instanceName;
+                            break;
+                        }
+                    }
+                }
+                _processInstanceName = processInstanceName;
+            }
+            return _processInstanceName;
         }
 
         public static double ProcessMemoryMb {
@@ -76,29 +89,6 @@ namespace NTMiner {
         /// 是否是比Win10更旧版本的windows
         /// </summary>
         public static readonly bool IsLTWin10 = !IsGEWin10;
-
-        private static string _cpuId = null;
-        public static string CpuId {
-            get {
-                if (_cpuId == null) {
-                    try {
-                        using (ManagementClass mc = new ManagementClass("Win32_Processor"))
-                        using (ManagementObjectCollection moc = mc.GetInstances()) {
-                            foreach (ManagementObject mo in moc) {
-                                _cpuId = mo.Properties["ProcessorId"].Value.ToString();
-                                break;
-                            }
-                        }
-                    }
-                    catch {
-                    }
-                    if (_cpuId == null) {
-                        _cpuId = "unknow";
-                    }
-                }
-                return _cpuId;
-            }
-        }
 
         public static readonly SessionEndingEventHandler SessionEndingEventHandler = (sender, e) => {
             OsSessionEndingEvent.ReasonSessionEnding reason;

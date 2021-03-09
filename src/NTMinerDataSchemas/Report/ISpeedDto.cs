@@ -8,7 +8,6 @@ namespace NTMiner.Report {
         int AutoRestartKernelTimes { get; }
         int AutoStartDelaySeconds { get; }
         DateTime BootOn { get; }
-        string CpuId { get; }
         Guid ClientId { get; }
         string MACAddress { get; }
         int CpuGETemperatureSeconds { get; }
@@ -79,7 +78,16 @@ namespace NTMiner.Report {
         bool IsAutoDisableWindowsFirewall { get; }
         bool IsDisableUAC { get; }
         bool IsDisableWAU { get; }
+        bool Is1080PillEnabled { get; }
         bool IsDisableAntiSpyware { get; }
+        bool IsAutoReboot { get; }
         string ReportOuterUserId { get; }
+        bool IsPreventDisplaySleep { get; }
+        bool IsLowSpeedRestartComputer { get; }
+        int LowSpeedRestartComputerMinutes { get; }
+        double LowSpeed { get; }
+        bool IsLowSpeedReOverClock { get; }
+        int LowSpeedReOverClockMinutes { get; }
+        double OverClockLowSpeed { get; }
     }
 }

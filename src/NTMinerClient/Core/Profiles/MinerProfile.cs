@@ -19,6 +19,16 @@ namespace NTMiner.Core.Profiles {
 
         public MinerProfile(INTMinerContext root) {
             _root = root;
+            VirtualRoot.BuildCmdPath<RefreshAutoBootStartCommand>(
+                path: message => {
+                    var minerProfileRepository = root.ServerContext.CreateLocalRepository<MinerProfileData>();
+                    var data = minerProfileRepository.GetAll().FirstOrDefault();
+                    if (data != null && _data != null) {
+                        _data.IsAutoBoot = data.IsAutoBoot;
+                        _data.IsAutoStart = data.IsAutoStart;
+                        VirtualRoot.RaiseEvent(new AutoBootStartRefreshedEvent());
+                    }
+                }, location: this.GetType());
             Init(root);
         }
 
@@ -50,6 +60,10 @@ namespace NTMiner.Core.Profiles {
                     SetIsOuterUserEnabled(_data.IsOuterUserEnabled);
                     SetOuterUserId(_data.OuterUserId);
                 }
+            }
+            if (!_data.IsAutoStart && NTMinerRegistry.GetIsAutoStart()) {
+                _data.IsAutoStart = true;
+                minerProfileRepository.Update(_data);
             }
             if (_coinProfileSet == null) {
                 _coinProfileSet = new CoinProfileSet(root);
@@ -419,6 +433,13 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
+        public bool IsAutoReboot {
+            get => _data.IsAutoReboot;
+            private set {
+                _data.IsAutoReboot = value;
+            }
+        }
+
         public bool IsShowInTaskbar {
             get => _data.IsShowInTaskbar;
             private set {
@@ -479,6 +500,17 @@ namespace NTMiner.Core.Profiles {
             get => _data.IsAutoBoot;
             private set {
                 _data.IsAutoBoot = value;
+            }
+        }
+
+        public bool IsAutoStart {
+            get { 
+                return _data.IsAutoStart; 
+            }
+            private set {
+                _data.IsAutoStart = value;
+                // 兼容旧版本
+                NTMinerRegistry.SetIsAutoStart(value);
             }
         }
 

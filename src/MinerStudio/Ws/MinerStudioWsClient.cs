@@ -6,7 +6,7 @@ namespace NTMiner.Ws {
         }
 
         protected override bool TryGetHandler(string messageType, out Action<Action<WsMessage>, WsMessage> handler) {
-            return MinerStudioWsMessageHandler.TryGetHandler(messageType, out handler);
+            return MinerStudioWsMessageFromWsServerHandler.TryGetHandler(messageType, out handler);
         }
 
         protected override void UpdateWsStateAsync(string description, bool toOut) {

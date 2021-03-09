@@ -4,19 +4,7 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Core {
-    public class ClientCount {
-        public ClientCount() { }
-
-        public void Update(int onlineCount, int miningCount) {
-            this.OnlineCount = onlineCount;
-            this.MiningCount = miningCount;
-        }
-        public int OnlineCount { get; private set; }
-        public int MiningCount { get; private set; }
-    }
-
     public interface IClientDataSetBase {
-        ClientCount ClientCount { get; }
         /// <summary>
         /// 
         /// </summary>
@@ -28,7 +16,7 @@ namespace NTMiner.Core {
         /// 
         /// </summary>
         /// <param name="propertyName">propertyName是客户端传入的白名单属性</param>
-        /// <param name="values"></param>
+        /// <param name="values">key是MinerId，Vlaue是propertyName的属性值</param>
         void UpdateClients(string propertyName, Dictionary<string, object> values);
         void RemoveByObjectId(string objectId);
         List<ClientData> QueryClients(

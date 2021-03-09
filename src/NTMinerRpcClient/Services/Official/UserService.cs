@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Services.Official {
     public class UserService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<IUserController>();
+        private readonly string _controllerName = ControllerUtil.GetControllerName<IUserController>();
 
         internal UserService() {
         }

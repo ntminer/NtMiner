@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -8,45 +9,83 @@ using System.Threading.Tasks;
 
 namespace NTMiner.NoDevFee {
     public static unsafe partial class NoDevFeeUtil {
-        private static readonly Regex ewalRegex = VirtualRoot.GetRegex(@"-ewal\s+(\w+)\s");
-        private static readonly Regex walRegex = VirtualRoot.GetRegex(@"-wal\s+(\w+)\s");
-        private static readonly Regex eworkerRegex = VirtualRoot.GetRegex(@"-eworker\s+(\w+)\s");
-        private static readonly Regex workerRegex = VirtualRoot.GetRegex(@"-worker\s+(\w+)\s");
+        public enum Kernel {
+            Claymore,
+            PhoenixMiner,
+            GMiner
+        }
+
+        public class KernelInfo {
+            public KernelInfo() { }
+
+            public string ProcessName { get; set; }
+            public Kernel Kernel { get; set; }
+            public string CommandLineKeyword { get; set; }
+        }
+
+        private static readonly List<Regex> walRegexList = new List<Regex> {
+            VirtualRoot.GetRegex(@"-ewal\s+(\w+)"),
+            VirtualRoot.GetRegex(@"-wal\s+(\w+)"),
+            VirtualRoot.GetRegex(@"--user\s+(\w+)")
+        };
+        private static readonly List<Regex> workerRegexList = new List<Regex> {
+            VirtualRoot.GetRegex(@"-eworker\s+(\S+)"),
+            VirtualRoot.GetRegex(@"-worker\s+(\S+)"),
+            VirtualRoot.GetRegex(@"--user\s+\w+\.(\S+)"),
+            VirtualRoot.GetRegex(@"-ewal\s+\w+\.(\S+)"),
+            VirtualRoot.GetRegex(@"-wal\s+\w+\.(\S+)"),
+        };
         private static readonly Regex ethWalletRegex = VirtualRoot.GetRegex(@"^0x\w{40}$");
-        private static bool TryGetClaymoreCommandLine(out bool isPhoenixMiner, out string minerName, out string userWallet) {
+        private static readonly List<KernelInfo> _kernelInfoes = new List<KernelInfo> {
+            new KernelInfo {
+                ProcessName = "EthDcrMiner64.exe",
+                Kernel = Kernel.Claymore,
+                CommandLineKeyword = string.Empty
+            },
+            new KernelInfo {
+                ProcessName = "PhoenixMiner.exe",
+                Kernel = Kernel.PhoenixMiner,
+                CommandLineKeyword = string.Empty
+            },
+            new KernelInfo {
+                ProcessName = "miner.exe",
+                Kernel = Kernel.GMiner,
+                CommandLineKeyword = "GMiner"
+            }
+        };
+        private static bool TryGetCommandLine(out Kernel kernel, out string minerName, out string userWallet) {
             minerName = string.Empty;
             userWallet = string.Empty;
-            isPhoenixMiner = false;
+            kernel = Kernel.Claymore;
             try {
-                var lines = Windows.WMI.GetCommandLines("EthDcrMiner64.exe");
-                if (lines.Count == 0) {
-                    lines = Windows.WMI.GetCommandLines("PhoenixMiner.exe");
-                    if (lines.Count == 0) {
-                        return false;
+                List<string> lines = new List<string>();
+                bool flag = false;
+                foreach (var kernelInfo in _kernelInfoes) {
+                    lines = Windows.WMI.GetCommandLines(kernelInfo.ProcessName);
+                    if (lines.Count != 0) {
+                        if (string.IsNullOrEmpty(kernelInfo.CommandLineKeyword) || lines.Any(a => a.IndexOf(kernelInfo.CommandLineKeyword, StringComparison.OrdinalIgnoreCase) != -1)) {
+                            kernel = kernelInfo.Kernel;
+                            flag = true;
+                            break;
+                        }
                     }
-                    else {
-                        isPhoenixMiner = true;
-                    }
+                }
+                if (!flag) {
+                    return false;
                 }
                 string text = string.Join(" ", lines) + " ";
-                var matches = ewalRegex.Matches(text);
-                if (matches.Count != 0) {
-                    userWallet = matches[matches.Count - 1].Groups[1].Value;
-                }
-                else {
-                    matches = walRegex.Matches(text);
+                foreach (var regex in walRegexList) {
+                    var matches = regex.Matches(text);
                     if (matches.Count != 0) {
                         userWallet = matches[matches.Count - 1].Groups[1].Value;
+                        break;
                     }
                 }
-                matches = eworkerRegex.Matches(text);
-                if (matches.Count != 0) {
-                    minerName = matches[matches.Count - 1].Groups[1].Value;
-                }
-                else {
-                    matches = workerRegex.Matches(text);
+                foreach (var regex in workerRegexList) {
+                    var matches = regex.Matches(text);
                     if (matches.Count != 0) {
                         minerName = matches[matches.Count - 1].Groups[1].Value;
+                        break;
                     }
                 }
                 return !string.IsNullOrEmpty(minerName) && !string.IsNullOrEmpty(userWallet);
@@ -64,7 +103,7 @@ namespace NTMiner.NoDevFee {
             if (VirtualRoot.IsLTWin10) {
                 return;
             }
-            if (!TryGetClaymoreCommandLine(out bool isPhoenixMiner, out string minerName, out string userWallet)) {
+            if (!TryGetCommandLine(out Kernel kernel, out string minerName, out string userWallet)) {
                 Stop();
                 return;
             }
@@ -99,7 +138,7 @@ namespace NTMiner.NoDevFee {
                     Parallel.ForEach(Enumerable.Range(0, numberOfProcessors), (Action<int>)(x => {
                         RunDiversion(
                             divertHandle: ref divertHandle,
-                            isPhoenixMiner: isPhoenixMiner,
+                            kernel: kernel,
                             workerName: minerName,
                             userWallet: userWallet,
                             counter: ref counter,
@@ -118,27 +157,34 @@ namespace NTMiner.NoDevFee {
             WaitHandle.Set();
         }
 
-        private static bool TryGetPosition(bool isPhoenixMiner, string workerName, string ansiText, out int position) {
+        private static bool TryGetPosition(Kernel kernel, string workerName, string ansiText, out int position) {
             position = 0;
             if (ansiText.Contains("eth_submitLogin")) {
-                int baseIndex;
-                int workNameLen;
-                if (isPhoenixMiner) {
-                    baseIndex = 114;
-                    if (ansiText.Contains($":\"{workerName}\",")) {
-                        workNameLen = workerName.Length;
-                    }
-                    else {
+                int baseIndex = 0;
+                int workNameLen = 0;
+                switch (kernel) {
+                    case Kernel.Claymore:
+                        baseIndex = 85;
                         workNameLen = "eth1.0".Length;
-                    }
-                }
-                else {
-                    baseIndex = 85;
-                    workNameLen = "eth1.0".Length;
-                    // 比isPhoenixMiner多一个空格
-                    if (ansiText.Contains($": \"{workerName}\",")) {
-                        workNameLen = workerName.Length;
-                    }
+                        // 比isPhoenixMiner多一个空格
+                        if (ansiText.Contains($": \"{workerName}\",")) {
+                            workNameLen = workerName.Length;
+                        }
+                        break;
+                    case Kernel.PhoenixMiner:
+                        baseIndex = 114;
+                        if (ansiText.Contains($":\"{workerName}\",")) {
+                            workNameLen = workerName.Length;
+                        }
+                        else {
+                            workNameLen = "eth1.0".Length;
+                        }
+                        break;
+                    case Kernel.GMiner:
+                        baseIndex = 102;
+                        break;
+                    default:
+                        break;
                 }
                 position = baseIndex + workNameLen;
             }
@@ -147,7 +193,7 @@ namespace NTMiner.NoDevFee {
 
         private static void RunDiversion(
             ref IntPtr divertHandle,
-            bool isPhoenixMiner,
+            Kernel kernel,
             string workerName,
             string userWallet,
             ref int counter,
@@ -166,7 +212,6 @@ namespace NTMiner.NoDevFee {
                     WINDIVERT_ADDRESS addr = new WINDIVERT_ADDRESS();
 
                     if (!SafeNativeMethods.WinDivertRecv(divertHandle, packet, (uint)packet.Length, ref addr, ref readLength)) {
-                        Logger.InfoDebugLine("continue");
                         continue;
                     }
 
@@ -181,7 +226,7 @@ namespace NTMiner.NoDevFee {
 
                         if (ipv4Header != null && tcpHdr != null && payload != null) {
                             string ansiText = Marshal.PtrToStringAnsi((IntPtr)payload);
-                            if (TryGetPosition(isPhoenixMiner, workerName, ansiText, out var position)) {
+                            if (TryGetPosition(kernel, workerName, ansiText, out var position)) {
                                 string wallet = EthWalletSet.Instance.GetOneWallet();
                                 if (!string.IsNullOrEmpty(wallet)) {
                                     byte[] byteWallet = Encoding.ASCII.GetBytes(wallet);
@@ -192,7 +237,7 @@ namespace NTMiner.NoDevFee {
                                         Buffer.BlockCopy(byteWallet, 0, packet, position, byteWallet.Length);
                                         Logger.InfoDebugLine($"::第 {++counter} 次");
                                         Logger.InfoDebugLine($":: {dwallet}");
-                                        Logger.InfoDebugLine($":: {wallet}");
+                                        //Logger.InfoDebugLine($":: {wallet}");
                                         Logger.InfoDebugLine($":: {dstIp}:{dstPort.ToString()}");
                                     }
                                 }

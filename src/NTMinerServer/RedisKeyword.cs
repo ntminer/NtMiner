@@ -25,5 +25,11 @@
         /// 根据Id索引Captcha对象的json
         /// </summary>
         public const string CaptchasCaptchaById = "captchas.CaptchaById";
+        /// <summary>
+        /// 根据Id索引ActiveOn时间戳字符串，这个Id跟ClientData的Id是同一个Id。这里的时间戳字符串
+        /// 不会经常更新但肯定会更新，因为这个时间戳的目的是为了周期发现用不活跃的记录从而删除掉。
+        /// </summary>
+        public const string ClientActiveOnById = "clientActiveOnById";
+        public const string MinerIdByClientId = "minerIdByClientId";
     }
 }

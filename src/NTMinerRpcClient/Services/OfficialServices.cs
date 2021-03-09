@@ -7,6 +7,7 @@
         public readonly WsServerNodeService WsServerNodeService = new WsServerNodeService();
         public readonly WebApiServerNodeService WebApiServerNodeService = new WebApiServerNodeService();
         public readonly FileUrlService FileUrlService = new FileUrlService();
+        public readonly NTMinerFileService NTMinerFileService = new NTMinerFileService();
         public readonly OverClockDataService OverClockDataService = new OverClockDataService();
         public readonly NTMinerWalletService NTMinerWalletService = new NTMinerWalletService();
         public readonly KernelOutputKeywordService KernelOutputKeywordService = new KernelOutputKeywordService();
@@ -21,6 +22,7 @@
         public readonly UserMinerGroupService UserMinerGroupService = new UserMinerGroupService();
         public readonly UserMineWorkService UserMineWorkService = new UserMineWorkService();
         public readonly GpuNameService GpuNameService = new GpuNameService();
+        public readonly ActionCountService ActionCountService = new ActionCountService();
 
         internal OfficialServices() {
         }

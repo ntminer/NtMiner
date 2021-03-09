@@ -238,6 +238,13 @@
                             </CheckBox>
                         </WrapPanel>
                         <WrapPanel Margin="0 5" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
+                            <CheckBox 
+                                Width="230"
+							    FocusVisualStyle="{x:Null}"
+							    Padding="0"
+							    IsChecked="{Binding IsPreventDisplaySleep}"
+							    Content="开着开源矿工时阻止显示器休眠">
+                            </CheckBox>
                             <CheckBox
                                 Width="230"
 								Padding="0"
@@ -298,6 +305,36 @@
                                     <TextBlock VerticalAlignment="Center">分钟低于</TextBlock>
                                     <TextBox Width="60" Margin="2 0" Text="{Binding CoinVm.CoinProfile.LowSpeed}" HorizontalAlignment="Left"></TextBox>
                                     <TextBlock VerticalAlignment="Center">重启电脑</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="{StaticResource RowThickness}">
+                            <CheckBox
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding CoinVm.CoinProfile.IsLowSpeedReOverClock}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">如果启用了超频且</TextBlock>
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding CoinVm.Code}"></TextBlock>
+                                    <TextBlock Text="总算力" VerticalAlignment="Center"></TextBlock>
+                                    <TextBlock VerticalAlignment="Center">持续</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding CoinVm.CoinProfile.LowSpeedReOverClockMinutes}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding CoinVm.CoinProfile.Up}" CommandParameter="LowSpeedReOverClockMinutes">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding CoinVm.CoinProfile.Down}" CommandParameter="LowSpeedReOverClockMinutes">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">分钟低于</TextBlock>
+                                    <TextBox Width="60" Margin="2 0" Text="{Binding CoinVm.CoinProfile.OverClockLowSpeed}" HorizontalAlignment="Left"></TextBox>
+                                    <TextBlock VerticalAlignment="Center">重新应用超频</TextBlock>
                                 </WrapPanel>
                             </CheckBox>
                         </WrapPanel>
@@ -694,14 +731,6 @@
 									Stretch="Fill" />
                                 <TextBlock VerticalAlignment="Center">时直接退出开源矿工</TextBlock>
                             </WrapPanel>
-                        </CheckBox>
-                    </WrapPanel>
-                    <WrapPanel Margin="0 5">
-                        <CheckBox 
-							FocusVisualStyle="{x:Null}"
-							Padding="0"
-							IsChecked="{Binding IsPreventDisplaySleep}"
-							Content="阻止显示器休眠">
                         </CheckBox>
                     </WrapPanel>
                 </StackPanel>

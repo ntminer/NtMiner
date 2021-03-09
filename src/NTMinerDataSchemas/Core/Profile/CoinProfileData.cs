@@ -21,7 +21,10 @@ namespace NTMiner.Core.Profile {
                 CalcInput = 1,
                 IsLowSpeedRestartComputer = false,
                 LowSpeed = 0,
-                LowSpeedRestartComputerMinutes = 5
+                LowSpeedRestartComputerMinutes = 10,
+                IsLowSpeedReOverClock = false,
+                LowSpeedReOverClockMinutes = 10,
+                OverClockLowSpeed = 0
             };
         }
 
@@ -48,6 +51,12 @@ namespace NTMiner.Core.Profile {
         public int LowSpeedRestartComputerMinutes { get; set; }
 
         public double LowSpeed { get; set; }
+
+        public bool IsLowSpeedReOverClock { get; set; }
+
+        public int LowSpeedReOverClockMinutes { get; set; }
+
+        public double OverClockLowSpeed { get; set; }
 
         // 检测内存状态是否变更时使用
         public override string ToString() {

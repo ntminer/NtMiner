@@ -27,7 +27,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         string minerIp = ea.BasicProperties.ReadHeaderString(MqKeyword.MinerIpHeaderName);
-                        VirtualRoot.RaiseEvent(new SpeedDataMqMessage(appId, clientId, minerIp, timestamp));
+                        VirtualRoot.RaiseEvent(new SpeedDataMqEvent(appId, clientId, minerIp, timestamp));
                     }
                     break;
                 case MqKeyword.MinerClientWsOpenedRoutingKey: {
@@ -35,7 +35,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         Guid clientId = MinerClientMqBodyUtil.GetClientIdMqReciveBody(ea.Body);
                         if (clientId != Guid.Empty) {
-                            VirtualRoot.RaiseEvent(new MinerClientWsOpenedMqMessage(appId, clientId, timestamp));
+                            VirtualRoot.RaiseEvent(new MinerClientWsOpenedMqEvent(appId, clientId, timestamp));
                         }
                     }
                     break;
@@ -44,7 +44,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         Guid clientId = MinerClientMqBodyUtil.GetClientIdMqReciveBody(ea.Body);
                         if (clientId != Guid.Empty) {
-                            VirtualRoot.RaiseEvent(new MinerClientWsClosedMqMessage(appId, clientId, timestamp));
+                            VirtualRoot.RaiseEvent(new MinerClientWsClosedMqEvent(appId, clientId, timestamp));
                         }
                     }
                     break;
@@ -53,14 +53,14 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         Guid clientId = MinerClientMqBodyUtil.GetClientIdMqReciveBody(ea.Body);
                         if (clientId != Guid.Empty) {
-                            VirtualRoot.RaiseEvent(new MinerClientWsBreathedMqMessage(appId, clientId, timestamp));
+                            VirtualRoot.RaiseEvent(new MinerClientWsBreathedMqEvent(appId, clientId, timestamp));
                         }
                     }
                     break;
                 case MqKeyword.ChangeMinerSignRoutingKey: {
                         MinerSign minerSign = MinerClientMqBodyUtil.GetChangeMinerSignMqReceiveBody(ea.Body);
                         if (minerSign != null) {
-                            VirtualRoot.Execute(new ChangeMinerSignMqMessage(minerSign));
+                            VirtualRoot.Execute(new ChangeMinerSignMqCommand(minerSign));
                         }
                     }
                     break;
@@ -71,7 +71,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string sessionId = ea.BasicProperties.ReadHeaderString(MqKeyword.SessionIdHeaderName);
                         QueryClientsForWsRequest query = MinerClientMqBodyUtil.GetQueryClientsForWsMqReceiveBody(ea.Body);
                         if (query != null) {
-                            VirtualRoot.Execute(new QueryClientsForWsMqMessage(appId, timestamp, loginName, sessionId, query));
+                            VirtualRoot.Execute(new QueryClientsForWsMqCommand(appId, timestamp, loginName, sessionId, query));
                         }
                     }
                     break;

@@ -34,7 +34,7 @@ namespace NTMiner.MinerStudio {
 
             public MinerClientConsoleViewModel() {
                 if (ClientAppType.IsMinerStudio) {
-                    VirtualRoot.BuildEventPath<MinerClientSelectionChangedEvent>("矿机列表页选中了和上次选中的不同的矿机时刷新矿机控制台输出", LogEnum.DevConsole, path: message => {
+                    VirtualRoot.BuildEventPath<MinerClientSelectionChangedEvent>("刷新矿机控制台输出", LogEnum.DevConsole, path: message => {
                         bool isChanged = true;
                         if (message.MinerClientVm != null && this._minerClientVm != null && this._minerClientVm.ClientId == message.MinerClientVm.ClientId) {
                             isChanged = false;
@@ -53,7 +53,7 @@ namespace NTMiner.MinerStudio {
                             SendGetConsoleOutLinesMqMessage();
                         }
                     }, this.GetType());
-                    VirtualRoot.BuildEventPath<ClientConsoleOutLinesEvent>("收到了挖矿端控制台消息", LogEnum.DevConsole, path: message => {
+                    VirtualRoot.BuildEventPath<ClientConsoleOutLinesEvent>("将收到的挖矿端控制台消息输出到输出窗口", LogEnum.DevConsole, path: message => {
                         if (this._minerClientVm == null
                             || this._minerClientVm.ClientId != message.ClientId
                             || message.Data == null
@@ -93,7 +93,7 @@ namespace NTMiner.MinerStudio {
                         afterTime = item.Timestamp;
                     }
                 }
-                MinerStudioService.Instance.GetConsoleOutLinesAsync(minerClientVm, afterTime);
+                MinerStudioService.GetConsoleOutLinesAsync(minerClientVm, afterTime);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.MinerServer;
+﻿using NTMiner.Core;
+using NTMiner.Core.Impl;
 using NTMiner.Views;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ using System.Windows.Media.Imaging;
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
         public static MainWindowViewModel Instance { get; private set; } = new MainWindowViewModel();
-
+        private readonly IReadOnlyNTMinerFileSet _readOnlyNTMinerFileSet = new ReadOnlyNTMinerFileSet();
         private double _downloadPercent;
         private bool _isDownloading = false;
         private NTMinerFileViewModel _selectedNtMinerFile;
@@ -38,7 +39,6 @@ namespace NTMiner.Vms {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            this.Refresh();
             this.ShowServerLatestDescription = new DelegateCommand(() => {
                 VirtualRoot.Out.ShowInfo(ServerLatestVm.Description, header: $"{ServerLatestVm.Version}({ServerLatestVm.VersionTag})", autoHideSeconds: 0);
             });
@@ -160,6 +160,34 @@ namespace NTMiner.Vms {
                 });
                 window.ShowSoftDialog();
             });
+            VirtualRoot.BuildEventPath<NTMinerFileSetInitedEvent>("开源矿工程序版本文件集初始化后刷新Vm内存", LogEnum.DevConsole, path: message => {
+                var ntminerFiles = _readOnlyNTMinerFileSet.AsEnumerable().Where(a => a.AppType == App.AppType);
+                this.NTMinerFiles = ntminerFiles.Select(a => new NTMinerFileViewModel(a)).OrderByDescending(a => a.VersionData).ToList();
+                if (this.NTMinerFiles == null || this.NTMinerFiles.Count == 0) {
+                    LocalIsLatest = true;
+                }
+                else {
+                    ServerLatestVm = this.NTMinerFiles.OrderByDescending(a => a.VersionData).FirstOrDefault();
+                    if (ServerLatestVm.VersionData > LocalNTMinerVersion) {
+                        this.SelectedNTMinerFile = ServerLatestVm;
+                        LocalIsLatest = false;
+                    }
+                    else {
+                        LocalIsLatest = true;
+                    }
+                }
+                OnPropertyChanged(nameof(IsBtnInstallVisible));
+                IsReady = true;
+                if (!string.IsNullOrEmpty(CommandLineArgs.NTMinerFileName)) {
+                    NTMinerFileViewModel ntminerFileVm = this.NTMinerFiles.FirstOrDefault(a => a.FileName == CommandLineArgs.NTMinerFileName);
+                    if (ntminerFileVm != null) {
+                        IsHistoryVisible = Visibility.Visible;
+                        this.SelectedNTMinerFile = ntminerFileVm;
+                        Install.Execute(null);
+                    }
+                }
+            }, this.GetType());
+            this.Refresh();
         }
 
         private static void Download(
@@ -199,32 +227,8 @@ namespace NTMiner.Vms {
         }
 
         public void Refresh() {
-            RpcRoot.OfficialServer.FileUrlService.GetNTMinerFilesAsync(App.AppType, (ntminerFiles) => {
-                this.NTMinerFiles = (ntminerFiles ?? new List<NTMinerFileData>()).Select(a => new NTMinerFileViewModel(a)).OrderByDescending(a => a.VersionData).ToList();
-                if (this.NTMinerFiles == null || this.NTMinerFiles.Count == 0) {
-                    LocalIsLatest = true;
-                }
-                else {
-                    ServerLatestVm = this.NTMinerFiles.OrderByDescending(a => a.VersionData).FirstOrDefault();
-                    if (ServerLatestVm.VersionData > LocalNTMinerVersion) {
-                        this.SelectedNTMinerFile = ServerLatestVm;
-                        LocalIsLatest = false;
-                    }
-                    else {
-                        LocalIsLatest = true;
-                    }
-                }
-                OnPropertyChanged(nameof(IsBtnInstallVisible));
-                IsReady = true;
-                if (!string.IsNullOrEmpty(CommandLineArgs.NTMinerFileName)) {
-                    NTMinerFileViewModel ntminerFileVm = this.NTMinerFiles.FirstOrDefault(a => a.FileName == CommandLineArgs.NTMinerFileName);
-                    if (ntminerFileVm != null) {
-                        IsHistoryVisible = Visibility.Visible;
-                        this.SelectedNTMinerFile = ntminerFileVm;
-                        Install.Execute(null);
-                    }
-                }
-            });
+            // 触发从远程加载数据的逻辑
+            VirtualRoot.Execute(new RefreshNTMinerFileSetCommand());
         }
 
         public BitmapImage BigLogoImageSource {

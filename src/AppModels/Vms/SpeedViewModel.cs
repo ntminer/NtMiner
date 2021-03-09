@@ -54,24 +54,30 @@ namespace NTMiner.Vms {
         public string SpeedText {
             get => _speedText;
             private set {
-                _speedText = value;
-                OnPropertyChanged(nameof(SpeedText));
+                if (_speedText != value) {
+                    _speedText = value;
+                    OnPropertyChanged(nameof(SpeedText));
+                }
             }
         }
 
         public string SpeedValueText {
             get => _speedValueText;
             private set {
-                _speedValueText = value;
-                OnPropertyChanged(nameof(SpeedValueText));
+                if (_speedValueText != value) {
+                    _speedValueText = value;
+                    OnPropertyChanged(nameof(SpeedValueText));
+                }
             }
         }
 
         public string SpeedUnit {
             get => _speedUnit;
             private set {
-                _speedUnit = value;
-                OnPropertyChanged(nameof(SpeedUnit));
+                if (_speedUnit != value) {
+                    _speedUnit = value;
+                    OnPropertyChanged(nameof(SpeedUnit));
+                }
             }
         }
 
@@ -92,32 +98,40 @@ namespace NTMiner.Vms {
         public int FoundShare {
             get => _foundShare;
             set {
-                _foundShare = value;
-                OnPropertyChanged(nameof(FoundShare));
+                if (_foundShare != value) {
+                    _foundShare = value;
+                    OnPropertyChanged(nameof(FoundShare));
+                }
             }
         }
 
         public int AcceptShare {
             get { return _acceptShare; }
             set {
-                _acceptShare = value;
-                OnPropertyChanged(nameof(AcceptShare));
+                if (_acceptShare != value) {
+                    _acceptShare = value;
+                    OnPropertyChanged(nameof(AcceptShare));
+                }
             }
         }
 
         public int RejectShare {
             get => _rejectShare;
             set {
-                _rejectShare = value;
-                OnPropertyChanged(nameof(RejectShare));
+                if (_rejectShare != value) {
+                    _rejectShare = value;
+                    OnPropertyChanged(nameof(RejectShare));
+                }
             }
         }
 
         public int IncorrectShare {
             get { return _incorrectShare; }
             set {
-                _incorrectShare = value;
-                OnPropertyChanged(nameof(IncorrectShare));
+                if (_incorrectShare != value) {
+                    _incorrectShare = value;
+                    OnPropertyChanged(nameof(IncorrectShare));
+                }
             }
         }
 

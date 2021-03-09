@@ -64,6 +64,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E32C4009-7
 		docs\NTMinerBkPool.md = docs\NTMinerBkPool.md
 		docs\Overclock.md = docs\Overclock.md
 		docs\TimingEventProducer.md = docs\TimingEventProducer.md
+		docs\代号系统.md = docs\代号系统.md
+		docs\关于杀毒软件.txt = docs\关于杀毒软件.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "View", "View", "{6F255C76-FE02-4484-8368-DD7899E06FDC}"

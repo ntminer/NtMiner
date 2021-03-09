@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Services.Official {
     public class OverClockDataService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<IOverClockDataController>();
+        private readonly string _controllerName = ControllerUtil.GetControllerName<IOverClockDataController>();
 
         internal OverClockDataService() {
         }

@@ -13,7 +13,7 @@ using System.Windows.Threading;
 
 namespace NTMiner {
     public static class AppUtil {
-        public static bool IsDotNetVersionEG45 {
+        private static bool IsDotNetVersionGE45 {
             get {
                 const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
                 using (var ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey)) {
@@ -26,6 +26,22 @@ namespace NTMiner {
                     return false;
                 }
             }
+        }
+
+        public static void Run<TApp>(bool withSplashWindow = false) where TApp : Application, IApp, new() {
+            if (withSplashWindow) {
+                SplashScreen splashScreen = new SplashScreen("splashwindow.png");
+                splashScreen.Show(true);
+            }
+            if (IsDotNetVersionGE45) {
+                TApp app = new TApp();
+                app.InitializeComponent();
+                app.Run();
+            }
+            else {
+                Process.Start("https://ntminer.com/getDotNet.html");
+            }
+            // 这个机制在MinerClient程序起作用但在MinerStudio程序中会发生类型初始化错误不起作用，具体原因未知
         }
 
         private static class SafeNativeMethods {
@@ -61,7 +77,7 @@ namespace NTMiner {
             app.Exit += (sender, e) => {
                 _mutexApp?.Dispose();
             };
-            app.SessionEnding += (sender, e)=> {
+            app.SessionEnding += (sender, e) => {
                 SessionEndReasons reason;
                 switch (e.ReasonSessionEnding) {
                     case ReasonSessionEnding.Logoff:
@@ -94,7 +110,7 @@ namespace NTMiner {
             }
             return result;
         }
-        
+
         private const int SW_SHOWNOMAL = 1;
         public static void Show(Process instance) {
             SafeNativeMethods.ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);

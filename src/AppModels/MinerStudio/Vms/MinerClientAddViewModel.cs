@@ -41,7 +41,7 @@ namespace NTMiner.MinerStudio.Vms {
                         VirtualRoot.Out.ShowError("没有IP", autoHideSeconds: 4);
                         return;
                     }
-                    MinerStudioService.Instance.LocalMinerStudioService.AddClientsAsync(clientIps, (response, e) => {
+                    MinerStudioRoot.LocalMinerStudioService.AddClientsAsync(clientIps, (response, e) => {
                         if (!response.IsSuccess()) {
                             VirtualRoot.Out.ShowError(response.ReadMessage(e));
                         }
@@ -52,7 +52,7 @@ namespace NTMiner.MinerStudio.Vms {
                     });
                 }
                 else {
-                    MinerStudioService.Instance.LocalMinerStudioService.AddClientsAsync(new List<string> { this.LeftIp }, (response, e) => {
+                    MinerStudioRoot.LocalMinerStudioService.AddClientsAsync(new List<string> { this.LeftIp }, (response, e) => {
                         if (!response.IsSuccess()) {
                             VirtualRoot.Out.ShowError(response.ReadMessage(e));
                         }

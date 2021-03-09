@@ -5,9 +5,9 @@ using System.IO;
 namespace NTMiner {
     public static class Logger {
         /// <summary>
-        /// 如果未通过<see cref="SetDir(string)"/>更改过则其是程序所在目录下的logs目录。
+        /// 如果未通过<see cref="SetDir(string)"/>更改过则其是程序所在目录下的<see cref="NTKeyword.LogsDirName"/>目录。
         /// </summary>
-        public static string DirFullPath { get; private set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+        public static string DirFullPath { get; private set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, NTKeyword.LogsDirName);
 
         public static void SetDir(string fullPath) {
             DirFullPath = fullPath;

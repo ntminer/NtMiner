@@ -36,7 +36,7 @@ namespace NTMiner {
                 FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
             }, location: this.GetType());
             VirtualRoot.BuildCmdPath<UpgradeCommand>(path: message => {
-                AppRoot.Upgrade(NTMinerAppType.MinerStudio, message.FileName, message.Callback);
+                AppRoot.Upgrade(message.FileName, message.Callback);
             }, location: this.GetType());
             VirtualRoot.BuildCmdPath<ShowSignUpPageCommand>(path: message => {
                 UIThread.Execute(() => {
@@ -48,10 +48,10 @@ namespace NTMiner {
                 // 因为登录窗口会用到VirtualRoot.Out，而Out的延迟自动关闭消息会用到倒计时
                 VirtualRoot.StartTimer(new WpfTimingEventProducer());
                 NotiCenterWindow.ShowWindow();
-                AppRoot.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
+                AppRoot.RemoteDesktop = MsRemoteDesktop.OpenRemoteDesktop;
                 MinerStudioRoot.Login(() => {
                     MinerStudioRoot.Init(new MinerStudioWsClient());
-                    _ = MinerStudioService.Instance;// 访问一下从而提前拉取本地服务数据
+                    _ = MinerStudioRoot.MinerStudioService;// 访问一下从而提前拉取本地服务数据
                     NTMinerContext.Instance.Init(() => {
                         _appViewFactory.BuildPaths();
                         UIThread.Execute(() => {
@@ -60,13 +60,13 @@ namespace NTMiner {
                                 MinerStudioRoot.MinerClientsWindowVm.QueryMinerClients();
                             }
                             else {
-                                VirtualRoot.BuildOnecePath<ClientSetInitedEvent>("矿工集合初始化完成后刷新矿机列表界面", LogEnum.DevConsole, path: message => {
+                                VirtualRoot.BuildOnecePath<ClientSetInitedEvent>("刷新矿机列表界面", LogEnum.DevConsole, path: message => {
                                     MinerStudioRoot.MinerClientsWindowVm.QueryMinerClients();
                                 }, pathId: PathId.Empty, this.GetType());
                             }
                             AppRoot.NotifyIcon = ExtendedNotifyIcon.Create("群控客户端", isMinerStudio: true);
                             VirtualRoot.Execute(new ShowMinerClientsWindowCommand(isToggle: false));
-                            NTMinerConsole.SetIsMainUiOk(true);
+                            NTMinerConsole.MainUiOk();
                         });
                     });
                 }, btnCloseClick: () => {
@@ -81,7 +81,7 @@ namespace NTMiner {
             }
             else {
                 try {
-                    _appViewFactory.ShowMainWindow(this, NTMinerAppType.MinerStudio);
+                    _appViewFactory.ShowMainWindow(this);
                 }
                 catch (Exception) {
                     DialogWindow.ShowSoftDialog(new DialogWindowViewModel(

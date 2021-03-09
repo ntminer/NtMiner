@@ -18,6 +18,7 @@
         public int MemoryClockMax { get; set; }
         public int MemoryClockDelta { get; set; }
         public int MemoryVoltage { get; set; }
+        public int CurrentMemoryTimingLevel { get; set; }
 
         public int VoltMin { get; set; }
         public int VoltMax { get; set; }

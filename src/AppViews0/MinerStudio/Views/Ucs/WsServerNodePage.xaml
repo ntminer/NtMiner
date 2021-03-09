@@ -11,7 +11,7 @@
     Background="White"
 	mc:Ignorable="d" 
     d:DesignHeight="400" 
-    d:DesignWidth="1800"
+    d:DesignWidth="1590"
     d:DataContext="{d:DesignData Source=../Design/WsServerNodePageViewModel.xaml}">
     <UserControl.Resources>
         <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
@@ -32,36 +32,54 @@
             <WrapPanel Margin="4">
                 <TextBlock Style="{StaticResource LblTb}">节点地址</TextBlock>
                 <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.Address}"></TextBlock>
-                <TextBlock Style="{StaticResource LblTb}">进程内存</TextBlock>
-                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.ProcessMemoryMbText}"></TextBlock>
-                <TextBlock Style="{StaticResource LblTb}">进程线程数</TextBlock>
-                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.ThreadCount}"></TextBlock>
-                <TextBlock Style="{StaticResource LblTb}">进程句柄数</TextBlock>
-                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.HandleCount}"></TextBlock>
-                <TextBlock Style="{StaticResource LblTb}">总内存</TextBlock>
-                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.TotalPhysicalMemory,Converter={StaticResource ByteToGbConverter}}"></TextBlock>
+                <TextBlock Style="{StaticResource LblTb}">CPU名称</TextBlock>
+                <TextBlock Width="320" Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.Cpu.Name}"></TextBlock>
                 <TextBlock Style="{StaticResource LblTb}">操作系统</TextBlock>
-                <TextBlock Width="300" Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.OSInfo}"></TextBlock>
+                <TextBlock Width="320" Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.OSInfo}"></TextBlock>
             </WrapPanel>
             <WrapPanel Margin="4 0 4 4">
+                <TextBlock Style="{StaticResource LblTb}">总内存</TextBlock>
+                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.TotalPhysicalMemory,Converter={StaticResource ByteToGbConverter}}"></TextBlock>
                 <TextBlock Style="{StaticResource LblTb}">CPU核数</TextBlock>
                 <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.Cpu.NumberOfLogicalCores}"></TextBlock>
                 <TextBlock Style="{StaticResource LblTb}">CPU主频</TextBlock>
                 <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.Cpu.ClockSpeed}"></TextBlock>
                 <TextBlock Style="{StaticResource LblTb}">CPU架构</TextBlock>
                 <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.Cpu.ProcessorArchitecture}"></TextBlock>
+                <TextBlock Style="{StaticResource LblTb}">剩余磁盘</TextBlock>
+                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.AvailableFreeSpaceInfo}"></TextBlock>
+            </WrapPanel>
+            <WrapPanel Margin="4 0 4 4">
+                <TextBlock Style="{StaticResource LblTb}">进程内存</TextBlock>
+                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.ProcessMemoryMbText}"></TextBlock>
+                <TextBlock Style="{StaticResource LblTb}">进程线程数</TextBlock>
+                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.ThreadCount}"></TextBlock>
+                <TextBlock Style="{StaticResource LblTb}">进程句柄数</TextBlock>
+                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.HandleCount}"></TextBlock>
                 <TextBlock Style="{StaticResource LblTb}">CPU使用率</TextBlock>
                 <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.CpuPerformanceText}"></TextBlock>
                 <TextBlock Style="{StaticResource LblTb}">剩余内存</TextBlock>
                 <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.AvailablePhysicalMemory,Converter={StaticResource ByteToGbConverter}}"></TextBlock>
-                <TextBlock Style="{StaticResource LblTb}">CPU名称</TextBlock>
-                <TextBlock Width="300" Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.Cpu.Name}"></TextBlock>
+                <TextBlock Style="{StaticResource LblTb}">验证码数</TextBlock>
+                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.CaptchaCount}"></TextBlock>
             </WrapPanel>
         </StackPanel>
-		<DataGrid 
+        <Button
+			Width="26" Margin="4"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+			Command="{Binding Refresh}">
+            <Path 
+				Width="14"
+				Height="14"
+				Stretch="Fill"
+				Fill="{StaticResource BtnBackground}"
+				Data="{StaticResource Icon_Refresh}"></Path>
+        </Button>
+        <DataGrid 
             Grid.Row="1"
 			Margin="0" 
-			ColumnHeaderHeight="32"
+			ColumnHeaderHeight="36"
             ItemsSource="{Binding WebApiServerStateVm.WsServerNodeVms}" 
 			BorderThickness="0 1 0 0"
             BorderBrush="{StaticResource LightLineColor}">
@@ -117,17 +135,14 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="60" Header="机器内存" Binding="{Binding TotalPhysicalMemory,Converter={StaticResource ByteToGbConverter}}">
                 </DataGridTextColumn>
-                <DataGridTextColumn IsReadOnly="True" Width="60" Binding="{Binding AvailablePhysicalMemory,Converter={StaticResource ByteToGbConverter}}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock TextWrapping="Wrap">剩余机器内存</TextBlock>
-                    </DataGridTextColumn.Header>
+                <DataGridTextColumn IsReadOnly="True" Width="60" Header="剩余内存" Binding="{Binding AvailablePhysicalMemory,Converter={StaticResource ByteToGbConverter}}">
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="70" Header="剩余磁盘" Binding="{Binding AvailableFreeSpaceInfo}">
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="70" Binding="{Binding CpuPerformanceText}">
                     <DataGridTextColumn.Header>
                         <TextBlock TextWrapping="Wrap">机器CPU使用率</TextBlock>
                     </DataGridTextColumn.Header>
-                </DataGridTextColumn>
-                <DataGridTextColumn IsReadOnly="True" Width="306" Header="CPU名称" Binding="{Binding CpuVm.Name}">
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="60" Header="CPU核数" Binding="{Binding CpuVm.NumberOfLogicalCores}">
                 </DataGridTextColumn>
@@ -135,8 +150,16 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="60" Header="CPU架构" Binding="{Binding CpuVm.ProcessorArchitecture}">
                 </DataGridTextColumn>
-                <DataGridTextColumn IsReadOnly="True" Width="280" Header="操作系统" Binding="{Binding OSInfo}">
-                </DataGridTextColumn>
+                <DataGridTemplateColumn IsReadOnly="True" Width="280" Header="操作系统/CPU名称">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding OSInfo}" FontSize="10"></TextBlock>
+                                <TextBlock Text="{Binding CpuVm.Name}" FontSize="10"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Width="*" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
 				</DataGridTextColumn>
 			</DataGrid.Columns>

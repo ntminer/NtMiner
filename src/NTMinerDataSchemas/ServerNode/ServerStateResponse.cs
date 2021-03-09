@@ -11,7 +11,8 @@ namespace NTMiner.ServerNode {
             Time = 0,
             MessageTimestamp = 0,
             OutputKeywordTimestamp = 0,
-            WsStatus = WsStatus.Undefined
+            WsStatus = WsStatus.Undefined,
+            NeedReClientId = false
         };
 
         public static ServerStateResponse FromLine(string line) {
@@ -19,8 +20,9 @@ namespace NTMiner.ServerNode {
             string minerClientVersion = string.Empty;
             long time = Timestamp.GetTimestamp();
             long messageTimestamp = 0;
-            long kernelOutputKeywordTimestamp = 0;
+            long outputKeywordTimestamp = 0;
             WsStatus wsStatus = WsStatus.Undefined;
+            bool needReClientId = false;
             if (!string.IsNullOrEmpty(line)) {
                 line = line.Trim();
                 string[] parts = line.Split(new char[] { '|' });
@@ -37,10 +39,13 @@ namespace NTMiner.ServerNode {
                     long.TryParse(parts[3], out messageTimestamp);
                 }
                 if (parts.Length > 4) {
-                    long.TryParse(parts[4], out kernelOutputKeywordTimestamp);
+                    long.TryParse(parts[4], out outputKeywordTimestamp);
                 }
                 if (parts.Length > 5) {
                     Enum.TryParse(parts[5], out wsStatus);
+                }
+                if (parts.Length > 6) {
+                    bool.TryParse(parts[6], out needReClientId);
                 }
             }
             return new ServerStateResponse {
@@ -48,15 +53,16 @@ namespace NTMiner.ServerNode {
                 MinerClientVersion = minerClientVersion,
                 Time = time,
                 MessageTimestamp = messageTimestamp,
-                OutputKeywordTimestamp = kernelOutputKeywordTimestamp,
-                WsStatus = wsStatus
+                OutputKeywordTimestamp = outputKeywordTimestamp,
+                WsStatus = wsStatus,
+                NeedReClientId = needReClientId
             };
         }
 
         public ServerStateResponse() { }
 
         public string ToLine() {
-            return $"{JsonFileVersion}|{MinerClientVersion}|{Time.ToString()}|{MessageTimestamp.ToString()}|{OutputKeywordTimestamp.ToString()}|{WsStatus.ToString()}";
+            return $"{JsonFileVersion}|{MinerClientVersion}|{Time.ToString()}|{MessageTimestamp.ToString()}|{OutputKeywordTimestamp.ToString()}|{WsStatus.ToString()}|{NeedReClientId.ToString()}";
         }
 
         /// <summary>
@@ -83,5 +89,9 @@ namespace NTMiner.ServerNode {
         /// <see cref="ServerNode.WsStatus"/>
         /// </summary>
         public WsStatus WsStatus { get; set; }
+        /// <summary>
+        /// <see cref="IServerStateResponse.NeedReClientId"/>
+        /// </summary>
+        public bool NeedReClientId { get; set; }
     }
 }

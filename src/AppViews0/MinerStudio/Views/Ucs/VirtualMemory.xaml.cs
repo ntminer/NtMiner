@@ -20,7 +20,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 IsMaskTheParent = true,
                 FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => {
-                MinerStudioService.Instance.GetDrivesAsync(vm.MinerClientVm);
+                MinerStudioRoot.MinerStudioService.GetDrivesAsync(vm.MinerClientVm);
                 window.BuildEventPath<GetDrivesResponsedEvent>("收到了GetDrives的响应时绑定到界面", LogEnum.DevConsole, path: message => {
                     if (message.ClientId != vm.MinerClientVm.ClientId) {
                         return;

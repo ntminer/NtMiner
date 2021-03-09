@@ -5,12 +5,13 @@ using System.Linq;
 namespace NTMiner.Core.Impl {
     internal class SysDicItemSet : SetBase, ISysDicItemSet {
         private readonly IServerContext _context;
-        private readonly Dictionary<Guid, Dictionary<string, SysDicItemData>> _dicByDicId = new Dictionary<Guid, Dictionary<string, SysDicItemData>>();
+        private readonly Dictionary<Guid, Dictionary<string, SysDicItemData>> _dicByDicId
+            = new Dictionary<Guid, Dictionary<string, SysDicItemData>>();
         private readonly Dictionary<Guid, SysDicItemData> _dicById = new Dictionary<Guid, SysDicItemData>();
 
         public SysDicItemSet(IServerContext context) {
             _context = context;
-            _context.AddCmdPath<AddSysDicItemCommand>("添加系统字典项", LogEnum.DevConsole,
+            _context.AddCmdPath<AddSysDicItemCommand>(LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -36,7 +37,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new SysDicItemAddedEvent(message.MessageId, entity));
                 }, location: this.GetType());
-            _context.AddCmdPath<UpdateSysDicItemCommand>("更新系统字典项", LogEnum.DevConsole,
+            _context.AddCmdPath<UpdateSysDicItemCommand>(LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -63,19 +64,38 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new SysDicItemUpdatedEvent(message.MessageId, entity));
                 }, location: this.GetType());
-            _context.AddCmdPath<RemoveSysDicItemCommand>("移除系统字典项", LogEnum.DevConsole,
+            _context.AddCmdPath<RemoveSysDicItemCommand>(LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (!_dicById.TryGetValue(message.EntityId, out SysDicItemData entity) || !_context.SysDicSet.TryGetSysDic(entity.DicId, out ISysDic sysDic)) {
+                    if (!_dicById.TryGetValue(message.EntityId, out SysDicItemData entity)
+                        || !_context.SysDicSet.TryGetSysDic(entity.DicId, out ISysDic sysDic)) {
                         return;
                     }
-                    bool isKernelBrand = sysDic.Code == NTKeyword.KernelBrandSysDicCode;
-                    bool isPoolBrand = sysDic.Code == NTKeyword.PoolBrandSysDicCode;
-                    bool isAlgo = sysDic.Code == NTKeyword.AlgoSysDicCode;
-                    // TODO:如果是内核品牌、矿池品牌、算法
+                    switch (sysDic.Code) {
+                        case NTKeyword.KernelBrandSysDicCode:
+                            if (NTMinerContext.Instance.ServerContext.KernelSet.AsEnumerable().Any(a => a.BrandId == message.EntityId)) {
+                                VirtualRoot.Out.ShowWarn("该内核品牌字典项关联有内核品牌不能删除，请先解除关联");
+                                return;
+                            }
+                            break;
+                        case NTKeyword.PoolBrandSysDicCode:
+                            if (NTMinerContext.Instance.ServerContext.PoolSet.AsEnumerable().Any(a => a.BrandId == message.EntityId)) {
+                                VirtualRoot.Out.ShowWarn("该矿池品牌字典项关联有矿池品牌不能删除，请先解除关联");
+                                return;
+                            }
+                            break;
+                        case NTKeyword.AlgoSysDicCode:
+                            if (NTMinerContext.Instance.ServerContext.PackageSet.AsEnumerable().Any(a => a.AlgoIds.Contains(message.EntityId))) {
+                                VirtualRoot.Out.ShowWarn("该算法字典项关联有内核不能删除，请先解除关联");
+                                return;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                     _dicById.Remove(entity.Id);
                     if (_dicByDicId.TryGetValue(entity.DicId, out Dictionary<string, SysDicItemData> dicItemDic)) {
                         dicItemDic.Remove(entity.Code);

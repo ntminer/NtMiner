@@ -1,0 +1,3191 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Qiniu</name>
+    </assembly>
+    <members>
+        <member name="T:QiniuCSharpSDK">
+            <summary>
+            Qiniu (Cloud) C# SDK for .NET Framework 2.0+/Core/UWP
+            Modules in this SDK:
+            "Storage" 存储相关功能，上传，下载，数据处理，资源管理
+            "CDN",    Fusion CDN, 融合CDN加速; 
+            "Util",   Utilities such as MD5 hashing, 实用工具(如MD5哈希计算等);
+            "Http", HTTP Request Manager, HTTP请求管理器
+            </summary>
+        </member>
+        <member name="F:QiniuCSharpSDK.ALIAS">
+            <summary>
+            SDK名称
+            </summary>
+        </member>
+        <member name="F:QiniuCSharpSDK.RTFX">
+            <summary>
+            目标框架
+            </summary>
+        </member>
+        <member name="F:QiniuCSharpSDK.VERSION">
+            <summary>
+            SDK版本号
+            </summary>
+        </member>
+        <member name="T:Qiniu.Storage.Config">
+            <summary>
+            配置信息，主要包括Zone配置(另请参阅Zone模块)
+            目前已支持的机房包括：
+            华东(CN_East), 华北(CN_North), 华南(CN_South), 北美(US_North), 新加坡（AS_Singapore）
+            默认设置为华东机房(CN_East) 
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.Config.DefaultRsHost">
+            <summary>
+            默认高级资源管理域名
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.Config.DefaultApiHost">
+            <summary>
+            默认数据处理域名
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.Config.Zone">
+            <summary>
+            空间所在的区域(Zone)
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.Config.UseHttps">
+            <summary>
+            是否采用https域名
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.Config.UseCdnDomains">
+            <summary>
+            是否采用CDN加速域名，对上传有效
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.Config.ChunkSize">
+            <summary>
+            分片上传时，片的大小，默认为4MB，以提高上传效率
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.Config.PutThreshold">
+            <summary>
+            分片上传的阈值，超过该大小采用分片上传的方式
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.Config.MaxRetryTimes">
+            <summary>
+            重试请求次数
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.Config.RsHost(System.String,System.String)">
+            <summary>
+            获取资源管理域名
+            </summary>
+            <param name="ak"></param>
+            <param name="bucket"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Storage.Config.RsfHost(System.String,System.String)">
+            <summary>
+            获取资源列表域名
+            </summary>
+            <param name="ak"></param>
+            <param name="bucket"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Storage.Config.ApiHost(System.String,System.String)">
+            <summary>
+            获取数据处理域名
+            </summary>
+            <param name="ak"></param>
+            <param name="bucket"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Storage.Config.IovipHost(System.String,System.String)">
+            <summary>
+            获取资源抓取更新域名
+            </summary>
+            <param name="ak"></param>
+            <param name="bucket"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Storage.Config.UpHost(System.String,System.String)">
+            <summary>
+            获取文件上传域名
+            </summary>
+            <param name="ak"></param>
+            <param name="bucket"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Qiniu.Storage.FetchInfo">
+            <summary>
+            资源抓取返回的内容
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.FetchInfo.Key">
+            <summary>
+            文件名
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.FetchInfo.Fsize">
+            <summary>
+            文件大小(字节)
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.FetchInfo.Hash">
+            <summary>
+            文件hash(ETAG)
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.FetchInfo.MimeType">
+            <summary>
+            文件MIME类型
+            </summary>
+        </member>
+        <member name="T:Qiniu.Storage.FetchResult">
+            <summary>
+            文件抓取返回的消息
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.FetchResult.Result">
+            <summary>
+            Fetch信息列表
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.FetchResult.ToString">
+            <summary>
+            转换为易读字符串格式
+            </summary>
+            <returns>便于打印和阅读的字符串</returns>
+        </member>
+        <member name="T:Qiniu.Storage.PfopInfo">
+            <summary>
+            持久化请求的回复
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.PfopInfo.Id">
+            <summary>
+            任务ID
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.PfopInfo.Code">
+            <summary>
+            任务结果状态码
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.PfopInfo.Desc">
+            <summary>
+            任务结果状态描述
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.PfopInfo.InputKey">
+            <summary>
+            待处理的数据文件
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.PfopInfo.InputBucket">
+            <summary>
+            待处理文件所在空间
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.PfopInfo.Pipeline">
+            <summary>
+            数据处理队列
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.PfopInfo.Reqid">
+            <summary>
+            任务的Reqid
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.PfopInfo.Items">
+            <summary>
+            数据处理的命令集合
+            </summary>
+        </member>
+        <member name="T:Qiniu.Storage.PfopItems">
+            <summary>
+            持久化处理命令
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.PfopItems.Cmd">
+            <summary>
+            命令
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.PfopItems.Code">
+            <summary>
+            命令执行结果状态码
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.PfopItems.Desc">
+            <summary>
+            命令执行结果描述
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.PfopItems.Error">
+            <summary>
+            命令执行错误
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.PfopItems.Keys">
+            <summary>
+            VSample命令的生成文件名列表
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.PfopItems.Key">
+            <summary>
+            命令生成的文件名
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.PfopItems.Hash">
+            <summary>
+            命令生成的文件内容hash
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.PfopItems.ReturnOld">
+            <summary>
+            该命令是否返回了上一次相同命令生成的结果
+            </summary>
+        </member>
+        <member name="T:Qiniu.Storage.PrefopResult">
+            <summary>
+            查询数据处理状态的返回值
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PrefopResult.Result">
+            <summary>
+            持久化任务的状态
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.PrefopResult.ToString">
+            <summary>
+            转换为易读字符串格式
+            </summary>
+            <returns>便于打印和阅读的字符串</returns>
+        </member>
+        <member name="T:Qiniu.Storage.PutExtra">
+            <summary>
+            文件上传的额外可选设置
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutExtra.ResumeRecordFile">
+            <summary>
+            设置文件断点续传进度记录文件
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.PutExtra.Params">
+            <summary>
+            上传可选参数字典，参数名次以 x: 开头
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutExtra.MimeType">
+            <summary>
+            指定文件的MimeType
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutExtra.ProgressHandler">
+            <summary>
+            设置文件上传进度处理器
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutExtra.UploadController">
+            <summary>
+            设置文件上传的状态控制器
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutExtra.MaxRetryTimes">
+            <summary>
+            最大重试次数
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutExtra.BlockUploadThreads">
+            <summary>
+            块并发上传的线程数量
+            </summary>
+        </member>
+        <member name="T:Qiniu.Storage.Zone">
+            <summary>
+            目前已支持的区域：华东/华北/华南/北美/新加坡
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.Zone.RsHost">
+            <summary>
+            资源管理
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.Zone.RsfHost">
+            <summary>
+            源列表
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.Zone.ApiHost">
+            <summary>
+            数据处理
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.Zone.IovipHost">
+            <summary>
+            镜像刷新、资源抓取
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.Zone.SrcUpHosts">
+            <summary>
+            资源上传
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.Zone.CdnUpHosts">
+            <summary>
+            CDN加速
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.Zone.ZONE_CN_East">
+            <summary>
+            华东
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.Zone.ZONE_CN_North">
+            <summary>
+            华北
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.Zone.ZONE_CN_South">
+            <summary>
+            华南
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.Zone.ZONE_US_North">
+            <summary>
+            北美
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.Zone.ZONE_AS_Singapore">
+            <summary>
+            新加坡
+            </summary>
+        </member>
+        <member name="T:Qiniu.Storage.ZoneHelper">
+            <summary>
+            Zone辅助类，查询及配置Zone
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.ZoneHelper.QueryZone(System.String,System.String)">
+            <summary>
+            从uc.qbox.me查询得到回复后，解析出upHost,然后根据upHost确定Zone
+            </summary>
+            <param name="accessKey">AccessKek</param>
+            <param name="bucket">空间名称</param>
+        </member>
+        <member name="T:Qiniu.Storage.ZoneInfo">
+            <summary>
+            从uc.qbox.me返回的消息
+            </summary>
+        </member>
+        <member name="T:Qiniu.Storage.ChunkUnit">
+            <summary>
+            分片大小
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.ChunkUnit.U128K">
+            <summary>
+            128KB
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.ChunkUnit.U256K">
+            <summary>
+            256KB
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.ChunkUnit.U512K">
+            <summary>
+            512KB
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.ChunkUnit.U1024K">
+            <summary>
+            1MB
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.ChunkUnit.U2048K">
+            <summary>
+            2MB
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.ChunkUnit.U4096K">
+            <summary>
+            4MB
+            </summary>
+        </member>
+        <member name="T:Qiniu.Storage.ResumeChunk">
+            <summary>
+            ChunkSize转换
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.ResumeChunk.GetChunkSize(Qiniu.Storage.ChunkUnit)">
+            <summary>
+            计算ChunkSize
+            </summary>
+            <param name="cu"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Storage.ResumeChunk.GetChunkUnit(System.Int32)">
+            <summary>
+            计算ChunkUnit
+            </summary>
+            <param name="chunkSize"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Qiniu.Storage.PutPolicy">
+            <summary>
+            上传策略
+            参考文档：https://developer.qiniu.com/kodo/manual/1206/put-policy
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.Scope">
+            <summary>
+            [必需]bucket或者bucket:key
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.isPrefixalScope">
+            <summary>
+            [可选]若为 1，表示允许用户上传以 scope 的 keyPrefix 为前缀的文件。
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.Deadline">
+            <summary>
+            [必需]上传策略失效时刻，请使用SetExpire来设置它
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.InsertOnly">
+            <summary>
+            [可选]"仅新增"模式
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.SaveKey">
+            <summary>
+            [可选]保存文件的key
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.EndUser">
+            <summary>
+            [可选]终端用户
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.ReturnUrl">
+            <summary>
+            [可选]返回URL
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.ReturnBody">
+            <summary>
+            [可选]返回内容
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.CallbackUrl">
+            <summary>
+            [可选]回调URL
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.CallbackBody">
+            <summary>
+            [可选]回调内容
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.CallbackBodyType">
+            <summary>
+            [可选]回调内容类型
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.CallbackHost">
+            <summary>
+            [可选]回调host
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.CallbackFetchKey">
+            <summary>
+            [可选]回调fetchkey
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.PersistentOps">
+            <summary>
+            [可选]上传预转持久化
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.PersistentNotifyUrl">
+            <summary>
+            [可选]持久化结果通知
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.PersistentPipeline">
+            <summary>
+            [可选]私有队列
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.FsizeMin">
+            <summary>
+            [可选]上传文件大小限制：最小值
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.FsizeLimit">
+            <summary>
+            [可选]上传文件大小限制：最大值
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.DetectMime">
+            <summary>
+            [可选]上传时是否自动检测MIME
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.MimeLimit">
+            <summary>
+            [可选]上传文件MIME限制
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.DeleteAfterDays">
+            <summary>
+            [可选]文件上传后多少天后自动删除
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PutPolicy.FileType">
+            <summary>
+            [可选]文件的存储类型，默认为普通存储，设置为1为低频存储
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.PutPolicy.SetExpires(System.Int32)">
+            <summary>
+            设置上传凭证有效期（配置Deadline属性）
+            </summary>
+            <param name="expireInSeconds"></param>
+        </member>
+        <member name="M:Qiniu.Storage.PutPolicy.ToJsonString">
+            <summary>
+            转换为JSON字符串
+            </summary>
+            <returns>JSON字符串</returns>
+        </member>
+        <member name="T:Qiniu.Storage.ResumeContext">
+            <summary>
+            分片上传的上下文信息
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ResumeContext.Ctx">
+            <summary>
+            上下文信息
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ResumeContext.Checksum">
+            <summary>
+            校验和
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ResumeContext.Crc32">
+            <summary>
+            crc32校验值
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ResumeContext.Offset">
+            <summary>
+            文件偏移位置
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ResumeContext.Host">
+            <summary>
+            上传目的host
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ResumeContext.ExpiredAt">
+            <summary>
+            ctx失效时刻
+            </summary>
+        </member>
+        <member name="T:Qiniu.Storage.ResumeHelper">
+            <summary>
+            断点续上传辅助函数Load/Save
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.ResumeHelper.GetDefaultRecordKey(System.String,System.String)">
+            <summary>
+            生成默认的断点记录文件名称
+            </summary>
+            <param name="localFile">待上传的本地文件</param>
+            <param name="key">要保存的目标key</param>
+            <returns>用于记录断点信息的文件名</returns>
+        </member>
+        <member name="M:Qiniu.Storage.ResumeHelper.Load(System.String)">
+            <summary>
+            尝试从从文件载入断点信息
+            </summary>
+            <param name="recordFile">断点记录文件</param>
+            <returns>断点信息</returns>
+        </member>
+        <member name="M:Qiniu.Storage.ResumeHelper.Save(Qiniu.Storage.ResumeInfo,System.String)">
+            <summary>
+            保存断点信息到文件
+            </summary>
+            <param name="resumeInfo">断点信息</param>
+            <param name="recordFile">断点记录文件</param>
+        </member>
+        <member name="T:Qiniu.Storage.ResumeInfo">
+            <summary>
+            分片上传的记录信息
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ResumeInfo.FileSize">
+            <summary>
+            文件大小
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ResumeInfo.BlockCount">
+            <summary>
+            文件块总数
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ResumeInfo.Contexts">
+            <summary>
+            上下文信息列表
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ResumeInfo.ExpiredAt">
+            <summary>
+            Ctx过期时间戳（单位秒）
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.ResumeInfo.ToJsonStr">
+            <summary>
+            上传进度信息序列化
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Qiniu.Storage.UploadControllerAction">
+            <summary>
+            上传任务的状态
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.UploadControllerAction.Activated">
+            <summary>
+            任务状态:激活
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.UploadControllerAction.Suspended">
+            <summary>
+            任务状态:暂停
+            </summary>
+        </member>
+        <member name="F:Qiniu.Storage.UploadControllerAction.Aborted">
+            <summary>
+            任务状态:退出
+            </summary>
+        </member>
+        <member name="T:Qiniu.Storage.UploadController">
+            <summary>
+            上传任务的控制函数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Qiniu.Storage.UploadProgressHandler">
+            <summary>
+            分片上传进度处理
+            </summary>
+            <param name="uploadedBytes">已上传的字节数</param>
+            <param name="totalBytes">文件总字节数</param>
+        </member>
+        <member name="T:Qiniu.Storage.ResumableUploader">
+            <summary>
+            分片上传/断点续上传，适合于以下"情形2~3":  
+            (1)网络较好并且待上传的文件体积较小时(比如100MB或更小一点)使用简单上传;
+            (2)文件较大或者网络状况不理想时请使用分片上传;
+            (3)文件较大并且需要支持断点续上传，请使用分片上传(断点续上传)
+            上传时需要提供正确的上传凭证(由对应的上传策略生成)
+            上传策略 https://developer.qiniu.com/kodo/manual/1206/put-policy
+            上传凭证 https://developer.qiniu.com/kodo/manual/1208/upload-token
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.ResumableUploader.#ctor(Qiniu.Storage.Config)">
+            <summary>
+            初始化
+            </summary>
+            <param name="config">分片上传的配置信息</param>
+        </member>
+        <member name="M:Qiniu.Storage.ResumableUploader.UploadFile(System.String,System.String,System.String,Qiniu.Storage.PutExtra)">
+            <summary>
+            分片上传，支持断点续上传，带有自定义进度处理、高级控制功能
+            </summary>
+            <param name="localFile">本地待上传的文件名</param>
+            <param name="key">要保存的文件名称</param>
+            <param name="token">上传凭证</param>
+            <param name="putExtra">上传可选配置</param>
+            <returns>上传文件后的返回结果</returns>
+        </member>
+        <member name="M:Qiniu.Storage.ResumableUploader.UploadStream(System.IO.Stream,System.String,System.String,Qiniu.Storage.PutExtra)">
+            <summary>
+            分片上传/断点续上传，带有自定义进度处理和上传控制，检查CRC32，可自动重试
+            </summary>
+            <param name="stream">待上传文件流</param>
+            <param name="key">要保存的文件名称</param>
+            <param name="upToken">上传凭证</param>
+            <param name="putExtra">可选配置参数</param>
+            <returns>上传文件后返回结果</returns>
+        </member>
+        <member name="M:Qiniu.Storage.ResumableUploader.MakeBlock(System.Object)">
+            <summary>
+            创建块(携带首片数据),同时检查CRC32
+            </summary>
+            <param name="resumeBlockerObj">创建分片上次的块请求</param>
+        </member>
+        <member name="M:Qiniu.Storage.ResumableUploader.MakeFile(System.String,System.Int64,System.String,System.String,Qiniu.Storage.PutExtra,System.String[])">
+            <summary>
+            根据已上传的所有分片数据创建文件
+            </summary>
+            <param name="fileName">源文件名</param>
+            <param name="size">文件大小</param>
+            <param name="key">要保存的文件名</param>
+            <param name="contexts">所有数据块的Context</param>
+            <param name="upToken">上传凭证</param>
+            <param name="putExtra">用户指定的额外参数</param>
+            <returns>此操作执行后的返回结果</returns>
+        </member>
+        <member name="M:Qiniu.Storage.ResumableUploader.DefaultUploadProgressHandler(System.Int64,System.Int64)">
+            <summary>
+            默认的进度处理函数-上传文件
+            </summary>
+            <param name="uploadedBytes">已上传的字节数</param>
+            <param name="totalBytes">文件总字节数</param>
+        </member>
+        <member name="M:Qiniu.Storage.ResumableUploader.DefaultUploadController">
+            <summary>
+            默认的上传控制函数，默认不执行任何控制
+            </summary>
+            <returns>控制状态</returns>
+        </member>
+        <member name="T:Qiniu.Storage.FormUploader">
+            <summary>
+            简单上传，适合于以下"情形1":  
+            (1)网络较好并且待上传的文件体积较小时(比如100MB或更小一点)使用简单上传;
+            (2)文件较大或者网络状况不理想时请使用分片上传;
+            (3)文件较大并且需要支持断点续上传，请使用分片上传(断点续上传)
+            上传时需要提供正确的上传凭证(由对应的上传策略生成)
+            上传策略 http://developer.qiniu.com/article/developer/security/upload-token.html
+            上传凭证 http://developer.qiniu.com/article/developer/security/put-policy.html
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.FormUploader.#ctor(Qiniu.Storage.Config)">
+            <summary>
+            初始化
+            </summary>
+            <param name="config">表单上传的配置信息</param>
+        </member>
+        <member name="M:Qiniu.Storage.FormUploader.UploadFile(System.String,System.String,System.String,Qiniu.Storage.PutExtra)">
+            <summary>
+            上传文件 - 可附加自定义参数
+            </summary>
+            <param name="localFile">待上传的本地文件</param>
+            <param name="key">要保存的目标文件名称</param>
+            <param name="token">上传凭证</param>
+            <param name="extra">上传可选设置</param>
+            <returns>上传文件后的返回结果</returns>
+        </member>
+        <member name="M:Qiniu.Storage.FormUploader.UploadData(System.Byte[],System.String,System.String,Qiniu.Storage.PutExtra)">
+            <summary>
+            上传数据
+            </summary>
+            <param name="data">待上传的数据</param>
+            <param name="key">要保存的key</param>
+            <param name="token">上传凭证</param>
+            <param name="extra">上传可选设置</param>
+            <returns>上传数据后的返回结果</returns>
+        </member>
+        <member name="M:Qiniu.Storage.FormUploader.UploadStream(System.IO.Stream,System.String,System.String,Qiniu.Storage.PutExtra)">
+            <summary>
+            上传数据流
+            </summary>
+            <param name="stream">(确定长度的)数据流</param>
+            <param name="key">要保存的key</param>
+            <param name="token">上传凭证</param>
+            <param name="putExtra">上传可选设置</param>
+            <returns>上传数据流后的返回结果</returns>
+        </member>
+        <member name="M:Qiniu.Storage.FormUploader.DefaultUploadProgressHandler(System.Int64,System.Int64)">
+            <summary>
+            默认的进度处理函数-上传文件
+            </summary>
+            <param name="uploadedBytes">已上传的字节数</param>
+            <param name="totalBytes">文件总字节数</param>
+        </member>
+        <member name="M:Qiniu.Storage.FormUploader.DefaultUploadController">
+            <summary>
+            默认的上传控制函数，默认不执行任何控制
+            </summary>
+            <returns>控制状态</returns>
+        </member>
+        <member name="T:Qiniu.Storage.UploadManager">
+            <summary>
+            上传管理器，根据文件/数据(流)大小以及阈值设置自动选择合适的上传方式
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.UploadManager.#ctor(Qiniu.Storage.Config)">
+            <summary>
+            初始化
+            </summary>
+            <param name="config">文件上传的配置信息</param>
+        </member>
+        <member name="M:Qiniu.Storage.UploadManager.UploadData(System.Byte[],System.String,System.String,Qiniu.Storage.PutExtra)">
+            <summary>
+            上传数据
+            </summary>
+            <param name="data">待上传的数据</param>
+            <param name="key">要保存的文件名称</param>
+            <param name="token">上传凭证</param>
+            <param name="extra">上传可选设置</param>
+            <returns>上传文件后的返回结果</returns>
+        </member>
+        <member name="M:Qiniu.Storage.UploadManager.UploadFile(System.String,System.String,System.String,Qiniu.Storage.PutExtra)">
+            <summary>
+            上传文件，根据文件大小以及设置的阈值(用户初始化UploadManager时可指定该值)自动选择：
+            若文件大小超过设定阈值，使用ResumableUploader，否则使用FormUploader
+            </summary>
+            <param name="localFile">本地待上传的文件名</param>
+            <param name="key">要保存的文件名称</param>
+            <param name="token">上传凭证</param>
+            <param name="extra">上传可选设置</param>
+            <returns>上传文件后的返回结果</returns>
+        </member>
+        <member name="M:Qiniu.Storage.UploadManager.UploadStream(System.IO.Stream,System.String,System.String,Qiniu.Storage.PutExtra)">
+            <summary>
+            上传文件数据流，根据文件大小以及设置的阈值(用户初始化UploadManager时可指定该值)自动选择：
+            若文件大小超过设定阈值，使用ResumableUploader，否则使用FormUploader
+            </summary>
+            <param name="stream">待上传的数据流</param>
+            <param name="key">要保存的文件名称</param>
+            <param name="token">上传凭证</param>
+            <param name="extra">上传可选设置</param>
+            <returns>上传文件后的返回结果</returns>
+        </member>
+        <member name="T:Qiniu.Storage.DownloadManager">
+            <summary>
+            空间文件下载，只提供简单下载逻辑
+            对于大文件下载、断点续下载等需求，可以根据实际情况自行实现
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.DownloadManager.CreatePrivateUrl(Qiniu.Util.Mac,System.String,System.String,System.Int32)">
+            <summary>
+            生成授权的下载链接(访问私有空间中的文件时需要使用这种链接)
+            </summary>
+            <param name="mac">账号(密钥)</param>
+            <param name="domain">(私有)空间文件的下载域名</param>
+            <param name="fileName">（私有）空间文件名</param>
+            <param name="expireInSeconds">从生成此链接的时刻算起，该链接有效时间(单位:秒)</param>
+            <returns>已授权的下载链接</returns>
+        </member>
+        <member name="M:Qiniu.Storage.DownloadManager.CreatePublishUrl(System.String,System.String)">
+            <summary>
+            生成公开空间的下载链接
+            </summary>
+            <param name="domain">公开空间的文件下载域名</param>
+            <param name="fileName">公开空间文件名</param>
+            <returns>公开空间文件下载链接</returns>
+        </member>
+        <member name="M:Qiniu.Storage.DownloadManager.Download(System.String,System.String)">
+            <summary>
+            下载文件到本地
+            </summary>
+            <param name="url">(可访问的或者已授权的)链接</param>
+            <param name="saveasFile">(另存为)本地文件名</param>
+            <returns>下载资源的结果</returns>
+        </member>
+        <member name="T:Qiniu.Storage.BatchResult">
+            <summary>
+            批量处理结果
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BatchResult.Error">
+            <summary>
+            错误消息
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BatchResult.Result">
+            <summary>
+            获取批量处理结果
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.BatchResult.ToString">
+            <summary>
+            转换为易读字符串格式
+            </summary>
+            <returns>便于打印和阅读的字符串></returns>
+        </member>
+        <member name="T:Qiniu.Storage.BucketManager">
+            <summary>
+            空间(资源)管理/操作
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.#ctor(Qiniu.Util.Mac,Qiniu.Storage.Config)">
+            <summary>
+            
+            </summary>
+            <param name="mac"></param>
+            <param name="config"></param>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.Stat(System.String,System.String)">
+            <summary>
+            获取空间文件信息
+            </summary>
+            <param name="bucket">空间名称</param>
+            <param name="key">文件key</param>
+            <returns>文件信息获取结果</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.Buckets(System.Boolean)">
+            <summary>
+            获取空间(bucket)列表
+            </summary>
+            <param name="shared">是否列出被授权访问的空间</param>
+            <returns>空间列表获取结果</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.Delete(System.String,System.String)">
+            <summary>
+            删除文件
+            </summary>
+            <param name="bucket">空间名称</param>
+            <param name="key">文件key</param>
+            <returns>状态码为200时表示OK</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.Copy(System.String,System.String,System.String,System.String)">
+            <summary>
+            复制文件
+            </summary>
+            <param name="srcBucket">源空间</param>
+            <param name="srcKey">源文件key</param>
+            <param name="dstBucket">目标空间</param>
+            <param name="dstKey">目标key</param>
+            <returns>状态码为200时表示OK</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.Copy(System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            复制文件 (with 'force' param)
+            </summary>
+            <param name="srcBucket">源空间</param>
+            <param name="srcKey">源文件key</param>
+            <param name="dstBucket">目标空间</param>
+            <param name="dstKey">目标key</param>
+            <param name="force">force标志,true/false</param>
+            <returns>状态码为200时表示OK</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.Move(System.String,System.String,System.String,System.String)">
+            <summary>
+            移动文件
+            </summary>
+            <param name="srcBucket">源空间</param>
+            <param name="srcKey">源文件key</param>
+            <param name="dstBucket">目标空间</param>
+            <param name="dstKey">目标key</param>
+            <returns>状态码为200时表示OK</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.Move(System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            移动文件 (with 'force' param)
+            </summary>
+            <param name="srcBucket">源空间</param>
+            <param name="srcKey">源文件key</param>
+            <param name="dstBucket">目标空间</param>
+            <param name="dstKey">目标key</param>
+            <param name="force">force标志,true/false</param>
+            <returns>状态码为200时表示OK</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.ChangeMime(System.String,System.String,System.String)">
+            <summary>
+            修改文件MimeType
+            </summary>
+            <param name="bucket">空间名称</param>
+            <param name="key">文件key</param>
+            <param name="mimeType">修改后的MIME Type</param>
+            <returns>状态码为200时表示OK</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.ChangeType(System.String,System.String,System.Int32)">
+            <summary>
+            修改文件存储类型
+            </summary>
+            <param name="bucket">空间名称</param>
+            <param name="key">文件key</param>
+            <param name="fileType">修改后的文件存储类型，0表示普通存储，1表示低频存储</param>
+            <returns>状态码为200时表示OK</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.Batch(System.String)">
+            <summary>
+            批处理
+            </summary>
+            <param name="batchOps">批量操作的操作字符串</param>
+            <returns>状态码为200时表示OK</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.Batch(System.Collections.Generic.IList{System.String})">
+            <summary>
+            批处理，字符串数组拼接后与另一形式等价
+            </summary>
+            <param name="ops">批量操作的操作字符串数组</param>
+            <returns>状态码为200时表示OK</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.Fetch(System.String,System.String,System.String)">
+            <summary>
+            抓取文件
+            </summary>
+            <param name="resUrl">资源URL</param>
+            <param name="bucket">空间名称</param>
+            <param name="key">文件key</param>
+            <returns>状态码为200时表示OK</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.Prefetch(System.String,System.String)">
+            <summary>
+            更新文件，适用于"镜像源站"设置的空间
+            </summary>
+            <param name="bucket">空间名称</param>
+            <param name="key">文件key</param>
+            <returns>状态码为200时表示OK</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.Domains(System.String)">
+            <summary>
+            获取空间的域名
+            </summary>
+            <param name="bucket">空间名称</param>
+            <returns>空间对应的域名</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.ListFiles(System.String,System.String,System.String,System.Int32,System.String)">
+            <summary>
+            
+            获取空间文件列表 
+            listFiles(bucket, prefix, marker, limit, delimiter)
+            
+            bucket:    目标空间名称
+            
+            prefix:    返回指定文件名前缀的文件列表(prefix可设为null)
+            
+            marker:    考虑到设置limit后返回的文件列表可能不全(需要重复执行listFiles操作)
+                       执行listFiles操作时使用marker标记来追加新的结果
+                       特别注意首次执行listFiles操作时marker为null
+                       
+            limit:     每次返回结果所包含的文件总数限制(limit最大值1000，建议值100)
+            
+            delimiter: 分隔符，比如-或者/等等，可以模拟作为目录结构(参考下述示例)
+                       假设指定空间中有2个文件 fakepath/1.txt fakepath/2.txt
+                       现设置分隔符delimiter = / 得到返回结果items =[]，commonPrefixes = [fakepath/]
+                       然后调整prefix = fakepath/ delimiter = null 得到所需结果items = [1.txt,2.txt]
+                       于是可以在本地先创建一个目录fakepath,然后在该目录下写入items中的文件
+                       
+            </summary>
+            <param name="bucket">空间名称</param>
+            <param name="prefix">前缀</param>
+            <param name="marker">标记</param>
+            <param name="limit">数量限制</param>
+            <param name="delimiter">分隔符</param>
+            <returns>文件列表获取结果</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.DeleteAfterDays(System.String,System.String,System.Int32)">
+            <summary>
+            更新文件生命周期
+            </summary>
+            <param name="bucket">空间名称</param>
+            <param name="key">文件key</param>
+            <param name="deleteAfterDays">多少天后删除</param>
+            <returns>状态码为200时表示OK</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.StatOp(System.String,System.String)">
+            <summary>
+            生成stat操作字符串
+            </summary>
+            <param name="bucket">空间名称</param>
+            <param name="key">文件key</param>
+            <returns>stat操作字符串</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.DeleteOp(System.String,System.String)">
+            <summary>
+            生成delete操作字符串
+            </summary>
+            <param name="bucket">空间名称</param>
+            <param name="key">文件key</param>
+            <returns>delete操作字符串</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.CopyOp(System.String,System.String,System.String,System.String)">
+            <summary>
+            生成copy操作字符串
+            </summary>
+            <param name="srcBucket">源空间</param>
+            <param name="srcKey">源文件key</param>
+            <param name="dstBucket">目标空间</param>
+            <param name="dstKey">目标文件key</param>
+            <returns>copy操作字符串</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.CopyOp(System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            生成copy(with 'force' param)操作字符串
+            </summary>
+            <param name="srcBucket">源空间</param>
+            <param name="srcKey">源文件key</param>
+            <param name="dstBucket">目标空间</param>
+            <param name="dstKey">目标文件key</param>
+            <param name="force">force标志,true/false</param>
+            <returns>copy操作字符串</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.MoveOp(System.String,System.String,System.String,System.String)">
+            <summary>
+            生成move操作字符串
+            </summary>
+            <param name="srcBucket">源空间</param>
+            <param name="srcKey">源文件key</param>
+            <param name="dstBucket">目标空间</param>
+            <param name="dstKey">目标文件key</param>
+            <returns>move操作字符串</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.MoveOp(System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            生成copy(with 'force' param)操作字符串
+            </summary>
+            <param name="srcBucket">源空间</param>
+            <param name="srcKey">源文件key</param>
+            <param name="dstBucket">目标空间</param>
+            <param name="dstKey">目标文件key</param>
+            <param name="force">force标志,true/false</param>
+            <returns>move操作字符串</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.ChangeMimeOp(System.String,System.String,System.String)">
+            <summary>
+            生成chgm操作字符串
+            </summary>
+            <param name="bucket">空间名称</param>
+            <param name="key">文件key</param>
+            <param name="mimeType">修改后MIME Type</param>
+            <returns>chgm操作字符串</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.ChangeTypeOp(System.String,System.String,System.Int32)">
+            <summary>
+            生成chtype操作字符串
+            </summary>
+            <param name="bucket">空间名称</param>
+            <param name="key">文件key</param>
+            <param name="fileType">修改后文件类型</param>
+            <returns>chtype操作字符串</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.FetchOp(System.String,System.String,System.String)">
+            <summary>
+            生成fetch操作字符串
+            </summary>
+            <param name="url">资源URL</param>
+            <param name="bucket">空间名称</param>
+            <param name="key">文件key</param>
+            <returns>fetch操作字符串</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.PrefetchOp(System.String,System.String)">
+            <summary>
+            生成prefetch操作字符串
+            </summary>
+            <param name="bucket">空间名称</param>
+            <param name="key">文件key</param>
+            <returns>prefetch操作字符串</returns>
+        </member>
+        <member name="M:Qiniu.Storage.BucketManager.DeleteAfterDaysOp(System.String,System.String,System.Int32)">
+            <summary>
+            生成updateLifecycle操作字符串
+            </summary>
+            <param name="bucket">空间名称</param>
+            <param name="key">文件key</param>
+            <param name="deleteAfterDays">多少天后删除(设为0表示取消)</param>
+            <returns>updateLifecycle操作字符串</returns>
+        </member>
+        <member name="T:Qiniu.Storage.BatchInfo">
+            <summary>
+            批量处理返回的信息
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BatchInfo.Code">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BatchInfo.Data">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="T:Qiniu.Storage.BatchData">
+            <summary>
+            批量处理的结果内容
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BatchData.Error">
+            <summary>
+            处理遇到的错误信息
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BatchData.Hash">
+            <summary>
+            文件hash(ETAG)
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BatchData.Fsize">
+            <summary>
+            文件大小(字节)
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BatchData.MimeType">
+            <summary>
+            文件MIME类型
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BatchData.PutTime">
+            <summary>
+            上传时间
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BatchData.FileType">
+            <summary>
+            文件存储类型
+            </summary>
+        </member>
+        <member name="T:Qiniu.Storage.BucketsResult">
+            <summary>
+            获取空间列表-结果
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BucketsResult.Result">
+            <summary>
+            空间列表
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.BucketsResult.ToString">
+            <summary>
+            转换为易读字符串格式
+            </summary>
+            <returns>便于打印和阅读的字符串</returns>
+        </member>
+        <member name="T:Qiniu.Storage.DomainsResult">
+            <summary>
+            获取空间域名(domains操作)的返回消息
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.DomainsResult.Result">
+            <summary>
+            域名(列表)
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.DomainsResult.ToString">
+            <summary>
+            转换为易读字符串格式
+            </summary>
+            <returns>便于打印和阅读的字符串</returns>
+        </member>
+        <member name="T:Qiniu.Storage.ListItem">
+            <summary>
+            文件描述(stat操作返回消息中包含的有效内容)
+            与StatInfo一致
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ListItem.Key">
+            <summary>
+            文件名
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ListItem.Hash">
+            <summary>
+            文件hash(ETAG)
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ListItem.Fsize">
+            <summary>
+            文件大小(字节)
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ListItem.MimeType">
+            <summary>
+            文件MIME类型
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ListItem.PutTime">
+            <summary>
+            上传时间
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ListItem.FileType">
+            <summary>
+            文件存储类型
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ListItem.EndUser">
+            <summary>
+            EndUser字段
+            </summary>
+        </member>
+        <member name="T:Qiniu.Storage.ListInfo">
+            <summary>
+            获取空间文件(list操作)
+            
+            返回JSON字符串
+            
+            {
+                "marker":"MARKER",
+                "items":
+                [
+                    {
+                        "key":"KEY",
+                        "hash":"HASH",
+                        "fsize":FSIZE,
+                        "mimeType":"MIME_TYPE",
+                        "putTime":PUT_TIME,
+                        "type":FILE_TYPE
+                    },
+                    {
+                        ...
+                    }
+                ],
+                "CmmonPrefixes":"COMMON_PREFIXES"
+            }
+            
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ListInfo.Marker">
+            <summary>
+            marker标记
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ListInfo.Items">
+            <summary>
+            文件列表
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ListInfo.CommonPrefixes">
+            <summary>
+            公共前缀
+            </summary>
+        </member>
+        <member name="T:Qiniu.Storage.ListResult">
+            <summary>
+            获取空间文件列表(list操作)的返回消息
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.ListResult.Result">
+            <summary>
+            文件列表信息
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.ListResult.ToString">
+            <summary>
+            转换为易读字符串格式
+            </summary>
+            <returns>便于打印和阅读的字符串></returns>
+        </member>
+        <member name="T:Qiniu.Storage.FileInfo">
+            <summary>
+            获取空间文件信息(stat操作)的有效内容
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.FileInfo.Fsize">
+            <summary>
+            文件大小(字节)
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.FileInfo.Hash">
+            <summary>
+            文件hash(ETAG)
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.FileInfo.MimeType">
+            <summary>
+            文件MIME类型
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.FileInfo.PutTime">
+            <summary>
+            文件上传时间
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.FileInfo.FileType">
+            <summary>
+            文件存储类型
+            </summary>
+        </member>
+        <member name="T:Qiniu.Storage.StatResult">
+            <summary>
+            获取空间文件信息(stat操作)的返回消息
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.StatResult.Result">
+            <summary>
+            stat信息列表
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.StatResult.ToString">
+            <summary>
+            转换为易读字符串格式
+            </summary>
+            <returns>便于打印和阅读的字符串</returns>
+        </member>
+        <member name="T:Qiniu.Storage.BucketInfo">
+            <summary>
+            bucket info
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BucketInfo.tbl">
+            <summary>
+            bucket name
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BucketInfo.itbl">
+            <summary>
+            itbl
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BucketInfo.phy">
+            <summary>
+            deprecated
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BucketInfo.uid">
+            <summary>
+            id
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BucketInfo.zone">
+            <summary>
+            zone
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BucketInfo.region">
+            <summary>
+            region
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BucketInfo.global">
+            <summary>
+            isGlobal
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BucketInfo.line">
+            <summary>
+            isLineStorage
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BucketInfo.ctime">
+            <summary>
+            creationTime
+            </summary>
+        </member>
+        <member name="T:Qiniu.Storage.BucketResult">
+            <summary>
+            获取bucket信息-结果
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.BucketResult.Result">
+            <summary>
+            bucket信息
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.BucketResult.ToString">
+            <summary>
+            转换为易读字符串格式
+            </summary>
+            <returns>便于打印和阅读的字符串</returns>
+        </member>
+        <member name="T:Qiniu.Storage.PfopResult">
+            <summary>
+            持久化
+            </summary>
+        </member>
+        <member name="P:Qiniu.Storage.PfopResult.PersistentId">
+            <summary>
+            此ID可用于查询持久化进度
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.PfopResult.ToString">
+            <summary>
+            转换为易读字符串格式
+            </summary>
+            <returns>便于打印和阅读的字符串</returns>
+        </member>
+        <member name="T:Qiniu.Storage.OperationManager">
+            <summary>
+            数据处理
+            </summary>
+        </member>
+        <member name="M:Qiniu.Storage.OperationManager.#ctor(Qiniu.Util.Mac,Qiniu.Storage.Config)">
+            <summary>
+            构建新的数据处理对象
+            </summary>
+            <param name="mac"></param>
+            <param name="config"></param>
+        </member>
+        <member name="M:Qiniu.Storage.OperationManager.Pfop(System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            数据处理
+            </summary>
+            <param name="bucket">空间</param>
+            <param name="key">空间文件的key</param>
+            <param name="fops">操作(命令参数)</param>
+            <param name="pipeline">私有队列</param>
+            <param name="notifyUrl">通知url</param>
+            <param name="force">forece参数</param>
+            <returns>pfop操作返回结果，正确返回结果包含persistentId</returns>
+        </member>
+        <member name="M:Qiniu.Storage.OperationManager.Pfop(System.String,System.String,System.String[],System.String,System.String,System.Boolean)">
+            <summary>
+            数据处理，操作字符串拼接后与另一种形式等价
+            </summary>
+            <param name="bucket">空间</param>
+            <param name="key">空间文件的key</param>
+            <param name="fops">操作(命令参数)列表</param>
+            <param name="pipeline">私有队列</param>
+            <param name="notifyUrl">通知url</param>
+            <param name="force">forece参数</param>
+            <returns>操作返回结果，正确返回结果包含persistentId</returns>
+        </member>
+        <member name="M:Qiniu.Storage.OperationManager.Prefop(System.String)">
+            <summary>
+            查询pfop操作处理结果(或状态)
+            </summary>
+            <param name="persistentId">持久化ID</param>
+            <returns>操作结果</returns>
+        </member>
+        <member name="M:Qiniu.Storage.OperationManager.Dfop(System.String,System.String)">
+            <summary>
+            根据uri的类型(网络url或者本地文件路径)自动选择dfop_url或者dfop_data
+            </summary>
+            <param name="fop">文件处理命令</param>
+            <param name="uri">资源/文件URI</param>
+            <returns>操作结果/返回数据</returns>
+        </member>
+        <member name="M:Qiniu.Storage.OperationManager.DfopText(System.String,System.String)">
+            <summary>
+            文本处理(直接传入文本内容)
+            </summary>
+            <param name="fop">文本处理命令</param>
+            <param name="text">文本内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Storage.OperationManager.DfopTextFile(System.String,System.String)">
+            <summary>
+            文本处理(从文件读取文本)
+            </summary>
+            <param name="fop">文本处理命令</param>
+            <param name="textFile">文本文件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Storage.OperationManager.DfopUrl(System.String,System.String)">
+            <summary>
+            如果uri是网络url则使用此方法
+            </summary>
+            <param name="fop">文件处理命令</param>
+            <param name="url">资源URL</param>
+            <returns>处理结果</returns>
+        </member>
+        <member name="M:Qiniu.Storage.OperationManager.DfopData(System.String,System.String)">
+            <summary>
+            如果uri是本地文件路径则使用此方法
+            </summary>
+            <param name="fop">文件处理命令</param>
+            <param name="localFile">文件名</param>
+            <returns>处理结果</returns>
+        </member>
+        <member name="T:Qiniu.CDN.RefreshRequest">
+            <summary>
+            缓存刷新-请求
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.RefreshRequest.Urls">
+            <summary>
+            要预取的单个url列表，总数不超过100条
+            单个url，即一个具体的url，例如：http://bar.foo.com/test.zip
+            注意：
+            请输入资源 url 完整的绝对路径，由 http:// 或 https:// 开始
+            资源 url 不支持通配符，例如：不支持 http://www.test.com/abc/*.*
+            带参数的 url 刷新，根据其域名缓存配置是否忽略参数缓存决定刷新结果。
+            如果配置了时间戳防盗链的资源 url 提交时刷新需要去掉 e 和 token 参数
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.RefreshRequest.Dirs">
+            <summary>
+            要刷新的目录url列表，总数不超过10条；目录dir，即表示一个目录级的url，需要以 / 结尾
+            例如：http://bar.foo.com/dir/，
+            也支持在尾部使用通配符，例如：http://bar.foo.com/dir/*
+            </summary>
+        </member>
+        <member name="M:Qiniu.CDN.RefreshRequest.#ctor">
+            <summary>
+            初始化(所有成员为空，需要后续赋值)
+            </summary>
+        </member>
+        <member name="M:Qiniu.CDN.RefreshRequest.#ctor(System.Collections.Generic.IList{System.String},System.Collections.Generic.IList{System.String})">
+            <summary>
+            初始化URL列表
+            </summary>
+            <param name="urls">URL列表</param>
+            <param name="dirs">URL目录列表</param>
+        </member>
+        <member name="M:Qiniu.CDN.RefreshRequest.AddUrls(System.Collections.Generic.IList{System.String})">
+            <summary>
+            添加URL列表
+            </summary>
+            <param name="urls">URL列表</param>
+        </member>
+        <member name="M:Qiniu.CDN.RefreshRequest.AddDirs(System.Collections.Generic.IList{System.String})">
+            <summary>
+            添加URL目录列表
+            </summary>
+            <param name="dirs">URL目录列表</param>
+        </member>
+        <member name="M:Qiniu.CDN.RefreshRequest.ToJsonStr">
+            <summary>
+            转换到JSON字符串
+            </summary>
+            <returns>请求内容的JSON字符串</returns>
+        </member>
+        <member name="T:Qiniu.CDN.RefreshInfo">
+            <summary>
+            缓存刷新-消息内容结构
+            
+            在请求成功时 code 为 200，requestId、urlQuotaDay、urlSurplusDay、dirQuotaDay、dirSurplusDay才会有有效值，否则为空。
+            在请求失败时 code 为非 200，error 中包含描述信息。
+            
+            以下是一个返回结果示例
+            
+            {
+                "code":200,
+                "error":"success",
+                "requestId":"575d1930f9537d3f2600003d",
+                "invalidUrls":null,
+                "invalidDirs":null,
+                "urlQuotaDay":100,
+                "urlSurplusDay":99,
+                "dirQuotaDay":10,
+                "dirSurplusDay":10
+            }
+            
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.RefreshInfo.Code">
+            <summary>
+            代码 含义 说明
+            200	success	成功(OK)
+            400031	invalid url 请求中存在无效的 url，请确保 url 格式正确
+            400032	invalid host    请求中存在无效的域名，请确保域名格式正确
+            400034	refresh url limit error 请求次数超出当日刷新限额
+            400036	invalid request id 无效的请求 id
+            400037	url has existed url 正在刷新中
+            500000	internal error 服务端内部错误，请联系技术支持
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.RefreshInfo.Error">
+            <summary>
+            错误消息(状态码非OK时)
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.RefreshInfo.RequestId">
+            <summary>
+            请求ID(可用于反馈排查)
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.RefreshInfo.InvalidUrls">
+            <summary>
+            非法URL
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.RefreshInfo.InvalidDirs">
+            <summary>
+            非法URL目录
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.RefreshInfo.UrlQuotaDay">
+            <summary>
+            当日URL刷新限额
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.RefreshInfo.UrlSurplusDay">
+            <summary>
+            当日剩余URL刷新额度
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.RefreshInfo.DirQuotaDay">
+            <summary>
+            当日URL目录刷新限额
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.RefreshInfo.DirSurplusDay">
+            <summary>
+            当日剩余URL目录刷新额度
+            </summary>
+        </member>
+        <member name="T:Qiniu.CDN.RefreshResult">
+            <summary>
+            缓存刷新-结果
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.RefreshResult.Result">
+            <summary>
+            获取缓存刷新信息
+            </summary>
+        </member>
+        <member name="M:Qiniu.CDN.RefreshResult.ToString">
+            <summary>
+            转换为易读字符串格式
+            </summary>
+            <returns>便于打印和阅读的字符串</returns>
+        </member>
+        <member name="T:Qiniu.CDN.PrefetchRequest">
+            <summary>
+            文件预取-请求
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.PrefetchRequest.Urls">
+            <summary>
+            要预取的单个url列表，总数不超过100条
+            单个url，即一个具体的url，例如：http://bar.foo.com/test.zip
+            注意：
+            请输入资源 url 完整的绝对路径，由 http:// 或 https:// 开始
+            资源 url 不支持通配符，例如：不支持 http://www.test.com/abc/*.*
+            </summary>
+        </member>
+        <member name="M:Qiniu.CDN.PrefetchRequest.#ctor">
+            <summary>
+            初始化(URL列表为空，需要后续赋值)
+            </summary>
+        </member>
+        <member name="M:Qiniu.CDN.PrefetchRequest.#ctor(System.Collections.Generic.IList{System.String})">
+            <summary>
+            初始化(URL列表)
+            </summary>
+            <param name="urls">URL列表</param>
+        </member>
+        <member name="M:Qiniu.CDN.PrefetchRequest.AddUrls(System.Collections.Generic.IList{System.String})">
+            <summary>
+            添加要查询的URL
+            </summary>
+            <param name="urls">URL列表</param>
+        </member>
+        <member name="M:Qiniu.CDN.PrefetchRequest.ToJsonStr">
+            <summary>
+            转换到JSON字符串
+            </summary>
+            <returns>请求内容的JSON字符串</returns>
+        </member>
+        <member name="T:Qiniu.CDN.PrefetchInfo">
+            <summary>
+            文件预取-消息内容结构
+            
+            在请求成功时 code 为 200，requestId、quotaDay、surplusDay 才会有有效值，否则为空。
+            在请求失败时 code 为非 200，error 中包含描述信息。
+            
+            以下是一个返回结果示例
+            
+            {
+                "code":200,
+                "error":"success",
+                "requestId":"577471ace3ab3a030c058972",
+                "invalidUrls":null,
+                "quotaDay":100,
+                "surplusDay":99
+            }
+            
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.PrefetchInfo.Code">
+            <summary>
+            代码	含义	说明
+            /// 200	success	成功(OK)
+            400031	invalid url 请求中存在无效的 url，请确保提交的 url 格式正确
+            400032	invalid host    请求中存在无效的域名，请确保域名格式正确
+            400033	prefetch url limit error    请求次数超出当日预取限额
+            400036	invalid request id 无效的请求 id
+            400037	url has existed url 正在预取中
+            500000	internal error 服务端内部错误，请联系技术支持
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.PrefetchInfo.Error">
+            <summary>
+            错误消息(状态码非OK时)
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.PrefetchInfo.RequestId">
+            <summary>
+            请求ID(可用于反馈排查)
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.PrefetchInfo.InvalidUrls">
+            <summary>
+            非法URL
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.PrefetchInfo.QuotaDay">
+            <summary>
+            当日限额
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.PrefetchInfo.SurplusDay">
+            <summary>
+            当日剩余额度
+            </summary>
+        </member>
+        <member name="T:Qiniu.CDN.PrefetchResult">
+            <summary>
+            文件预取-结果
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.PrefetchResult.Result">
+            <summary>
+            获取文件预取信息
+            </summary>
+        </member>
+        <member name="M:Qiniu.CDN.PrefetchResult.ToString">
+            <summary>
+            转换为易读字符串格式
+            </summary>
+            <returns>便于打印和阅读的字符串</returns>
+        </member>
+        <member name="T:Qiniu.CDN.BandwidthRequest">
+            <summary>
+            查询带宽-请求
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.BandwidthRequest.StartDate">
+            <summary>
+            起始日期，例如2016-09-01
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.BandwidthRequest.EndDate">
+            <summary>
+            结束日期，例如2016-09-10
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.BandwidthRequest.Granularity">
+            <summary>
+            时间粒度((取值：5min ／ hour ／day))
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.BandwidthRequest.Domains">
+            <summary>
+            域名列表，以西文半角分号分割
+            </summary>
+        </member>
+        <member name="M:Qiniu.CDN.BandwidthRequest.#ctor">
+            <summary>
+            初始化(所有成员为空，需要后续赋值)
+            </summary>
+        </member>
+        <member name="M:Qiniu.CDN.BandwidthRequest.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            初始化所有成员
+            </summary>
+            <param name="startDate">起始日期</param>
+            <param name="endDate">结束日期</param>
+            <param name="granularity">时间粒度</param>
+            <param name="domains">域名列表</param>
+        </member>
+        <member name="M:Qiniu.CDN.BandwidthRequest.ToJsonStr">
+            <summary>
+            转换到JSON字符串
+            </summary>
+            <returns>请求内容的JSON字符串</returns>
+        </member>
+        <member name="T:Qiniu.CDN.BandwidthInfo">
+            <summary>
+            带宽-消息内容结构
+            说明：
+            1.返回的数据包含开始日期和结束日期
+            2.带宽的单位为 bps
+            3.数据(data)只包含有流量的域名
+            以下是一个返回结果示例
+            
+            200 OK HTTP/1.1 
+            {
+                "code": 200,
+                "error": "",
+                "time": ["2016-07-01 00:00:00","2016-07-01 00:05:00", ...],
+                "data": {
+                    "a.com": {
+                        "china": [8888, 9999, 10000, ...],
+                        "oversea": [3333, 4444, 5000, ...],
+                        },
+                    "b.com": {
+                        "china": [8888, 9999, 10000, ...],
+                        "oversea": [3333, 4444, 5000, ...],
+                        }
+                    }
+            }
+            
+            另请参阅 http://developer.qiniu.com/article/fusion/api/traffic-bandwidth.html#batch-bandwidth
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.BandwidthInfo.Code">
+            <summary>
+            代码 含义 说明
+            200	success	成功(OK)
+            400032	invalid host    请求中存在无效的域名，请确保域名格式正确
+            400080	invalid start time 开始时间格式错误
+            400081	invalid end time 截止时间格式错误
+            400082	invalid time range 时间范围错误，请确保开始时间早于结束时间，且时间范围不超过 30 天
+            500000	internal error 服务端内部错误，请联系技术支持
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.BandwidthInfo.Error">
+            <summary>
+            错误消息(状态码非OK时)
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.BandwidthInfo.Time">
+            <summary>
+            时间点列表
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.BandwidthInfo.Data">
+            <summary>
+            带宽数居(与时间点列表对应)
+            数据内容请参见该类型说明
+            </summary>
+        </member>
+        <member name="T:Qiniu.CDN.BandWidthData">
+            <summary>
+            带宽-数据内容
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.BandWidthData.China">
+            <summary>
+            国内带宽数据
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.BandWidthData.Oversea">
+            <summary>
+            海外带宽数据
+            </summary>
+        </member>
+        <member name="T:Qiniu.CDN.BandwidthResult">
+            <summary>
+            查询带宽-结果
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.BandwidthResult.Result">
+            <summary>
+            获取带宽信息
+            </summary>
+        </member>
+        <member name="M:Qiniu.CDN.BandwidthResult.ToString">
+            <summary>
+            转换为易读字符串格式
+            </summary>
+            <returns>便于打印和阅读的字符串</returns>
+        </member>
+        <member name="T:Qiniu.CDN.FluxRequest">
+            <summary>
+            查询流量-请求
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.FluxRequest.StartDate">
+            <summary>
+            起始日期，例如2016-09-01
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.FluxRequest.EndDate">
+            <summary>
+            结束日期，例如2016-09-10
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.FluxRequest.Granularity">
+            <summary>
+            时间粒度((取值：5min ／ hour ／day))
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.FluxRequest.Domains">
+            <summary>
+            域名列表，以西文半角分号分割
+            </summary>
+        </member>
+        <member name="M:Qiniu.CDN.FluxRequest.#ctor">
+            <summary>
+            初始化(所有成员为空，需要后续赋值)
+            </summary>
+        </member>
+        <member name="M:Qiniu.CDN.FluxRequest.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            初始化所有成员
+            </summary>
+            <param name="startDate">起始日期</param>
+            <param name="endDate">结束日期</param>
+            <param name="granularity">时间粒度</param>
+            <param name="domains">域名列表</param>
+        </member>
+        <member name="M:Qiniu.CDN.FluxRequest.ToJsonStr">
+            <summary>
+            转换到JSON字符串
+            </summary>
+            <returns>请求内容的JSON字符串</returns>
+        </member>
+        <member name="T:Qiniu.CDN.FluxInfo">
+            <summary>
+            流量-消息内容结构
+            说明：
+            1.返回的数据包含开始日期和结束日期
+            2.带宽的单位为 byte
+            3.数据(data)只包含有流量的域名
+            
+            以下是一个返回结果示例
+            
+            {
+                "code": 200,
+                "error": "",
+                "time": ["2016-07-01 00:00:00","2016-07-01 00:05:00", ...],
+                "data": {
+                    "a.com": {
+                        "china": [8888, 9999, 10000, ...],
+                        "oversea": [3333, 4444, 5000, ...],
+                        },
+                    "b.com": {
+                        "china": [8888, 9999, 10000, ...],
+                        "oversea": [3333, 4444, 5000, ...],
+                        }
+                    }
+            }
+            
+            另请参阅 http://developer.qiniu.com/article/fusion/api/traffic-bandwidth.html#batch-flux
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.FluxInfo.Code">
+            <summary>
+            代码 含义 说明
+            200	success	成功(OK)
+            400032	invalid host    请求中存在无效的域名，请确保域名格式正确
+            400080	invalid start time 开始时间格式错误
+            400081	invalid end time 截止时间格式错误
+            400082	invalid time range 时间范围错误，请确保开始时间早于结束时间，且时间范围不超过 30 天
+            500000	internal error 服务端内部错误，请联系技术支持
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.FluxInfo.Error">
+            <summary>
+            错误消息(状态码非OK时)
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.FluxInfo.Time">
+            <summary>
+            时间点列表
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.FluxInfo.Data">
+            <summary>
+            流量数居(与时间点列表对应)
+            </summary>
+        </member>
+        <member name="T:Qiniu.CDN.FluxInfo.FluxData">
+            <summary>
+            流量-数据内容
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.FluxInfo.FluxData.China">
+            <summary>
+            国内流量数据
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.FluxInfo.FluxData.Oversea">
+            <summary>
+            海外流量数据
+            </summary>
+        </member>
+        <member name="T:Qiniu.CDN.FluxResult">
+            <summary>
+            查询流量-结果
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.FluxResult.Result">
+            <summary>
+            获取流量信息
+            </summary>
+        </member>
+        <member name="M:Qiniu.CDN.FluxResult.ToString">
+            <summary>
+            转换为易读字符串格式
+            </summary>
+            <returns>便于打印和阅读的字符串</returns>
+        </member>
+        <member name="T:Qiniu.CDN.LogListRequest">
+            <summary>
+            查询日志-请求
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.LogListRequest.Day">
+            <summary>
+            日期，例如 2016-09-01
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.LogListRequest.Domains">
+            <summary>
+            域名列表，以西文半角分号分割
+            </summary>
+        </member>
+        <member name="M:Qiniu.CDN.LogListRequest.#ctor">
+            <summary>
+            初始化(所有成员为空，需要后续赋值)
+            </summary>
+        </member>
+        <member name="M:Qiniu.CDN.LogListRequest.#ctor(System.String,System.String)">
+            <summary>
+            初始化所有成员
+            </summary>
+            <param name="day">日期</param>
+            <param name="domains">域名列表(多个域名以;分隔的字符串)</param>
+        </member>
+        <member name="M:Qiniu.CDN.LogListRequest.#ctor(System.String,System.Collections.Generic.IList{System.String})">
+            <summary>
+            初始化所有成员
+            </summary>
+            <param name="day">日期</param>
+            <param name="domains">域名列表</param>
+        </member>
+        <member name="M:Qiniu.CDN.LogListRequest.ToJsonStr">
+            <summary>
+            转换到JSON字符串
+            </summary>
+            <returns>请求内容的JSON字符串</returns>
+        </member>
+        <member name="T:Qiniu.CDN.LogListInfo">
+            <summary>
+            日志-消息内容结构
+            
+            以下是一个返回结果示例
+            
+            {
+                "data": {
+                        "log-test1.SOME_TEST.com": [
+                            {
+                                "name":"log-test1.SOME_TEST.com_2016-07-01-00_00.gz",
+                                "size": 88490306,
+                                "mtime": 1466274440,
+                                "url": "http://FUSION_LOG_DOWNLOAD_URL1"
+                             }
+                         ],
+                         "log-test2.SOME_TEST.com": [
+                            {
+                                "name":"log-test2.SOME_TEST.com_2016-07-01-00_00.gz",
+                                "size": 73280873,
+                                "mtime": 1466273259,
+                                "url": "http://FUSION_LOG_DOWNLOAD_URL2"
+                            }
+                        ]
+                    }
+            }
+            
+            /// </summary>
+        </member>
+        <member name="P:Qiniu.CDN.LogListInfo.Code">
+            <summary>
+            代码 含义 说明
+            200	success	成功(OK)
+            400	invalid params	请求参数格式错误
+            401	bad token   认证授权失败（包括密钥信息不正确；数字签名错误；授权已超时）
+            400032	invalid host    请求中存在无效的域名，请确保域名格式正确
+            500000	internal error 服务器内部错误
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.LogListInfo.Error">
+            <summary>
+            错误消息(状态码非OK时)
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.LogListInfo.Data">
+            <summary>
+            日志信息(与域名列表对应)
+            </summary>
+        </member>
+        <member name="T:Qiniu.CDN.LogData">
+            <summary>
+            日志信息内容
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.LogData.Name">
+            <summary>
+            文件名
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.LogData.Size">
+            <summary>
+            文件大小，单位为 Byte
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.LogData.Mtime">
+            <summary>
+            文件修改时间，Unix 时间戳
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.LogData.Url">
+            <summary>
+            日志下载链接
+            </summary>
+        </member>
+        <member name="T:Qiniu.CDN.LogListResult">
+            <summary>
+            查询日志-结果
+            </summary>
+        </member>
+        <member name="P:Qiniu.CDN.LogListResult.Result">
+            <summary>
+            获取日志列表信息
+            </summary>
+        </member>
+        <member name="M:Qiniu.CDN.LogListResult.ToString">
+            <summary>
+            转换为易读字符串格式
+            </summary>
+            <returns>便于打印和阅读的字符串</returns>
+        </member>
+        <member name="T:Qiniu.CDN.CdnManager">
+            <summary>
+            融合CDN加速-功能模块： 缓存刷新、文件预取、流量/带宽查询、日志查询、时间戳防盗链
+            另请参阅 http://developer.qiniu.com/article/index.html#fusion-api-handbook
+            关于时间戳防盗链可参阅 https://support.qiniu.com/question/195128
+            </summary>
+        </member>
+        <member name="M:Qiniu.CDN.CdnManager.#ctor(Qiniu.Util.Mac)">
+            <summary>
+            初始化
+            </summary>
+            <param name="mac">账号(密钥)</param>
+        </member>
+        <member name="M:Qiniu.CDN.CdnManager.RefreshUrlsAndDirs(System.String[],System.String[])">
+            <summary>
+            缓存刷新-刷新URL和URL目录
+            </summary>
+            <param name="urls">要刷新的URL列表</param>
+            <param name="dirs">要刷新的URL目录列表</param>
+            <returns>缓存刷新的结果</returns>
+        </member>
+        <member name="M:Qiniu.CDN.CdnManager.RefreshUrls(System.String[])">
+            <summary>
+            缓存刷新-刷新URL
+            </summary>
+            <param name="urls">要刷新的URL列表</param>
+            <returns>缓存刷新的结果</returns>
+        </member>
+        <member name="M:Qiniu.CDN.CdnManager.RefreshDirs(System.String[])">
+            <summary>
+            缓存刷新-刷新URL目录
+            </summary>
+            <param name="dirs">要刷新的URL目录列表</param>
+            <returns>缓存刷新的结果</returns>
+        </member>
+        <member name="M:Qiniu.CDN.CdnManager.PrefetchUrls(System.String[])">
+            <summary>
+            文件预取
+            </summary>
+            <param name="urls">待预取的文件URL列表</param>
+            <returns>文件预取的结果</returns>
+        </member>
+        <member name="M:Qiniu.CDN.CdnManager.GetBandwidthData(System.String[],System.String,System.String,System.String)">
+            <summary>
+            批量查询cdn带宽
+            </summary>
+            <param name="domains">域名列表</param>
+            <param name="startDate">起始日期，如2017-01-01</param>
+            <param name="endDate">结束日期，如2017-01-02</param>
+            <param name="granularity">时间粒度，如day</param>
+            <returns>带宽查询的结果</returns>
+        </member>
+        <member name="M:Qiniu.CDN.CdnManager.GetFluxData(System.String[],System.String,System.String,System.String)">
+            <summary>
+            批量查询cdn流量
+            </summary>
+            <param name="domains">域名列表</param>
+            <param name="startDate">起始日期，如2017-01-01</param>
+            <param name="endDate">结束日期，如2017-01-02</param>
+            <param name="granularity">时间粒度，如day</param>
+            <returns>流量查询的结果</returns>
+        </member>
+        <member name="M:Qiniu.CDN.CdnManager.GetCdnLogList(System.String[],System.String)">
+            <summary>
+            查询日志列表，获取日志的下载外链
+            </summary>
+            <param name="domains">域名列表</param>
+            <param name="day">具体日期，例如2017-08-12</param>
+            <returns>日志查询的结果</returns>
+        </member>
+        <member name="M:Qiniu.CDN.CdnManager.CreateTimestampAntiLeechUrl(System.String,System.String,System.String,System.String,System.Int32)">
+            <summary>
+            时间戳防盗链
+            </summary>
+            <param name="host">主机，如http://domain.com</param>
+            <param name="fileName">文件名，如 hello/world/test.jpg</param>
+            <param name="query">请求参数，如?v=1.1</param>
+            <param name="encryptKey">后台提供的key</param>
+            <param name="expireInSeconds">链接有效时长</param>
+            <returns>时间戳防盗链接</returns>
+        </member>
+        <member name="T:Qiniu.Util.Auth">
+            <summary>
+            Authentication/Authorization
+            </summary>
+        </member>
+        <member name="M:Qiniu.Util.Auth.#ctor(Qiniu.Util.Mac)">
+            <summary>
+            一般初始化
+            </summary>
+            <param name="mac">账号(密钥)</param>
+        </member>
+        <member name="M:Qiniu.Util.Auth.CreateManageToken(System.String,System.Byte[])">
+            <summary>
+            生成管理凭证
+            有关管理凭证请参阅
+            http://developer.qiniu.com/article/developer/security/access-token.html
+            </summary>
+            <param name="url">请求的URL</param>
+            <param name="body">请求的主体内容</param>
+            <returns>生成的管理凭证</returns>
+        </member>
+        <member name="M:Qiniu.Util.Auth.CreateManageToken(System.String)">
+            <summary>
+            生成管理凭证-不包含body
+            </summary>
+            <param name="url">请求的URL</param>
+            <returns>生成的管理凭证</returns>
+        </member>
+        <member name="M:Qiniu.Util.Auth.CreateUploadToken(System.String)">
+            <summary>
+            生成上传凭证
+            </summary>
+            <param name="jsonStr">上传策略对应的JSON字符串</param>
+            <returns>生成的上传凭证</returns>
+        </member>
+        <member name="M:Qiniu.Util.Auth.CreateDownloadToken(System.String)">
+            <summary>
+            生成下载凭证
+            </summary>
+            <param name="url">原始链接</param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Util.Auth.CreateStreamPublishToken(System.String)">
+            <summary>
+            生成推流地址使用的凭证
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Util.Auth.CreateStreamManageToken(System.String)">
+            <summary>
+            生成流管理凭证
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Util.Auth.CreateManageToken(Qiniu.Util.Mac,System.String,System.Byte[])">
+            <summary>
+            生成管理凭证
+            有关管理凭证请参阅
+            http://developer.qiniu.com/article/developer/security/access-token.html
+            </summary>
+            <param name="mac">账号(密钥)</param>
+            <param name="url">访问的URL</param>
+            <param name="body">请求的body</param>
+            <returns>生成的管理凭证</returns>
+        </member>
+        <member name="M:Qiniu.Util.Auth.CreateManageToken(Qiniu.Util.Mac,System.String)">
+            <summary>
+            生成管理凭证-不包含body
+            </summary>
+            <param name="mac">账号(密钥)</param>
+            <param name="url">请求的URL</param>
+            <returns>生成的管理凭证</returns>
+        </member>
+        <member name="M:Qiniu.Util.Auth.CreateUploadToken(Qiniu.Util.Mac,System.String)">
+            <summary>
+            生成上传凭证
+            </summary>
+            <param name="mac">账号(密钥)</param>
+            <param name="jsonBody">上传策略JSON串</param>
+            <returns>生成的上传凭证</returns>
+        </member>
+        <member name="M:Qiniu.Util.Auth.CreateDownloadToken(Qiniu.Util.Mac,System.String)">
+            <summary>
+            生成下载凭证
+            </summary>
+            <param name="mac">账号(密钥)</param>
+            <param name="url">原始链接</param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Util.Auth.CreateStreamPublishToken(Qiniu.Util.Mac,System.String)">
+            <summary>
+            生成推流地址使用的凭证
+            </summary>
+            <param name="mac">账号(密钥)</param>
+            <param name="path">URL路径</param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Util.Auth.CreateStreamManageToken(Qiniu.Util.Mac,System.String)">
+            <summary>
+            生成流管理凭证
+            </summary>
+            <param name="mac">账号(密钥)</param>
+            <param name="data">待签数据</param>
+            <returns></returns>
+        </member>
+        <member name="T:Qiniu.Util.LabMD5">
+            <summary>
+            MD5算法的3rdParty实现
+            参考https://github.com/Dozer74/MD5
+            </summary>
+        </member>
+        <member name="M:Qiniu.Util.LabMD5.BitHelper.RotateLeft(System.UInt32,System.UInt16)">
+            <summary>
+            rotate
+            </summary>
+            <param name="num">num</param>
+            <param name="shift">shift</param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Util.LabMD5.BitHelper.ReverseByte(System.UInt32)">
+            <summary>
+            reverse
+            </summary>
+        </member>
+        <member name="F:Qiniu.Util.LabMD5.T">
+            <summary>
+            table 4294967296*sin(i)
+            </summary>
+        </member>
+        <member name="M:Qiniu.Util.LabMD5.ComputeHash(System.Byte[])">
+            <summary>
+            ComputeHash
+            </summary>
+        </member>
+        <member name="T:Qiniu.Util.Mac">
+            <summary>
+            账户访问控制(密钥)
+            </summary>
+        </member>
+        <member name="P:Qiniu.Util.Mac.AccessKey">
+            <summary>
+            密钥-AccessKey
+            </summary>
+        </member>
+        <member name="P:Qiniu.Util.Mac.SecretKey">
+            <summary>
+            密钥-SecretKey
+            </summary>
+        </member>
+        <member name="M:Qiniu.Util.Mac.#ctor(System.String,System.String)">
+            <summary>
+            初始化密钥AK/SK
+            </summary>
+            <param name="accessKey">AccessKey</param>
+            <param name="secretKey">SecretKey</param>
+        </member>
+        <member name="T:Qiniu.Util.Signature">
+            <summary>
+            签名/加密
+            特别注意，不同平台使用的Cryptography可能略有不同，使用中如有遇到问题，请反馈
+            提交您的issue到 https://github.com/qiniu/csharp-sdk
+            </summary>
+        </member>
+        <member name="M:Qiniu.Util.Signature.#ctor(Qiniu.Util.Mac)">
+            <summary>
+            初始化
+            </summary>
+            <param name="mac">账号(密钥)</param>
+        </member>
+        <member name="M:Qiniu.Util.Signature.Sign(System.Byte[])">
+            <summary>
+            签名-字节数据
+            </summary>
+            <param name="data">待签名的数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Util.Signature.Sign(System.String)">
+            <summary>
+            签名-字符串数据
+            </summary>
+            <param name="str">待签名的数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Util.Signature.SignWithData(System.Byte[])">
+            <summary>
+            附带数据的签名
+            </summary>
+            <param name="data">待签名的数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Util.Signature.SignWithData(System.String)">
+            <summary>
+            附带数据的签名
+            </summary>
+            <param name="str">待签名的数据</param>
+            <returns>签名结果</returns>
+        </member>
+        <member name="M:Qiniu.Util.Signature.SignRequest(System.String,System.Byte[])">
+            <summary>
+            HTTP请求签名
+            </summary>
+            <param name="url">请求目标的URL</param>
+            <param name="body">请求的主体数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Util.Signature.SignRequest(System.String,System.String)">
+            <summary>
+            HTTP请求签名
+            </summary>
+            <param name="url">请求目标的URL</param>
+            <param name="body">请求的主体数据</param>
+            <returns></returns>
+        </member>
+        <member name="T:Qiniu.Util.UnixTimestamp">
+            <summary>
+            时间戳与日期时间转换
+            </summary>
+        </member>
+        <member name="F:Qiniu.Util.UnixTimestamp.dtBase">
+            <summary>
+            基准时间
+            </summary>
+        </member>
+        <member name="F:Qiniu.Util.UnixTimestamp.TICK_BASE">
+            <summary>
+            时间戳末尾7位(补0或截断)
+            </summary>
+        </member>
+        <member name="M:Qiniu.Util.UnixTimestamp.GetUnixTimestamp(System.Int64)">
+            <summary>
+            从现在(调用此函数时刻)起若干秒以后那个时间点的时间戳
+            </summary>
+            <param name="secondsAfterNow">从现在起多少秒以后</param>
+            <returns>Unix时间戳</returns>
+        </member>
+        <member name="M:Qiniu.Util.UnixTimestamp.ConvertToTimestamp(System.DateTime)">
+            <summary>
+            日期时间转换为时间戳
+            </summary>
+            <param name="dt">日期时间</param>
+            <returns>时间戳</returns>
+        </member>
+        <member name="M:Qiniu.Util.UnixTimestamp.ConvertToDateTime(System.String)">
+            <summary>
+            从UNIX时间戳转换为DateTime
+            </summary>
+            <param name="timestamp">时间戳字符串</param>
+            <returns>日期时间</returns>
+        </member>
+        <member name="M:Qiniu.Util.UnixTimestamp.ConvertToDateTime(System.Int64)">
+            <summary>
+            从UNIX时间戳转换为DateTime
+            </summary>
+            <param name="timestamp">时间戳</param>
+            <returns>日期时间</returns>
+        </member>
+        <member name="M:Qiniu.Util.UnixTimestamp.IsContextExpired(System.Int64)">
+            <summary>
+            检查Ctx是否过期，我们给当前时间加上一天来看看是否超过了过期时间
+            而不是直接比较是否超过了过期时间，是给这个文件最大1天的上传持续时间
+            </summary>
+            <param name="expiredAt"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Qiniu.Util.UpToken">
+            <summary>
+            上传凭证工具类
+            </summary>
+        </member>
+        <member name="M:Qiniu.Util.UpToken.GetAccessKeyFromUpToken(System.String)">
+            <summary>
+            从上传凭证获取AccessKey
+            </summary>
+            <param name="upToken">上传凭证</param>
+            <returns>AccessKey</returns>
+        </member>
+        <member name="M:Qiniu.Util.UpToken.GetBucketFromUpToken(System.String)">
+            <summary>
+            从上传凭证获取Bucket
+            </summary>
+            <param name="upToken">上传凭证</param>
+            <returns>Bucket</returns>
+        </member>
+        <member name="T:Qiniu.Util.UrlHelper">
+            <summary>
+            URL辅助工具(RegExp)
+            </summary>
+        </member>
+        <member name="M:Qiniu.Util.UrlHelper.IsValidUrl(System.String)">
+            <summary>
+            是否合法URL
+            </summary>
+            <param name="_url">待判断的url</param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Util.UrlHelper.IsNormalUrl(System.String)">
+            <summary>
+            是否一般URL(不包含？等后缀参数)
+            </summary>
+            <param name="_url">待判断的url</param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Util.UrlHelper.IsValidDir(System.String)">
+            <summary>
+            是否合法URL目录
+            </summary>
+            <param name="_dir">待判断的url目录</param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Util.UrlHelper.GetNormalUrl(System.String)">
+            <summary>
+            从原始URL转换为一般URL(根据需要截断)
+            </summary>
+            <param name="_url">待转换的url</param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Util.UrlHelper.UrlSplit(System.String,System.String@,System.String@,System.String@,System.String@)">
+            <summary>
+            URL分析，拆分出Host,Path,File,Query各个部分
+            </summary>
+            <param name="url">原始URL</param>
+            <param name="host">host部分</param>
+            <param name="path">path部分</param>
+            <param name="file">文件名</param>
+            <param name="query">参数</param>
+        </member>
+        <member name="T:Qiniu.Util.Base64">
+            <summary>
+            Base64 编码/解码
+            </summary>
+        </member>
+        <member name="M:Qiniu.Util.Base64.UrlSafeBase64Encode(System.String)">
+            <summary>
+            获取字符串Url安全Base64编码值
+            </summary>
+            <param name="text">源字符串</param>
+            <returns>已编码字符串</returns>
+        </member>
+        <member name="M:Qiniu.Util.Base64.UrlSafeBase64Encode(System.Byte[])">
+            <summary>
+            URL安全的base64编码
+            </summary>
+            <param name="data">需要编码的字节数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Util.Base64.UrlSafeBase64Encode(System.String,System.String)">
+            <summary>
+            bucket:key 编码
+            </summary>
+            <param name="bucket">空间名称</param>
+            <param name="key">文件key</param>
+            <returns>编码</returns>
+        </member>
+        <member name="M:Qiniu.Util.Base64.UrlsafeBase64Decode(System.String)">
+            <summary>
+            Base64解码
+            </summary>
+            <param name="text">待解码的字符串</param>
+            <returns>已解码字符串</returns>
+        </member>
+        <member name="T:Qiniu.Util.CRC32">
+            <summary>
+            CRC32计算器
+            </summary>
+        </member>
+        <member name="F:Qiniu.Util.CRC32.IEEE">
+            <summary>
+            magic
+            </summary>
+        </member>
+        <member name="M:Qiniu.Util.CRC32.#ctor">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:Qiniu.Util.CRC32.Write(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            写入
+            </summary>
+            <param name="p">字节数据</param>
+            <param name="offset">偏移位置</param>
+            <param name="count">字节数</param>
+        </member>
+        <member name="M:Qiniu.Util.CRC32.Sum">
+            <summary>
+            校验和
+            </summary>
+            <returns>校验和</returns>
+        </member>
+        <member name="M:Qiniu.Util.CRC32.Update(System.UInt32,System.UInt32[],System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            更新
+            </summary>
+            <param name="crc">crc32</param>
+            <param name="table">表</param>
+            <param name="p">字节数据</param>
+            <param name="offset">偏移位置</param>
+            <param name="count">字节数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Util.CRC32.CheckSumBytes(System.Byte[])">
+            <summary>
+            计算字节数据的crc32值
+            </summary>
+            <param name="data">二进制数据</param>
+            <returns>crc32值</returns>
+        </member>
+        <member name="M:Qiniu.Util.CRC32.CheckSumSlice(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            检验
+            </summary>
+            <param name="data">字节数据</param>
+            <param name="offset">偏移位置</param>
+            <param name="count">字节数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Qiniu.Util.CRC32.checkSumFile(System.String)">
+            <summary>
+            计算沙盒文件的crc32值
+            </summary>
+            <param name="filePath">沙盒文件全路径</param>
+            <returns>crc32值</returns>
+        </member>
+        <member name="T:Qiniu.Util.ETag">
+            <summary>
+            QINIU ETAG(文件hash)
+            </summary>
+        </member>
+        <member name="M:Qiniu.Util.ETag.CalcHash(System.String)">
+            <summary>
+            计算文件hash(ETAG)
+            </summary>
+            <param name="filePath"></param>
+            <returns>文件hash</returns>
+        </member>
+        <member name="T:Qiniu.Util.Hashing">
+            <summary>
+            计算hash值
+            特别注意，不同平台使用的Cryptography可能略有不同，使用中如有遇到问题，请反馈
+            提交您的issue到 https://github.com/qiniu/csharp-sdk
+            </summary>
+        </member>
+        <member name="M:Qiniu.Util.Hashing.CalcSHA1(System.Byte[])">
+            <summary>
+            计算SHA1
+            </summary>
+            <param name="data">字节数据</param>
+            <returns>SHA1</returns>
+        </member>
+        <member name="M:Qiniu.Util.Hashing.CalcMD5(System.String)">
+            <summary>
+            计算MD5哈希(可能需要关闭FIPS)
+            </summary>
+            <param name="str">待计算的字符串</param>
+            <returns>MD5结果</returns>
+        </member>
+        <member name="M:Qiniu.Util.Hashing.CalcMD5X(System.String)">
+            <summary>
+            计算MD5哈希(第三方实现)
+            </summary>
+            <param name="str">待计算的字符串,避免FIPS-Exception</param>
+            <returns>MD5结果</returns>
+        </member>
+        <member name="T:Qiniu.Util.StringHelper">
+            <summary>
+            字符串处理工具
+            </summary>
+        </member>
+        <member name="M:Qiniu.Util.StringHelper.UrlEncode(System.String)">
+            <summary>
+            URL编码
+            </summary>
+            <param name="text">源字符串</param>
+            <returns>URL编码字符串</returns>
+        </member>
+        <member name="M:Qiniu.Util.StringHelper.UrlFormEncode(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            URL键值对编码
+            </summary>
+            <param name="values">键值对</param>
+            <returns>URL编码的键值对数据</returns>
+        </member>
+        <member name="T:Qiniu.Util.UserEnv">
+            <summary>
+            环境变量-用户路径
+            </summary>
+        </member>
+        <member name="M:Qiniu.Util.UserEnv.GetHomeFolder">
+            <summary>
+            找到QHome目录（在用户目录下建立的"QHome"文件夹）
+            </summary>
+            <returns>QHOME路径</returns>
+        </member>
+        <member name="T:Qiniu.Http.HttpCode">
+            <summary>
+            HTTP 状态码
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.OK">
+            <summary>
+            成功
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.PARTLY_OK">
+            <summary>
+            部分OK
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.BAD_REQUEST">
+            <summary>
+            请求错误
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.AUTHENTICATION_FAILED">
+            <summary>
+            认证授权失败
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.ACCESS_DENIED">
+            <summary>
+            拒绝访问
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.OBJECT_NOT_FOUND">
+            <summary>
+            资源不存在
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.CRC32_CHECK_FAILEd">
+            <summary>
+            CRC32校验失败
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.FILE_SIZE_EXCEED">
+            <summary>
+            上传文件大小超限
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.PREFETCH_FAILED">
+            <summary>
+            镜像回源失败
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.BAD_GATEWAY">
+            <summary>
+            错误网关
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.SERVER_UNAVAILABLE">
+            <summary>
+            服务端不可用
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.SERVER_TIME_EXCEED">
+            <summary>
+            服务端操作超时
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.TOO_FREQUENT_ACCESS">
+            <summary>
+            单个资源访问频率过高
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.CALLBACK_FAILED">
+            <summary>
+            回调失败
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.SERVER_OPERATION_FAILED">
+            <summary>
+            服务端操作失败
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.CONTENT_MODIFIED">
+            <summary>
+            资源内容被修改
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.FILE_NOT_EXIST">
+            <summary>
+            文件不存在
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.FILE_EXISTS">
+            <summary>
+            文件已存在
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.BUCKET_COUNT_LIMIT">
+            <summary>
+            空间数量已达上限
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.BUCKET_NOT_EXIST">
+            <summary>
+            空间或者文件不存在
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.INVALID_MARKER">
+            <summary>
+            列举资源(list)使用了非法的marker
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.CONTEXT_EXPIRED">
+            <summary>
+            在断点续上传过程中，后续上传接收地址不正确或ctx信息已过期。
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.USER_UNDEF">
+            <summary>
+            自定义HTTP状态码 (默认值)
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.USER_CANCELED">
+            <summary>
+            自定义HTTP状态码 (用户取消)
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.USER_PAUSED">
+            <summary>
+            自定义HTTP状态码 (用户暂停)
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.USER_RESUMED">
+            <summary>
+            自定义HTTP状态码 (用户继续)
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.USER_NEED_RETRY">
+            <summary>
+            自定义HTTP状态码 (需要重试)
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.INVALID_ARGUMENT">
+            <summary>
+            自定义HTTP状态码 (异常或错误)
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.INVALID_FILE">
+            <summary>
+            自定义HTTP状态码（文件不合法）
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpCode.INVALID_TOKEN">
+            <summary>
+            自定义HTTP状态码（凭证不合法）
+            </summary>
+        </member>
+        <member name="T:Qiniu.Http.ContentType">
+            <summary>
+            HTTP 内容类型(Content-Type)
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.ContentType.TEXT_PLAIN">
+            <summary>
+            资源类型：普通文本
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.ContentType.APPLICATION_JSON">
+            <summary>
+            资源类型：JSON字符串
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.ContentType.APPLICATION_OCTET_STREAM">
+            <summary>
+            资源类型：未知类型(数据流)
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.ContentType.WWW_FORM_URLENC">
+            <summary>
+            资源类型：表单数据(键值对)
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.ContentType.MULTIPART_FORM_DATA">
+            <summary>
+            资源类型：多分部数据
+            </summary>
+        </member>
+        <member name="T:Qiniu.Http.HttpResult">
+            <summary>
+            HTTP请求(GET,POST等)的返回消息
+            </summary>
+        </member>
+        <member name="P:Qiniu.Http.HttpResult.Code">
+            <summary>
+            状态码 (200表示OK)
+            </summary>
+        </member>
+        <member name="P:Qiniu.Http.HttpResult.Text">
+            <summary>
+            消息或错误文本
+            </summary>
+        </member>
+        <member name="P:Qiniu.Http.HttpResult.Data">
+            <summary>
+            消息或错误(二进制格式)
+            </summary>
+        </member>
+        <member name="P:Qiniu.Http.HttpResult.RefCode">
+            <summary>
+            参考代码(用户自定义)
+            </summary>
+        </member>
+        <member name="P:Qiniu.Http.HttpResult.RefText">
+            <summary>
+            附加信息(用户自定义,如Exception内容)
+            </summary>
+        </member>
+        <member name="P:Qiniu.Http.HttpResult.RefInfo">
+            <summary>
+            参考信息(从返回消息WebResponse的头部获取)
+            </summary>
+        </member>
+        <member name="M:Qiniu.Http.HttpResult.#ctor">
+            <summary>
+            初始化(所有成员默认值，需要后续赋值)
+            </summary>
+        </member>
+        <member name="M:Qiniu.Http.HttpResult.Shadow(Qiniu.Http.HttpResult)">
+            <summary>
+            对象复制
+            </summary>
+            <param name="hr">要复制其内容的来源</param>
+        </member>
+        <member name="M:Qiniu.Http.HttpResult.ToString">
+            <summary>
+            转换为易读或便于打印的字符串格式
+            </summary>
+            <returns>便于打印和阅读的字符串</returns>
+        </member>
+        <member name="F:Qiniu.Http.HttpResult.InvalidToken">
+            <summary>
+            非法上传凭证错误
+            </summary>
+        </member>
+        <member name="F:Qiniu.Http.HttpResult.InvalidFile">
+            <summary>
+            非法文件错误
+            </summary>
+        </member>
+        <member name="T:Qiniu.Http.HttpManager">
+            <summary>
+            HttpManager for .NET 2.0/3.0/3.5/4.0
+            </summary>
+        </member>
+        <member name="M:Qiniu.Http.HttpManager.#ctor(System.Boolean)">
+            <summary>
+            初始化
+            </summary>
+            <param name="allowAutoRedirect">是否允许HttpWebRequest的“重定向”，默认禁止</param>
+        </member>
+        <member name="M:Qiniu.Http.HttpManager.GetUserAgent">
+            <summary>
+            客户端标识(UserAgent)，示例："SepcifiedClient/1.1 (Universal)"
+            </summary>
+            <returns>客户端标识UA</returns>
+        </member>
+        <member name="M:Qiniu.Http.HttpManager.SetUserAgent(System.String)">
+            <summary>
+            设置自定义的客户端标识(UserAgent)，示例："SepcifiedClient/1.1 (Universal)"
+            如果设置为空白或者不设置，SDK会自动使用默认的UserAgent
+            </summary>
+            <param name="userAgent">用户自定义的UserAgent</param>
+            <returns>客户端标识UA</returns>
+        </member>
+        <member name="M:Qiniu.Http.HttpManager.CreateFormDataBoundary">
+            <summary>
+            多部分表单数据(multi-part form-data)的分界(boundary)标识
+            </summary>
+            <returns>分界(boundary)标识字符串</returns>
+        </member>
+        <member name="M:Qiniu.Http.HttpManager.Get(System.String,System.String,System.Boolean)">
+            <summary>
+            HTTP-GET方法
+            </summary>
+            <param name="url">请求目标URL</param>
+            <param name="token">令牌(凭证)[可选->设置为null]</param>
+            <param name="binaryMode">是否以二进制模式读取响应内容(默认:否，即表示以文本方式读取)</param>
+            <returns>HTTP-GET的响应结果</returns>
+        </member>
+        <member name="M:Qiniu.Http.HttpManager.Post(System.String,System.String,System.Boolean)">
+            <summary>
+            HTTP-POST方法(不包含body数据)
+            </summary>
+            <param name="url">请求目标URL</param>
+            <param name="token">令牌(凭证)[可选]</param>
+            <param name="binaryMode">是否以二进制模式读取响应内容(默认:否，即表示以文本方式读取)</param>
+            <returns>HTTP-POST的响应结果</returns>
+        </member>
+        <member name="M:Qiniu.Http.HttpManager.PostData(System.String,System.Byte[],System.String,System.Boolean)">
+            <summary>
+            HTTP-POST方法(包含body数据)
+            </summary>
+            <param name="url">请求目标URL</param>
+            <param name="data">主体数据(字节数据)</param>
+            <param name="token">令牌(凭证)[可选->设置为null]</param>
+            <param name="binaryMode">是否以二进制模式读取响应内容(默认:否，即表示以文本方式读取)</param>
+            <returns>HTTP-POST的响应结果</returns>
+        </member>
+        <member name="M:Qiniu.Http.HttpManager.PostData(System.String,System.Byte[],System.String,System.String,System.Boolean)">
+            <summary>
+            HTTP-POST方法(包含body数据)
+            </summary>
+            <param name="url">请求目标URL</param>
+            <param name="data">主体数据(字节数据)</param>
+            <param name="mimeType">主体数据内容类型</param>
+            <param name="token">令牌(凭证)[可选]</param>
+            <param name="binaryMode">是否以二进制模式读取响应内容(默认:否，即表示以文本方式读取)</param>
+            <returns>HTTP-POST的响应结果</returns>
+        </member>
+        <member name="M:Qiniu.Http.HttpManager.PostJson(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            HTTP-POST方法(包含JSON文本的body数据)
+            </summary>
+            <param name="url">请求目标URL</param>
+            <param name="data">主体数据(JSON文本)</param>
+            <param name="token">令牌(凭证)[可选]</param>
+            <param name="binaryMode">是否以二进制模式读取响应内容(默认:否，即表示以文本方式读取)</param>
+            <returns>HTTP-POST的响应结果</returns>
+        </member>
+        <member name="M:Qiniu.Http.HttpManager.PostText(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            HTTP-POST方法(包含普通文本的body数据)
+            </summary>
+            <param name="url">请求目标URL</param>
+            <param name="data">主体数据(普通文本)</param>
+            <param name="token">令牌(凭证)[可选->设置为null]</param>
+            <param name="binaryMode">是否以二进制模式读取响应内容(默认:否，即表示以文本方式读取)</param>
+            <returns>HTTP-POST的响应结果</returns>
+        </member>
+        <member name="M:Qiniu.Http.HttpManager.PostForm(System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.String,System.Boolean)">
+            <summary>
+            HTTP-POST方法(包含表单数据)
+            </summary>
+            <param name="url">请求目标URL</param>
+            <param name="kvData">键值对数据</param>
+            <param name="token">令牌(凭证)[可选->设置为null]</param>
+            <param name="binaryMode">是否以二进制模式读取响应内容(默认:否，即表示以文本方式读取)</param>
+            <returns>HTTP-POST的响应结果</returns>
+        </member>
+        <member name="M:Qiniu.Http.HttpManager.PostForm(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            HTTP-POST方法(包含表单数据)
+            </summary>
+            <param name="url">请求目标URL</param>
+            <param name="data">表单数据</param>
+            <param name="token">令牌(凭证)[可选->设置为null]</param>
+            <param name="binaryMode">是否以二进制模式读取响应内容(默认:否，即表示以文本方式读取)</param>
+            <returns>HTTP-POST的响应结果</returns>
+        </member>
+        <member name="M:Qiniu.Http.HttpManager.PostForm(System.String,System.Byte[],System.String,System.Boolean)">
+            <summary>
+            HTTP-POST方法(包含表单数据)
+            </summary>
+            <param name="url">请求目标URL</param>
+            <param name="data">表单数据</param>
+            <param name="token">令牌(凭证)[可选->设置为null]</param>
+            <param name="binaryMode">是否以二进制模式读取响应内容(默认:否，即表示以文本方式读取)</param>
+            <returns>HTTP-POST的响应结果</returns>
+        </member>
+        <member name="M:Qiniu.Http.HttpManager.PostMultipart(System.String,System.Byte[],System.String,System.String,System.Boolean)">
+            <summary>
+            HTTP-POST方法(包含多分部数据,multipart/form-data)
+            </summary>
+            <param name="url">请求目标URL</param>
+            <param name="data">主体数据</param>
+            <param name="boundary">分界标志</param>
+            <param name="token">令牌(凭证)[可选->设置为null]</param>
+            <param name="binaryMode">是否以二进制模式读取响应内容(默认:否，即表示以文本方式读取)</param>
+            <returns>HTTP-POST的响应结果</returns>
+        </member>
+        <member name="M:Qiniu.Http.HttpManager.getHeaders(Qiniu.Http.HttpResult@,System.Net.HttpWebResponse)">
+            <summary>
+            获取返回信息头
+            </summary>
+            <param name="hr">即将被HTTP请求封装函数返回的HttpResult变量</param>
+            <param name="resp">正在被读取的HTTP响应</param>
+        </member>
+    </members>
+</doc>

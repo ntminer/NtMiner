@@ -46,6 +46,8 @@
     <Compile Include="Base64Util.cs" />
     <Compile Include="ConsoleOutLine.cs" />
     <Compile Include="Core\CaptchaData.cs" />
+    <Compile Include="Core\MinerServer\NTMinerFilesRequest.cs" />
+    <Compile Include="Core\MinerServer\NTMinerFilesResponse.cs" />
     <Compile Include="Gpus\GpuExtensions.cs" />
     <Compile Include="Gpus\GpuName.cs" />
     <Compile Include="Gpus\GpuNameCount.cs" />
@@ -81,7 +83,11 @@
     <Compile Include="PagingRequestExtensions.cs" />
     <Compile Include="Report\ISpeedData.cs" />
     <Compile Include="Report\SpeedData.cs" />
+    <Compile Include="ServerNode\ActionCountData.cs" />
+    <Compile Include="ServerNode\QueryActionCountsRequest.cs" />
+    <Compile Include="ServerNode\QueryActionCountsResponse.cs" />
     <Compile Include="ServerNode\CpuData.cs" />
+    <Compile Include="ServerNode\IActionCount.cs" />
     <Compile Include="ServerNode\ICpuData.cs" />
     <Compile Include="ServerNode\IServerState.cs" />
     <Compile Include="ServerNode\IServerStateResponse.cs" />
@@ -216,7 +222,7 @@
     <Compile Include="Gpus\GpuSpeedData.cs" />
     <Compile Include="DataRequest`1.cs" />
     <Compile Include="Core\AppSettingData.cs" />
-    <Compile Include="Core\MinerServer\AppSettingRequest.cs" />
+    <Compile Include="Core\MinerServer\JsonFileVersionRequest.cs" />
     <Compile Include="Core\MinerServer\ExportMineWorkRequest.cs" />
     <Compile Include="NTMinerAppType.cs" />
     <Compile Include="Core\MinerServer\CalcConfigData.cs" />

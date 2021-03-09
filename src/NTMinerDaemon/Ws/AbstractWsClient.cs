@@ -7,12 +7,16 @@ using WebSocketSharp;
 
 namespace NTMiner.Ws {
     public abstract class AbstractWsClient : IWsClient {
+        /// <summary>
+        /// 该计数每10秒钟加1，直到大于_failConnCount时自动尝试一次连接
+        /// </summary>
         private int _continueCount = 0;
         private int _failConnCount = 0;
         private string _closeReason = string.Empty;
         private string _closeCode = string.Empty;
         private WebSocket _ws = null;
         private string _wsServerIp = string.Empty;
+        private Guid _clientId;
         private void NeedReWebSocket() {
             _ws = null;
         }
@@ -45,25 +49,51 @@ namespace NTMiner.Ws {
         private string _preOuterUserId = string.Empty;
         private AESPassword _aesPassword;
 
+        private int _nextTrySecondsDelay = -1;
+        private void NextTrySecondsDelayInit() {
+            // 每失败一次加时10秒
+            _nextTrySecondsDelay = (_failConnCount - _continueCount) * 10;
+            if (_nextTrySecondsDelay < -1) {
+                _nextTrySecondsDelay = -1;
+            }
+        }
+
+        private void ResetFailCount() {
+            _failConnCount = 0;
+            _continueCount = 0;
+            _nextTrySecondsDelay = -1;
+        }
+
+        /// <summary>
+        /// 每失败一次，重试延迟周期增加10秒钟
+        /// </summary>
+        private void IncreaseFailCount() {
+            _failConnCount++;
+        }
+
         #region ctor
         private readonly NTMinerAppType _appType;
         public AbstractWsClient(NTMinerAppType appType) {
             _appType = appType;
+            _clientId = NTMinerRegistry.GetClientId(appType);
             VirtualRoot.BuildEventPath<Per1SecondEvent>("重试Ws连接的秒表倒计时", LogEnum.None, path: message => {
-                if (NextTrySecondsDelay > 0) {
-                    NextTrySecondsDelay--;
+                if (_nextTrySecondsDelay > 0) {
+                    _nextTrySecondsDelay--;
                 }
             }, typeof(VirtualRoot));
             VirtualRoot.BuildEventPath<Per10SecondEvent>("周期检查Ws连接", LogEnum.None,
                 path: message => {
-                    if (_continueCount >= _failConnCount) {
-                        _continueCount = 0;
-                        OpenOrCloseWs();
-                    }
-                    else {
-                        _continueCount++;
+                    if (_ws == null || _ws.ReadyState != WebSocketState.Open) {
+                        if (_continueCount >= _failConnCount) {
+                            _continueCount = 0;
+                            OpenOrCloseWs();
+                        }
+                        else {
+                            _continueCount++;
+                        }
                     }
                 }, typeof(VirtualRoot));
+            // 20秒是个不错的值，即不太频繁，也不太少
             VirtualRoot.BuildEventPath<Per20SecondEvent>("周期Ws Ping", LogEnum.None, path: message => {
                 if (_ws != null && _ws.ReadyState == WebSocketState.Open) {
                     // 或者_ws.IsAlive，因为_ws.IsAlive内部也是一个Ping，所以用Ping从而显式化这里有个网络请求
@@ -93,8 +123,6 @@ namespace NTMiner.Ws {
         }
 
         public DateTime LastTryOn { get; private set; } = DateTime.MinValue;
-
-        public int NextTrySecondsDelay { get; private set; } = -1;
 
         protected abstract bool TryGetHandler(string messageType, out Action<Action<WsMessage>, WsMessage> handler);
         protected abstract void UpdateWsStateAsync(string description, bool toOut);
@@ -150,8 +178,13 @@ namespace NTMiner.Ws {
                         ConnectAsync(_ws);
                     }
                 }
-                else if (_ws.ReadyState != WebSocketState.Open) {
-                    ConnectAsync(_ws);
+                else {
+                    if (_ws.ReadyState != WebSocketState.Open) {
+                        ConnectAsync(_ws);
+                    }
+                    else {
+                        UpdateWsStateAsync("连接服务器成功", toOut: false);
+                    }
                 }
             }
             catch (Exception e) {
@@ -175,7 +208,7 @@ namespace NTMiner.Ws {
                 Status = status,
                 Description = description,
                 WsServerIp = _wsServerIp,
-                NextTrySecondsDelay = NextTrySecondsDelay,
+                NextTrySecondsDelay = _nextTrySecondsDelay,
                 LastTryOn = LastTryOn
             };
             return state;
@@ -200,6 +233,16 @@ namespace NTMiner.Ws {
         }
         #endregion
 
+        public void OnClientIdChanged(Guid newCientId) {
+            if (newCientId != _clientId) {
+                _ws?.Close(CloseStatusCode.Normal, "矿机标识变更");
+                Logger.InfoDebugLine($"矿机标识变更，新标识 {newCientId.ToString()}，旧标识 {_clientId.ToString()}");
+                _clientId = newCientId;
+                NeedReWebSocket();
+                OpenOrCloseWs();
+            }
+        }
+
         #region 私有方法
         #region NewWebSocket
         private readonly object _wsLocker = new object();
@@ -214,7 +257,7 @@ namespace NTMiner.Ws {
             if (_ws != null) {
                 return;
             }
-            RpcRoot.OfficialServer.WsServerNodeService.GetNodeAddressAsync(NTMinerRegistry.GetClientId(_appType), _preOuterUserId, (response, ex) => {
+            RpcRoot.OfficialServer.WsServerNodeService.GetNodeAddressAsync(_clientId, _preOuterUserId, (response, ex) => {
                 if (_ws == null) {
                     lock (_wsLocker) {
                         if (_ws == null) {
@@ -225,7 +268,7 @@ namespace NTMiner.Ws {
                             if (!response.IsSuccess()) {
                                 // 没有获取到该矿机的WsServer分片节点，递增失败次数以增大重试延迟周期
                                 IncreaseFailCount();
-                                UpdateNextTrySecondsDelay();
+                                NextTrySecondsDelayInit();
                                 string description;
                                 if (response == null || response.ReasonPhrase == null) {
                                     description = "网络错误";
@@ -241,7 +284,7 @@ namespace NTMiner.Ws {
                             if (string.IsNullOrEmpty(server)) {
                                 // 没有获取到该矿机的WsServer分片节点，递增失败次数以增大重试延迟周期
                                 IncreaseFailCount();
-                                UpdateNextTrySecondsDelay();
+                                NextTrySecondsDelayInit();
                                 UpdateWsStateAsync("服务器不在线", toOut: false);
                                 // 退出
                                 return;
@@ -252,7 +295,7 @@ namespace NTMiner.Ws {
                             var ws = new WebSocket($"ws://{server}/{_appType.GetName()}") {
                                 Compression = CompressionMethod.Deflate
                             };
-                            ws.Log.File = System.IO.Path.Combine(TempPath.TempLogsDirFullName, NTKeyword.WebSocketSharpMinerClientLogFileName);
+                            ws.Log.File = System.IO.Path.Combine(TempPath.TempLogsDirFullName, string.Format(NTKeyword.WebSocketSharpLogFileNameFormat, _appType.GetName()));
                             ws.Log.Output = WebSocketSharpOutput;
                             ws.OnOpen += new EventHandler(Ws_OnOpen);
                             ws.OnMessage += new EventHandler<MessageEventArgs>(Ws_OnMessage);
@@ -293,49 +336,70 @@ namespace NTMiner.Ws {
                 }
                 else {
                     _closeCode = e.Code.ToString();
-                    Logger.InfoDebugLine($"意外的Ws关闭码：{_closeCode}");
                 }
-                if (closeStatus == CloseStatusCode.ProtocolError || closeStatus == CloseStatusCode.Undefined) {
-                    // 协议错误导致连接关闭，递增失败次数以增大重试延迟周期
-                    IncreaseFailCount();
-                    // WebSocket协议并无定义状态码用于表达握手阶段身份验证失败的情况，阅读WebSocketSharp的源码发现验证不通过包含于ProtocolError中，
-                    // 姑且将ProtocolError视为用户名密码验证不通过，因为ProtocolError包含的其它失败情况在编程正确下不会发送。
-                    _closeReason = "登录失败";
-                }
-                else if (closeStatus == CloseStatusCode.Away) {
-                    // 服务器ping不通时和服务器关闭进程时，递增失败次数以增大重试延迟周期
-                    IncreaseFailCount();
-                    _closeReason = "失去连接，请稍后重试";
-                    // 可能是因为服务器节点不存在导致的失败，所以下一次进行重新获取服务器地址的全新连接
-                    // 2，连不上服务器时
-                    NeedReWebSocket();
-                }
-                else if (closeStatus == CloseStatusCode.Abnormal) {
-                    // 服务器或本机网络不可用时，递增失败次数以增大重试延迟周期
-                    IncreaseFailCount();
-                    _closeReason = "网络错误";
-                    // 可能是因为服务器节点不存在导致的失败，所以下一次进行重新获取服务器地址的全新连接
-                    // 2，连不上服务器时
-                    NeedReWebSocket();
-                }
-                else if (closeStatus == CloseStatusCode.Normal) {
-                    _closeReason = e.Reason;
-                    if (e.Reason == WsMessage.ReGetServerAddress) {
-                        _closeReason = "服务器通知客户端重连";
-                        // 3，收到服务器的WsMessage.ReGetServerAddress类型的消息时
-                        NeedReWebSocket();
-                        // 立即重连以防止在上一个连接关闭之前重连成功从而在界面上留下错误顺序的消息
-                        NewWebSocket();
-                    }
-                    else {
-                        // 正常关闭时，递增失败次数以增大重试延迟周期
+                Logger.InfoDebugLine($"Ws_OnClose {_closeCode} {e.Reason}");
+                switch (closeStatus) {
+                    case CloseStatusCode.Normal:
+                        _closeReason = e.Reason;
+                        if (e.Reason == WsMessage.ReGetServerAddress) {
+                            _closeReason = "服务器通知客户端重连";
+                            // 3，收到服务器的WsMessage.ReGetServerAddress类型的消息时
+                            NeedReWebSocket();
+                            // 立即重连以防止在上一个连接关闭之前重连成功从而在界面上留下错误顺序的消息
+                            NewWebSocket();
+                        }
+                        else {
+                            // 正常关闭时，递增失败次数以增大重试延迟周期
+                            IncreaseFailCount();
+                        }
+                        break;
+                    case CloseStatusCode.Away:
+                        // 服务器ping不通时和服务器关闭进程时，递增失败次数以增大重试延迟周期
                         IncreaseFailCount();
-                    }
+                        _closeReason = "失去连接，请稍后重试";
+                        // 可能是因为服务器节点不存在导致的失败，所以下一次进行重新获取服务器地址的全新连接
+                        // 2，连不上服务器时
+                        NeedReWebSocket();
+                        break;
+                    case CloseStatusCode.ProtocolError:
+                    case CloseStatusCode.Undefined:
+                        // 协议错误导致连接关闭，递增失败次数以增大重试延迟周期
+                        IncreaseFailCount();
+                        // WebSocket协议并无定义状态码用于表达握手阶段身份验证失败的情况，阅读WebSocketSharp的源码发现验证不通过包含于ProtocolError中，
+                        // 姑且将ProtocolError视为用户名密码验证不通过，因为ProtocolError包含的其它失败情况在编程正确下不会发送。
+                        _closeReason = "登录失败";
+                        break;
+                    case CloseStatusCode.UnsupportedData:
+                        break;
+                    case CloseStatusCode.NoStatus:
+                        break;
+                    case CloseStatusCode.Abnormal:
+                        // 服务器或本机网络不可用时，递增失败次数以增大重试延迟周期
+                        IncreaseFailCount();
+                        _closeReason = "网络错误";
+                        // 可能是因为服务器节点不存在导致的失败，所以下一次进行重新获取服务器地址的全新连接
+                        // 2，连不上服务器时
+                        NeedReWebSocket();
+                        break;
+                    case CloseStatusCode.InvalidData:
+                        break;
+                    case CloseStatusCode.PolicyViolation:
+                        break;
+                    case CloseStatusCode.TooBig:
+                        break;
+                    case CloseStatusCode.MandatoryExtension:
+                        break;
+                    case CloseStatusCode.ServerError:
+                        break;
+                    case CloseStatusCode.TlsHandshakeFailure:
+                        break;
+                    default:
+                        break;
                 }
             }
             catch {
             }
-            UpdateNextTrySecondsDelay();
+            NextTrySecondsDelayInit();
             UpdateWsStateAsync($"{_closeCode} {_closeReason}", toOut: false);
             #endregion
         }
@@ -428,7 +492,7 @@ namespace NTMiner.Ws {
             WsUserName userName = new WsUserName {
                 ClientType = _appType,
                 ClientVersion = EntryAssemblyInfo.CurrentVersionStr,
-                ClientId = NTMinerRegistry.GetClientId(_appType),
+                ClientId = _clientId,
                 UserId = _preOuterUserId,
                 IsBinarySupported = true
             };
@@ -445,26 +509,6 @@ namespace NTMiner.Ws {
             ws.ConnectAsync();
         }
         #endregion
-
-        private void ResetFailCount() {
-            _failConnCount = 0;
-            _continueCount = 0;
-            NextTrySecondsDelay = -1;
-        }
-
-        /// <summary>
-        /// 每失败一次，重试延迟周期增加10秒钟
-        /// </summary>
-        private void IncreaseFailCount() {
-            _failConnCount++;
-        }
-
-        private void UpdateNextTrySecondsDelay() {
-            NextTrySecondsDelay = (_failConnCount - _continueCount) * 10;
-            if (NextTrySecondsDelay < -1) {
-                NextTrySecondsDelay = -1;
-            }
-        }
         #endregion
     }
 }

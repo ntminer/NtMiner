@@ -1,5 +1,6 @@
 ﻿using NTMiner.Impl;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
 
@@ -112,19 +113,46 @@ namespace NTMiner {
             }
         }
 
-        public static void SetIsMainUiOk(bool isOk) {
-            _isMainUiOk = isOk;
+        private static List<Tuple<string, ConsoleColor>> _lineBeforeMainUiOk = new List<Tuple<string, ConsoleColor>>();
+        private static readonly object _lockForUserLine = new object();
+        public static void MainUiOk() {
+            _isMainUiOk = true;
+            WriteLinesBeforeMainUiOk();
         }
 
         private static readonly Action<string, ConsoleColor> _userLineMethod = (line, color) => {
-            if (!_isEnabled || !IsMainUiOk) {
+            if (!_isEnabled) {
                 return;
             }
-            InitOnece();
-            Console.ForegroundColor = color;
-            Console.WriteLine(line);
-            Console.ResetColor();
+            if (!IsMainUiOk) {
+                _lineBeforeMainUiOk.Add(new Tuple<string, ConsoleColor>(line, color));
+                return;
+            }
+            WriteLinesBeforeMainUiOk();
+            lock (_lockForUserLine) {
+                InitOnece();
+                Console.ForegroundColor = color;
+                Console.WriteLine(line);
+                Console.ResetColor();
+            }
         };
+
+        private static void WriteLinesBeforeMainUiOk() {
+            if (!IsMainUiOk) {
+                return;
+            }
+            lock (_lockForUserLine) {
+                if (_lineBeforeMainUiOk.Count != 0) {
+                    InitOnece();
+                    foreach (var item in _lineBeforeMainUiOk) {
+                        Console.ForegroundColor = item.Item2;
+                        Console.WriteLine(item.Item1);
+                        Console.ResetColor();
+                    }
+                    _lineBeforeMainUiOk.Clear();
+                }
+            }
+        }
 
         private static readonly object _locker = new object();
         private static bool _isInited = false;

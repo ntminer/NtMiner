@@ -21,8 +21,7 @@ namespace NTMiner.Core.Impl {
                     AcceptShareCount = 0
                 };
             }
-            CoinShare share;
-            if (!_dicByCoinId.TryGetValue(coinId, out share)) {
+            if (!_dicByCoinId.TryGetValue(coinId, out CoinShare share)) {
                 lock (_locker) {
                     if (!_dicByCoinId.TryGetValue(coinId, out share)) {
                         share = new CoinShare {

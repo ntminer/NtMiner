@@ -1,5 +1,4 @@
-﻿using Aliyun.OSS;
-using LiteDB;
+﻿using LiteDB;
 using NTMiner.Controllers;
 using NTMiner.Core;
 using NTMiner.Core.Impl;
@@ -8,7 +7,8 @@ using NTMiner.Core.Mq.MqMessagePaths;
 using NTMiner.Core.Mq.Senders.Impl;
 using NTMiner.Core.Redis;
 using NTMiner.Core.Redis.Impl;
-using NTMiner.Impl;
+using NTMiner.NTMinerFileUrlGenerater;
+using NTMiner.NTMinerFileUrlGenerater.Impl;
 using NTMiner.ServerNode;
 using NTMiner.User;
 using System;
@@ -21,15 +21,19 @@ using System.Web.Http;
 namespace NTMiner {
     public static class AppRoot {
         private static readonly EventWaitHandle WaitHandle = new AutoResetEvent(false);
-        public static OssClient OssClient { get; private set; }
         public static MediaTypeHeaderValue BinaryContentType { get; private set; } = new MediaTypeHeaderValue("image/jpg");
 
         private static Mutex _sMutexApp;
         // 该程序编译为控制台程序，如果不启用内网支持则默认设置为开机自动启动
         [STAThread]
         static void Main() {
-            NTMinerConsole.SetIsMainUiOk(true);
+            VirtualRoot.SetOut(new ConsoleOut());
+            NTMinerConsole.MainUiOk();
             NTMinerConsole.DisbleQuickEditMode();
+            DevMode.SetDevMode();
+
+            Windows.ConsoleHandler.Register(Exit);
+
             try {
                 bool mutexCreated;
                 try {
@@ -53,23 +57,29 @@ namespace NTMiner {
                         string durableQueue = queue + MqKeyword.DurableQueueEndsWith;
                         AbstractMqMessagePath[] mqMessagePaths = new AbstractMqMessagePath[] {
                             new UserMqMessagePath(durableQueue),
-                            new MinerClientMqMessagePath(queue)
+                            new MinerClientMqMessagePath(queue),
+                            new OperationMqMessagePath(queue)
                         };
                         if (!MqRedis.Create(ServerAppType.WebApiServer, mqMessagePaths, out IMqRedis mqRedis)) {
                             NTMinerConsole.UserError("启动失败，无法继续，因为服务器上下文创建失败");
                             return;
                         }
                         Console.Title = $"{ServerAppType.WebApiServer.GetName()}_{ServerRoot.HostConfig.ThisServerAddress}";
-                        OssClient = new OssClient(ServerRoot.HostConfig.OssEndpoint, ServerRoot.HostConfig.OssAccessKeyId, ServerRoot.HostConfig.OssAccessKeySecret);
-                        var minerClientMqSender = new MinerClientMqSender(mqRedis);
-                        var userMqSender = new UserMqSender(mqRedis);
+                        // 阿里云OSS坑爹比七牛Kodo贵一半
+                        NTMinerFileUrlGenerater = new AliNTMinerOSSFileUrlGenerater();
+                        IRedis redis = mqRedis;
+                        IMq mq = mqRedis;
+                        var minerClientMqSender = new MinerClientMqSender(mq);
+                        var userMqSender = new UserMqSender(mq);
 
-                        var minerRedis = new MinerRedis(mqRedis);
-                        var speedDataRedis = new SpeedDataRedis(mqRedis);
-                        var userRedis = new UserRedis(mqRedis);
-                        var captchaRedis = new CaptchaRedis(mqRedis);
+                        var minerRedis = new MinerDataRedis(redis);
+                        var clientActiveOnRedis = new ClientActiveOnRedis(redis);
+                        var speedDataRedis = new SpeedDataRedis(redis);
+                        var userRedis = new UserDataRedis(redis);
+                        var captchaRedis = new CaptchaDataRedis(redis);
+                        var minerIdRedis = new MinerIdRedis(redis);
 
-                        WsServerNodeRedis = new WsServerNodeRedis(mqRedis);
+                        WsServerNodeRedis = new WsServerNodeRedis(redis);
                         WsServerNodeAddressSet = new WsServerNodeAddressSet(WsServerNodeRedis);
                         UserSet = new UserSet(userRedis, userMqSender);
                         UserAppSettingSet = new UserAppSettingSet();
@@ -77,15 +87,16 @@ namespace NTMiner {
                         CalcConfigSet = new CalcConfigSet();
                         NTMinerWalletSet = new NTMinerWalletSet();
                         GpuNameSet = new GpuNameSet();
-                        ClientDataSet clientDataSet = new ClientDataSet(minerRedis, speedDataRedis, minerClientMqSender);
+                        MinerIdSet = new MinerIdSet(minerIdRedis);
+                        ClientDataSet clientDataSet = new ClientDataSet(minerRedis, clientActiveOnRedis, speedDataRedis, minerClientMqSender);
                         ClientDataSet = clientDataSet;
-                        MineWorkSet = new UserMineWorkSet();
+                        var operationMqSender = new OperationMqSender(mqRedis);
+                        MineWorkSet = new UserMineWorkSet(operationMqSender);
                         MinerGroupSet = new UserMinerGroupSet();
                         NTMinerFileSet = new NTMinerFileSet();
                         OverClockDataSet = new OverClockDataSet();
-                        KernelOutputKeywordSet = new KernelOutputKeywordSet(SpecialPath.LocalDbFileFullName, isServer: true);
-                        ServerMessageSet = new ServerMessageSet(SpecialPath.LocalDbFileFullName, isServer: true);
-                        UpdateServerMessageTimestamp();
+                        KernelOutputKeywordSet = new KernelOutputKeywordSet(SpecialPath.LocalDbFileFullName);
+                        ServerMessageSet = new ServerMessageSet(SpecialPath.LocalDbFileFullName);
                         if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(nameof(KernelOutputKeywordTimestamp), out IAppSetting appSetting) && appSetting.Value is DateTime value) {
                             KernelOutputKeywordTimestamp = value;
                         }
@@ -112,15 +123,11 @@ namespace NTMiner {
         }
 
         private static bool _isClosed = false;
-        private static void Close() {
+        public static void Exit() {
             if (!_isClosed) {
                 _isClosed = true;
                 _sMutexApp?.Dispose();
             }
-        }
-
-        public static void Exit() {
-            Close();
             Environment.Exit(0);
         }
 
@@ -130,24 +137,75 @@ namespace NTMiner {
                 HttpServer.Start(baseAddress, doConfig: config => {
                     // 向后兼容
                     config.Routes.MapHttpRoute("CalcConfigs", "api/ControlCenter/CalcConfigs", new {
-                        controller = RpcRoot.GetControllerName<ICalcConfigController>(),
+                        controller = ControllerUtil.GetControllerName<ICalcConfigController>(),
                         action = nameof(ICalcConfigController.CalcConfigs)
                     });
+                    config.Routes.MapHttpRoute("NTMinerFiles", "api/FileUrl/NTMinerFiles", new {
+                        controller = ControllerUtil.GetControllerName<INTMinerFileController>(),
+                        action = nameof(INTMinerFileController.NTMinerFiles)
+                    });
+                    config.Routes.MapHttpRoute("AddOrUpdateNTMinerFile", "api/FileUrl/AddOrUpdateNTMinerFile", new {
+                        controller = ControllerUtil.GetControllerName<INTMinerFileController>(),
+                        action = nameof(INTMinerFileController.AddOrUpdateNTMinerFile)
+                    });
+                    config.Routes.MapHttpRoute("RemoveNTMinerFile", "api/FileUrl/RemoveNTMinerFile", new {
+                        controller = ControllerUtil.GetControllerName<INTMinerFileController>(),
+                        action = nameof(INTMinerFileController.RemoveNTMinerFile)
+                    });
                 });
-                Windows.ConsoleHandler.Register(Close);
                 WaitHandle.WaitOne();
-                Close();
+                Exit();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
             }
             finally {
-                Close();
+                Exit();
             }
         }
 
         static AppRoot() {
         }
+
+        private static readonly Dictionary<string, ActionCountData> _actionCounts = new Dictionary<string, ActionCountData>();
+        public static IEnumerable<ActionCountData> ActionCounts {
+            get { return _actionCounts.Values; }
+        }
+
+        public static void Action(string actionName) {
+            if (_actionCounts.TryGetValue(actionName, out ActionCountData count)) {
+                if (count.Count == int.MaxValue) {
+                    count.Count = 0;
+                }
+                count.Count += 1;
+            }
+            else {
+                _actionCounts[actionName] = new ActionCountData {
+                    ActionName = actionName,
+                    Count = 1
+                };
+            }
+        }
+
+        public static List<ActionCountData> QueryActionCounts(QueryActionCountsRequest query, out int total) {
+            List<ActionCountData> list = new List<ActionCountData>();
+            bool isFilterByKeyword = !string.IsNullOrEmpty(query.Keyword);
+            if (isFilterByKeyword) {
+                foreach (var item in _actionCounts) {
+                    if (item.Key.Contains(query.Keyword)) {
+                        list.Add(item.Value);
+                    }
+                }
+            }
+            else {
+                list.AddRange(_actionCounts.Values);
+            }
+            total = list.Count;
+            return list.OrderBy(a => a.ActionName).Take(paging: query).ToList();
+        }
+
+        public static INTMinerFileUrlGenerater NTMinerFileUrlGenerater { get; private set; }
+
         public static IWsServerNodeRedis WsServerNodeRedis { get; private set; }
 
         public static DateTime StartedOn { get; private set; } = DateTime.Now;
@@ -166,6 +224,8 @@ namespace NTMiner {
 
         public static IClientDataSet ClientDataSet { get; private set; }
 
+        public static IMinerIdSet MinerIdSet { get; private set; }
+
         public static IGpuNameSet GpuNameSet { get; private set; }
 
         public static IUserMineWorkSet MineWorkSet { get; private set; }
@@ -180,7 +240,11 @@ namespace NTMiner {
 
         public static IServerMessageSet ServerMessageSet { get; private set; }
 
-        public static DateTime ServerMessageTimestamp { get; set; }
+        public static DateTime ServerMessageTimestamp { get; private set; }
+
+        public static void SetServerMessageTimestamp(DateTime dateTime) {
+            ServerMessageTimestamp = dateTime;
+        }
 
         public static DateTime KernelOutputKeywordTimestamp { get; private set; }
 
@@ -216,7 +280,8 @@ namespace NTMiner {
                 Time = Timestamp.GetTimestamp(),
                 MessageTimestamp = Timestamp.GetTimestamp(ServerMessageTimestamp),
                 OutputKeywordTimestamp = Timestamp.GetTimestamp(KernelOutputKeywordTimestamp),
-                WsStatus = WsServerNodeAddressSet.WsStatus
+                WsStatus = WsServerNodeAddressSet.WsStatus,
+                NeedReClientId = false
             };
         }
 
@@ -237,18 +302,10 @@ namespace NTMiner {
                 CpuPerformance = cpu.GetTotalCpuUsage(),
                 ProcessMemoryMb = VirtualRoot.ProcessMemoryMb,
                 ThreadCount = VirtualRoot.ThreadCount,
-                HandleCount = VirtualRoot.HandleCount
+                HandleCount = VirtualRoot.HandleCount,
+                AvailableFreeSpaceInfo = VirtualRoot.GetAvailableFreeSpaceInfo(),
+                CaptchaCount = CaptchaSet.Count
             };
-        }
-
-        public static void UpdateServerMessageTimestamp() {
-            var first = ServerMessageSet.AsEnumerable().OrderByDescending(a => a.Timestamp).FirstOrDefault();
-            if (first == null) {
-                ServerMessageTimestamp = DateTime.MinValue;
-            }
-            else {
-                ServerMessageTimestamp = first.Timestamp;
-            }
         }
 
         public static void UpdateKernelOutputKeywordTimestamp(DateTime timestamp) {

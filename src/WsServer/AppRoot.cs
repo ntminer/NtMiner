@@ -39,7 +39,8 @@ namespace NTMiner {
         private static IWsServerNodeMqSender _wsServerNodeMqSender;
         private static bool _started = false;
         static void Main() {
-            NTMinerConsole.SetIsMainUiOk(true);
+            VirtualRoot.SetOut(new ConsoleOut());
+            NTMinerConsole.MainUiOk();
             NTMinerConsole.DisbleQuickEditMode();
             DevMode.SetDevMode();
 
@@ -47,8 +48,6 @@ namespace NTMiner {
 
             string thisServerAddress = ServerRoot.HostConfig.ThisServerAddress;
             Console.Title = $"{ServerAppType.WsServer.GetName()}_{thisServerAddress}";
-            // 通过WsServer的网络缓解对WebApiServer的外网流量的压力。WsServer调用WebApiServer的时候走内网调用节省外网带宽
-            RpcRoot.SetOfficialServerAddress(ServerRoot.HostConfig.RpcServerLocalAddress);
             // 用本节点的地址作为队列名，消费消息时根据路由键区分消息类型
             string queue = $"{ServerAppType.WsServer.GetName()}.{thisServerAddress}";
             string durableQueue = queue + MqKeyword.DurableQueueEndsWith;
@@ -70,11 +69,9 @@ namespace NTMiner {
             UserMqSender = new UserMqSender(mqRedis);
             _wsServerNodeMqSender = new WsServerNodeMqSender(mqRedis);
             WsServerNodeAddressSet = new WsServerNodeAddressSet(WsServerNodeRedis, _wsServerNodeMqSender);
-            var minerRedis = new ReadOnlyMinerRedis(mqRedis);
-            var userRedis = new ReadOnlyUserRedis(mqRedis);
+            var minerRedis = new ReadOnlyMinerDataRedis(mqRedis);
+            var userRedis = new ReadOnlyUserDataRedis(mqRedis);
             VirtualRoot.StartTimer();
-            RpcRoot.SetRpcUser(new RpcUser(ServerRoot.HostConfig.RpcLoginName, HashUtil.Sha1(ServerRoot.HostConfig.RpcPassword)));
-            RpcRoot.SetIsOuterNet(false);
             // 构造函数中异步访问redis初始化用户列表，因为是异步的所以提前构造
             UserSet = new ReadOnlyUserSet(userRedis);
             MinerSignSet = new MinerSignSet(minerRedis);
@@ -232,6 +229,8 @@ namespace NTMiner {
                 }
             }.SignToJson(minerSign.AESPassword));
             if (isMinerSignChanged) {
+                // TODO:这个可以直接写redis然后发MinerSignChangedMqMessage，没必要发给WebApiServer
+                // 改的时候记得WebApiServer那订阅MinerSignChangedMqMessage
                 MinerClientMqSender.SendChangeMinerSign(minerSign);
             }
         }
@@ -259,7 +258,7 @@ namespace NTMiner {
                 session.CloseAsync(WsCloseCode.Normal, "意外，签名验证失败，请重新连接");
                 return;
             }
-            if (MinerStudioWsMessageHandler.TryGetHandler(message.Type, out Action<IMinerStudioSession, WsMessage> handler)) {
+            if (WsMessageFromMinerStudioHandler.TryGetHandler(message.Type, out Action<IMinerStudioSession, WsMessage> handler)) {
                 try {
                     handler.Invoke(minerSession, message);
                 }
@@ -280,7 +279,7 @@ namespace NTMiner {
                 session.CloseAsync(WsCloseCode.Normal, "意外，会话不存在，请重新连接");
                 return;
             }
-            else if (MinerClientWsMessageHandler.TryGetHandler(message.Type, out Action<IMinerClientSession, Guid, WsMessage> handler)) {
+            else if (WsMessageFromMinerClientHandler.TryGetHandler(message.Type, out Action<IMinerClientSession, Guid, WsMessage> handler)) {
                 try {
                     handler.Invoke(minerSession, minerSession.ClientId, message);
                 }

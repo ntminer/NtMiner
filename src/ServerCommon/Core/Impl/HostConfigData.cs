@@ -10,6 +10,10 @@ namespace NTMiner.Core.Impl {
         public string OssAccessKeySecret { get; set; }
         public string OssEndpoint { get; set; }
 
+        public string KodoAccessKey { get; set; }
+        public string KodoSecretKey { get; set; }
+        public string KodoZoneID { get; set; }
+
         public string RedisConfig { get; set; }
 
         public string MqHostName { get; set; }

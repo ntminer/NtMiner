@@ -1,10 +1,12 @@
 ﻿using NTMiner.Rpc;
 using NTMiner.Rpc.Impl;
 using NTMiner.Services;
+using System;
 
 namespace NTMiner {
     public static partial class RpcRoot {
         public static RpcUser RpcUser { get; private set; } = RpcUser.Empty;
+        public static DateTime LoginedOn { get; private set; }
         public static bool IsOuterNet { get; private set; } = false;
         public static bool IsInnerNet {
             get {
@@ -20,11 +22,12 @@ namespace NTMiner {
             }
         }
 
-        public static void SetRpcUser(RpcUser rpcUser) {
+        public static void Login(RpcUser rpcUser) {
             if (RpcUser != null) {
                 RpcUser.Logout();
             }
             RpcUser = rpcUser;
+            LoginedOn = DateTime.Now;
         }
 
         public static void SetIsOuterNet(bool value) {

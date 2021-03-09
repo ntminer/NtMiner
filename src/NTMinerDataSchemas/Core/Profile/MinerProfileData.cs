@@ -66,8 +66,8 @@ namespace NTMiner.Core.Profile {
             IsDisableAntiSpyware = true;
             IsDisableUAC = true;
             IsDisableWAU = true;
+            IsAutoReboot = true;
             IsShowInTaskbar = true;
-            IsNoUi = false;
             IsAutoStart = false;
             IsAutoNoUi = false;
             AutoNoUiMinutes = 10;
@@ -148,10 +148,10 @@ namespace NTMiner.Core.Profile {
         public bool IsDisableAntiSpyware { get; set; }
 
         [WorkIgnore]
-        public bool IsShowInTaskbar { get; set; }
+        public bool IsAutoReboot { get; set; }
 
         [WorkIgnore]
-        public bool IsNoUi { get; set; }
+        public bool IsShowInTaskbar { get; set; }
 
         [WorkIgnore]
         public bool IsAutoStart { get; set; }

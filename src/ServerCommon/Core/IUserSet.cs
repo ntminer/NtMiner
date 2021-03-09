@@ -1,4 +1,5 @@
 ﻿using NTMiner.User;
+using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Core {
@@ -12,6 +13,7 @@ namespace NTMiner.Core {
         void AddAdminRole(string loginName);
         void RemoveAdminRole(string loginName);
         void ChangePassword(string loginName, string newPassword);
+        void UpdateLastLogin(UserData user, DateTime lastLogin);
         bool Contains(string loginName);
         bool CheckLoginTimes(string loginName);
     }

@@ -1,7 +1,8 @@
 ﻿using NTMiner.Core.MinerServer;
+using NTMiner.Vms;
 using System;
 
-namespace NTMiner.Vms {
+namespace NTMiner.MinerStudio.Vms {
     public class CalcConfigViewModel : ViewModelBase, ICalcConfig {
         private double _incomePerDay;
         private double _incomeUsdPerDay;

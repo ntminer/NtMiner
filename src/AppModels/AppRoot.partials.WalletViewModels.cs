@@ -12,12 +12,12 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                VirtualRoot.BuildEventPath<LocalContextReInitedEvent>("LocalContext刷新后刷新钱包Vm内存", LogEnum.None,
+                VirtualRoot.BuildEventPath<LocalContextReInitedEvent>("刷新钱包Vm内存", LogEnum.None,
                     path: message=> {
                         _dicById.Clear();
                         Init();
                     }, location: this.GetType());
-                BuildEventPath<WalletAddedEvent>("添加了钱包后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<WalletAddedEvent>("调整VM内存", LogEnum.DevConsole,
                     path: (message) => {
                         _dicById.Add(message.Source.GetId(), new WalletViewModel(message.Source));
                         OnPropertyChanged(nameof(WalletList));
@@ -28,7 +28,7 @@ namespace NTMiner {
                         }
                         VirtualRoot.RaiseEvent(new WalletVmAddedEvent(message));
                     }, location: this.GetType());
-                BuildEventPath<WalletRemovedEvent>("删除了钱包后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<WalletRemovedEvent>("调整VM内存", LogEnum.DevConsole,
                     path: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(WalletList));
@@ -40,7 +40,7 @@ namespace NTMiner {
                         }
                         VirtualRoot.RaiseEvent(new WalletVmRemovedEvent(message));
                     }, location: this.GetType());
-                BuildEventPath<WalletUpdatedEvent>("更新了钱包后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<WalletUpdatedEvent>("调整VM内存", LogEnum.DevConsole,
                     path: (message) => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out WalletViewModel vm)) {
                             vm.Update(message.Source);

@@ -21,8 +21,8 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         string minerId = MinerClientMqBodyUtil.GetMinerIdMqReciveBody(ea.Body);
-                        if (!string.IsNullOrEmpty(minerId)) {
-                            VirtualRoot.RaiseEvent(new MinerDataAddedMqMessage(appId, minerId, timestamp));
+                        if (!string.IsNullOrEmpty(minerId) && ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                            VirtualRoot.RaiseEvent(new MinerDataAddedMqEvent(appId, minerId, clientId, timestamp));
                         }
                     }
                     break;
@@ -30,8 +30,8 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         string minerId = MinerClientMqBodyUtil.GetMinerIdMqReciveBody(ea.Body);
-                        if (!string.IsNullOrEmpty(minerId)) {
-                            VirtualRoot.RaiseEvent(new MinerDataRemovedMqMessage(appId, minerId, timestamp));
+                        if (!string.IsNullOrEmpty(minerId) && ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                            VirtualRoot.RaiseEvent(new MinerDataRemovedMqEvent(appId, minerId, clientId, timestamp));
                         }
                     }
                     break;
@@ -39,8 +39,8 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         string minerId = MinerClientMqBodyUtil.GetMinerIdMqReciveBody(ea.Body);
-                        if (!string.IsNullOrEmpty(minerId)) {
-                            VirtualRoot.RaiseEvent(new MinerSignChangedMqMessage(appId, minerId, timestamp));
+                        if (!string.IsNullOrEmpty(minerId) && ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                            VirtualRoot.RaiseEvent(new MinerSignChangedMqEvent(appId, minerId, clientId, timestamp));
                         }
                     }
                     break;

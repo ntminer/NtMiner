@@ -103,7 +103,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                     }
                     DialogWindow.ShowSoftDialog(new DialogWindowViewModel(message: selectedResult.Description, title: $"确定将选中的矿机升级到{selectedResult.Version}吗？", onYes: () => {
                         foreach (var item in Vm.SelectedMinerClients) {
-                            MinerStudioService.Instance.UpgradeNTMinerAsync(item, selectedResult.FileName);
+                            MinerStudioRoot.MinerStudioService.UpgradeNTMinerAsync(item, selectedResult.FileName);
                         }
                     }));
                     popup.IsOpen = false;
@@ -117,6 +117,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             }
             else {
                 ((NTMinerFileSelect)popup.Child).Vm.SelectedResult = null;
+                VirtualRoot.Execute(new RefreshNTMinerFileSetCommand());
             }
             popup.IsOpen = true;
         }

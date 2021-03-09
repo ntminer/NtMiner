@@ -89,8 +89,6 @@ namespace NTMiner {
             }
         }
 
-        public static bool IsUseDevConsole = false;
-
         public static bool IsAutoStartCanceled = false;
 
         public static bool IsKernelBrand {
@@ -158,6 +156,7 @@ namespace NTMiner {
             if (!_localJsonInited) {
                 lock (_locker) {
                     if (!_localJsonInited) {
+                        _localJsonInited = true;
                         string localJson = HomePath.ReadLocalJsonFile(_workType);
                         LocalJsonDb localJsonDb = null;
                         if (!string.IsNullOrEmpty(localJson)) {
@@ -208,7 +207,6 @@ namespace NTMiner {
                             }
                             #endregion
                         }
-                        _localJsonInited = true;
                     }
                 }
             }
@@ -234,6 +232,7 @@ namespace NTMiner {
             if (!_serverJsonInited) {
                 lock (_locker) {
                     if (!_serverJsonInited) {
+                        _serverJsonInited = true;
                         string serverJson = HomePath.ReadServerJsonFile(_workType);
                         if (!string.IsNullOrEmpty(serverJson)) {
                             ServerJsonDb data = VirtualRoot.JsonSerializer.Deserialize<ServerJsonDb>(serverJson) ?? new ServerJsonDb();
@@ -271,7 +270,6 @@ namespace NTMiner {
                         else {
                             _serverJsonDb = new ServerJsonDb();
                         }
-                        _serverJsonInited = true;
                     }
                 }
             }

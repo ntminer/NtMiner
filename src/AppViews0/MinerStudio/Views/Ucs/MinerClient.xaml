@@ -438,7 +438,7 @@
                         <DataGridTemplateColumn Width="40" IsReadOnly="True">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="超频功耗" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                                    <TextBlock Text="功耗" TextWrapping="Wrap" FontSize="12"></TextBlock>
                                 </DataTemplate>
                             </DataGridTemplateColumn.HeaderTemplate>
                             <DataGridTemplateColumn.CellTemplate>
@@ -465,7 +465,7 @@
                         <DataGridTemplateColumn Width="60" IsReadOnly="True">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="超频核心" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                                    <TextBlock Text="核心" TextWrapping="Wrap" FontSize="12"></TextBlock>
                                 </DataTemplate>
                             </DataGridTemplateColumn.HeaderTemplate>
                             <DataGridTemplateColumn.CellTemplate>
@@ -477,7 +477,7 @@
                         <DataGridTemplateColumn Width="60" IsReadOnly="True">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="超频显存" TextWrapping="Wrap" FontSize="12"></TextBlock>
+                                    <TextBlock Text="显存" TextWrapping="Wrap" FontSize="12"></TextBlock>
                                 </DataTemplate>
                             </DataGridTemplateColumn.HeaderTemplate>
                             <DataGridTemplateColumn.CellTemplate>
@@ -688,10 +688,31 @@
                 <Path
 					Width="16"
 					Height="16"
-					Data="{StaticResource Icon_CheckedBox}"
+					Data="{Binding Is1080PillEnabled,Converter={StaticResource BoolToStreamGeometryConverter}}"
 					Fill="{StaticResource LableColor}"
 					Stretch="Fill" />
                 <TextBlock Margin="2 0 0 0" Foreground="{StaticResource LableColor}">有1080/1080ti显卡时启动小药丸加速算力</TextBlock>
+            </WrapPanel>
+        </WrapPanel>
+        <WrapPanel Margin="0 3">
+            <TextBlock Style="{StaticResource LblTb}"></TextBlock>
+            <WrapPanel Width="260">
+                <Path
+					Width="16"
+					Height="16"
+					Data="{Binding IsPreventDisplaySleep,Converter={StaticResource BoolToStreamGeometryConverter}}"
+					Fill="{StaticResource LableColor}"
+					Stretch="Fill" />
+                <TextBlock Margin="2 0 0 0" Foreground="{StaticResource LableColor}">开着开源矿工时阻止显示器休眠</TextBlock>
+            </WrapPanel>
+            <WrapPanel Width="260">
+                <Path
+					Width="16"
+					Height="16"
+					Data="{Binding IsAutoReboot,Converter={StaticResource BoolToStreamGeometryConverter}}"
+					Fill="{StaticResource LableColor}"
+					Stretch="Fill" />
+                <TextBlock Margin="2 0 0 0" Foreground="{StaticResource LableColor}">Windows蓝屏自动重启</TextBlock>
             </WrapPanel>
         </WrapPanel>
         <WrapPanel Margin="0 3">

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Core.Redis.Impl {
     public class WsServerNodeRedis : ReadOnlyWsServerNodeRedis, IWsServerNodeRedis {
-        public WsServerNodeRedis(IMqRedis redis) : base(redis) {
+        public WsServerNodeRedis(IRedis redis) : base(redis) {
         }
 
         public Task SetAsync(WsServerNodeState data) {

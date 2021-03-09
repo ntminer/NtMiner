@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Services.Official {
     public class CalcConfigService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<ICalcConfigController>();
+        private readonly string _controllerName = ControllerUtil.GetControllerName<ICalcConfigController>();
 
         internal CalcConfigService() {
         }

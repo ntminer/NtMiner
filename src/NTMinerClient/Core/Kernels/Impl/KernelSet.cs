@@ -9,7 +9,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly IServerContext _context;
         public KernelSet(IServerContext context) {
             _context = context;
-            context.AddCmdPath<AddKernelCommand>("添加内核", LogEnum.DevConsole,
+            context.AddCmdPath<AddKernelCommand>(LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -28,7 +28,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelAddedEvent(message.MessageId, entity));
                 }, location: this.GetType());
-            context.AddCmdPath<UpdateKernelCommand>("更新内核", LogEnum.DevConsole,
+            context.AddCmdPath<UpdateKernelCommand>(LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -49,7 +49,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelUpdatedEvent(message.MessageId, entity));
                 }, location: this.GetType());
-            context.AddCmdPath<RemoveKernelCommand>("移除内核", LogEnum.DevConsole,
+            context.AddCmdPath<RemoveKernelCommand>(LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

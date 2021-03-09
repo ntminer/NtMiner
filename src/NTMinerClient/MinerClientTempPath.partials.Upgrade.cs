@@ -1,24 +1,8 @@
-﻿using LiteDB;
-using NTMiner.Core.Profile;
-using System.IO;
+﻿using System.IO;
 
 namespace NTMiner {
     public static partial class MinerClientTempPath {
         private static void Upgrade() {
-            if (ClientAppType.IsMinerClient && !NTMinerRegistry.GetIsValueNameExist("IsNoUi")) {
-                try {
-                    using (var db = new LiteDatabase($"filename={Path.Combine(HomePath.HomeDirFullName, NTKeyword.LocalDbFileName)}")) {
-                        var col = db.GetCollection<MinerProfileData>();
-                        MinerProfileData data = col.FindById(MinerProfileData.DefaultId);
-                        if (data != null) {
-                            NTMinerRegistry.SetIsNoUi(data.IsNoUi);
-                            NTMinerRegistry.SetIsAutoStart(data.IsAutoStart);
-                        }
-                    }
-                }
-                catch {
-                }
-            }
             if (ClientAppType.IsMinerClient 
                 && HomePath.IsLocalHome 
                 && File.Exists(HomePath.RootConfigFileFullName) 

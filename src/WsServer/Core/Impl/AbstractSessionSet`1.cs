@@ -40,7 +40,7 @@ namespace NTMiner.Core.Impl {
                 ClearDeath();
                 SendReGetServerAddressMessage(AppRoot.WsServerNodeAddressSet.AsEnumerable().ToArray());
             }, this.GetType());
-            VirtualRoot.BuildEventPath<UserDisabledMqMessage>("收到了UserDisabledMq消息后断开该用户的连接", LogEnum.UserConsole, path: message => {
+            VirtualRoot.BuildEventPath<UserDisabledMqEvent>("收到了UserDisabledMq消息后断开该用户的连接", LogEnum.UserConsole, path: message => {
                 if (!string.IsNullOrEmpty(message.LoginName)) {
                     TSession[] toCloses;
                     lock (_locker) {
@@ -67,13 +67,9 @@ namespace NTMiner.Core.Impl {
                 foreach (var session in needReConnSessions) {
                     string password = session.GetSignPassword();
                     if (!string.IsNullOrEmpty(password)) {
-                        try {
-                            session.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ReGetServerAddress) {
-                                Data = hash.GetTargetNode(session.ClientId)
-                            }, password);
-                        }
-                        catch {
-                        }
+                        session.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ReGetServerAddress) {
+                            Data = hash.GetTargetNode(session.ClientId)
+                        }, password);
                     }
                 }
                 NTMinerConsole.DevWarn($"通知了 {needReConnSessions.Count.ToString()} 个Ws客户端重新连接");
@@ -95,11 +91,7 @@ namespace NTMiner.Core.Impl {
             }
             foreach (var sessionId in toRemoves.Keys) {
                 if (_wsSessions.TryGetSession(sessionId, out IWsSessionAdapter session)) {
-                    try {
-                        session.CloseAsync(WsCloseCode.Normal, $"{seconds.ToString()}秒内未活跃");
-                    }
-                    catch {
-                    }
+                    session.CloseAsync(WsCloseCode.Normal, $"{seconds.ToString()}秒内未活跃");
                 }
             }
             // 断开Ws连接时的OnClose事件中会移除已断开连接的会话，但OnClose事件是由WebSocket的库触发

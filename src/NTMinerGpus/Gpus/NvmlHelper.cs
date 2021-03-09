@@ -32,6 +32,7 @@ namespace NTMiner.Gpus {
                 if (_isNvmlInited) {
                     return _isNvmlInited;
                 }
+                _isNvmlInited = true;
                 try {
 #if DEBUG
                     NTStopwatch.Start();
@@ -51,7 +52,6 @@ namespace NTMiner.Gpus {
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
-                    _isNvmlInited = true;
                 }
                 return false;
             }
@@ -113,28 +113,27 @@ namespace NTMiner.Gpus {
             return true;
         }
 
-        private readonly HashSet<int> _nvmlDeviceGetPowerUsageNotSupporteds = new HashSet<int>();
+        private readonly HashSet<int> _isFirstGetPowerUsage = new HashSet<int>();
+        // NVAPI貌似没有读取功耗的接口，所以只能使用NVML
         public uint GetPowerUsage(int gpuIndex) {
             if (!NvmlInit() || !TryGetNvmlDevice(gpuIndex, out nvmlDevice nvmlDevice)) {
-                return 0;
-            }
-            if (_nvmlDeviceGetPowerUsageNotSupporteds.Contains(gpuIndex)) {
                 return 0;
             }
             uint power = 0;
             try {
                 var r = NvmlNativeMethods.nvmlDeviceGetPowerUsage(nvmlDevice, ref power);
                 power = (uint)(power / 1000.0);
-                if (r == nvmlReturn.NotSupported) {
-                    _nvmlDeviceGetPowerUsageNotSupporteds.Add(gpuIndex);
+                if (!_isFirstGetPowerUsage.Contains(gpuIndex)) {
+                    _isFirstGetPowerUsage.Add(gpuIndex);
+                    CheckResult(r, () => $"{nameof(NvmlNativeMethods.nvmlDeviceGetPowerUsage)} {r.ToString()}");
                 }
-                CheckResult(r, () => $"{nameof(NvmlNativeMethods.nvmlDeviceGetPowerUsage)} {r.ToString()}");
             }
             catch {
             }
             return power;
         }
 
+        private readonly HashSet<int> _isFirstGetTemperature = new HashSet<int>();
         public uint GetTemperature(int gpuIndex) {
             if (!NvmlInit() || !TryGetNvmlDevice(gpuIndex, out nvmlDevice nvmlDevice)) {
                 return 0;
@@ -142,59 +141,51 @@ namespace NTMiner.Gpus {
             uint temp = 0;
             try {
                 var r = NvmlNativeMethods.nvmlDeviceGetTemperature(nvmlDevice, nvmlTemperatureSensors.Gpu, ref temp);
-                CheckResult(r, () => $"{nameof(NvmlNativeMethods.nvmlDeviceGetTemperature)} {r.ToString()}");
+                if (!_isFirstGetTemperature.Contains(gpuIndex)) {
+                    _isFirstGetTemperature.Add(gpuIndex);
+                    CheckResult(r, () => $"{nameof(NvmlNativeMethods.nvmlDeviceGetTemperature)} {r.ToString()}");
+                }
             }
             catch {
             }
             return temp;
         }
 
-        private readonly HashSet<int> _nvmlDeviceGetFanSpeedNotSupporteds = new HashSet<int>();
+        private readonly HashSet<int> _isFirstGetFanSpeed = new HashSet<int>();
         public uint GetFanSpeed(int gpuIndex) {
             if (!NvmlInit() || !TryGetNvmlDevice(gpuIndex, out nvmlDevice nvmlDevice)) {
-                return 0;
-            }
-            if (_nvmlDeviceGetFanSpeedNotSupporteds.Contains(gpuIndex)) {
                 return 0;
             }
             uint fanSpeed = 0;
             try {
                 var r = NvmlNativeMethods.nvmlDeviceGetFanSpeed(nvmlDevice, ref fanSpeed);
-                if (r == nvmlReturn.NotSupported) {
-                    _nvmlDeviceGetFanSpeedNotSupporteds.Add(gpuIndex);
+                if (!_isFirstGetFanSpeed.Contains(gpuIndex)) {
+                    _isFirstGetFanSpeed.Add(gpuIndex);
+                    CheckResult(r, () => $"{nameof(NvmlNativeMethods.nvmlDeviceGetFanSpeed)} {r.ToString()}");
                 }
-                CheckResult(r, () => $"{nameof(NvmlNativeMethods.nvmlDeviceGetFanSpeed)} {r.ToString()}");
             }
             catch {
             }
             return fanSpeed;
         }
 
-        public void GetVersion(out Version driverVersion, out string nvmlVersion) {
-            driverVersion = new Version();
+        // 注意：因为转化为Version对象时会将457.09格式的字符串变成457.9格式的Version，为了保留前缀0这里输出原始字符串
+        public void GetVersion(out string driverVersion, out string nvmlVersion) {
+            driverVersion = "0.0";
             nvmlVersion = "0.0";
             if (!NvmlInit()) {
                 return;
             }
             try {
-                var r = NvmlNativeMethods.nvmlSystemGetDriverVersion(out string version);
+                var r = NvmlNativeMethods.nvmlSystemGetDriverVersion(out driverVersion);
                 CheckResult(r, () => $"{nameof(NvmlNativeMethods.nvmlSystemGetDriverVersion)} {r.ToString()}");
                 r = NvmlNativeMethods.nvmlSystemGetNVMLVersion(out nvmlVersion);
                 CheckResult(r, () => $"{nameof(NvmlNativeMethods.nvmlSystemGetNVMLVersion)} {r.ToString()}");
-                if (!string.IsNullOrEmpty(version) && Version.TryParse(version, out Version v)) {
-                    driverVersion = v;
-                }
                 if (string.IsNullOrEmpty(nvmlVersion)) {
                     nvmlVersion = "0.0";
                 }
             }
             catch {
-            }
-        }
-
-        private static void CheckResult(nvmlReturn r, string message) {
-            if (r != nvmlReturn.Success) {
-                NTMinerConsole.DevError(message);
             }
         }
 

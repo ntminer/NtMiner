@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace NTMiner.Core.Mq.Senders.Impl {
     public class UserMqSender : IUserMqSender {
-        private readonly IMqRedis _mq;
-        public UserMqSender(IMqRedis mq) {
+        private readonly IMq _mq;
+        public UserMqSender(IMq mq) {
             _mq = mq;
         }
 

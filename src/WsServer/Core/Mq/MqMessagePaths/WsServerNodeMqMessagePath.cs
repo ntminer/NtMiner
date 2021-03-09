@@ -18,13 +18,13 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                 case MqKeyword.WsServerNodeAddedRoutingKey: {
                         string wsServerAddress = WsServerNodeMqBodyUtil.GetWsServerNodeAddressMqReceiveBody(ea.Body);
                         string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new WsServerNodeAddedMqMessage(appId, wsServerAddress));
+                        VirtualRoot.RaiseEvent(new WsServerNodeAddedMqEvent(appId, wsServerAddress));
                     }
                     break;
                 case MqKeyword.WsServerNodeRemovedRoutingKey: {
                         string wsServerAddress = WsServerNodeMqBodyUtil.GetWsServerNodeAddressMqReceiveBody(ea.Body);
                         string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new WsServerNodeRemovedMqMessage(appId, wsServerAddress));
+                        VirtualRoot.RaiseEvent(new WsServerNodeRemovedMqEvent(appId, wsServerAddress));
                     }
                     break;
                 default:

@@ -22,7 +22,7 @@ namespace NTMiner.MinerStudio {
                     return;
                 }
                 if (ClientAppType.IsMinerStudio) {
-                    VirtualRoot.BuildEventPath<MinerClientSelectionChangedEvent>("矿机列表页选中了和上次选中的不同的矿机时刷新矿机消息列表", LogEnum.DevConsole, path: message => {
+                    VirtualRoot.BuildEventPath<MinerClientSelectionChangedEvent>("刷新矿机消息列表", LogEnum.DevConsole, path: message => {
                         bool isChanged = true;
                         if (message.MinerClientVm != null && this._minerClientVm != null && this._minerClientVm.ClientId == message.MinerClientVm.ClientId) {
                             isChanged = false;
@@ -36,7 +36,7 @@ namespace NTMiner.MinerStudio {
                             SendGetLocalMessagesMqMessage();
                         }
                     }, this.GetType());
-                    VirtualRoot.BuildEventPath<ClientLocalMessagesEvent>("收到了挖矿端本地消息", LogEnum.DevConsole,
+                    VirtualRoot.BuildEventPath<ClientLocalMessagesEvent>("将收到的挖矿端本地消息展示到消息列表", LogEnum.DevConsole,
                         path: message => {
                             if (this._minerClientVm == null || this._minerClientVm.ClientId != message.ClientId) {
                                 return;
@@ -91,7 +91,7 @@ namespace NTMiner.MinerStudio {
                         afterTime = item.Timestamp;
                     }
                 }
-                MinerStudioService.Instance.GetLocalMessagesAsync(minerClientVm, afterTime);
+                MinerStudioService.GetLocalMessagesAsync(minerClientVm, afterTime);
             }
         }
     }

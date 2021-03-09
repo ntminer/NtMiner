@@ -4,7 +4,7 @@ using System;
 
 namespace NTMiner.Services.Official {
     public class WebApiServerNodeService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<IWebApiServerNodeController>();
+        private readonly string _controllerName = ControllerUtil.GetControllerName<IWebApiServerNodeController>();
 
         internal WebApiServerNodeService() {
         }

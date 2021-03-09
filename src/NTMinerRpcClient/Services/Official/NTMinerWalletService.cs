@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Services.Official {
     public class NTMinerWalletService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<INTMinerWalletController>();
+        private readonly string _controllerName = ControllerUtil.GetControllerName<INTMinerWalletController>();
 
         internal NTMinerWalletService() {
         }

@@ -98,9 +98,6 @@
     <Compile Include="..\NTMinerClient\Windows\WMI.cs">
       <Link>Windows\WMI.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\ClientAppType.cs">
-      <Link>ClientAppType.cs</Link>
-    </Compile>
     <Compile Include="..\ntminerlib\cryptography\BigInteger.cs">
       <Link>Cryptography\BigInteger.cs</Link>
     </Compile>
@@ -167,15 +164,15 @@
     <Compile Include="Core\IDaemonOperation.cs" />
     <Compile Include="Core\IOperationResultSet.cs" />
     <Compile Include="Core\Impl\OperationResultSet.cs" />
+    <Compile Include="MinerProfileUtil.cs" />
     <Compile Include="Ws\AbstractWsClient.cs" />
     <Compile Include="Ws\DaemonWsClient.cs" />
     <Compile Include="Core\Impl\DaemonOperation.cs" />
-    <Compile Include="MinerProfileUtil.cs" />
     <Compile Include="NTMinerDaemonController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecialPath.cs" />
     <Compile Include="VirtualRoot.cs" />
-    <Compile Include="Ws\DaemonWsMessageHandler.cs" />
+    <Compile Include="Ws\DaemonWsMessageFromWsServerHandler.cs" />
     <Compile Include="Core\Impl\ResponseBaseExtensions.cs" />
     <Compile Include="Ws\WebSocketStateExtensions.cs" />
   </ItemGroup>
@@ -216,7 +213,7 @@
     <EmbeddedResource Include="logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FodyWeavers.xml" />
+    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

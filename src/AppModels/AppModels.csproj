@@ -70,7 +70,6 @@
     <Compile Include="AppRoot.partials.CoinKernelViewModels.cs" />
     <Compile Include="AppRoot.partials.CoinProfileViewModels.cs" />
     <Compile Include="MinerStudio\Impl\EmptyWsClient.cs" />
-    <Compile Include="MinerStudio\MinerStudioService.cs" />
     <Compile Include="AppRoot.partials.CoinViewModels.cs" />
     <Compile Include="MinerStudio\MinerStudioRoot.partials.ColumnsShowViewModels.cs" />
     <Compile Include="AppRoot.partials.DriveSetViewModel.cs" />
@@ -102,6 +101,7 @@
     <Compile Include="ExtendedNotifyIcon.cs" />
     <Compile Include="MinerStudio\Messages.cs" />
     <Compile Include="MinerStudio\MinerStudioRoot.cs" />
+    <Compile Include="MinerStudio\Vms\ActionCountsViewModel.cs" />
     <Compile Include="MinerStudio\Vms\ChangePasswordViewModel.cs" />
     <Compile Include="MinerStudio\Vms\CpuDataViewModel.cs" />
     <Compile Include="MinerStudio\Vms\GpuNameCountsViewModel.cs" />
@@ -125,6 +125,7 @@
     <Compile Include="View\AbstractAppViewFactory.cs" />
     <Compile Include="View\IAppViewFactory.cs" />
     <Compile Include="Vms\AboutPageViewModel.cs" />
+    <Compile Include="MinerStudio\Vms\ActionCountViewModel.cs" />
     <Compile Include="Vms\AlgoSelectItem.cs" />
     <Compile Include="Vms\BrandTagViewModel.cs" />
     <Compile Include="MinerStudio\Vms\CalcConfigViewModel.cs" />

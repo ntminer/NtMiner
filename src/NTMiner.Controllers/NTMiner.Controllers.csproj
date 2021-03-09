@@ -37,11 +37,14 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControllerUtil.cs" />
+    <Compile Include="IActionCountController.cs" />
     <Compile Include="ICalcConfigBinaryController`1.cs" />
     <Compile Include="ICaptchaController`1.cs" />
     <Compile Include="IClientDataBinaryController`1.cs" />
     <Compile Include="IGpuNameController.cs" />
     <Compile Include="IMinerClientController.cs" />
+    <Compile Include="INTMinerFileController.cs" />
     <Compile Include="IReportBinaryController.cs" />
     <Compile Include="IServerMessageBinaryController`1.cs" />
     <Compile Include="IUserAppSettingController.cs" />

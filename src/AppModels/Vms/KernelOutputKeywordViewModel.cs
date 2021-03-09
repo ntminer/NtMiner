@@ -1,6 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.MinerClient;
-using NTMiner.Views;
 using System;
 using System.Linq;
 using System.Windows.Input;
@@ -16,7 +14,7 @@ namespace NTMiner.Vms {
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
-        public ICommand ToGlobal { get; private set; }
+        public ICommand ToServer { get; private set; }
         public ICommand Save { get; private set; }
 
         [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
@@ -81,8 +79,9 @@ namespace NTMiner.Vms {
                     }
                 }));
             });
-            this.ToGlobal = new DelegateCommand(() => {
-                // TODO:
+            this.ToServer = new DelegateCommand(() => {
+                // 发送给服务器并删除本地
+                // TODO:这是在测试完了后在挖矿端将本条自定义的内核输出关键字发送到服务端变成供所有人使用的公共的内核输出关键字的地方
             });
         }
 

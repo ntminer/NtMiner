@@ -9,17 +9,20 @@ using System.Threading.Tasks;
 /// </summary>
 namespace NTMiner.Windows {
     public static class WindowsUtil {
+        private const string _blockWAUResourceName = "BlockWAU.bat";
+        private static readonly string _blockWAUFileFullName = Path.Combine(TempPath.TempDirFullName, _blockWAUResourceName);
+
         public static Task BlockWAU() {
             return Task.Factory.StartNew(() => {
                 ExtractBlockWAUManifestResource();
-                Cmd.RunClose(App.BlockWAUFileFullName, string.Empty, waitForExit: true);
+                Cmd.RunClose(_blockWAUFileFullName, string.Empty, waitForExit: true);
             });
         }
 
         private static void ExtractBlockWAUManifestResource() {
             Type type = typeof(WindowsUtil);
             Assembly assembly = type.Assembly;
-            assembly.ExtractManifestResource(type, App.BlockWAUResourceName, App.BlockWAUFileFullName);
+            assembly.ExtractManifestResource(type, _blockWAUResourceName, _blockWAUFileFullName);
         }
 
         public static void Win10Optimize(Action<Exception> callback) {

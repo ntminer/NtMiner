@@ -8,6 +8,14 @@ using System.Text;
 
 namespace NTMiner {
     public static partial class VirtualRoot {
+        public static string GetAvailableFreeSpaceInfo() {
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in DriveInfo.GetDrives().Where(a => a.DriveType == DriveType.Fixed)) {
+                sb.Append(item.Name).Append((item.AvailableFreeSpace / NTKeyword.DoubleG).ToString("f1")).Append(" Gb");
+            }
+            return sb.ToString();
+        }
+
         public interface IDriveSet {
             int OSVirtualMemoryMb { get; }
             string ToDiskSpaceString();
@@ -174,7 +182,9 @@ namespace NTMiner {
                 if (value is string[] vmReg) {
                     foreach (string item in vmReg) {
                         if (TryParseVirtualMemory(item, out KeyValuePair<string, int> kv)) {
-                            dicByDriveName.Add(kv.Key, kv.Value);
+                            if (kv.Key != null) {
+                                dicByDriveName[kv.Key] = kv.Value;
+                            }
                         }
                     }
                 }

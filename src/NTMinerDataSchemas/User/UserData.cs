@@ -34,7 +34,8 @@ namespace NTMiner.User {
                 Password = this.Password,
                 PrivateKey = this.PrivateKey,
                 PublicKey = this.PublicKey,
-                Roles = this.Roles
+                Roles = this.Roles,
+                LastLogin = this.LastLogin
             };
         }
 
@@ -61,5 +62,7 @@ namespace NTMiner.User {
         public string Description { get; set; }
 
         public DateTime CreatedOn { get; set; }
+
+        public DateTime LastLogin { get; set; }
     }
 }

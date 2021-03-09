@@ -17,6 +17,20 @@ namespace NTMiner {
         }
 
         [TestMethod]
+        public void KeyValuePairToString() {
+            KeyValuePair<string, string> kv = new KeyValuePair<string, string>("key", "value");
+            Assert.AreEqual("[key, value]", kv.ToString());
+        }
+
+        [TestMethod]
+        public void ToStringTest() {
+            var dic = new Dictionary<string, string> {
+                {"key1", "value1" }
+            };
+            Assert.AreEqual("System.Collections.Generic.Dictionary`2[System.String,System.String]", dic.ToString());
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(KeyNotFoundException))]
         public void DictionaryGetTest() {
             var dic = new Dictionary<string, string>();
@@ -37,16 +51,41 @@ namespace NTMiner {
                 }
             });
             Thread.Sleep(100);
-            bool 集合已修改 = false;
+            bool isSetModified = false;
             try {
                 foreach (var item in dic.Values) {
                     Thread.Sleep(3);
                 }
             }
             catch (InvalidOperationException) {
-                集合已修改 = true;
+                isSetModified = true;
             }
-            Assert.IsTrue(集合已修改);
+            Assert.IsTrue(isSetModified);
+        }
+
+        [TestMethod]
+        public void BenchmarkTest() {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            int n = 100000;
+            NTStopwatch.Start();
+            for (int i = 0; i < n; i++) {
+                string key = Guid.NewGuid().ToString();
+                if (!dic.ContainsKey(key)) {
+                    dic.Add(key, key);
+                }
+            }
+            var elapsedMilliseconds = NTStopwatch.Stop();
+            Console.WriteLine(elapsedMilliseconds);
+
+            dic = new Dictionary<string, string>();
+            NTStopwatch.Start();
+            for (int i = 0; i < n; i++) {
+                string key = Guid.NewGuid().ToString();
+                dic[key] = key;
+            }
+            elapsedMilliseconds = NTStopwatch.Stop();
+            Console.WriteLine(elapsedMilliseconds);
+            // 没啥区别
         }
     }
 }

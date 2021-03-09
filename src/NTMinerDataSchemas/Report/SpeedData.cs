@@ -527,6 +527,13 @@ namespace NTMiner.Report {
             }
         }
 
+        public bool Is1080PillEnabled {
+            get { return _speedDto.Is1080PillEnabled; }
+            set {
+                _speedDto.Is1080PillEnabled = value;
+            }
+        }
+
         public bool IsDisableAntiSpyware {
             get { return _speedDto.IsDisableAntiSpyware; }
             set {
@@ -534,17 +541,17 @@ namespace NTMiner.Report {
             }
         }
 
+        public bool IsAutoReboot {
+            get { return _speedDto.IsAutoReboot; }
+            set {
+                _speedDto.IsAutoReboot = value;
+            }
+        }
+
         public string ReportOuterUserId {
             get { return _speedDto.ReportOuterUserId; }
             set {
                 _speedDto.ReportOuterUserId = value;
-            }
-        }
-
-        public string CpuId {
-            get { return _speedDto.CpuId; }
-            set {
-                _speedDto.CpuId = value;
             }
         }
 
@@ -559,6 +566,55 @@ namespace NTMiner.Report {
             get { return _speedDto.MinerIp; }
             set {
                 _speedDto.MinerIp = value;
+            }
+        }
+
+        public bool IsPreventDisplaySleep {
+            get { return _speedDto.IsPreventDisplaySleep; }
+            set {
+                _speedDto.IsPreventDisplaySleep = value;
+            }
+        }
+
+        public bool IsLowSpeedRestartComputer {
+            get { return _speedDto.IsLowSpeedRestartComputer; }
+            set {
+                _speedDto.IsLowSpeedRestartComputer = value;
+            }
+        }
+
+        public int LowSpeedRestartComputerMinutes {
+            get { return _speedDto.LowSpeedRestartComputerMinutes; }
+            set {
+                _speedDto.LowSpeedRestartComputerMinutes = value;
+            }
+        }
+
+        public double LowSpeed {
+            get { return _speedDto.LowSpeed; }
+            set {
+                _speedDto.LowSpeed = value;
+            }
+        }
+
+        public bool IsLowSpeedReOverClock {
+            get { return _speedDto.IsLowSpeedReOverClock; }
+            set {
+                _speedDto.IsLowSpeedReOverClock = value;
+            }
+        }
+
+        public int LowSpeedReOverClockMinutes {
+            get { return _speedDto.LowSpeedReOverClockMinutes; }
+            set {
+                _speedDto.LowSpeedReOverClockMinutes = value;
+            }
+        }
+
+        public double OverClockLowSpeed {
+            get { return _speedDto.OverClockLowSpeed; }
+            set {
+                _speedDto.OverClockLowSpeed = value;
             }
         }
     }

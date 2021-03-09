@@ -48,12 +48,12 @@
             <TextBlock Margin="70 0 0 0" FontSize="15" Padding="0 4">2，开源矿工永远开源；</TextBlock>
             <TextBlock Margin="70 0 0 0" FontSize="15" Padding="0 4">3，开源矿工永不破解国人开发的内核；</TextBlock>
             <controls:KbLinkButton
-                Margin="70 0 0 0" FontSize="15" Padding="0 4"
+                Margin="70 0 0 0" FontSize="15"
 				Command="{x:Static app:AppStatic.BusinessModel}"
 				KbDisplayLine="False"
 				HorizontalAlignment="Left"
 				Background="Transparent">
-                <TextBlock Text="4，如何盈利/商业模式"></TextBlock>
+                <TextBlock Text="4，如何盈利/商业逻辑"></TextBlock>
             </controls:KbLinkButton>
         </StackPanel>
         <WrapPanel Grid.Row="2" HorizontalAlignment="Center">

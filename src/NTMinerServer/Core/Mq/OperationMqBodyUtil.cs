@@ -250,5 +250,19 @@ namespace NTMiner.Core.Mq {
             return Guid.Empty;
         }
         #endregion
+
+        #region WorkRequest
+        public static byte[] GetWorkRequestMqSendBody(WorkRequest request) {
+            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(request));
+        }
+
+        public static WorkRequest GetStartWorkMineMqReceiveBody(byte[] body) {
+            string json = Encoding.UTF8.GetString(body);
+            if (string.IsNullOrEmpty(json)) {
+                return null;
+            }
+            return VirtualRoot.JsonSerializer.Deserialize<WorkRequest>(json);
+        }
+        #endregion
     }
 }

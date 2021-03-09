@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
                 NTMinerConsole.UserInfo($"{MinerProfile.AutoStartDelaySeconds.ToString()}秒后开始挖矿");
                 this.MinerProfile.IsMining = true;
                 IMessagePathId pathId = null;
-                pathId = VirtualRoot.BuildViaTimesLimitPath<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
+                pathId = VirtualRoot.BuildViaTimesLimitPath<Per1SecondEvent>("自动开始挖矿倒计时", LogEnum.None,
                     path: message => {
                         if (!NTMinerContext.IsAutoStartCanceled) {
                             MineBtnText = $"倒计时{pathId.ViaTimesLimit.ToString()}";

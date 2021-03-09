@@ -30,8 +30,17 @@ namespace NTMiner.Core {
             }
         }
 
+        /// <summary>
+        /// 换算成以1h为单位返回
+        /// </summary>
+        /// <param name="speed"></param>
+        /// <param name="speedUnit"></param>
+        /// <returns></returns>
         public static double FromUnitSpeed(this double speed, string speedUnit) {
-            speedUnit = speedUnit?.Trim().ToLower();
+            if (speedUnit == null) {
+                speedUnit = string.Empty;
+            }
+            speedUnit = speedUnit.Trim().ToLower();
             if (!speedUnit.EndsWith("/s")) {
                 return 0;
             }

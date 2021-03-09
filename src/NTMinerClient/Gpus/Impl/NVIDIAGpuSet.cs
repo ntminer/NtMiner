@@ -8,6 +8,7 @@ namespace NTMiner.Gpus.Impl {
         private readonly Dictionary<int, Gpu> _gpus = new Dictionary<int, Gpu>() {
             [NTMinerContext.GpuAllId] = Gpu.GpuAll
         };
+        private readonly string _driverVersionRaw = "0.0";
         private readonly Version _driverVersion = new Version();
 
         public int Count {
@@ -28,7 +29,8 @@ namespace NTMiner.Gpus.Impl {
                     gpu.TotalMemory = item.TotalMemory;
                     _gpus.Add(item.GpuIndex, gpu);
                 }
-                _nvmlHelper.GetVersion(out _driverVersion, out string nvmlVersion);
+                _nvmlHelper.GetVersion(out _driverVersionRaw, out string nvmlVersion);
+                Version.TryParse(_driverVersionRaw, out _driverVersion);
                 this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", _driverVersion));
                 try {
                     var item = root.ServerContext.SysDicItemSet.GetSysDicItems(NTKeyword.CudaVersionSysDicCode)
@@ -72,13 +74,13 @@ namespace NTMiner.Gpus.Impl {
             }
             var gpu = _gpus[gpuIndex];
             uint power = _nvmlHelper.GetPowerUsage(gpuIndex);
-            uint temp = _nvmlHelper.GetTemperature(gpuIndex);
-            uint fanSpeed;
-            if (!_nvapiHelper.GetFanSpeed(gpu.GetOverClockId(), out fanSpeed)) {
+            _nvapiHelper.GetTemperature(gpu, out uint coreTemperature, out uint memoryTemperature);
+            if (!_nvapiHelper.GetFanSpeed(gpu.GetOverClockId(), out uint fanSpeed)) {
                 fanSpeed = _nvmlHelper.GetFanSpeed(gpuIndex);
             }
-            bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != fanSpeed;
-            gpu.Temperature = (int)temp;
+            bool isChanged = gpu.Temperature != coreTemperature || gpu.MemTemperature != memoryTemperature || gpu.PowerUsage != power || gpu.FanSpeed != fanSpeed;
+            gpu.Temperature = (int)coreTemperature;
+            gpu.MemTemperature = (int)memoryTemperature;
             gpu.PowerUsage = power;
             gpu.FanSpeed = fanSpeed;
 
@@ -97,9 +99,9 @@ namespace NTMiner.Gpus.Impl {
             get {
                 var cudaVersion = this.Properties.FirstOrDefault(a => a.Code == NTKeyword.CudaVersionSysDicCode);
                 if (cudaVersion != null) {
-                    return $"{this._driverVersion.ToString()} {cudaVersion.Value}";
+                    return $"{this._driverVersionRaw} {cudaVersion.Value}";
                 }
-                return this._driverVersion.ToString();
+                return this._driverVersionRaw;
             }
         }
 

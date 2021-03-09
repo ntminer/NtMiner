@@ -3,6 +3,9 @@
         string OssAccessKeyId { get; }
         string OssAccessKeySecret { get; }
         string OssEndpoint { get; }
+        string KodoAccessKey { get; }
+        string KodoSecretKey { get; }
+        string KodoZoneID { get; }
         string RedisConfig { get; }
         string MqHostName { get; }
         string MqUserName { get; }

@@ -43,6 +43,7 @@ namespace NTMiner.Mine {
             this.KernelSelfRestartCount = 0;
             this.CommandLine = commandLine ?? string.Empty;
             this.MineStartedOn = DateTime.MinValue;
+            this.MineRestartedOn = DateTime.MinValue;
             this.ProcessCreatedOn = DateTime.MinValue;
             this.Parameters = parameters;
             this.UseDevices = useDevices;
@@ -78,17 +79,18 @@ namespace NTMiner.Mine {
 
         public void Start(bool isRestart) {
             Kill();
+            NewLogFileName();
             if (isRestart) {
-                NewLogFileName();
                 this.IsRestart = true;
+                this.MineRestartedOn = DateTime.Now;
             }
             else {
                 AddOnecePath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
                     action: message => {
                         message.MineContext?.Close();
                     }, location: this.GetType(), pathId: Guid.Empty);
+                this.MineStartedOn = DateTime.Now;
             }
-            this.MineStartedOn = DateTime.Now;
             CreateProcessAsync();
         }
 
@@ -127,6 +129,8 @@ namespace NTMiner.Mine {
         public string CommandLine { get; private set; }
 
         public DateTime MineStartedOn { get; private set; }
+
+        public DateTime MineRestartedOn { get; private set; }
 
         public DateTime ProcessCreatedOn { get; private set; }
 
@@ -210,7 +214,7 @@ namespace NTMiner.Mine {
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e);
-                        NTMinerConsole.UserFail("挖矿内核启动失败，请联系开发人员解决");
+                        NTMinerConsole.UserFail("挖矿内核启动失败，如果有杀毒软件，请关闭杀毒软件，因为大部分挖矿内核会被杀毒软件删除。");
                     }
                 }
             });

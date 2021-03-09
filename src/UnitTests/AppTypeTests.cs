@@ -11,8 +11,8 @@ namespace NTMiner {
 
         [TestMethod]
         public void IsMinerStudioTest() {
-            var assembly = typeof(MsRdpRemoteDesktop).Assembly;
-            Type type = assembly.GetType("NTMiner.MsRdpRemoteDesktop");
+            var assembly = typeof(MsRemoteDesktop).Assembly;
+            Type type = assembly.GetType(typeof(MsRemoteDesktop).FullName);
             Assert.IsNotNull(type);
             type = assembly.GetType("NTMiner.aaaaa");
             Assert.IsNull(type);

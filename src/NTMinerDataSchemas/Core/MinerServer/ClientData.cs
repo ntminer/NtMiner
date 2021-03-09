@@ -33,11 +33,23 @@ namespace NTMiner.Core.MinerServer {
         public ClientData() : base() {
         }
 
+        // 用户在内网群控客户端添加矿机时
+        public static ClientData Create(string minerIp, out MinerData minerData) {
+            minerData = MinerData.Create(minerIp);
+            return Create(minerData);
+        }
+
+        // WebApiServer收到矿机签名变更事件但矿机不存在时
+        public static ClientData Create(IMinerSign minerSign) {
+            var minerData = MinerData.Create(minerSign);
+            return Create(minerData);
+        }
+
+        // 内网群控客户端从litedb和WebApiServer从redis加载数据时
         public static ClientData Create(IMinerData data) {
             return new ClientData() {
                 #region
                 Id = data.Id,
-                CpuId = data.CpuId,
                 ClientId = data.ClientId,
                 MACAddress = data.MACAddress,
                 LocalIp = data.LocalIp,
@@ -125,13 +137,22 @@ namespace NTMiner.Core.MinerServer {
                 IsDisableAntiSpyware = true,
                 IsDisableUAC = true,
                 IsDisableWAU = true,
+                Is1080PillEnabled = true,
+                IsAutoReboot = true,
                 MainCoinSpeedOn = DateTime.MinValue,
                 DualCoinSpeedOn = DateTime.MinValue,
                 GpuTable = new GpuSpeedData[0],
                 DualCoinPoolDelayNumber = 0,
                 MainCoinPoolDelayNumber = 0,
                 MainCoinRejectPercent = 0,
-                DualCoinRejectPercent = 0
+                DualCoinRejectPercent = 0,
+                IsPreventDisplaySleep = true,
+                IsLowSpeedRestartComputer = false,
+                LowSpeedRestartComputerMinutes = 0,
+                LowSpeed = 0,
+                IsLowSpeedReOverClock = false,
+                LowSpeedReOverClockMinutes = 0,
+                OverClockLowSpeed = 0
                 #endregion
             };
         }
@@ -140,7 +161,6 @@ namespace NTMiner.Core.MinerServer {
             return new ClientData() {
                 #region
                 Id = data.Id,
-                CpuId = data.CpuId,
                 DiskSpaceMb = data.DiskSpaceMb,
                 MineContextId = data.MineContextId,
                 MinerName = data.MinerName,
@@ -227,14 +247,23 @@ namespace NTMiner.Core.MinerServer {
                 IsDisableUAC = data.IsDisableUAC,
                 AESPassword = data.AESPassword,
                 AESPasswordOn = data.AESPasswordOn,
+                Is1080PillEnabled = data.Is1080PillEnabled,
                 IsDisableAntiSpyware = data.IsDisableAntiSpyware,
+                IsAutoReboot = data.IsAutoReboot,
                 IsAutoDisableWindowsFirewall = data.IsAutoDisableWindowsFirewall,
                 MainCoinSpeedOn = data.MainCoinSpeedOn,
                 DualCoinSpeedOn = data.DualCoinSpeedOn,
                 DualCoinRejectPercent = data.DualCoinRejectPercent,
                 MainCoinRejectPercent = data.MainCoinRejectPercent,
                 MainCoinPoolDelayNumber = data.MainCoinPoolDelayNumber,
-                DualCoinPoolDelayNumber = data.DualCoinPoolDelayNumber
+                DualCoinPoolDelayNumber = data.DualCoinPoolDelayNumber,
+                IsPreventDisplaySleep = data.IsPreventDisplaySleep,
+                IsLowSpeedRestartComputer = data.IsLowSpeedRestartComputer,
+                LowSpeedRestartComputerMinutes = data.LowSpeedRestartComputerMinutes,
+                LowSpeed = data.LowSpeed,
+                IsLowSpeedReOverClock = data.IsLowSpeedReOverClock,
+                LowSpeedReOverClockMinutes = data.LowSpeedReOverClockMinutes,
+                OverClockLowSpeed = data.OverClockLowSpeed
                 #endregion
             };
         }
@@ -334,7 +363,6 @@ namespace NTMiner.Core.MinerServer {
                 Id = ObjectId.NewObjectId().ToString(),
                 MineContextId = speedDto.MineContextId,
                 MinerName = speedDto.MinerName,
-                CpuId = speedDto.CpuId,
                 MinerIp = minerIp,
                 CreatedOn = DateTime.Now,
                 MinerActiveOn = DateTime.Now,
@@ -415,26 +443,38 @@ namespace NTMiner.Core.MinerServer {
                 IsDisableAntiSpyware = speedDto.IsDisableAntiSpyware,
                 IsDisableUAC = speedDto.IsDisableUAC,
                 IsDisableWAU = speedDto.IsDisableWAU,
+                Is1080PillEnabled = speedDto.Is1080PillEnabled,
+                IsAutoReboot = speedDto.IsAutoReboot,
                 IsOnline = false,
                 NetActiveOn = DateTime.MinValue,
                 LoginName = string.Empty,
                 IsOuterUserEnabled = speedDto.IsOuterUserEnabled,
-                OuterUserId = string.Empty,
+                OuterUserId = speedDto.ReportOuterUserId,
                 ReportOuterUserId = speedDto.ReportOuterUserId,
                 WorkerName = string.Empty,
                 DualCoinPoolDelayNumber = dualCoinPoolDelayNumber,
                 MainCoinPoolDelayNumber = mainCoinPoolDelayNumber,
                 MainCoinRejectPercent = mainCoinRejectPercent,
                 DualCoinRejectPercent = dualCoinRejectPercent,
-                DiskSpaceMb = diskSpaceMb
+                DiskSpaceMb = diskSpaceMb,
+                IsPreventDisplaySleep = speedDto.IsPreventDisplaySleep,
+                IsLowSpeedRestartComputer = speedDto.IsLowSpeedRestartComputer,
+                LowSpeedRestartComputerMinutes = speedDto.LowSpeedRestartComputerMinutes,
+                LowSpeed = speedDto.LowSpeed,
+                IsLowSpeedReOverClock = speedDto.IsLowSpeedReOverClock,
+                LowSpeedReOverClockMinutes = speedDto.LowSpeedReOverClockMinutes,
+                OverClockLowSpeed = speedDto.OverClockLowSpeed
                 #endregion
             };
         }
 
         public void Update(MinerSign minerSign, out bool isChanged) {
             #region
-            this.LoginName = minerSign.LoginName;
             isChanged = false;
+            if (!isChanged) {
+                isChanged = this.LoginName != minerSign.LoginName;
+            }
+            this.LoginName = minerSign.LoginName;
             if (!isChanged) {
                 isChanged = this.ClientId != minerSign.ClientId;
             }
@@ -461,7 +501,6 @@ namespace NTMiner.Core.MinerServer {
                 AutoRestartKernelTimes = this.AutoRestartKernelTimes,
                 AutoStartDelaySeconds = this.AutoStartDelaySeconds,
                 BootOn = this.BootOn,
-                CpuId = this.CpuId,
                 ClientId = this.ClientId,
                 CpuGETemperatureSeconds = this.CpuGETemperatureSeconds,
                 CpuLETemperatureSeconds = this.CpuLETemperatureSeconds,
@@ -493,6 +532,8 @@ namespace NTMiner.Core.MinerServer {
                 IsDisableAntiSpyware = this.IsDisableAntiSpyware,
                 IsDisableUAC = this.IsDisableUAC,
                 IsDisableWAU = this.IsDisableWAU,
+                Is1080PillEnabled = this.Is1080PillEnabled,
+                IsAutoReboot = this.IsAutoReboot,
                 IsDualCoinEnabled = this.IsDualCoinEnabled,
                 IsFoundOneGpuShare = this.IsFoundOneGpuShare,
                 IsGotOneIncorrectGpuShare = this.IsGotOneIncorrectGpuShare,
@@ -534,7 +575,14 @@ namespace NTMiner.Core.MinerServer {
                 PeriodicRestartKernelHours = this.PeriodicRestartKernelHours,
                 PeriodicRestartKernelMinutes = this.PeriodicRestartKernelMinutes,
                 TotalPhysicalMemoryMb = this.TotalPhysicalMemoryMb,
-                Version = this.Version
+                Version = this.Version,
+                IsPreventDisplaySleep = this.IsPreventDisplaySleep,
+                IsLowSpeedRestartComputer = this.IsLowSpeedRestartComputer,
+                LowSpeedRestartComputerMinutes = this.LowSpeedRestartComputerMinutes,
+                LowSpeed = this.LowSpeed,
+                IsLowSpeedReOverClock = this.IsLowSpeedReOverClock,
+                LowSpeedReOverClockMinutes = this.LowSpeedReOverClockMinutes,
+                OverClockLowSpeed = this.OverClockLowSpeed
                 #endregion
             };
         }
@@ -615,6 +663,10 @@ namespace NTMiner.Core.MinerServer {
             }
             this.IsOuterUserEnabled = speedDto.IsOuterUserEnabled;
             this.ReportOuterUserId = speedDto.ReportOuterUserId;
+            if (!isMinerDataChanged) {
+                isMinerDataChanged = this.OuterUserId != speedDto.ReportOuterUserId;
+            }
+            this.OuterUserId = speedDto.ReportOuterUserId;
             #endregion
             this.MineContextId = speedDto.MineContextId;
             this.IsAutoBoot = speedDto.IsAutoBoot;
@@ -648,7 +700,6 @@ namespace NTMiner.Core.MinerServer {
             this.OSName = speedDto.OSName;
             this.OSVirtualMemoryMb = speedDto.OSVirtualMemoryMb;
             this.GpuInfo = speedDto.GpuInfo;
-            this.CpuId = speedDto.CpuId;
             this.Version = speedDto.Version;
             this.IsMining = speedDto.IsMining;
             this.BootOn = speedDto.BootOn;
@@ -686,6 +737,15 @@ namespace NTMiner.Core.MinerServer {
             this.IsDisableAntiSpyware = speedDto.IsDisableAntiSpyware;
             this.IsDisableUAC = speedDto.IsDisableUAC;
             this.IsDisableWAU = speedDto.IsDisableWAU;
+            this.Is1080PillEnabled = speedDto.Is1080PillEnabled;
+            this.IsPreventDisplaySleep = speedDto.IsPreventDisplaySleep;
+            this.IsAutoReboot = speedDto.IsAutoReboot;
+            this.IsLowSpeedRestartComputer = speedDto.IsLowSpeedRestartComputer;
+            this.LowSpeedRestartComputerMinutes = speedDto.LowSpeedRestartComputerMinutes;
+            this.LowSpeed = speedDto.LowSpeed;
+            this.IsLowSpeedReOverClock = speedDto.IsLowSpeedReOverClock;
+            this.LowSpeedReOverClockMinutes = speedDto.LowSpeedReOverClockMinutes;
+            this.OverClockLowSpeed = speedDto.OverClockLowSpeed;
             Extract(
                 speedDto,
                 out int mainCoinPoolDelayNumber,
@@ -732,6 +792,14 @@ namespace NTMiner.Core.MinerServer {
         public Guid GroupId { get; set; }
 
         public DateTime NetActiveOn { get; set; }
+
+        public DateTime GetActiveOn() {
+            DateTime activeOn = this.MinerActiveOn;
+            if (this.NetActiveOn > activeOn) {
+                activeOn = this.NetActiveOn;
+            }
+            return activeOn;
+        }
 
         public bool IsOnline { get; set; }
 

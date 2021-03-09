@@ -16,7 +16,7 @@ namespace NTMiner.View {
         /// </summary>
         /// <param name="app"></param>
         /// <param name="appType"></param>
-        void ShowMainWindow(Application app, NTMinerAppType appType);
+        void ShowMainWindow(Application app);
 
         /// <summary>
         /// 创建一些与界面有关的路径。此类路径主要就是“打开某个页面”这种路径。

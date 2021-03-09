@@ -8,13 +8,18 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<Guid, CaptchaData> _dicById = new Dictionary<Guid, CaptchaData>();
         private readonly object _locker = new object();
 
-        protected DateTime InitedOn = DateTime.MinValue;
         public bool IsReadied {
             get; private set;
         }
 
-        private readonly ICaptchaRedis _redis;
-        public CaptchaSet(ICaptchaRedis redis) {
+        public int Count {
+            get {
+                return _dicById.Count;
+            }
+        }
+
+        private readonly ICaptchaDataRedis _redis;
+        public CaptchaSet(ICaptchaDataRedis redis) {
             _redis = redis;
             redis.GetAllAsync().ContinueWith(t => {
                 if (t.Result != null && t.Result.Count != 0) {
@@ -27,11 +32,9 @@ namespace NTMiner.Core.Impl {
             VirtualRoot.BuildEventPath<Per1MinuteEvent>("清理过期的验证码", LogEnum.DevConsole, path: message => {
                 // 验证码在内存中留存10分钟
                 DateTime time = message.BornOn.AddMinutes(-10);
-                List<CaptchaData> toRemoves = new List<CaptchaData>();
-                foreach (var item in _dicById.Values) {
-                    if (item.CreatedOn <= time) {
-                        toRemoves.Add(item);
-                    }
+                CaptchaData[] toRemoves;
+                lock (_locker) {
+                    toRemoves = _dicById.Values.Where(a => a.CreatedOn <= time).ToArray();
                 }
                 foreach (var item in toRemoves) {
                     _dicById.Remove(item.Id);

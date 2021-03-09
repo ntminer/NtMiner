@@ -4,9 +4,7 @@
             // nothing need todo
         }
 
-        public void OverClock(
-            int gpuIndex, int coreClockMHz, int coreClockVoltage, int memoryClockMHz, 
-            int memoryClockVoltage, int powerLimit, int tempLimit, int fanSpeed) {
+        public void OverClock(int gpuIndex, OverClockValue value) {
             // nothing need todo
         }
 

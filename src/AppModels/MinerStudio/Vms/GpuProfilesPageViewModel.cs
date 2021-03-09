@@ -64,7 +64,7 @@ namespace NTMiner.MinerStudio.Vms {
                 }
                 string json = VirtualRoot.JsonSerializer.Serialize(jsonObj);
                 foreach (var client in minerClientsWindowVm.SelectedMinerClients) {
-                    MinerStudioService.Instance.SaveGpuProfilesJsonAsync(client, json);
+                    MinerStudioRoot.MinerStudioService.SaveGpuProfilesJsonAsync(client, json);
                 }
                 VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });

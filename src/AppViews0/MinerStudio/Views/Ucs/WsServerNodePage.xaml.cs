@@ -10,7 +10,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "外网群控websocket服务器节点",
                 IconName = "Icon_Server",
-                Width = 1800,
+                Width = 1590,
                 Height = 400,
                 IsMaskTheParent = false,
                 IsChildWindow = true,
@@ -30,7 +30,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             InitializeComponent();
             this.OnLoaded(window => {
                 window.BuildEventPath<Per20SecondEvent>("外网群控服务器节点列表页面打开着时周期刷新", LogEnum.None, path: message => {
-                    Vm.Refresh();
+                    Vm.DoRefresh();
                 }, this.GetType());
             });
         }

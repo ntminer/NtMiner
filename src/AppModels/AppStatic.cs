@@ -485,6 +485,10 @@ namespace NTMiner {
         }
         #endregion
 
+        public static ICommand ExtractCosturaCompressedDlls { get; private set; } = new DelegateCommand(() => {
+            CosturaUtil.ExtractCosturaCompressedDlls();
+        });
+
         public static ICommand WindowsProperty { get; private set; } = new DelegateCommand(() => {
             Process.Start("control.exe", "system");
         });
@@ -583,6 +587,10 @@ namespace NTMiner {
 
         public static ICommand ShowGpuNamePage { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowGpuNamePageCommand());
+        });
+
+        public static ICommand ShowActionCountPage { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new ShowActionCountPageCommand());
         });
 
         public static ICommand ShowChangePassword { get; private set; } = new DelegateCommand(() => {
@@ -751,7 +759,7 @@ namespace NTMiner {
         public static string OfficialSiteName {
             get {
                 string url = "NTMiner.com";
-                if (WpfUtil.IsDevMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return url;
                 }
                 string dicItemValue = NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue(NTKeyword.ThisSystemSysDicCode, "HomePageUrl", defaultValue: url);
@@ -773,7 +781,7 @@ namespace NTMiner {
         public static string AppMinerName {
             get {
                 const string txt = "开源矿工";
-                if (WpfUtil.IsDevMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return txt;
                 }
                 return NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue(NTKeyword.ThisSystemSysDicCode, "AppMinerName", txt);
@@ -783,7 +791,7 @@ namespace NTMiner {
         public static string AppMinerDescription {
             get {
                 const string txt = " - 做最好的矿工";
-                if (WpfUtil.IsDevMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return txt;
                 }
                 return NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemDescription(NTKeyword.ThisSystemSysDicCode, "AppMinerName", txt);
@@ -793,7 +801,7 @@ namespace NTMiner {
         public static string AppMinerIntro {
             get {
                 const string txt = "开源、开放、安全、专业、更高收益。QQ群863725136";
-                if (WpfUtil.IsDevMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return txt;
                 }
                 return NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue(NTKeyword.ThisSystemSysDicCode, "AppMinerIntro", txt);

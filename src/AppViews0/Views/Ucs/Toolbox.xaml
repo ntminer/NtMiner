@@ -118,7 +118,6 @@
                             <controls:KbLinkButton
 								Command="{x:Static app:AppStatic.ViewUrl}"
                                 CommandParameter="{Binding NvidiaDriverWin10.Value}"
-								Padding="0"
 								HorizontalAlignment="Left"
 								KbDisplayLine="False"
 								Background="Transparent">
@@ -128,7 +127,6 @@
                                 Grid.Row="1"
 								Command="{x:Static app:AppStatic.ViewUrl}"
                                 CommandParameter="{Binding NvidiaDriverWin7.Value}"
-								Padding="0"
 								HorizontalAlignment="Left"
 								KbDisplayLine="False"
 								Background="Transparent">
@@ -139,7 +137,6 @@
                                 Grid.Column="1"
 								Command="{x:Static app:AppStatic.ViewUrl}"
                                 CommandParameter="{Binding NvidiaDriverMore.Value}"
-								Padding="0"
 								HorizontalAlignment="Right"
 								KbDisplayLine="False"
 								Background="Transparent">
@@ -165,7 +162,6 @@
                             <controls:KbLinkButton
 								Command="{x:Static app:AppStatic.ViewUrl}"
                                 CommandParameter="{Binding VisualCpp0.Value}"
-								Padding="0"
 								HorizontalAlignment="Left"
 								KbDisplayLine="False"
 								Background="Transparent">
@@ -175,7 +171,6 @@
                                 Grid.Row="1"
 								Command="{x:Static app:AppStatic.ViewUrl}"
                                 CommandParameter="{Binding VisualCpp1.Value}"
-								Padding="0"
 								HorizontalAlignment="Left"
 								KbDisplayLine="False"
 								Background="Transparent">

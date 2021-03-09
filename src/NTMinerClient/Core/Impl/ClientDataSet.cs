@@ -17,7 +17,7 @@ namespace NTMiner.Core.Impl {
                 }
             });
         }) {
-            VirtualRoot.BuildOnecePath<ClientSetInitedEvent>("矿机集初始化后开始拉取矿机算力的进程", LogEnum.None, path: message => {
+            VirtualRoot.BuildOnecePath<ClientSetInitedEvent>("开始拉取矿机算力的进程", LogEnum.None, path: message => {
                 PullSpeedInit();
             }, PathId.Empty, this.GetType());
         }
@@ -30,14 +30,11 @@ namespace NTMiner.Core.Impl {
             if (!IsReadied) {
                 return;
             }
-            MinerData minerData = MinerData.Create(minerIp);
-            var clientData = ClientData.Create(minerData);
+            var clientData = ClientData.Create(minerIp, out MinerData minerData);
             if (!_dicByObjectId.ContainsKey(clientData.Id)) {
                 _dicByObjectId.Add(clientData.Id, clientData);
             }
-            if (!_dicByClientId.ContainsKey(clientData.ClientId)) {
-                _dicByClientId.Add(clientData.ClientId, clientData);
-            }
+            // 因为ClientId是服务端随机生成的，所以需要等待获取挖矿端的ClientId
             DoUpdateSave(minerData);
         }
 
@@ -54,43 +51,43 @@ namespace NTMiner.Core.Impl {
                 return;
             }
             _isPullSpeedInited = true;
-            Task.Factory.StartNew(() => {
-                while (true) {
-                    DateTime now = DateTime.Now;
-                    if (_getSpeedOn.AddSeconds(10) <= now) {
-                        NTMinerConsole.DevDebug("周期拉取数据更新拍照源数据");
-                        ClientData[] clientDatas = _dicByObjectId.Values.ToArray();
-                        Task[] tasks = clientDatas.Select(CreatePullTask).ToArray();
-                        Task.WaitAll(tasks, 5 * 1000);
-                        _getSpeedOn = now;
-
-                        #region 将NoSpeedSeconds秒内更新过的记录持久化到磁盘
-                        List<MinerData> minerDatas = new List<MinerData>();
-                        DateTime time = now.AddSeconds(-20);
-                        foreach (var clientData in _dicByObjectId.Values) {
-                            if (clientData.MinerActiveOn > time) {
-                                minerDatas.Add(MinerData.Create(clientData));
-                            }
-                            else {
-                                clientData.IsMining = false;
-                                clientData.MainCoinSpeed = 0;
-                                clientData.DualCoinSpeed = 0;
-                                foreach (var item in clientData.GpuTable) {
-                                    item.MainCoinSpeed = 0;
-                                    item.DualCoinSpeed = 0;
-                                }
-                            }
-                        }
-                        if (minerDatas.Count > 0) {
-                            DoUpdateSave(minerDatas);
-                        }
-                        #endregion
-                    }
-                    else {
-                        System.Threading.Thread.Sleep((int)(_getSpeedOn.AddSeconds(10) - now).TotalMilliseconds);
-                    }
+            VirtualRoot.BuildEventPath<Per10SecondEvent>("周期拉取矿机状态", LogEnum.DevConsole, message => {
+                if (RpcRoot.IsOuterNet) {
+                    return;
                 }
-            }, TaskCreationOptions.LongRunning);
+                Task.Factory.StartNew(() => {
+                    NTMinerConsole.DevDebug("周期拉取数据更新拍照源数据");
+                    ClientData[] clientDatas = _dicByObjectId.Values.ToArray();
+                    Task[] tasks = clientDatas.Select(CreatePullTask).ToArray();
+                    Task.WaitAll(tasks, 5 * 1000);
+
+                    if (RpcRoot.IsOuterNet) {
+                        return;
+                    }
+
+                    #region 将NoSpeedSeconds秒内更新过的记录持久化到磁盘
+                    List<MinerData> minerDatas = new List<MinerData>();
+                    DateTime time = message.BornOn.AddSeconds(-20);
+                    foreach (var clientData in _dicByObjectId.Values) {
+                        if (clientData.MinerActiveOn > time) {
+                            minerDatas.Add(MinerData.Create(clientData));
+                        }
+                        else {
+                            clientData.IsMining = false;
+                            clientData.MainCoinSpeed = 0;
+                            clientData.DualCoinSpeed = 0;
+                            foreach (var item in clientData.GpuTable) {
+                                item.MainCoinSpeed = 0;
+                                item.DualCoinSpeed = 0;
+                            }
+                        }
+                    }
+                    if (minerDatas.Count > 0) {
+                        DoUpdateSave(minerDatas);
+                    }
+                    #endregion
+                });
+            }, this.GetType());
         }
 
         private Task CreatePullTask(ClientData clientData) {
@@ -108,8 +105,15 @@ namespace NTMiner.Core.Impl {
                     }
                     else {
                         if (speedData.ClientId != clientData.ClientId) {
-                            _dicByClientId.Remove(clientData.ClientId);
-                            _dicByClientId.Add(speedData.ClientId, clientData);
+                            if (_dicByClientId.TryGetValue(clientData.ClientId, out ClientData value)) {
+                                _dicByClientId.Remove(clientData.ClientId);
+                            }
+                            if (!_dicByClientId.ContainsKey(speedData.ClientId)) {
+                                _dicByClientId.Add(speedData.ClientId, clientData);
+                                if (!_dicByObjectId.ContainsKey(clientData.Id)) {
+                                    _dicByObjectId.Add(clientData.Id, clientData);
+                                }
+                            }
                         }
                         clientData.NetActiveOn = DateTime.Now;
                         clientData.IsOnline = true;
@@ -117,13 +121,6 @@ namespace NTMiner.Core.Impl {
                     }
                 });
             });
-        }
-
-        protected override void DoUpdateSave(MinerData minerData) {
-            using (LiteDatabase db = CreateLocalDb()) {
-                var col = db.GetCollection<MinerData>();
-                col.Upsert(minerData);
-            }
         }
 
         protected override void DoUpdateSave(IEnumerable<MinerData> minerDatas) {

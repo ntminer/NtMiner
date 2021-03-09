@@ -2,16 +2,16 @@
 
 namespace NTMiner.Core.Mq.Senders.Impl {
     public class WsServerNodeMqSender : IWsServerNodeMqSender {
-        private readonly IMqRedis _serverConnection;
-        public WsServerNodeMqSender(IMqRedis serverConnection) {
-            _serverConnection = serverConnection;
+        private readonly IMq _mq;
+        public WsServerNodeMqSender(IMq mq) {
+            _mq = mq;
         }
 
         public void SendWsServerNodeAdded(string wsServerNodeAddress) {
             if (string.IsNullOrEmpty(wsServerNodeAddress)) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange, 
                 routingKey: MqKeyword.WsServerNodeAddedRoutingKey, 
                 basicProperties: CreateBasicProperties(), 
@@ -22,7 +22,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(wsServerNodeAddress)) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange, 
                 routingKey: MqKeyword.WsServerNodeRemovedRoutingKey,
                 basicProperties: CreateBasicProperties(), 
@@ -30,7 +30,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         }
 
         private IBasicProperties CreateBasicProperties() {
-            var basicProperties = _serverConnection.MqChannel.CreateBasicProperties();
+            var basicProperties = _mq.MqChannel.CreateBasicProperties();
             basicProperties.Persistent = false;
             basicProperties.Expiration = MqKeyword.Expiration36sec;
             basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;

@@ -15,21 +15,9 @@ namespace NTMiner {
             var timestamp = Timestamp.GetTimestamp(DateTime.Now);
             return new Dictionary<string, string> {
                 ["loginName"] = loginName,
-                ["sign"] = CalcSign(loginName, passwordSha1, timestamp, data),
+                ["sign"] = HashUtil.CalcSign(loginName, passwordSha1, timestamp, data),
                 ["timestamp"] = timestamp.ToString()
             };
-        }
-
-        public static string CalcSign(string loginName, string passwordSha1, long timestamp, object data = null) {
-            StringBuilder sb;
-            if (data == null || !(data is ISignableData signableData)) {
-                sb = new StringBuilder();
-            }
-            else {
-                sb = signableData.GetSignData();
-            }
-            sb.Append("LoginName").Append(loginName).Append("Password").Append(passwordSha1).Append("Timestamp").Append(timestamp);
-            return HashUtil.Sha1(sb.ToString());
         }
 
         /// <summary>
@@ -111,7 +99,7 @@ namespace NTMiner {
             var timestamp = Timestamp.GetTimestamp(DateTime.Now);
             return new Dictionary<string, string> {
                 ["loginName"] = this.LoginName,
-                ["sign"] = CalcSign(this.LoginName, this.Password, timestamp, data),
+                ["sign"] = HashUtil.CalcSign(this.LoginName, this.Password, timestamp, data),
                 ["timestamp"] = timestamp.ToString()
             };
         }

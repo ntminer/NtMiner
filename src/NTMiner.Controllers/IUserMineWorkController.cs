@@ -26,9 +26,5 @@ namespace NTMiner.Controllers {
         /// 需签名
         /// </summary>
         DataResponse<string> GetLocalJson(DataRequest<Guid> request);
-        /// <summary>
-        /// 需签名
-        /// </summary>
-        GetWorkJsonResponse GetWorkJson(GetWorkJsonRequest request);
     }
 }

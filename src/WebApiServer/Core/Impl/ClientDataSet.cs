@@ -2,61 +2,108 @@
 using NTMiner.Core.Mq.Senders;
 using NTMiner.Core.Redis;
 using NTMiner.Report;
+using NTMiner.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace NTMiner.Core.Impl {
     public class ClientDataSet : ClientDataSetBase, IClientDataSet {
-        private readonly IMinerRedis _minerRedis;
+        private readonly IMinerDataRedis _minerRedis;
+        private readonly IClientActiveOnRedis _clientActiveOnRedis;
         private readonly ISpeedDataRedis _speedDataRedis;
         private readonly IMinerClientMqSender _mqSender;
-        public ClientDataSet(IMinerRedis minerRedis, ISpeedDataRedis speedDataRedis, IMinerClientMqSender mqSender) : base(isPull: false, getDatas: callback => {
-            var getMinersTask = minerRedis.GetAllAsync();
-            var getSpeedsTask = speedDataRedis.GetAllAsync();
-            Task.WhenAll(getMinersTask, getSpeedsTask).ContinueWith(t => {
-                NTMinerConsole.UserInfo($"从redis加载了 {getMinersTask.Result.Count} 条MinerData，和 {getSpeedsTask.Result.Count} 条SpeedData");
-                var speedDatas = getSpeedsTask.Result;
-                List<ClientData> clientDatas = new List<ClientData>();
-                DateTime speedOn = DateTime.Now.AddMinutes(-3);
-                foreach (var minerData in getMinersTask.Result) {
-                    var clientData = ClientData.Create(minerData);
-                    // 该属性没有持久化而只在内存中，启动时将该属性值视为当前日期的前一天的零时加上CreatedOn
-                    // 的时间从而将数据分散开来从而滑动清理，后面有个周期清理7天不活跃矿机的任务。WebApiServer启动后第6天才会进行第一次清理。
-                    clientData.MinerActiveOn = DateTime.Today.AddDays(-1) + minerData.CreatedOn.TimeOfDay;
-                    clientDatas.Add(clientData);
-                    var speedData = speedDatas.FirstOrDefault(a => a.ClientId == minerData.ClientId);
-                    if (speedData != null && speedData.SpeedOn > speedOn) {
-                        clientData.Update(speedData, out bool _);
+        public ClientDataSet(
+            IMinerDataRedis minerRedis, IClientActiveOnRedis clientActiveOnRedis,
+            ISpeedDataRedis speedDataRedis, IMinerClientMqSender mqSender)
+            : base(isPull: false, getDatas: callback => {
+                var getMinersTask = minerRedis.GetAllAsync();
+                var getClientActiveOnsTask = clientActiveOnRedis.GetAllAsync();
+                var getSpeedsTask = speedDataRedis.GetAllAsync();
+                Task.WhenAll(getMinersTask, getClientActiveOnsTask, getSpeedsTask).ContinueWith(t => {
+                    NTMinerConsole.UserInfo($"从redis加载了 {getMinersTask.Result.Count} 条MinerData，和 {getSpeedsTask.Result.Count} 条SpeedData");
+                    Dictionary<Guid, SpeedData> speedDataDic = getSpeedsTask.Result;
+                    Dictionary<string, DateTime> clientActiveOnDic = getClientActiveOnsTask.Result;
+                    List<ClientData> clientDatas = new List<ClientData>();
+                    DateTime speedOn = DateTime.Now.AddMinutes(-3);
+                    foreach (var minerData in getMinersTask.Result) {
+                        var clientData = ClientData.Create(minerData);
+                        if (clientActiveOnDic.TryGetValue(minerData.Id, out DateTime activeOn)) {
+                            clientData.MinerActiveOn = activeOn;
+                        }
+                        clientDatas.Add(clientData);
+                        if (speedDataDic.TryGetValue(minerData.ClientId, out SpeedData speedData) && speedData.SpeedOn > speedOn) {
+                            clientData.Update(speedData, out bool _);
+                        }
                     }
-                }
-                callback?.Invoke(clientDatas);
-            });
-        }) {
+                    callback?.Invoke(clientDatas);
+                });
+            }) {
             _minerRedis = minerRedis;
+            _clientActiveOnRedis = clientActiveOnRedis;
             _speedDataRedis = speedDataRedis;
             _mqSender = mqSender;
-            VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期清理Redis中不活跃的来自挖矿端上报的算力记录", LogEnum.DevConsole, path: message => {
-                DateTime time = message.BornOn.AddSeconds(-130);
-                var toRemoveSpeed = _dicByClientId.Where(a => a.Value.MinerActiveOn != DateTime.MinValue && a.Value.MinerActiveOn <= time).ToArray();
-                _speedDataRedis.DeleteByClientIdsAsync(toRemoveSpeed.Select(a => a.Key).ToArray());
-
-                // 删除一段时间没有活跃过的客户端
-                const int nDay = 7;
-                DateTime netActiveOn = message.BornOn.AddSeconds(-30);
-                time = message.BornOn.AddDays(-nDay);
-                var toRemoveClient = _dicByObjectId.Where(a => a.Value.MinerActiveOn <= time && a.Value.NetActiveOn <= netActiveOn).ToArray();
-                if (toRemoveClient.Length > 0) {
-                    NTMinerConsole.UserOk($"{toRemoveClient.Length.ToString()} 台矿机因 {nDay.ToString()} 天没有活跃，删除对应记录");
-                    foreach (var kv in toRemoveClient) {
-                        base.RemoveByObjectId(kv.Key);
+            VirtualRoot.BuildEventPath<Per100MinuteEvent>("周期将矿机的MinerActiveOn或NetActiveOn时间戳持久到redis", LogEnum.DevConsole, message => {
+                var minerCients = _dicByObjectId.Values.ToArray();
+                DateTime time = message.BornOn.AddSeconds(-message.Seconds);
+                int count = 0;
+                foreach (var minerClient in minerCients) {
+                    // 如果活跃则更新到redis，否则就不更新了
+                    DateTime activeOn = minerClient.GetActiveOn();
+                    if (activeOn > time) {
+                        clientActiveOnRedis.SetAsync(minerClient.Id, activeOn);
+                        count++;
                     }
+                }
+                NTMinerConsole.DevWarn($"{count.ToString()} 条活跃矿机的时间戳被持久化");
+            }, this.GetType());
+            // 上面的持久化时间戳到redis的目的主要是为了下面那个周期找出不活跃的矿机记录删除掉的逻辑能够在重启WebApiServer服务进程后不中断
+            VirtualRoot.BuildEventPath<Per2MinuteEvent>("周期找出用不活跃的矿机记录删除掉", LogEnum.DevConsole, message => {
+                var clientDatas = _dicByObjectId.Values.ToArray();
+                Dictionary<string, List<ClientData>> dicByMACAddress = new Dictionary<string, List<ClientData>>();
+                DateTime minerClientExpireTime = message.BornOn.AddDays(-7);
+                // 因为SpeedData尺寸较大，时效性较短，可以比CientData更早删除
+                DateTime minerSpeedExpireTime = message.BornOn.AddMinutes(-3);
+                int count = 0;
+                foreach (var clientData in clientDatas) {
+                    DateTime activeOn = clientData.GetActiveOn();
+                    // 如果7天都没有活跃了
+                    if (activeOn <= minerClientExpireTime) {
+                        RemoveByObjectId(clientData.Id);
+                        count++;
+                    }
+                    else if (activeOn <= minerSpeedExpireTime) {
+                        _speedDataRedis.DeleteByClientIdAsync(clientData.ClientId);
+                    }
+                    else if (!string.IsNullOrEmpty(clientData.MACAddress)) {
+                        if (!dicByMACAddress.TryGetValue(clientData.MACAddress, out List<ClientData> list)) {
+                            list = new List<ClientData>();
+                            dicByMACAddress.Add(clientData.MACAddress, list);
+                        }
+                        list.Add(clientData);
+                    }
+                }
+                if (count > 0) {
+                    NTMinerConsole.DevWarn($"{count.ToString()} 条不活跃的矿机记录被删除");
+                }
+                List<string> toRemoveIds = new List<string>();
+                foreach (var kv in dicByMACAddress) {
+                    if (kv.Value.Count > 1) {
+                        toRemoveIds.AddRange(kv.Value.Select(a => a.Id));
+                    }
+                }
+                if (toRemoveIds.Count > 0) {
+                    count = 0;
+                    foreach (var id in toRemoveIds) {
+                        RemoveByObjectId(id);
+                        count++;
+                    }
+                    NTMinerConsole.DevWarn($"{count.ToString()} 条MAC地址重复的矿机记录被删除");
                 }
             }, this.GetType());
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在ClientSetInitedEvent事件之后才会创建
-            VirtualRoot.BuildEventPath<SpeedDataMqMessage>("收到SpeedDataMq消息后更新ClientData内存", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<SpeedDataMqEvent>("收到SpeedDataMq消息后更新ClientData内存", LogEnum.None, path: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -64,16 +111,16 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(SpeedDataMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(SpeedDataMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 speedDataRedis.GetByClientIdAsync(message.ClientId).ContinueWith(t => {
                     ReportSpeed(t.Result.SpeedDto, message.MinerIp, isFromWsServerNode: true);
                 });
             }, this.GetType());
-            VirtualRoot.BuildEventPath<MinerClientWsOpenedMqMessage>("收到MinerClientWsOpenedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<MinerClientWsOpenedMqEvent>("收到MinerClientWsOpenedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, path: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(MinerClientWsOpenedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(MinerClientWsOpenedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 if (_dicByClientId.TryGetValue(message.ClientId, out ClientData clientData)) {
@@ -81,9 +128,9 @@ namespace NTMiner.Core.Impl {
                     clientData.IsOnline = true;
                 }
             }, this.GetType());
-            VirtualRoot.BuildEventPath<MinerClientWsClosedMqMessage>("收到MinerClientWsClosedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<MinerClientWsClosedMqEvent>("收到MinerClientWsClosedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, path: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(MinerClientWsClosedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(MinerClientWsClosedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 if (_dicByClientId.TryGetValue(message.ClientId, out ClientData clientData)) {
@@ -91,9 +138,9 @@ namespace NTMiner.Core.Impl {
                     clientData.IsOnline = false;
                 }
             }, this.GetType());
-            VirtualRoot.BuildEventPath<MinerClientWsBreathedMqMessage>("收到MinerClientWsBreathedMq消息后更新NetActiveOn", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<MinerClientWsBreathedMqEvent>("收到MinerClientWsBreathedMq消息后更新NetActiveOn", LogEnum.None, path: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(MinerClientWsBreathedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(MinerClientWsBreathedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 if (_dicByClientId.TryGetValue(message.ClientId, out ClientData clientData)) {
@@ -101,25 +148,25 @@ namespace NTMiner.Core.Impl {
                     clientData.IsOnline = true;
                 }
             }, this.GetType());
-            VirtualRoot.BuildCmdPath<ChangeMinerSignMqMessage>(path: message => {
+            VirtualRoot.BuildCmdPath<ChangeMinerSignMqCommand>(path: message => {
                 if (_dicByObjectId.TryGetValue(message.Data.Id, out ClientData clientData)) {
                     clientData.Update(message.Data, out bool isChanged);
                     if (isChanged) {
                         var minerData = MinerData.Create(clientData);
                         _minerRedis.SetAsync(minerData).ContinueWith(t => {
-                            _mqSender.SendMinerSignChanged(minerData.Id);
+                            _mqSender.SendMinerSignChanged(minerData.Id, minerData.ClientId);
                         });
                     }
                 }
                 else {
-                    clientData = ClientData.Create(MinerData.Create(message.Data));
+                    clientData = ClientData.Create(message.Data);
                     Add(clientData);
                 }
                 clientData.NetActiveOn = DateTime.Now;
                 clientData.IsOnline = true;
                 clientData.IsOuterUserEnabled = true;
             }, this.GetType(), LogEnum.None);
-            VirtualRoot.BuildCmdPath<QueryClientsForWsMqMessage>(path: message => {
+            VirtualRoot.BuildCmdPath<QueryClientsForWsMqCommand>(path: message => {
                 QueryClientsResponse response = AppRoot.QueryClientsForWs(message.Query);
                 _mqSender.SendResponseClientsForWs(message.AppId, message.LoginName, message.SessionId, response);
             }, this.GetType(), LogEnum.None);
@@ -150,11 +197,27 @@ namespace NTMiner.Core.Impl {
             ClientData clientData = GetByClientId(speedDto.ClientId);
             if (clientData == null) {
                 clientData = ClientData.Create(speedDto, minerIp);
+                if (speedDto.IsOuterUserEnabled && !string.IsNullOrEmpty(speedDto.ReportOuterUserId)) {
+                    UserData userData = AppRoot.UserSet.GetUser(UserId.Create(speedDto.ReportOuterUserId));
+                    if (userData != null) {
+                        clientData.LoginName = userData.LoginName;
+                    }
+                }
                 Add(clientData);
             }
             else {
+                bool isLoginNameChanged = false;
+                if (speedDto.IsOuterUserEnabled && 
+                    !string.IsNullOrEmpty(speedDto.ReportOuterUserId) 
+                    && (string.IsNullOrEmpty(clientData.LoginName) || clientData.OuterUserId != speedDto.ReportOuterUserId)) {
+                    UserData userData = AppRoot.UserSet.GetUser(UserId.Create(speedDto.ReportOuterUserId));
+                    if (userData != null) {
+                        isLoginNameChanged = true;
+                        clientData.LoginName = userData.LoginName;
+                    }
+                }
                 clientData.Update(speedDto, minerIp, out bool isMinerDataChanged);
-                if (isMinerDataChanged) {
+                if (isMinerDataChanged || isLoginNameChanged) {
                     DoUpdateSave(MinerData.Create(clientData));
                 }
             }
@@ -201,69 +264,9 @@ namespace NTMiner.Core.Impl {
                 }
                 var minerData = MinerData.Create(clientData);
                 _minerRedis.SetAsync(minerData).ContinueWith(t => {
-                    _mqSender.SendMinerDataAdded(minerData.Id);
+                    _mqSender.SendMinerDataAdded(minerData.Id, minerData.ClientId);
                 });
             }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="objectId"></param>
-        /// <param name="propertyName">propertyName是客户端传入的白名单属性</param>
-        /// <param name="value"></param>
-        public override void UpdateClient(string objectId, string propertyName, object value) {
-            if (!IsReadied) {
-                return;
-            }
-            if (objectId == null) {
-                return;
-            }
-            if (_dicByObjectId.TryGetValue(objectId, out ClientData clientData) && ClientData.TryGetReflectionUpdateProperty(propertyName, out PropertyInfo propertyInfo)) {
-                value = VirtualRoot.ConvertValue(propertyInfo.PropertyType, value);
-                var oldValue = propertyInfo.GetValue(clientData, null);
-                if (oldValue != value) {
-                    propertyInfo.SetValue(clientData, value, null);
-                    DoUpdateSave(MinerData.Create(clientData));
-                }
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="propertyName">propertyName是客户端传入的白名单属性</param>
-        /// <param name="values"></param>
-        public override void UpdateClients(string propertyName, Dictionary<string, object> values) {
-            if (!IsReadied) {
-                return;
-            }
-            if (values.Count == 0) {
-                return;
-            }
-            if (ClientData.TryGetReflectionUpdateProperty(propertyName, out PropertyInfo propertyInfo)) {
-                values.ChangeValueType(propertyInfo.PropertyType);
-                List<MinerData> minerDatas = new List<MinerData>();
-                foreach (var kv in values) {
-                    string objectId = kv.Key;
-                    object value = kv.Value;
-                    if (_dicByObjectId.TryGetValue(objectId, out ClientData clientData)) {
-                        var oldValue = propertyInfo.GetValue(clientData, null);
-                        if (oldValue != value) {
-                            propertyInfo.SetValue(clientData, value, null);
-                            minerDatas.Add(MinerData.Create(clientData));
-                        }
-                    }
-                }
-                DoUpdateSave(minerDatas);
-            }
-        }
-
-        protected override void DoUpdateSave(MinerData minerData) {
-            if (!IsReadied) {
-                return;
-            }
-            _minerRedis.SetAsync(minerData);
         }
 
         protected override void DoUpdateSave(IEnumerable<MinerData> minerDatas) {
@@ -271,7 +274,7 @@ namespace NTMiner.Core.Impl {
                 return;
             }
             foreach (var minerData in minerDatas) {
-                DoUpdateSave(minerData);
+                _minerRedis.SetAsync(minerData);
             }
         }
 
@@ -280,8 +283,10 @@ namespace NTMiner.Core.Impl {
                 return;
             }
             _minerRedis.DeleteAsync(minerData).ContinueWith(t => {
-                _mqSender.SendMinerDataRemoved(minerData.Id);
+                _mqSender.SendMinerDataRemoved(minerData.Id, minerData.ClientId);
             });
+            _clientActiveOnRedis.DeleteAsync(minerData.Id);
+            _speedDataRedis.DeleteByClientIdAsync(minerData.ClientId);
         }
     }
 }

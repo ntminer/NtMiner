@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -15,7 +14,9 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             this.OnLoaded(window => {
                 window.BuildEventPath<ServerJsonVersionChangedEvent>("刷新展示的ServerJsonVersion", LogEnum.DevConsole, path: message => {
-                    Vm.ServerJsonVersion = NTMinerContext.Instance.GetServerJsonVersion();
+                    if (message.IsChagned) {
+                        Vm.ServerJsonVersion = message.NewVersion;
+                    }
                 }, location: this.GetType());
             });
         }

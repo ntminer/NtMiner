@@ -32,6 +32,7 @@ namespace NTMiner {
                 }
             }
             try {
+                NTMinerConsole.MainUiOk();
                 if (DevMode.IsDevMode) {
                     NTMinerConsole.GetOrAlloc();
                 }

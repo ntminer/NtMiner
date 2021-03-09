@@ -35,49 +35,49 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserAddedMqMessage(appId, loginName, timestamp));
+                        VirtualRoot.RaiseEvent(new UserAddedMqEvent(appId, loginName, timestamp));
                     }
                     break;
                 case MqKeyword.UserUpdatedRoutingKey: {
                         string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserUpdatedMqMessage(appId, loginName, timestamp));
+                        VirtualRoot.RaiseEvent(new UserUpdatedMqEvent(appId, loginName, timestamp));
                     }
                     break;
                 case MqKeyword.UserRemovedRoutingKey: {
                         string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserRemovedMqMessage(appId, loginName, timestamp));
+                        VirtualRoot.RaiseEvent(new UserRemovedMqEvent(appId, loginName, timestamp));
                     }
                     break;
                 case MqKeyword.UserEnabledRoutingKey: {
                         string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserEnabledMqMessage(appId, loginName, timestamp));
+                        VirtualRoot.RaiseEvent(new UserEnabledMqEvent(appId, loginName, timestamp));
                     }
                     break;
                 case MqKeyword.UserDisabledRoutingKey: {
                         string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserDisabledMqMessage(appId, loginName, timestamp));
+                        VirtualRoot.RaiseEvent(new UserDisabledMqEvent(appId, loginName, timestamp));
                     }
                     break;
                 case MqKeyword.UserPasswordChangedRoutingKey: {
                         string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserPasswordChangedMqMessage(appId, loginName, timestamp));
+                        VirtualRoot.RaiseEvent(new UserPasswordChangedMqEvent(appId, loginName, timestamp));
                     }
                     break;
                 case MqKeyword.UserRSAKeyUpdatedRoutingKey: {
                         string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserRSAKeyUpdatedMqMessage(appId, loginName, timestamp));
+                        VirtualRoot.RaiseEvent(new UserRSAKeyUpdatedMqEvent(appId, loginName, timestamp));
                     }
                     break;
                 default:

@@ -58,6 +58,14 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\WebApiServer\Core\IKernelOutputKeywordSet.cs">
+      <Link>Core\IKernelOutputKeywordSet.cs</Link>
+    </Compile>
+    <Compile Include="..\WebApiServer\Core\IServerMessageSet.cs">
+      <Link>Core\IServerMessageSet.cs</Link>
+    </Compile>
+    <Compile Include="Core\Impl\ReadOnlyNTMinerFileSet.cs" />
+    <Compile Include="Core\IReadOnlyNTMinerFileSet.cs" />
     <Compile Include="Rpc\IBinaryRequestJsonResponseRpcHelper.cs" />
     <Compile Include="Rpc\IHttpRpcHelper.cs" />
     <Compile Include="Rpc\IJsonRequestBinaryResponseRpcHelper.cs" />
@@ -73,14 +81,15 @@
     <Compile Include="RpcUser.cs" />
     <Compile Include="Rpc\Impl\JsonRpcHelper.cs" />
     <Compile Include="Services\ClientServices.cs" />
+    <Compile Include="Services\Official\ActionCountService.cs" />
     <Compile Include="Services\Official\AppSettingService.cs" />
     <Compile Include="Services\Client\MinerStudioService.cs" />
     <Compile Include="Services\Client\NTMinerClientService.cs" />
     <Compile Include="Services\Client\NTMinerDaemonService.cs" />
-    <Compile Include="IKernelOutputKeywordSet.cs" />
-    <Compile Include="Impl\KernelOutputKeywordSet.cs" />
+    <Compile Include="Core\Impl\KernelOutputKeywordSet.cs" />
     <Compile Include="Services\Official\FileUrlService.cs" />
     <Compile Include="Services\Official\GpuNameService.cs" />
+    <Compile Include="Services\Official\NTMinerFileService.cs" />
     <Compile Include="Services\Official\NTMinerWalletService.cs" />
     <Compile Include="Services\OfficialServices.cs" />
     <Compile Include="Services\Official\OverClockDataService.cs" />
@@ -96,8 +105,7 @@
     <Compile Include="Services\Official\UserMinerGroupService.cs" />
     <Compile Include="Services\Official\UserMineWorkService.cs" />
     <Compile Include="Services\Official\ReportService.cs" />
-    <Compile Include="IServerMessageSet.cs" />
-    <Compile Include="Impl\ServerMessageSet.cs" />
+    <Compile Include="Core\Impl\ServerMessageSet.cs" />
     <Compile Include="Services\OSSService.cs" />
     <Compile Include="Services\OSS\AliyunOSSService.cs" />
   </ItemGroup>

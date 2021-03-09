@@ -24,6 +24,9 @@ namespace NTMiner.Vms {
         private string _rejectOneShare;
         private string _rejectSharePattern;
         private string _rejectPercentPattern;
+        private string _gpuAcceptShare;
+        private string _gpuRejectShare;
+        private string _gpuIncorrectShare;
 
         private string _dualTotalSpeedPattern;
         private string _dualTotalSharePattern;
@@ -71,6 +74,9 @@ namespace NTMiner.Vms {
             _rejectSharePattern = data.RejectSharePattern;
             _rejectOneShare = data.RejectOneShare;
             _rejectPercentPattern = data.RejectPercentPattern;
+            _gpuAcceptShare = data.GpuAcceptShare;
+            _gpuRejectShare = data.GpuRejectShare;
+            _gpuIncorrectShare = data.GpuIncorrectShare;
             _dualGpuSpeedPattern = data.DualGpuSpeedPattern;
             _dualAcceptSharePattern = data.DualAcceptSharePattern;
             _dualAcceptOneShare = data.DualAcceptOneShare;
@@ -158,11 +164,17 @@ namespace NTMiner.Vms {
         public string GroupNames {
             get {
                 return string.Join("、", new string[] {
-                    NTKeyword.TotalSpeedGroupName, NTKeyword.TotalSpeedUnitGroupName,
-                    NTKeyword.TotalShareGroupName, NTKeyword.AcceptShareGroupName,
-                    NTKeyword.RejectShareGroupName, NTKeyword.RejectPercentGroupName,
-                    NTKeyword.GpuIndexGroupName, NTKeyword.GpuSpeedGroupName,
-                    NTKeyword.GpuSpeedUnitGroupName, NTKeyword.PoolDelayGroupName
+                    NTKeyword.TotalSpeedGroupName, 
+                    NTKeyword.TotalSpeedUnitGroupName,
+                    NTKeyword.TotalShareGroupName, 
+                    NTKeyword.AcceptShareGroupName,
+                    NTKeyword.IncorrectShareGroupName,
+                    NTKeyword.RejectShareGroupName, 
+                    NTKeyword.RejectPercentGroupName,
+                    NTKeyword.GpuIndexGroupName, 
+                    NTKeyword.GpuSpeedGroupName,
+                    NTKeyword.GpuSpeedUnitGroupName, 
+                    NTKeyword.PoolDelayGroupName
                 });
             }
         }
@@ -259,6 +271,9 @@ namespace NTMiner.Vms {
                 if (!string.IsNullOrEmpty(AcceptOneShare) && AcceptOneShare.Contains("?<gpu>")) {
                     return true;
                 }
+                if (!string.IsNullOrEmpty(GpuAcceptShare) && GpuAcceptShare.Contains("?<gpu>")) {
+                    return true;
+                }
                 return false;
             }
         }
@@ -297,16 +312,19 @@ namespace NTMiner.Vms {
 
         public bool IsRejectOneGpuShare {
             get {
-                return !string.IsNullOrEmpty(RejectOneShare);
+                return !string.IsNullOrEmpty(RejectOneShare) || !string.IsNullOrEmpty(GpuRejectShare);
             }
         }
 
         public bool IsGotOneIncorrectGpuShare {
             get {
-                if (string.IsNullOrEmpty(GpuGotOneIncorrectShare)) {
-                    return false;
+                if (!string.IsNullOrEmpty(GpuGotOneIncorrectShare) && GpuGotOneIncorrectShare.Contains("?<gpu>")) {
+                    return true;
                 }
-                return GpuGotOneIncorrectShare.Contains("?<gpu>");
+                if (!string.IsNullOrEmpty(GpuIncorrectShare) && GpuIncorrectShare.Contains("?<gpu>")) {
+                    return true;
+                }
+                return false;
             }
         }
 
@@ -336,6 +354,39 @@ namespace NTMiner.Vms {
                 if (_gpuGotOneIncorrectShare != value) {
                     _gpuGotOneIncorrectShare = value;
                     OnPropertyChanged(nameof(GpuGotOneIncorrectShare));
+                    OnPropertyChanged(nameof(IsGotOneIncorrectGpuShare));
+                }
+            }
+        }
+
+        public string GpuAcceptShare {
+            get { return _gpuAcceptShare; }
+            set {
+                if (_gpuAcceptShare != value) {
+                    _gpuAcceptShare = value;
+                    OnPropertyChanged(nameof(GpuAcceptShare));
+                    OnPropertyChanged(nameof(IsFoundOneGpuShare));
+                }
+            }
+        }
+
+        public string GpuRejectShare {
+            get { return _gpuRejectShare; }
+            set {
+                if (_gpuRejectShare != value) {
+                    _gpuRejectShare = value;
+                    OnPropertyChanged(nameof(GpuRejectShare));
+                    OnPropertyChanged(nameof(IsRejectOneGpuShare));
+                }
+            }
+        }
+
+        public string GpuIncorrectShare {
+            get { return _gpuIncorrectShare; }
+            set {
+                if (_gpuIncorrectShare != value) {
+                    _gpuIncorrectShare = value;
+                    OnPropertyChanged(nameof(GpuIncorrectShare));
                     OnPropertyChanged(nameof(IsGotOneIncorrectGpuShare));
                 }
             }

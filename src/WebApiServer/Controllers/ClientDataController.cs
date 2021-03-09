@@ -68,7 +68,7 @@ namespace NTMiner.Controllers {
                 List<string> toRemoveKeys = new List<string>();
                 foreach (var key in request.Values.Keys) {
                     var minerData = AppRoot.ClientDataSet.GetByObjectId(key);
-                    if (minerData == null && !minerData.IsOwnerBy(User)) {
+                    if (minerData == null || !minerData.IsOwnerBy(User)) {
                         toRemoveKeys.Add(key);
                     }
                 }
@@ -96,7 +96,7 @@ namespace NTMiner.Controllers {
             try {
                 foreach (var objectId in request.ObjectIds) {
                     var minerData = AppRoot.ClientDataSet.GetByObjectId(objectId);
-                    if (minerData != null && (User.IsAdmin() || minerData.IsOwnerBy(User))) {
+                    if (minerData != null && minerData.IsAdminOrOwnerBy(User)) {
                         AppRoot.ClientDataSet.RemoveByObjectId(objectId);
                     }
                 }

@@ -3,7 +3,6 @@
         public static readonly CpuData Empty = new CpuData {
             ClockSpeed = string.Empty,
             Identifier = string.Empty,
-            CpuId = string.Empty,
             Name = string.Empty,
             NumberOfLogicalCores = 0,
             ProcessorArchitecture = string.Empty,
@@ -14,7 +13,6 @@
         public CpuData() {
         }
 
-        public string CpuId { get; set; }
         public string Name { get; set; }
         public int NumberOfLogicalCores { get; set; }
         public string ClockSpeed { get; set; }

@@ -131,12 +131,12 @@
       <Link>Ws\WebSocketStateExtensions.cs</Link>
     </Compile>
     <Compile Include="App.xaml.cs" />
-    <Compile Include="MsRdpRemoteDesktop.cs" />
+    <Compile Include="MsRemoteDesktop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Ws\MinerStudioWsClient.cs" />
-    <Compile Include="Ws\MinerStudioWsMessageHandler.cs" />
+    <Compile Include="Ws\MinerStudioWsMessageFromWsServerHandler.cs" />
     <None Include="app.config" />
     <None Include="app.manifest" />
     <None Include="FodyWeavers.xsd">
@@ -199,7 +199,7 @@
     <Resource Include="logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="FodyWeavers.xml" />
+    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="..\MinerClient\App.xaml">

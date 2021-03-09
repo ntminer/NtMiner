@@ -9,7 +9,7 @@ namespace NTMiner.Impl {
         private const int _capacityCount = 50;
 
         // 新的在队尾，旧的在队头
-        private readonly List<ConsoleOutLine> _list = new List<ConsoleOutLine>();
+        private readonly Queue<ConsoleOutLine> _list = new Queue<ConsoleOutLine>();
         private readonly object _locker = new object();
 
         public ConsoleOutLineSet() { }
@@ -20,9 +20,9 @@ namespace NTMiner.Impl {
             }
             lock (_locker) {
                 // 新的在队尾，旧的在队头
-                _list.Add(line);
+                _list.Enqueue(line);
                 while (_list.Count > _capacityCount) {
-                    _list.RemoveAt(0);
+                    _list.Dequeue();
                 }
             }
         }
@@ -33,7 +33,7 @@ namespace NTMiner.Impl {
                     if (_list.Count > 20) {
                         return _list.Skip(_list.Count - 20).ToList();
                     }
-                    return _list;
+                    return _list.ToList();
                 }
                 return _list.Where(a => a.Timestamp > afterTime).ToList();
             }

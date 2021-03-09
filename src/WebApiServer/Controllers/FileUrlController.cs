@@ -1,7 +1,5 @@
-﻿using Aliyun.OSS;
-using NTMiner.Core.MinerServer;
+﻿using NTMiner.Core.MinerServer;
 using System;
-using System.Collections.Generic;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
@@ -13,50 +11,7 @@ namespace NTMiner.Controllers {
             if (request == null || string.IsNullOrEmpty(request.FileName)) {
                 return string.Empty;
             }
-            var req = new GeneratePresignedUriRequest("ntminer", request.FileName, SignHttpMethod.Get) {
-                Expiration = DateTime.Now.AddMinutes(10)
-            };
-            var uri = AppRoot.OssClient.GeneratePresignedUri(req);
-            return uri.ToString();
-        }
-
-        [Role.Public]
-        [HttpPost]
-        public List<NTMinerFileData> NTMinerFiles() {
-            var list = AppRoot.NTMinerFileSet.GetAll();
-            return list;
-        }
-
-        [Role.Admin]
-        [HttpPost]
-        public ResponseBase AddOrUpdateNTMinerFile([FromBody]DataRequest<NTMinerFileData> request) {
-            if (request == null || request.Data == null) {
-                return ResponseBase.InvalidInput("参数错误");
-            }
-            try {
-                AppRoot.NTMinerFileSet.AddOrUpdate(request.Data);
-                return ResponseBase.Ok();
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return ResponseBase.ServerError(e.Message);
-            }
-        }
-
-        [Role.Admin]
-        [HttpPost]
-        public ResponseBase RemoveNTMinerFile([FromBody]DataRequest<Guid> request) {
-            if (request == null) {
-                return ResponseBase.InvalidInput("参数错误");
-            }
-            try {
-                AppRoot.NTMinerFileSet.RemoveById(request.Data);
-                return ResponseBase.Ok();
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return ResponseBase.ServerError(e.Message);
-            }
+            return AppRoot.NTMinerFileUrlGenerater.GeneratePresignedUrl("ntminer", request.FileName);
         }
 
         [Role.Public]
@@ -70,9 +25,7 @@ namespace NTMiner.Controllers {
                 else {
                     fileName = (string)setting.Value;
                 }
-                var req = new GeneratePresignedUriRequest("ntminer", $"tools/{fileName}", SignHttpMethod.Get);
-                var uri = AppRoot.OssClient.GeneratePresignedUri(req);
-                return uri.ToString();
+                return AppRoot.NTMinerFileUrlGenerater.GeneratePresignedUrl("ntminer", $"tools/{fileName}");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -91,9 +44,7 @@ namespace NTMiner.Controllers {
                 else {
                     fileName = (string)setting.Value;
                 }
-                var req = new GeneratePresignedUriRequest("ntminer", $"tools/{fileName}", SignHttpMethod.Get);
-                var uri = AppRoot.OssClient.GeneratePresignedUri(req);
-                return uri.ToString();
+                return AppRoot.NTMinerFileUrlGenerater.GeneratePresignedUrl("ntminer", $"tools/{fileName}");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -105,9 +56,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public string LiteDbExplorerUrl() {
             try {
-                var req = new GeneratePresignedUriRequest("ntminer", "tools/LiteDBExplorerPortable.zip", SignHttpMethod.Get);
-                var uri = AppRoot.OssClient.GeneratePresignedUri(req);
-                return uri.ToString();
+                return AppRoot.NTMinerFileUrlGenerater.GeneratePresignedUrl("ntminer", "tools/LiteDBExplorerPortable.zip");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -126,9 +75,7 @@ namespace NTMiner.Controllers {
                 else {
                     fileName = (string)setting.Value;
                 }
-                var req = new GeneratePresignedUriRequest("ntminer", $"tools/{fileName}", SignHttpMethod.Get);
-                var uri = AppRoot.OssClient.GeneratePresignedUri(req);
-                return uri.ToString();
+                return AppRoot.NTMinerFileUrlGenerater.GeneratePresignedUrl("ntminer", $"tools/{fileName}");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -147,9 +94,7 @@ namespace NTMiner.Controllers {
                 else {
                     fileName = (string)setting.Value;
                 }
-                var req = new GeneratePresignedUriRequest("ntminer", $"tools/{fileName}", SignHttpMethod.Get);
-                var uri = AppRoot.OssClient.GeneratePresignedUri(req);
-                return uri.ToString();
+                return AppRoot.NTMinerFileUrlGenerater.GeneratePresignedUrl("ntminer", $"tools/{fileName}");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -160,7 +105,8 @@ namespace NTMiner.Controllers {
         [Role.Public]
         [HttpPost]
         public string ToolFileUrl(string fileCode) {
-            // TODO:
+            // TODO:fileCode是白名单中的项，如果这个白名单是可以管理维护的，则通过这个通用的Action可以避免硬编码的Action们
+            // 这个fileCode应包含相对目录，形如packages/Claymore15.0.zip和tools/SwitchRadeonGpu.exe
             throw new NotImplementedException();
         }
 
@@ -171,11 +117,7 @@ namespace NTMiner.Controllers {
                 if (request == null || string.IsNullOrEmpty(request.Package)) {
                     return string.Empty;
                 }
-                var req = new GeneratePresignedUriRequest("ntminer", $"packages/{request.Package}", SignHttpMethod.Get) {
-                    Expiration = DateTime.Now.AddMinutes(10)
-                };
-                var uri = AppRoot.OssClient.GeneratePresignedUri(req);
-                return uri.ToString();
+                return AppRoot.NTMinerFileUrlGenerater.GeneratePresignedUrl("ntminer", $"packages/{request.Package}");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);

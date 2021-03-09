@@ -8,6 +8,10 @@ namespace NTMiner {
         }
 
         static void Main(string[] args) {
+            VirtualRoot.SetOut(new ConsoleOut());
+            NTMinerConsole.MainUiOk();
+            NTMinerConsole.DisbleQuickEditMode();
+            DevMode.SetDevMode();
             Console.Title = $"{NTKeyword.WoLiuDao}-开源矿工外网群控服务端{NTKeyword.VersionBuild}";
             var defaultColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Gray;

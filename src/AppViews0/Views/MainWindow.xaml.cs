@@ -126,8 +126,16 @@ namespace NTMiner.Views {
                 MoveConsoleWindow();
                 #endregion
             };
+            bool isLeftClosed = false;
             this.ConsoleRectangle.IsVisibleChanged += (sender, e) => {
-                MoveConsoleWindow();
+                if (this.ConsoleRectangle.IsVisible) {
+                    if (isLeftClosed != (LeftDrawerGrip.Width == _leftDrawerGripWidth)) {
+                        ConsoleWindowFit();
+                    }
+                }
+                else {
+                    isLeftClosed = LeftDrawerGrip.Width == _leftDrawerGripWidth;
+                }
             };
             this.ConsoleRectangle.SizeChanged += (s, e) => {
                 MoveConsoleWindow();
@@ -142,7 +150,7 @@ namespace NTMiner.Views {
                     this.BtnAboutNTMiner.Visibility = Visibility.Collapsed;
                 }
                 else {
-                    this.OpenLeftDrawer();
+                    this.OpenLeftDrawer(isSizeChanged: true);
                     this.BtnAboutNTMiner.Visibility = Visibility.Visible;
                 }
                 if (!this.ConsoleRectangle.IsVisible) {
@@ -236,15 +244,21 @@ namespace NTMiner.Views {
                 }
             }
             if (ConsoleRectangle != null && ConsoleRectangle.IsVisible) {
-                Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
-                const int paddingLeft = 4;
-                const int paddingRight = 5;
-                int marginLeft = paddingLeft + (int)point.X;
-                int width = (int)this.ActualWidth - marginLeft - paddingRight;
-                consoleWindow.MoveWindow(marginLeft: marginLeft, marginTop: (int)point.Y, width, height: (int)ConsoleRectangle.ActualHeight);
+                GetMoveToValues(out int marginLeft, out int marginTop, out int width, out int height);
+                consoleWindow.MoveWindow(marginLeft: marginLeft, marginTop: marginTop, width, height: height);
             }
         }
         #endregion
+
+        private void GetMoveToValues(out int marginLeft, out int marginTop, out int width, out int height) {
+            Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
+            const int paddingLeft = 4;
+            const int paddingRight = 5;
+            marginLeft = paddingLeft + (int)point.X;
+            marginTop = (int)point.Y;
+            width = (int)this.ActualWidth - marginLeft - paddingRight;
+            height = (int)ConsoleRectangle.ActualHeight;
+        }
 
         #region 显示或隐藏半透明遮罩层
         // 因为挖矿端主界面是透明的，遮罩方法和普通窗口不同，如果按照通用的方法遮罩的话会导致能透过窗口看见windows桌面或者下面的窗口。
@@ -304,7 +318,7 @@ namespace NTMiner.Views {
         }
 
         // 关闭左侧抽屉
-        private void OpenLeftDrawer() {
+        private void OpenLeftDrawer(bool isSizeChanged = false) {
             if (LeftDrawerGrip.Width != _leftDrawerGripWidth) {
                 return;
             }
@@ -316,6 +330,19 @@ namespace NTMiner.Views {
                 mainLayer.ColumnDefinitions.Insert(0, MinerProfileColumn);
             }
             MainTabControl.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
+            if (!isSizeChanged) {
+                50.MillisecondsDelay().ContinueWith(t => {
+                    UIThread.Execute(ConsoleWindowFit);
+                });
+            }
+        }
+
+        private void ConsoleWindowFit() {
+            if (MainTabControl.SelectedItem == ConsoleTabItem) {
+                GetMoveToValues(out int marginLeft, out int marginTop, out int width, out int height);
+                // 这样操作一次以去除控制台窗口底部的滚动条
+                ConsoleWindow.Instance.MoveWindow(marginLeft: marginLeft, marginTop: marginTop - 1, width, height: height + 1);
+            }
         }
 
         private void HideLeftDrawerGrid() {

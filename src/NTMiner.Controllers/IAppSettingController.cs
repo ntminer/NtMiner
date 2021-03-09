@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.MinerServer;
+using NTMiner.ServerNode;
 using System;
 
 namespace NTMiner.Controllers {
@@ -12,7 +13,8 @@ namespace NTMiner.Controllers {
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        string GetJsonFileVersion(AppSettingRequest request);
+        string GetJsonFileVersion(JsonFileVersionRequest request);
+        ServerStateResponse GetServerState(JsonFileVersionRequest request);
         /// <summary>
         /// 需签名
         /// </summary>

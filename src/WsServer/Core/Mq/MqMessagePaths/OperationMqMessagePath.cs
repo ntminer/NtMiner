@@ -38,7 +38,8 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.RestartWindowsRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.ShutdownWindowsRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.UpgradeNTMinerRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.StartMineRoutingKey, arguments: null);
+            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.StartMineRoutingKey, arguments: null);
+            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.StartWorkMineRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.StopMineRoutingKey, arguments: null);
 
             NTMinerConsole.UserOk("OperationMq QueueBind成功");
@@ -52,7 +53,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         long afterTimestamp = OperationMqBodyUtil.GetGetConsoleOutLinesMqReceiveBody(ea.Body);
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new GetConsoleOutLinesMqMessage(appId, loginName, timestamp, clientId, afterTimestamp));
+                            VirtualRoot.RaiseEvent(new GetConsoleOutLinesMqEvent(appId, loginName, timestamp, clientId, afterTimestamp));
                         }
                     }
                     break;
@@ -62,7 +63,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         var data = OperationMqBodyUtil.GetConsoleOutLinesMqReceiveBody(ea.Body);
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new ConsoleOutLinesMqMessage(appId, loginName, timestamp, clientId, data));
+                            VirtualRoot.RaiseEvent(new ConsoleOutLinesMqEvent(appId, loginName, timestamp, clientId, data));
                         }
                     }
                     break;
@@ -72,7 +73,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         long afterTimestamp = OperationMqBodyUtil.GetGetLocalMessagesMqReceiveBody(ea.Body);
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new GetLocalMessagesMqMessage(appId, loginName, timestamp, clientId, afterTimestamp));
+                            VirtualRoot.RaiseEvent(new GetLocalMessagesMqEvent(appId, loginName, timestamp, clientId, afterTimestamp));
                         }
                     }
                     break;
@@ -82,7 +83,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         var data = OperationMqBodyUtil.GetLocalMessagesMqReceiveBody(ea.Body);
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new LocalMessagesMqMessage(appId, loginName, timestamp, clientId, data));
+                            VirtualRoot.RaiseEvent(new LocalMessagesMqEvent(appId, loginName, timestamp, clientId, data));
                         }
                     }
                     break;
@@ -91,7 +92,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new GetDrivesMqMessage(appId, loginName, timestamp, clientId));
+                            VirtualRoot.RaiseEvent(new GetDrivesMqEvent(appId, loginName, timestamp, clientId));
                         }
                     }
                     break;
@@ -101,7 +102,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         var data = OperationMqBodyUtil.GetDrivesMqReceiveBody(ea.Body);
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new DrivesMqMessage(appId, loginName, timestamp, clientId, data));
+                            VirtualRoot.RaiseEvent(new DrivesMqEvent(appId, loginName, timestamp, clientId, data));
                         }
                     }
                     break;
@@ -110,7 +111,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new GetLocalIpsMqMessage(appId, loginName, timestamp, clientId));
+                            VirtualRoot.RaiseEvent(new GetLocalIpsMqEvent(appId, loginName, timestamp, clientId));
                         }
                     }
                     break;
@@ -120,7 +121,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         var data = OperationMqBodyUtil.GetLocalIpsMqReceiveBody(ea.Body);
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new LocalIpsMqMessage(appId, loginName, timestamp, clientId, data));
+                            VirtualRoot.RaiseEvent(new LocalIpsMqEvent(appId, loginName, timestamp, clientId, data));
                         }
                     }
                     break;
@@ -130,7 +131,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         long afterTimestamp = OperationMqBodyUtil.GetGetOperationResultsMqReceiveBody(ea.Body);
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new GetOperationResultsMqMessage(appId, loginName, timestamp, clientId, afterTimestamp));
+                            VirtualRoot.RaiseEvent(new GetOperationResultsMqEvent(appId, loginName, timestamp, clientId, afterTimestamp));
                         }
                     }
                     break;
@@ -140,7 +141,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         var data = OperationMqBodyUtil.GetOperationResultsMqReceiveBody(ea.Body);
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new OperationResultsMqMessage(appId, loginName, timestamp, clientId, data));
+                            VirtualRoot.RaiseEvent(new OperationResultsMqEvent(appId, loginName, timestamp, clientId, data));
                         }
                     }
                     break;
@@ -149,7 +150,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new OperationReceivedMqMessage(appId, loginName, timestamp, clientId));
+                            VirtualRoot.RaiseEvent(new OperationReceivedMqEvent(appId, loginName, timestamp, clientId));
                         }
                     }
                     break;
@@ -159,7 +160,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         List<Guid> clientIds = OperationMqBodyUtil.GetGetSpeedMqReceiveBody(ea.Body);
                         if (clientIds != null && clientIds.Count != 0) {
-                            VirtualRoot.RaiseEvent(new GetSpeedMqMessage(appId, loginName, timestamp, clientIds));
+                            VirtualRoot.RaiseEvent(new GetSpeedMqEvent(appId, loginName, timestamp, clientIds));
                         }
                     }
                     break;
@@ -168,7 +169,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new EnableRemoteDesktopMqMessage(appId, loginName, timestamp, clientId));
+                            VirtualRoot.RaiseEvent(new EnableRemoteDesktopMqEvent(appId, loginName, timestamp, clientId));
                         }
                     }
                     break;
@@ -177,7 +178,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new BlockWAUMqMessage(appId, loginName, timestamp, clientId));
+                            VirtualRoot.RaiseEvent(new BlockWAUMqEvent(appId, loginName, timestamp, clientId));
                         }
                     }
                     break;
@@ -187,7 +188,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             var data = OperationMqBodyUtil.GetSetVirtualMemoryMqReceiveBody(ea.Body);
-                            VirtualRoot.RaiseEvent(new SetVirtualMemoryMqMessage(appId, loginName, timestamp, clientId, data));
+                            VirtualRoot.RaiseEvent(new SetVirtualMemoryMqEvent(appId, loginName, timestamp, clientId, data));
                         }
                     }
                     break;
@@ -197,7 +198,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             var data = OperationMqBodyUtil.GetSetLocalIpsMqReceiveBody(ea.Body);
-                            VirtualRoot.RaiseEvent(new SetLocalIpsMqMessage(appId, loginName, timestamp, clientId, data));
+                            VirtualRoot.RaiseEvent(new SetLocalIpsMqEvent(appId, loginName, timestamp, clientId, data));
                         }
                     }
                     break;
@@ -207,7 +208,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             bool on = OperationMqBodyUtil.GetSwitchRadeonGpuMqReceiveBody(ea.Body);
-                            VirtualRoot.RaiseEvent(new SwitchRadeonGpuMqMessage(appId, loginName, timestamp, clientId, on));
+                            VirtualRoot.RaiseEvent(new SwitchRadeonGpuMqEvent(appId, loginName, timestamp, clientId, on));
                         }
                     }
                     break;
@@ -216,7 +217,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new GetSelfWorkLocalJsonMqMessage(appId, loginName, timestamp, clientId));
+                            VirtualRoot.RaiseEvent(new GetSelfWorkLocalJsonMqEvent(appId, loginName, timestamp, clientId));
                         }
                     }
                     break;
@@ -226,7 +227,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             string json = OperationMqBodyUtil.GetSelfWorkLocalJsonMqReceiveBody(ea.Body);
-                            VirtualRoot.RaiseEvent(new LocalJsonMqMessage(appId, loginName, timestamp, clientId, json));
+                            VirtualRoot.RaiseEvent(new LocalJsonMqEvent(appId, loginName, timestamp, clientId, json));
                         }
                     }
                     break;
@@ -236,7 +237,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             WorkRequest request = OperationMqBodyUtil.GetSaveSelfWorkLocalJsonMqReceiveBody(ea.Body);
-                            VirtualRoot.RaiseEvent(new SaveSelfWorkLocalJsonMqMessage(appId, loginName, timestamp, clientId, request));
+                            VirtualRoot.RaiseEvent(new SaveSelfWorkLocalJsonMqEvent(appId, loginName, timestamp, clientId, request));
                         }
                     }
                     break;
@@ -245,7 +246,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new GetGpuProfilesJsonMqMessage(appId, loginName, timestamp, clientId));
+                            VirtualRoot.RaiseEvent(new GetGpuProfilesJsonMqEvent(appId, loginName, timestamp, clientId));
                         }
                     }
                     break;
@@ -255,7 +256,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             string json = OperationMqBodyUtil.GetGpuProfilesJsonMqReceiveBody(ea.Body);
-                            VirtualRoot.RaiseEvent(new GpuProfilesJsonMqMessage(appId, loginName, timestamp, clientId, json));
+                            VirtualRoot.RaiseEvent(new GpuProfilesJsonMqEvent(appId, loginName, timestamp, clientId, json));
                         }
                     }
                     break;
@@ -265,7 +266,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             string json = OperationMqBodyUtil.GetSaveGpuProfilesJsonMqReceiveBody(ea.Body);
-                            VirtualRoot.RaiseEvent(new SaveGpuProfilesJsonMqMessage(appId, loginName, timestamp, clientId, json));
+                            VirtualRoot.RaiseEvent(new SaveGpuProfilesJsonMqEvent(appId, loginName, timestamp, clientId, json));
                         }
                     }
                     break;
@@ -276,7 +277,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             SetAutoBootStartRequest body = OperationMqBodyUtil.GetSetAutoBootStartMqReceiveBody(ea.Body);
                             if (body != null) {
-                                VirtualRoot.RaiseEvent(new SetAutoBootStartMqMessage(appId, loginName, timestamp, clientId, body));
+                                VirtualRoot.RaiseEvent(new SetAutoBootStartMqEvent(appId, loginName, timestamp, clientId, body));
                             }
                         }
                     }
@@ -286,7 +287,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new RestartWindowsMqMessage(appId, loginName, timestamp, clientId));
+                            VirtualRoot.RaiseEvent(new RestartWindowsMqEvent(appId, loginName, timestamp, clientId));
                         }
                     }
                     break;
@@ -295,7 +296,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new ShutdownWindowsMqMessage(appId, loginName, timestamp, clientId));
+                            VirtualRoot.RaiseEvent(new ShutdownWindowsMqEvent(appId, loginName, timestamp, clientId));
                         }
                     }
                     break;
@@ -306,18 +307,28 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             string ntminerFileName = OperationMqBodyUtil.GetUpgradeNTMinerMqReceiveBody(ea.Body);
                             if (!string.IsNullOrEmpty(ntminerFileName)) {
-                                VirtualRoot.RaiseEvent(new UpgradeNTMinerMqMessage(appId, loginName, timestamp, clientId, ntminerFileName));
+                                VirtualRoot.RaiseEvent(new UpgradeNTMinerMqEvent(appId, loginName, timestamp, clientId, ntminerFileName));
                             }
                         }
                     }
                     break;
-                case WsMqKeyword.StartMineRoutingKey: {
+                case MqKeyword.StartMineRoutingKey: {
                         string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             Guid workId = OperationMqBodyUtil.GetStartMineMqReceiveBody(ea.Body);
-                            VirtualRoot.RaiseEvent(new StartMineMqMessage(appId, loginName, timestamp, clientId, workId));
+                            VirtualRoot.RaiseEvent(new StartMineMqEvent(appId, loginName, timestamp, clientId, workId));
+                        }
+                    }
+                    break;
+                case MqKeyword.StartWorkMineRoutingKey: {
+                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
+                        string appId = ea.BasicProperties.AppId;
+                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                            WorkRequest request = OperationMqBodyUtil.GetStartWorkMineMqReceiveBody(ea.Body);
+                            VirtualRoot.RaiseEvent(new StartWorkMineMqEvent(appId, loginName, timestamp, clientId, request));
                         }
                     }
                     break;
@@ -326,7 +337,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new StopMineMqMessage(appId, loginName, timestamp, clientId));
+                            VirtualRoot.RaiseEvent(new StopMineMqEvent(appId, loginName, timestamp, clientId));
                         }
                     }
                     break;

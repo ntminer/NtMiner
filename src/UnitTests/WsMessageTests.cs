@@ -10,7 +10,7 @@ namespace NTMiner {
     public class WsMessageTests {
         [TestMethod]
         public void Test1() {
-            SpeedDto speedDto1 = VirtualRoot.JsonSerializer.Deserialize<SpeedDto>(File.ReadAllText(Path.Combine(TestUtil.DataDirFullName, "speedData.json")));
+            SpeedDto speedDto1 = VirtualRoot.JsonSerializer.Deserialize<SpeedDto>(File.ReadAllText(TestUtil.SpeedDataJsonFileFullName));
             WsMessage message = new WsMessage(Guid.NewGuid(), WsMessage.Speed) {
                 Data = speedDto1
             };

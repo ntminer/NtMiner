@@ -21,7 +21,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         var key = UserMqBodyUtil.GetUpdateUserRSAKeyMqReceiveBody(ea.Body);
-                        VirtualRoot.Execute(new UpdateUserRSAKeyMqMessage(appId, loginName, timestamp, key));
+                        VirtualRoot.Execute(new UpdateUserRSAKeyMqCommand(appId, loginName, timestamp, key));
                     }
                     break;
                 default:

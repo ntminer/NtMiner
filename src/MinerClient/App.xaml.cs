@@ -10,37 +10,14 @@ using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace NTMiner {
-    public class Program {
-        [System.STAThreadAttribute()]
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")]
-        public static void Main() {
-            SplashScreen splashScreen = new SplashScreen("splashwindow.png");
-            splashScreen.Show(true);
-            if (AppUtil.IsDotNetVersionEG45) {
-                NTMiner.App app = new NTMiner.App();
-                app.InitializeComponent();
-                app.Run();
-            }
-            else {
-                Process.Start("https://ntminer.com/getDotNet.html");
-            }
-            // 这个机制在MinerClient程序起作用但在MinerStudio程序中会发生类型初始化错误不起作用，具体原因未知
-        }
-    }
-
-    public partial class App : Application {
-        public static readonly string BlockWAUResourceName = "BlockWAU.bat";
-        public static readonly string BlockWAUFileFullName = Path.Combine(TempPath.TempDirFullName, BlockWAUResourceName);
-
+    public partial class App : Application, IApp {
         public App() {
             Hub.MessagePathHub.SetNotifyProperty();
-            if ((NTMinerRegistry.GetIsAutoStart() || CommandLineArgs.IsAutoStart) && NTMinerRegistry.GetIsNoUi()) {
+            if (NTMinerRegistry.GetIsNoUi()) {
                 NTMinerConsole.Disable();
             }
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
@@ -126,7 +103,7 @@ namespace NTMiner {
                     UIThread.Execute(() => {
                         Window mainWindow = null;
                         AppRoot.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
-                        if (NTMinerRegistry.GetIsNoUi() && NTMinerRegistry.GetIsAutoStart()) {
+                        if (NTMinerRegistry.GetIsNoUi() && NTMinerContext.Instance.MinerProfile.IsAutoStart) {
                             ConsoleWindow.Instance.Hide();
                             VirtualRoot.Out.ShowSuccess("以无界面模式启动，可在选项页调整设置", header: "开源矿工");
                         }
@@ -145,7 +122,7 @@ namespace NTMiner {
                         if (CommandLineArgs.Action.TryParse(out MinerClientActionType resourceType)) {
                             VirtualRoot.Execute(new MinerClientActionCommand(resourceType));
                         }
-                        NTMinerConsole.SetIsMainUiOk(true);
+                        NTMinerConsole.MainUiOk();
                     });
                     Task.Factory.StartNew(() => {
                         var minerProfile = NTMinerContext.Instance.MinerProfile;
@@ -161,6 +138,7 @@ namespace NTMiner {
                         if (minerProfile.IsDisableAntiSpyware) {
                             NTMiner.Windows.Defender.DisableAntiSpyware();
                         }
+                        NTMiner.Windows.Crash.SetAutoReboot(minerProfile.IsAutoReboot);
                         if (!Firewall.IsMinerClientRuleExists()) {
                             Firewall.AddMinerClientRule();
                         }
@@ -177,7 +155,7 @@ namespace NTMiner {
             }
             else {
                 try {
-                    _appViewFactory.ShowMainWindow(this, NTMinerAppType.MinerClient);
+                    _appViewFactory.ShowMainWindow(this);
                 }
                 catch (Exception) {
                     DialogWindow.ShowSoftDialog(new DialogWindowViewModel(
@@ -196,7 +174,7 @@ namespace NTMiner {
                 FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
             }, location: this.GetType());
             VirtualRoot.BuildCmdPath<UpgradeCommand>(path: message => {
-                AppRoot.Upgrade(NTMinerAppType.MinerClient, message.FileName, message.Callback);
+                AppRoot.Upgrade(message.FileName, message.Callback);
             }, location: this.GetType());
         }
 
@@ -255,13 +233,6 @@ namespace NTMiner {
                 }, location: this.GetType());
             VirtualRoot.BuildEventPath<MineStartedEvent>("启动1080ti小药丸、启动DevConsole? 更新挖矿按钮状态", LogEnum.DevConsole,
                 path: message => {
-                    // 启动DevConsole
-                    if (NTMinerContext.IsUseDevConsole) {
-                        var mineContext = message.MineContext;
-                        string poolIp = mineContext.MainCoinPool.GetIp();
-                        string consoleTitle = mineContext.MainCoinPool.Server;
-                        Daemon.DaemonUtil.RunDevConsoleAsync(poolIp, consoleTitle);
-                    }
                     OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Start();
                 }, location: this.GetType());
             VirtualRoot.BuildEventPath<MineStopedEvent>("停止挖矿后停止1080ti小药丸 挖矿停止后更新界面挖矿状态", LogEnum.DevConsole,

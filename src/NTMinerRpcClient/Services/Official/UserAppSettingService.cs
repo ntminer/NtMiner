@@ -4,7 +4,7 @@ using System;
 
 namespace NTMiner.Services.Official {
     public class UserAppSettingService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<IUserAppSettingController>();
+        private readonly string _controllerName = ControllerUtil.GetControllerName<IUserAppSettingController>();
 
         internal UserAppSettingService() {
         }

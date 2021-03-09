@@ -21,6 +21,11 @@ namespace NTMiner.MinerStudio {
         public ShowGpuNamePageCommand() { }
     }
 
+    [MessageType(description: "打开WebApi Action Count页")]
+    public class ShowActionCountPageCommand : Cmd {
+        public ShowActionCountPageCommand() { }
+    }
+
     [MessageType(description: "打开密码修改界面")]
     public class ShowChangePassword : Cmd {
         public ShowChangePassword() { }

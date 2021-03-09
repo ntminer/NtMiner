@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Services.Official {
     public class UserMineWorkService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<IUserMineWorkController>();
+        private readonly string _controllerName = ControllerUtil.GetControllerName<IUserMineWorkController>();
 
         internal UserMineWorkService() {
         }
@@ -84,22 +84,6 @@ namespace NTMiner.Services.Official {
                 RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IUserMineWorkController.GetLocalJson), 
-                data: request, 
-                callback);
-        }
-        #endregion
-
-        #region GetWorkJsonAsync
-        public void GetWorkJsonAsync(Guid workId, Guid clientId, Action<GetWorkJsonResponse, Exception> callback) {
-            GetWorkJsonRequest request = new GetWorkJsonRequest() {
-                WorkId = workId,
-                ClientId = clientId
-            };
-            RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
-                _controllerName, 
-                nameof(IUserMineWorkController.GetWorkJson), 
                 data: request, 
                 callback);
         }

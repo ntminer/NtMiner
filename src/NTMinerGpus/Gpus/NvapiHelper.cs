@@ -53,41 +53,27 @@ namespace NTMiner.Gpus {
 
         #region IGpuHelper成员
         #region OverClock
-        public void OverClock(
-            IGpu gpu, 
-            int coreClockMHz, 
-            int coreClockVoltage, 
-            int memoryClockMHz,
-            int memoryClockVoltage, 
-            int powerLimit, 
-            int tempLimit, 
-            int fanSpeed) {
-            if (coreClockVoltage < 0) {
-                coreClockVoltage = 0;
-            }
-            if (memoryClockVoltage < 0) {
-                memoryClockVoltage = 0;
-            }
-            bool isSetCoreClock = coreClockMHz == 0 || coreClockMHz != gpu.CoreClockDelta || coreClockVoltage != gpu.CoreVoltage;
-            bool isSetMemoryClock = memoryClockMHz == 0 || memoryClockMHz != gpu.MemoryClockDelta || memoryClockVoltage != gpu.MemoryVoltage;
-            bool isSetPowerLimit = powerLimit == 0 || powerLimit != gpu.PowerCapacity;
-            bool isSetTempLimit = tempLimit == 0 || tempLimit != gpu.TempLimit;
+        public void OverClock(IGpu gpu, OverClockValue value) {
+            value.Correct(gpu);
+            bool isSetCoreClock = value.GetIsSetCoreClock(gpu);
+            bool isSetMemoryClock = value.GetIsSetMemoryClock(gpu);
+            bool isSetPowerLimit = value.GetIsSetPowerLimit(gpu);
+            bool isSetTempLimit = value.GetIsSetTempLimit(gpu);
             int busId = gpu.GetOverClockId();
             if (isSetCoreClock) {
-                SetCoreClock(busId, coreClockMHz, coreClockVoltage);
+                SetCoreClock(busId, value.CoreClockMHz, value.CoreClockVoltage);
             }
             if (isSetMemoryClock) {
-                SetMemoryClock(busId, memoryClockMHz, memoryClockVoltage);
+                SetMemoryClock(busId, value.MemoryClockMHz, value.MemoryClockVoltage);
             }
             if (isSetPowerLimit) {
-                SetPowerLimit(busId, powerLimit);
+                SetPowerLimit(busId, value.PowerLimit);
             }
             if (isSetTempLimit) {
-                SetTempLimit(busId, tempLimit);
+                SetTempLimit(busId, value.TempLimit);
             }
-            // fanSpeed == -1表示开源自动温控
-            if (fanSpeed >= 0) {
-                SetFanSpeed(gpu, fanSpeed);
+            if (!value.IgnoreFanSpeed) {
+                SetFanSpeed(gpu, value.FanSpeed);
             }
         }
         #endregion
@@ -135,6 +121,38 @@ namespace NTMiner.Gpus {
                 Logger.ErrorDebugLine(e);
             }
             return result;
+        }
+        #endregion
+
+        #region GetTemperature
+        public void GetTemperature(IGpu gpu, out uint coreTemperature, out uint memoryTemperature) {
+            coreTemperature = 0;
+            memoryTemperature = 0;
+            if (NvapiNativeMethods.NvGetThermalSettings == null) {
+                return;
+            }
+            try {
+                int busId = gpu.GetOverClockId();
+                if (!HandlesByBusId.TryGetValue(busId, out NvPhysicalGpuHandle handle)) {
+                    return;
+                }
+                NvGPUThermalSettings settings = NvGPUThermalSettings.Create();
+                var r = NvapiNativeMethods.NvGetThermalSettings(handle, (int)NvThermalTarget.ALL, ref settings);
+                if (r != NvStatus.NVAPI_OK) {
+                    settings.Count = 0;
+                    NTMinerConsole.DevError(() => $"{nameof(NvapiNativeMethods.NvGetThermalSettings)} {r.ToString()}");
+                }
+                if (settings.Count > 0) {
+                    coreTemperature = settings.Sensor[0].CurrentTemp;
+                }
+                // TODO:3090是支持显存温度的，但不知道用什么接口读取
+                if (settings.Count > 1) {
+                    memoryTemperature = settings.Sensor[1].CurrentTemp;
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
         }
         #endregion
 
@@ -299,16 +317,14 @@ namespace NTMiner.Gpus {
             outMaxPower = 0;
             try {
                 if (GetPowerPoliciesInfo(busId, out outMinPower, out outDefPower, out outMaxPower)) {
-                    if (NvPowerPoliciesGetStatus(busId, out NvGpuPowerStatus info)) {
-                        outCurrPower = info.entries[0].power;
-                        outCurrPower /= 1000;
-                        outMinPower /= 1000;
-                        outDefPower /= 1000;
-                        outMaxPower /= 1000;
-                        return true;
-                    }
+                    outMinPower /= 1000;
+                    outDefPower /= 1000;
+                    outMaxPower /= 1000;
                 }
-                return false;
+                if (NvPowerPoliciesGetStatus(busId, out NvGpuPowerStatus info)) {
+                    outCurrPower = info.entries[0].power /= 1000;
+                }
+                return true;
             }
             catch {
                 return false;
@@ -520,9 +536,9 @@ namespace NTMiner.Gpus {
             maxThermal = 0;
             try {
                 var r = NvThermalPoliciesGetInfo(busId, out NvGpuThermalInfo info);
-                minThermal = info.entries[0].min_temp / (1 << 8);
-                defThermal = info.entries[0].def_temp / (1 << 8);
-                maxThermal = info.entries[0].max_temp / (1 << 8);
+                minThermal = info.entries[0].min_temp / 256;
+                defThermal = info.entries[0].def_temp / 256;
+                maxThermal = info.entries[0].max_temp / 256;
                 return r;
             }
             catch {

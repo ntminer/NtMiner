@@ -5,10 +5,15 @@
             BusNumber = -1,
             AdapterName = string.Empty,
             DeviceNumber = -1,
-            OverdriveVersion = -1
+            OverdriveVersion = -1,
+            MemoryTimingLevels = new int[0],
+            CurrentMemoryTimingLevel = -1,
+            DefaultMemoryTimingLevel = -1
         };
 
-        public ATIGPU() { }
+        public ATIGPU() {
+            this.MemoryTimingLevels = new int[0];
+        }
 
         public int AdapterIndex { get; set; }
         public int BusNumber { get; set; }
@@ -47,6 +52,9 @@
         public int FanSpeedMax { get; set; }
 
         internal ADLOD8InitSetting ADLOD8InitSetting { get; set; }
+        public int[] MemoryTimingLevels { get; set; }
+        public int CurrentMemoryTimingLevel { get; set; }
+        internal int DefaultMemoryTimingLevel { get; set; }
 
         public override string ToString() {
             return VirtualRoot.JsonSerializer.Serialize(this);

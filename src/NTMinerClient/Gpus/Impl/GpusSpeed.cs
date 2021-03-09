@@ -114,6 +114,36 @@ namespace NTMiner.Gpus.Impl {
             VirtualRoot.RaiseEvent(new AcceptShareIncreasedEvent(Guid.Empty, gpuSpeed: gpuSpeed));
         }
 
+        public void SetAcceptShare(int gpuIndex, int acceptShare) {
+            InitOnece();
+            if (!_currentGpuSpeed.TryGetValue(gpuIndex, out GpuSpeed gpuSpeed)) {
+                return;
+            }
+            CheckReset();
+            gpuSpeed.SetMainCoinAcceptShare(acceptShare);
+            VirtualRoot.RaiseEvent(new AcceptShareSetedEvent(Guid.Empty, gpuSpeed: gpuSpeed));
+        }
+
+        public void SetRejectShare(int gpuIndex, int rejectShare) {
+            InitOnece();
+            if (!_currentGpuSpeed.TryGetValue(gpuIndex, out GpuSpeed gpuSpeed)) {
+                return;
+            }
+            CheckReset();
+            gpuSpeed.SetMainCoinRejectShare(rejectShare);
+            VirtualRoot.RaiseEvent(new RejectShareSetedEvent(Guid.Empty, gpuSpeed: gpuSpeed));
+        }
+
+        public void SetIncorrectShare(int gpuIndex, int incorrectShare) {
+            InitOnece();
+            if (!_currentGpuSpeed.TryGetValue(gpuIndex, out GpuSpeed gpuSpeed)) {
+                return;
+            }
+            CheckReset();
+            gpuSpeed.SetMainCoinIncorrectShare(incorrectShare);
+            VirtualRoot.RaiseEvent(new IncorrectShareSetedEvent(Guid.Empty, gpuSpeed: gpuSpeed));
+        }
+
         public void IncreaseRejectShare(int gpuIndex) {
             InitOnece();
             if (!_currentGpuSpeed.TryGetValue(gpuIndex, out GpuSpeed gpuSpeed)) {

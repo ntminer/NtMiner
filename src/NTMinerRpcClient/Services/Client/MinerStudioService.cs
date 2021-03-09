@@ -5,7 +5,7 @@ using System.IO;
 
 namespace NTMiner.Services.Client {
     public class MinerStudioService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<IMinerStudioController>();
+        private readonly string _controllerName = ControllerUtil.GetControllerName<IMinerStudioController>();
         internal MinerStudioService() {
         }
 

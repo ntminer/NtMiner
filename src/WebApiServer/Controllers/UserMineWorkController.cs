@@ -128,51 +128,5 @@ namespace NTMiner.Controllers {
             }
         }
         #endregion
-
-        [Role.Admin]
-        [HttpPost]
-        public GetWorkJsonResponse GetWorkJson([FromBody]GetWorkJsonRequest request) {
-            if (request == null) {
-                return ResponseBase.InvalidInput<GetWorkJsonResponse>("参数错误");
-            }
-            try {
-                string workerName = string.Empty;
-                // 如果是单机作业
-                if (request.WorkId.IsSelfMineWorkId()) {
-                    var clientData = AppRoot.ClientDataSet.GetByClientId(request.ClientId);
-                    if (clientData != null) {
-                        workerName = clientData.WorkerName;
-                    }
-                    return GetWorkJsonResponse.Ok(string.Empty, string.Empty, workerName);
-                }
-
-                IUserMineWork mineWork = AppRoot.MineWorkSet.GetById(request.WorkId);
-                if (mineWork == null) {
-                    return ResponseBase.NotExist<GetWorkJsonResponse>();
-                }
-                string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(request.WorkId);
-                string localJson = string.Empty;
-                if (File.Exists(localJsonFileFullName)) {
-                    localJson = File.ReadAllText(localJsonFileFullName);
-                    if (!string.IsNullOrEmpty(localJson)) {
-                        var clientData = AppRoot.ClientDataSet.GetByClientId(request.ClientId);
-                        if (clientData != null) {
-                            workerName = clientData.WorkerName;
-                        }
-                        localJson = localJson.Replace(NTKeyword.MinerNameParameterName, workerName);
-                    }
-                }
-                string serverJsonFileFullName = SpecialPath.GetMineWorkServerJsonFileFullName(request.WorkId);
-                string serverJson = string.Empty;
-                if (File.Exists(serverJsonFileFullName)) {
-                    serverJson = File.ReadAllText(serverJsonFileFullName);
-                }
-                return GetWorkJsonResponse.Ok(localJson, serverJson, workerName);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return ResponseBase.ServerError<GetWorkJsonResponse>(e.Message);
-            }
-        }
     }
 }

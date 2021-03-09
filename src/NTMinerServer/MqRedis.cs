@@ -16,7 +16,6 @@ namespace NTMiner {
         /// <param name="mqMessagePaths"></param>
         /// <returns></returns>
         public static bool Create(ServerAppType serverAppType, AbstractMqMessagePath[] mqMessagePaths, out IMqRedis serverConfig) {
-            string mqClientTypeName = serverAppType.GetName();
             serverConfig = null;
             ConnectionMultiplexer redisConn;
             try {
@@ -36,7 +35,7 @@ namespace NTMiner {
                     AutomaticRecoveryEnabled = true,// 默认值也是true，复述一遍起文档作用
                     TopologyRecoveryEnabled = true// 默认值也是true，复述一遍起文档作用
                 };
-                mqConn = factory.CreateConnection(mqClientTypeName);
+                mqConn = factory.CreateConnection(clientProvidedName: serverAppType.GetName());
             }
             catch (Exception e) {
                 NTMinerConsole.UserError("连接Mq失败");
@@ -61,7 +60,8 @@ namespace NTMiner {
                 DateTime startOn = DateTime.Now;
                 // mq消费者不是立即启动的，而是异步启动的，在满足了后续的条件后才会启动的。
                 while (!mqMessagePaths.All(a => a.IsReadyToBuild)) {
-                    if (startOn.AddSeconds(20) < DateTime.Now) {
+                    // WebApiServer由于启动时加载大量redis数据导致耗时长
+                    if (startOn.AddSeconds(120) < DateTime.Now) {
                         NTMinerConsole.UserFail("订阅Mq失败，因为超时");
                         return;
                     }

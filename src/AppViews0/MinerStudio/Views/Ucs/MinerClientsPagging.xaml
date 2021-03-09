@@ -43,7 +43,7 @@
             </Button>
             <Button Command="{Binding PageLast}" IsEnabled="{Binding IsPageDownEnabled}" Margin="4 0 0 0">尾页</Button>
             <TextBlock Style="{StaticResource LblTbBase}">第</TextBlock>
-            <TextBox VerticalContentAlignment="Center" Padding="4 0" Text="{Binding PageIndex}"></TextBox>
+            <TextBox VerticalContentAlignment="Center" Padding="4 0" Text="{Binding PageIndex}" KeyUp="TextBoxPageIndex_KeyUp"></TextBox>
             <TextBlock Style="{StaticResource LblTbBase}">/</TextBlock>
             <TextBlock Style="{StaticResource LblTbBase}" Text="{Binding PageCount}"></TextBlock>
             <TextBlock Style="{StaticResource LblTbBase}">页，每页</TextBlock>

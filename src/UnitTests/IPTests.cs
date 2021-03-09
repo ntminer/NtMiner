@@ -44,5 +44,12 @@ namespace NTMiner {
             Assert.AreEqual(IPAddress.Any, IPAddress.Parse("0.0.0.0"));
             Assert.AreEqual("0.0.0.0", IPAddress.Any.ToString());
         }
+
+        [TestMethod]
+        public void IPAddressHashCodeTest() {
+            IPAddress iPAddress1 = IPAddress.Parse("111.222.222.111");
+            IPAddress iPAddress2 = IPAddress.Parse("111.222.222.111");
+            Assert.AreEqual(iPAddress1.GetHashCode(), iPAddress2.GetHashCode());
+        }
     }
 }

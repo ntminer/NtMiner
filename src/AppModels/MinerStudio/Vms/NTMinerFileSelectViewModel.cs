@@ -29,9 +29,12 @@ namespace NTMiner.MinerStudio.Vms {
             for (int i = 0; i < 7; i++) {
                 _ntminerFileVms.Add(NTMinerFileViewModel.Empty);
             }
-            RpcRoot.OfficialServer.FileUrlService.GetNTMinerFilesAsync(NTMinerAppType.MinerClient, (ntminerFiles) => {
-                NTMinerFileVms = (ntminerFiles ?? new List<NTMinerFileData>()).OrderByDescending(a => a.GetVersion()).Select(a => new NTMinerFileViewModel(a)).ToList();
-            });
+            VirtualRoot.BuildEventPath<NTMinerFileSetInitedEvent>("开源矿工程序版本文件集初始化后刷新Vm内存", LogEnum.DevConsole, path: message => {
+                var ntminerFiles = MinerStudioRoot.ReadOnlyNTMinerFileSet.AsEnumerable().Where(a => a.AppType == NTMinerAppType.MinerClient);
+                NTMinerFileVms = ntminerFiles.OrderByDescending(a => a.GetVersion()).Select(a => new NTMinerFileViewModel(a)).ToList();
+            }, this.GetType());
+            // 触发从远程加载数据的逻辑
+            VirtualRoot.Execute(new RefreshNTMinerFileSetCommand());
         }
 
         public NTMinerFileViewModel SelectedResult {

@@ -1,9 +1,7 @@
 ﻿<Application x:Class="NTMiner.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:converters="clr-namespace:NTMiner.Converters;assembly=NTMinerWpf"
-             ShutdownMode="OnMainWindowClose"
-             xmlns:local="clr-namespace:NTMiner">
+             ShutdownMode="OnMainWindowClose">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,9 +11,6 @@
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/DataGrid.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Notifications/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-            <converters:BoolToVisibilityInvertConverter x:Key="BoolToVisibilityInvertConverter" />
-            <converters:PercentToLengthConverter x:Key="PercentToLengthConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -9,7 +9,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly IServerContext _context;
         public CoinKernelSet(IServerContext context) {
             _context = context;
-            context.AddCmdPath<AddCoinKernelCommand>("添加币种内核", LogEnum.DevConsole,
+            context.AddCmdPath<AddCoinKernelCommand>(LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -45,7 +45,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         }
                     }
                 }, location: this.GetType());
-            context.AddCmdPath<UpdateCoinKernelCommand>("更新币种内核", LogEnum.DevConsole,
+            context.AddCmdPath<UpdateCoinKernelCommand>(LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -66,7 +66,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new CoinKernelUpdatedEvent(message.MessageId, entity));
                 }, location: this.GetType());
-            context.AddCmdPath<RemoveCoinKernelCommand>("移除币种内核", LogEnum.DevConsole,
+            context.AddCmdPath<RemoveCoinKernelCommand>(LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

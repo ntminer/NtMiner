@@ -70,7 +70,6 @@
         <WrapPanel Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Foreground="Red">注意：该操作有一定的安全风险。</TextBlock>
             <controls:KbLinkButton
-				Padding="0"
 				Command="{x:Static app:AppStatic.OpenWindowsAutoLogonMoreInfo}"
 				KbDisplayLine="False"
 				Content="了解详情"

@@ -11,9 +11,9 @@ namespace NTMiner.Core.Impl {
         public CalcConfigSet(INTMinerContext root) {
             _root = root;
             if (ClientAppType.IsMinerClient) {
-                VirtualRoot.BuildOnecePath<HasBoot20SecondEvent>("启动一定时间后初始化收益计算器", LogEnum.DevConsole,
+                VirtualRoot.BuildOnecePath<HasBoot20SecondEvent>("初始化收益计算器", LogEnum.DevConsole,
                     path: message => {
-                        Init(forceRefresh: true);
+                        Init();
                     }, location: this.GetType(), pathId: PathId.Empty);
             }
         }

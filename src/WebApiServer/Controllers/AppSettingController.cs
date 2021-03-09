@@ -2,6 +2,7 @@
 using NTMiner.Core.MinerServer;
 using NTMiner.ServerNode;
 using System;
+using System.Linq;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
@@ -14,11 +15,28 @@ namespace NTMiner.Controllers {
             return DateTime.Now;
         }
 
+        // 这个要保留，向后兼容
         [Role.Public]
         [HttpPost]
-        public string GetJsonFileVersion([FromBody]AppSettingRequest request) {
-            ServerStateResponse serverState = AppRoot.GetServerStateResponse(request.Key);
-            return serverState.ToLine();
+        public string GetJsonFileVersion([FromBody]JsonFileVersionRequest request) {
+            return GetServerState(request).ToLine();
+        }
+
+        [Role.Public]
+        [HttpPost]
+        public ServerStateResponse GetServerState([FromBody]JsonFileVersionRequest request) {
+            ServerStateResponse serverState = ServerStateResponse.Empty;
+            if (request != null) {
+                serverState = AppRoot.GetServerStateResponse(request.Key);
+                if (request.ClientId != Guid.Empty) {
+                    var clientData = AppRoot.ClientDataSet.GetByClientId(request.ClientId);
+                    if (clientData != null && !string.IsNullOrEmpty(clientData.MACAddress)) {
+                        serverState.NeedReClientId = request.MACAddress.All(a => !clientData.MACAddress.Contains(a));
+                        NTMinerConsole.UserWarn($"重复的网卡地址：{string.Join(",", request.MACAddress)}");
+                    }
+                }
+            }
+            return serverState;
         }
 
         [Role.Admin]

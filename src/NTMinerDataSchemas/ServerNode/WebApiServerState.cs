@@ -28,5 +28,7 @@ namespace NTMiner.ServerNode {
         public double ProcessMemoryMb { get; set; }
         public long ThreadCount { get; set; }
         public long HandleCount { get; set; }
+        public string AvailableFreeSpaceInfo { get; set; }
+        public int CaptchaCount { get; set; }
     }
 }

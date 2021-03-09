@@ -32,5 +32,7 @@ namespace NTMiner.Core.MinerServer {
         public bool IsAutoFanSpeed { get; set; }
 
         public int Cool { get; set; }
+
+        public int CurrentMemoryTimingLevel { get; set; }
     }
 }

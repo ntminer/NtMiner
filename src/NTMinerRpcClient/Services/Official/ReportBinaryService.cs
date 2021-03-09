@@ -4,7 +4,7 @@ using System;
 
 namespace NTMiner.Services.Official {
     public class ReportBinaryService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<IReportBinaryController>();
+        private readonly string _controllerName = ControllerUtil.GetControllerName<IReportBinaryController>();
 
         internal ReportBinaryService() {
         }

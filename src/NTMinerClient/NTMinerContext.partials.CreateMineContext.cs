@@ -283,7 +283,9 @@ namespace NTMiner {
             NTKeyword.PasswordParameterName,
             NTKeyword.HostParameterName,
             NTKeyword.PortParameterName,
-            NTKeyword.PoolParameterName
+            NTKeyword.PoolParameterName,
+            NTKeyword.Pool1ParameterName,
+            NTKeyword.WorkerParameterName
         };
         private static readonly HashSet<string> _dualParameterNames = new HashSet<string> {
             NTKeyword.DualCoinParameterName,
@@ -311,6 +313,8 @@ namespace NTMiner {
                     }
                 }
             }
+            // 防止命令行上还有备用矿池，将备用矿池替换为主矿池
+            args = args.Replace("{" + NTKeyword.Pool1ParameterName + "}", prms[NTKeyword.PoolParameterName]);
             // 这里不要考虑{logfile}，{logfile}往后推迟
         }
 

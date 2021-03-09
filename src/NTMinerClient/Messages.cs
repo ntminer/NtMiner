@@ -154,6 +154,11 @@ namespace NTMiner {
         public RefreshAutoBootStartCommand() { }
     }
 
+    [MessageType(description: "开机启动和自动挖矿刷新后")]
+    public class AutoBootStartRefreshedEvent : EventBase {
+        public AutoBootStartRefreshedEvent() { }
+    }
+
     [MessageType(description: "刷新主界面状态栏的windows远程桌面图标颜色")]
     public class RefreshIsRemoteDesktopEnabledCommand : Cmd {
         public RefreshIsRemoteDesktopEnabledCommand() {
@@ -169,6 +174,7 @@ namespace NTMiner {
         public WsClientState WsClientState { get; private set; }
     }
 
+    [MessageType(description: "发现服务端server.json文件版本变更后")]
     public class ServerJsonVersionChangedEvent : EventBase {
         public ServerJsonVersionChangedEvent(string oldVersion, string newVersion) {
             this.OldVersion = oldVersion;
@@ -177,6 +183,11 @@ namespace NTMiner {
 
         public string OldVersion { get; private set; }
         public string NewVersion { get; private set; }
+        public bool IsChagned {
+            get {
+                return OldVersion != NewVersion;
+            }
+        }
     }
 
     [MessageType(description: "电价变更后")]
@@ -464,25 +475,43 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(description: "找到了一个份额")]
+    [MessageType(description: "显卡找到了一个份额")]
     public class FoundShareIncreasedEvent : SourcedEvent<IGpuSpeed> {
         public FoundShareIncreasedEvent(PathId targetPathId, IGpuSpeed gpuSpeed) : base(targetPathId, gpuSpeed) {
         }
     }
 
-    [MessageType(description: "接受了一个份额")]
+    [MessageType(description: "显卡接受了一个份额")]
     public class AcceptShareIncreasedEvent : SourcedEvent<IGpuSpeed> {
         public AcceptShareIncreasedEvent(PathId targetPathId, IGpuSpeed gpuSpeed) : base(targetPathId, gpuSpeed) {
         }
     }
 
-    [MessageType(description: "拒绝了一个份额")]
+    [MessageType(description: "设置了显卡接受份额")]
+    public class AcceptShareSetedEvent : SourcedEvent<IGpuSpeed> {
+        public AcceptShareSetedEvent(PathId targetPathId, IGpuSpeed gpuSpeed) : base(targetPathId, gpuSpeed) {
+        }
+    }
+
+    [MessageType(description: "设置了显卡拒绝份额")]
+    public class RejectShareSetedEvent : SourcedEvent<IGpuSpeed> {
+        public RejectShareSetedEvent(PathId targetPathId, IGpuSpeed gpuSpeed) : base(targetPathId, gpuSpeed) {
+        }
+    }
+
+    [MessageType(description: "设置了显卡计算错误份额")]
+    public class IncorrectShareSetedEvent : SourcedEvent<IGpuSpeed> {
+        public IncorrectShareSetedEvent(PathId targetPathId, IGpuSpeed gpuSpeed) : base(targetPathId, gpuSpeed) {
+        }
+    }
+
+    [MessageType(description: "显卡拒绝了一个份额")]
     public class RejectShareIncreasedEvent : SourcedEvent<IGpuSpeed> {
         public RejectShareIncreasedEvent(PathId targetPathId, IGpuSpeed gpuSpeed) : base(targetPathId, gpuSpeed) {
         }
     }
 
-    [MessageType(description: "算错了一个份额")]
+    [MessageType(description: "显卡算错了一个份额")]
     public class IncorrectShareIncreasedEvent : SourcedEvent<IGpuSpeed> {
         public IncorrectShareIncreasedEvent(PathId targetPathId, IGpuSpeed gpuSpeed) : base(targetPathId, gpuSpeed) {
         }

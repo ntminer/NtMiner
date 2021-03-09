@@ -2,6 +2,7 @@
 using NTMiner.User;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
@@ -11,18 +12,21 @@ namespace NTMiner.Core.Impl {
         public bool IsReadied {
             get; private set;
         }
-        public ReadOnlyUserSet(IReadOnlyUserRedis userRedis) {
+        public ReadOnlyUserSet(IReadOnlyUserDataRedis userRedis) {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             userRedis.GetAllAsync().ContinueWith(t => {
                 _initedOn = DateTime.Now;
                 foreach (var item in t.Result) {
                     _dicByLoginName.Add(item.LoginName, item);
                 }
                 IsReadied = true;
-                NTMinerConsole.UserOk("用户集就绪");
+                stopwatch.Stop();
+                NTMinerConsole.UserOk($"用户集就绪，耗时 {stopwatch.GetElapsedSeconds().ToString("f2")} 秒");
                 VirtualRoot.RaiseEvent(new UserSetInitedEvent());
             });
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在UserSetInitedEvent事件之后才会创建
-            VirtualRoot.BuildEventPath<UserAddedMqMessage>("收到UserAddedMq消息后从Redis加载新用户到内存", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<UserAddedMqEvent>("收到UserAddedMq消息后从Redis加载新用户到内存", LogEnum.None, path: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -30,7 +34,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(UserAddedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(UserAddedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 userRedis.GetByLoginNameAsync(message.LoginName).ContinueWith(t => {
@@ -39,7 +43,7 @@ namespace NTMiner.Core.Impl {
                     }
                 });
             }, this.GetType());
-            VirtualRoot.BuildEventPath<UserUpdatedMqMessage>("收到UserUpdatedMq消息后从Redis加载用户到内存", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<UserUpdatedMqEvent>("收到UserUpdatedMq消息后从Redis加载用户到内存", LogEnum.None, path: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -47,7 +51,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(UserUpdatedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(UserUpdatedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 userRedis.GetByLoginNameAsync(message.LoginName).ContinueWith(t => {
@@ -56,7 +60,7 @@ namespace NTMiner.Core.Impl {
                     }
                 });
             }, this.GetType());
-            VirtualRoot.BuildEventPath<UserRemovedMqMessage>("收到UserRemovedMq消息后移除内存中对应的记录", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<UserRemovedMqEvent>("收到UserRemovedMq消息后移除内存中对应的记录", LogEnum.None, path: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -64,12 +68,12 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(UserRemovedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(UserRemovedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 _dicByLoginName.Remove(message.LoginName);
             }, this.GetType());
-            VirtualRoot.BuildEventPath<UserEnabledMqMessage>("收到UserEnabledMq消息后启用内存中对应记录的状态", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<UserEnabledMqEvent>("收到UserEnabledMq消息后启用内存中对应记录的状态", LogEnum.None, path: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -77,14 +81,14 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(UserEnabledMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(UserEnabledMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 if (_dicByLoginName.TryGetValue(message.LoginName, out UserData userData)) {
                     userData.IsEnabled = true;
                 }
             }, this.GetType());
-            VirtualRoot.BuildEventPath<UserDisabledMqMessage>("收到UserDisabledMq消息后禁用内存中对应记录的状态", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<UserDisabledMqEvent>("收到UserDisabledMq消息后禁用内存中对应记录的状态", LogEnum.None, path: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -92,14 +96,14 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(UserDisabledMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(UserDisabledMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 if (_dicByLoginName.TryGetValue(message.LoginName, out UserData userData)) {
                     userData.IsEnabled = false;
                 }
             }, this.GetType());
-            VirtualRoot.BuildEventPath<UserPasswordChangedMqMessage>("收到UserPasswordChangedMq消息后从Redis刷新内存中对应的记录", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<UserPasswordChangedMqEvent>("收到UserPasswordChangedMq消息后从Redis刷新内存中对应的记录", LogEnum.None, path: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -107,7 +111,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(UserPasswordChangedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(UserPasswordChangedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 userRedis.GetByLoginNameAsync(message.LoginName).ContinueWith(t => {
@@ -116,7 +120,7 @@ namespace NTMiner.Core.Impl {
                     }
                 });
             }, this.GetType());
-            VirtualRoot.BuildEventPath<UserRSAKeyUpdatedMqMessage>("收到了UserRSAKeyUpdated Mq消息后更新内存中对应的记录", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<UserRSAKeyUpdatedMqEvent>("收到了UserRSAKeyUpdated Mq消息后更新内存中对应的记录", LogEnum.None, path: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -124,7 +128,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(UserRSAKeyUpdatedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(UserRSAKeyUpdatedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 if (_dicByLoginName.TryGetValue(message.LoginName, out UserData userData)) {

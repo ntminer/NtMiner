@@ -14,7 +14,7 @@ using System.Net.Http;
 
 namespace NTMiner.MinerStudio.Impl {
     public class LocalMinerStudioService : ILocalMinerStudioService {
-        private readonly string _daemonControllerName = RpcRoot.GetControllerName<INTMinerDaemonController>();
+        private readonly string _daemonControllerName = ControllerUtil.GetControllerName<INTMinerDaemonController>();
 
         private readonly IClientDataSet _clientDataSet;
 

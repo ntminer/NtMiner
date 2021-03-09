@@ -41,6 +41,7 @@ namespace NTMiner {
                 }
             }
             else if (data is IEnumerable items) {
+                // 字典会有问题，因为字典和字典项的ToString都是固定值，但已无法修正因为要向后兼容
                 foreach (var item in items) {
                     if (item != null) {
                         sb.Append(item.ToString());

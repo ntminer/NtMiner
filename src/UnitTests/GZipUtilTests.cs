@@ -8,7 +8,7 @@ namespace NTMiner {
     public class GZipUtilTests {
         [TestMethod]
         public void Test1() {
-            FileInfo jsonFile = new FileInfo(Path.Combine(TestUtil.DataDirFullName, "speedData.json"));
+            FileInfo jsonFile = new FileInfo(TestUtil.SpeedDataJsonFileFullName);
             double fileSize = jsonFile.Length / NTKeyword.DoubleK;
             Console.WriteLine($"json文件原始大小 {fileSize.ToString()} kb");
             string json1;
@@ -30,7 +30,7 @@ namespace NTMiner {
 
         [TestMethod]
         public void Test2() {
-            byte[] rawData = File.ReadAllBytes(Path.Combine(TestUtil.DataDirFullName, "speedData.json"));
+            byte[] rawData = File.ReadAllBytes(TestUtil.SpeedDataJsonFileFullName);
             byte[] zippedData = GZipUtil.Compress(rawData);
             byte[] data = GZipUtil.Decompress(zippedData);
             Assert.AreEqual(rawData.Length, data.Length);
@@ -41,7 +41,7 @@ namespace NTMiner {
 
         [TestMethod]
         public void Test3() {
-            byte[] rawData = File.ReadAllBytes(Path.Combine(TestUtil.DataDirFullName, "speedData.json"));
+            byte[] rawData = File.ReadAllBytes(TestUtil.SpeedDataJsonFileFullName);
             NTStopwatch.Start();
 
             byte[] zippedData = GZipUtil.Compress(rawData);
@@ -60,7 +60,7 @@ namespace NTMiner {
         [TestMethod]
         public void BenchmarkTest1() {
             // 1秒钟约5000次压缩和解压缩，原数据大小5.3kb
-            byte[] rawData = File.ReadAllBytes(Path.Combine(TestUtil.DataDirFullName, "speedData.json"));
+            byte[] rawData = File.ReadAllBytes(TestUtil.SpeedDataJsonFileFullName);
 
             NTStopwatch.Start();
 

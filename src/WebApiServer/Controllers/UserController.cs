@@ -152,6 +152,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<LoginedUser>>("参数错误");
             }
             try {
+                AppRoot.UserSet.UpdateLastLogin(base.User, DateTime.Now);
                 var userAppSettings = AppRoot.UserAppSettingSet.GetAppSettings(User.LoginName);
                 return DataResponse<LoginedUser>.Ok(User.ToLoginedUserData(userAppSettings));
             }

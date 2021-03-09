@@ -12,7 +12,7 @@
 	mc:Ignorable="d" 
     x:Name="Uc"
 	Background="White"
-	d:DesignHeight="450" d:DesignWidth="1200"
+	d:DesignHeight="450" d:DesignWidth="1400"
     d:DataContext="{d:DesignData Source=../Design/MessagePathIdsViewModel.xaml}">
     <Grid>
         <Grid.RowDefinitions>
@@ -23,20 +23,45 @@
             <TextBlock>总记录数</TextBlock>
             <TextBlock Margin="4 0 0 0" Text="{Binding PathIds.Count}"></TextBlock>
         </WrapPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding PathIds}">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding PathIds}" EnableColumnVirtualization="True" EnableRowVirtualization="True">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="70" Header="IsEnabled">
+                <DataGridTemplateColumn Width="64" Header="IsEnabled">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding IsEnabled}" Foreground="{Binding IsEnabled, Converter={StaticResource BoolToBrushConverter}}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Width="100" Header="ViaTimesLimit" Binding="{Binding ViaTimesLimit}"></DataGridTextColumn>
-                <DataGridTextColumn Width="300" Header="MessageType" Binding="{Binding MessageType.FullName}"></DataGridTextColumn>
-                <DataGridTextColumn Width="300" Header="Location" Binding="{Binding Location.FullName}"></DataGridTextColumn>
+                <DataGridTextColumn Width="90" Header="ViaTimesLimit" Binding="{Binding ViaTimesLimit}"></DataGridTextColumn>
+                <DataGridTemplateColumn Width="380" Header="MessageType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding MessageType.FullName,Mode=OneWay}"></TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="MessageType Description">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding MessageTypeAttribute.Description,Mode=OneWay}"></TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="Action Description">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding Description,Mode=OneWay}"></TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="340" Header="Location">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding Location.FullName,Mode=OneWay}"></TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Width="100" Header="LogType" Binding="{Binding LogType}"></DataGridTextColumn>
-                <DataGridTextColumn Width="*" Header="Description" Binding="{Binding Description}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

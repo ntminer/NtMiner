@@ -21,6 +21,7 @@ namespace NTMiner.Mine {
         KernelProcessType KernelProcessType { get; }
 
         DateTime MineStartedOn { get; }
+        DateTime MineRestartedOn { get; }
         DateTime ProcessCreatedOn { get; }
         Dictionary<string, string> Parameters { get; }
         Dictionary<Guid, string> Fragments { get; }

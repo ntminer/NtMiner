@@ -21,10 +21,7 @@ namespace NTMiner.Core.Impl {
         public void Reset() {
             Value = 0;
             SpeedOn = DateTime.Now;
-            FoundShare = 0;
-            AcceptShare = 0;
-            RejectShare = 0;
-            IncorrectShare = 0;
+            ResetShare();
         }
 
         public void ResetShare() {

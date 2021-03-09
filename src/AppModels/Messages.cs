@@ -246,6 +246,7 @@ namespace NTMiner {
         }
     }
 
+    [MessageType(description: "打开文件下载器界面")]
     public class ShowFileDownloaderCommand : Cmd {
         public ShowFileDownloaderCommand(
             string downloadFileUrl,

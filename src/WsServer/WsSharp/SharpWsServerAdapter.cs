@@ -27,7 +27,7 @@ namespace NTMiner.WsSharp {
                 }
             };
             //_wsServer.Log.Level = WebSocketSharp.LogLevel.Debug;
-            _wsServer.Log.File = Path.Combine(HomePath.HomeLogsDirFullName, NTKeyword.WebSocketSharpMinerStudioLogFileName);
+            _wsServer.Log.File = Path.Combine(HomePath.HomeLogsDirFullName, NTKeyword.WebSocketSharpLogFileName);
             _wsServer.Log.Output = (data, path) => {
                 Console.WriteLine(data.Message);
                 if (path != null && path.Length > 0) {

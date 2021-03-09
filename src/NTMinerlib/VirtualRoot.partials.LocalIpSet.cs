@@ -41,7 +41,7 @@ namespace NTMiner {
                     // 延迟获取网络信息以防止立即获取时获取不到
                     1.SecondsDelay().ContinueWith(t => {
                         var old = _localIps;
-                        base.Refresh();
+                        base.DeferReInit();
                         InitOnece();
                         var localIps = _localIps;
                         if (localIps.Length == 0) {
@@ -78,7 +78,7 @@ namespace NTMiner {
                             mo.InvokeMethod("SetGateways", null);
                             mo.InvokeMethod("EnableDHCP", null);
                             1.SecondsDelay().ContinueWith(t => {
-                                base.Refresh();
+                                base.DeferReInit();
                                 InitOnece();
                             });
                         }

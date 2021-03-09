@@ -24,6 +24,8 @@ namespace NTMiner.Core.Profiles.Impl {
                 }
                 VirtualRoot.RaiseEvent(new GpuProfileAddedOrUpdatedEvent(message.MessageId, data));
             }, location: this.GetType());
+            // 注意：这个命令处理程序不能放在展示层注册。修复通过群控超频不生效的BUG：这是一个难以发现的老BUG，以前的版本也存
+            // 在这个BUG，BUG具体表现是当没有点击过挖矿端主界面上的算力Tab页时通过群控超频无效。感谢矿友发现问题，已经修复。
             VirtualRoot.BuildCmdPath<CoinOverClockCommand>(path: message => {
                 Task.Factory.StartNew(() => {
                     CoinOverClock(root, message.CoinId);
@@ -37,7 +39,15 @@ namespace NTMiner.Core.Profiles.Impl {
             if (!string.IsNullOrEmpty(json)) {
                 GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json);
                 if (data != null) {
-                    _data = data;
+                    if (!IsGpusModified(data.Gpus)) {
+                        _data = data;
+                    }
+                    else {
+                        if (data.GpuProfiles.Any()) {
+                            VirtualRoot.ThisLocalWarn(nameof(GpuProfileSet), "检测到本机显卡发生过变更，请重新填写超频数据。", OutEnum.Warn);
+                        }
+                        Save();
+                    }
                 }
                 else {
                     Save();
@@ -48,9 +58,12 @@ namespace NTMiner.Core.Profiles.Impl {
             }
         }
 
-        public new void Refresh() {
-            base.Refresh();
+        public void Refresh() {
+            base.DeferReInit();
             VirtualRoot.RaiseEvent(new GpuProfileSetRefreshedEvent());
+            // 之前下面这行代码在GpuProfileViewModels的构造中，但GpuProfileViewModels是在切换到
+            // 主界面的算力Tab页时才构建的，这就导致了通过群控超频时无效的BUG，特此记录。
+            VirtualRoot.Execute(new CoinOverClockCommand(NTMinerContext.Instance.MinerProfile.CoinId));
         }
 
         public bool IsOverClockEnabled(Guid coinId) {
@@ -138,6 +151,19 @@ namespace NTMiner.Core.Profiles.Impl {
             return list.ToArray();
         }
 
+        private bool IsGpusModified(GpuData[] gpuDatas) {
+            foreach (var gpu in NTMinerContext.Instance.GpuSet.AsEnumerable()) {
+                var gpuData = gpuDatas.FirstOrDefault(a => a.Index == gpu.Index);
+                if (gpuData == null) {
+                    return true;
+                }
+                if (gpuData.GpuType != gpu.GpuType || gpuData.Name != gpu.Name) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private void CoinOverClock(INTMinerContext root, Guid coinId) {
             try {
                 if (IsOverClockGpuAll(coinId)) {
@@ -164,10 +190,7 @@ namespace NTMiner.Core.Profiles.Impl {
             NTStopwatch.Start();
 #endif
             if (root.GpuSet.TryGetGpu(data.Index, out IGpu gpu)) {
-                // fanSpeed == -1表示开源自动温控
-                int fanSpeed = data.IsAutoFanSpeed ? -1 : data.Cool;
-                root.GpuSet.OverClock.OverClock(data.Index, data.CoreClockDelta, data.CoreVoltage, data.MemoryClockDelta, 
-                                                data.MemoryVoltage, data.PowerCapacity, data.TempLimit, fanSpeed);
+                root.GpuSet.OverClock.OverClock(gpuIndex: data.Index, OverClockValue.Create(data));
                 if (data.Index == NTMinerContext.GpuAllId) {
                     NTMinerConsole.UserOk($"统一超频：{data.ToOverClockString()}");
                 }

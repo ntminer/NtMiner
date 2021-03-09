@@ -1,6 +1,7 @@
-﻿using NTMiner.MinerStudio.Impl;
+﻿using NTMiner.Core;
+using NTMiner.Core.Impl;
+using NTMiner.MinerStudio.Impl;
 using NTMiner.MinerStudio.Vms;
-using NTMiner.Views;
 using NTMiner.Ws;
 using System;
 
@@ -10,13 +11,28 @@ namespace NTMiner.MinerStudio {
         public static MinerClientConsoleViewModel MinerClientConsoleVm { get; private set; } = new MinerClientConsoleViewModel();
         public static MinerClientMessagesViewModel MinerClientMessagesVm { get; private set; } = new MinerClientMessagesViewModel();
         public static MinerClientOperationResultsViewModel MinerClientOperationResultsVm { get; private set; } = new MinerClientOperationResultsViewModel();
+        public static IReadOnlyNTMinerFileSet ReadOnlyNTMinerFileSet { get; private set; } = new ReadOnlyNTMinerFileSet();
+
+        public static readonly LocalMinerStudioService LocalMinerStudioService = new LocalMinerStudioService();
+        private static readonly ServerMinerStudioService _serverMinerStudioService = new ServerMinerStudioService();
+
+        public static IMinerStudioService MinerStudioService {
+            get {
+                if (RpcRoot.IsOuterNet) {
+                    return _serverMinerStudioService;
+                }
+                else {
+                    return LocalMinerStudioService;
+                }
+            }
+        }
 
         public static void Init(IWsClient wsClient) {
             WsClient = wsClient;
         }
 
         public static void Login(Action onLoginSuccess, string serverHost = null, Action btnCloseClick = null) {
-            LoginWindow.Login(onLoginSuccess: () => {
+            WpfUtil.Login(onLoginSuccess: () => {
                 NTMinerContext.MinerStudioContext.UserAppSettingSet.Init(RpcRoot.RpcUser.LoginedUser.UserAppSettings);
                 onLoginSuccess?.Invoke();
             }, serverHost, btnCloseClick);

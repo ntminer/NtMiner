@@ -10,6 +10,7 @@
             gpu.MemoryClockDeltaMax = range.MemoryClockMax;
             gpu.MemoryClockDelta = range.MemoryClockDelta;
             gpu.MemoryVoltage = range.MemoryVoltage;
+            gpu.CurrentMemoryTimingLevel = range.CurrentMemoryTimingLevel;
 
             gpu.TempLimitMin = range.TempLimitMin;
             gpu.TempLimitMax = range.TempLimitMax;

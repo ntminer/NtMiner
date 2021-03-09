@@ -10,22 +10,22 @@ namespace NTMiner {
         public const ulong ULongG = 1024 * 1024 * 1024;
         public const long LongG = 1024 * 1024 * 1024;
 
-        public const string Version = "2.8.5";
-        private const string _build = "0";
+        public const string Version = "2.8.6";
+        private const string _build = "2";
         public const string VersionBuild = Version + "." + _build;
         public const string ManJiTag = "蛮吉";
         public const string ManXiaoManTag = "蛮小满";
         public const string WoLiuDao = "涡流岛";
         public const string Copyright = "Copyright ©  NTMiner";
-        public const string Company = "开源矿工";
+        public const string Company = "开源矿工 https://github.com/ntminer/NtMiner";
 
         public const string TempDirName = "NTMiner";
         public const string RootLockFileName = "home.lock";
         public const string RootConfigFileName = "home.config";
 
-        public const string LogsDirName = "logs";
-        public const string WebSocketSharpMinerClientLogFileName = "websocket-sharp-minerclient.log";
-        public const string WebSocketSharpMinerStudioLogFileName = "websocket-sharp-minerstudio.log";
+        public const string LogsDirName = "Logs";
+        public const string WebSocketSharpLogFileNameFormat = "websocket-sharp-{0}.log";
+        public const string WebSocketSharpLogFileName = "websocket-sharp.log";
         public const string ServerJsonFileName = "server.json";
         public const string LocalJsonFileName = "local.json";
         public const string GpuProfilesFileName = "gpuProfiles.json";
@@ -112,7 +112,6 @@ namespace NTMiner {
         public const string IsOuterUserEnabledRegistryKey = "IsOuterUserEnabled";
         public const string OuterUserIdRegistryKey = "OuterUserId";
         public const string DaemonVersionRegistryKey = "DaemonVersion";
-        public const string CpuIdRegistryKey = "CpuId";
         public const string ControlCenterAddressesRegistryKey = "ControlCenterAddresses";
         public const string ControlCenterAddressRegistryKey = "ControlCenterAddress";
         public const string ControlCenterLoginName = "ControlCenterLoginName";
@@ -149,6 +148,7 @@ namespace NTMiner {
         public const string AlgoSysDicCode = "Algo";
         public const string CudaVersionSysDicCode = "CudaVersion";
         public const string ThisSystemSysDicCode = "ThisSystem";
+        public const string OsVmPerGpuSysDicItemCode = "OsVmPerGpu";
         #endregion
 
         #region 打在程序集中的定位关键字
@@ -162,6 +162,7 @@ namespace NTMiner {
         public const string TotalShareGroupName = "totalShare";
         public const string AcceptShareGroupName = "acceptShare";
         public const string RejectShareGroupName = "rejectShare";
+        public const string IncorrectShareGroupName = "incorrectShare";
         public const string RejectPercentGroupName = "rejectPercent";
         public const string GpuIndexGroupName = "gpu";
         public const string GpuSpeedGroupName = "gpuSpeed";

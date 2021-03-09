@@ -84,6 +84,17 @@
 							Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="Costura Dlls" Command="{x:Static app:AppStatic.ExtractCosturaCompressedDlls}"
+                          ToolTip="解压缩出来入口程序集中的被Fody Costura压缩的dll保存在磁盘上以供阅读，保存在家目录的costura文件夹下。">
+                    <MenuItem.Icon>
+                        <Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Dir}"
+							Fill="{StaticResource BtnBackground}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem 
                     Header="{x:Static app:AppStatic.ExportServerJsonMenuName}" 
                     Command="{x:Static app:AppStatic.ExportServerJson}" 
@@ -437,6 +448,16 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Gpu}"
+							Fill="{StaticResource BtnBackground}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="WebApi Action" Visibility="{Binding IsMinerStudioOuterAdminVisible}" Command="{x:Static app:AppStatic.ShowActionCountPage}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Action}"
 							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
                     </MenuItem.Icon>

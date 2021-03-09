@@ -10,6 +10,7 @@ namespace NTMiner.Hub {
         /// </summary>
         int ViaTimesLimit { get; }
         Type MessageType { get; }
+        MessageTypeAttribute MessageTypeAttribute { get; }
         bool IsEnabled { get; set; }
         Type Location { get; }
         string Path { get; }

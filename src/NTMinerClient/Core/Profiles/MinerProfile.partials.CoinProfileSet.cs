@@ -211,6 +211,27 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
+                public bool IsLowSpeedReOverClock {
+                    get => _data.IsLowSpeedReOverClock;
+                    private set {
+                        _data.IsLowSpeedReOverClock = value;
+                    }
+                }
+
+                public int LowSpeedReOverClockMinutes {
+                    get => _data.LowSpeedReOverClockMinutes;
+                    private set {
+                        _data.LowSpeedReOverClockMinutes = value;
+                    }
+                }
+
+                public double OverClockLowSpeed {
+                    get => _data.OverClockLowSpeed;
+                    private set {
+                        _data.OverClockLowSpeed = value;
+                    }
+                }
+
                 private static Dictionary<string, PropertyInfo> _sProperties;
                 [IgnoreReflectionSet]
                 private static Dictionary<string, PropertyInfo> Properties {

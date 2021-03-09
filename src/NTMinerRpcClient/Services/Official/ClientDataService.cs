@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Services.Official {
     public partial class ClientDataService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<IClientDataController>();
+        private readonly string _controllerName = ControllerUtil.GetControllerName<IClientDataController>();
 
         internal ClientDataService() {
         }

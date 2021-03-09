@@ -29,7 +29,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 window.BuildCloseWindowOnecePath(vm.Id);
                 var uc = new GpuProfilesPage(vm);
                 var client = minerClientsWindowVm.SelectedMinerClients[0];
-                void handler(object sender, PropertyChangedEventArgs e) {
+                void onSelectedMinerClientsChanged(object sender, PropertyChangedEventArgs e) {
                     if (e.PropertyName == nameof(minerClientsWindowVm.SelectedMinerClients)) {
                         List<MinerClientViewModel> toRemoves = new List<MinerClientViewModel>();
                         foreach (var item in vm.MinerClientVms) {
@@ -56,9 +56,9 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                     }
                 }
 
-                minerClientsWindowVm.PropertyChanged += handler;
+                minerClientsWindowVm.PropertyChanged += onSelectedMinerClientsChanged;
                 uc.Unloaded += (object sender, RoutedEventArgs e) => {
-                    minerClientsWindowVm.PropertyChanged -= handler;
+                    minerClientsWindowVm.PropertyChanged -= onSelectedMinerClientsChanged;
                 };
                 window.BuildEventPath<GetGpuProfilesResponsedEvent>("收到GetGpuProfilesJson的响应", LogEnum.DevConsole, path: message => {
                     if (message.ClientId != minerClientVm.ClientId) {
@@ -66,7 +66,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                     }
                     vm.SetData(message.Data);
                 }, typeof(GpuProfilesPage));
-                MinerStudioService.Instance.GetGpuProfilesJsonAsync(minerClientVm);
+                MinerStudioRoot.MinerStudioService.GetGpuProfilesJsonAsync(minerClientVm);
                 return uc;
             }, fixedSize: false);
         }

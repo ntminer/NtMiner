@@ -3,10 +3,15 @@ using NTMiner.Gpus;
 using NTMiner.User;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
 namespace NTMiner.Core.Impl {
+    /// <summary>
+    /// 该基类有两个子类，两个子类的不同主要是数据源的不同，外网群控子类的数据源是redis，
+    /// 外网群控运行在服务端，内网群控子类的数据源是litedb，内网群控运行在用户的电脑上。
+    /// </summary>
     public abstract class ClientDataSetBase {
         protected readonly Dictionary<string, ClientData> _dicByObjectId = new Dictionary<string, ClientData>();
         protected readonly Dictionary<Guid, ClientData> _dicByClientId = new Dictionary<Guid, ClientData>();
@@ -16,36 +21,48 @@ namespace NTMiner.Core.Impl {
             get; private set;
         }
 
-        protected abstract void DoUpdateSave(MinerData minerData);
+        // 因为两个子类的持久层一个是redis一个是litedb所以需要不同的持久化逻辑
+        protected void DoUpdateSave(MinerData minerData) {
+            DoUpdateSave(new MinerData[] { minerData });
+        }
         protected abstract void DoUpdateSave(IEnumerable<MinerData> minerDatas);
         protected abstract void DoRemoveSave(MinerData minerData);
 
         private readonly bool _isPull;
         /// <summary>
-        /// 这里挺绕，逻辑是父类通过回调函数的参数声明一个接收矿工列表的方法，然后由子类调用该基类方法时传入矿工列表，从而父类收到了来自子类的矿工列表。
+        /// 这里挺绕，逻辑是父类通过回调函数的参数声明一个接收矿工列表的方法，然后由
+        /// 子类调用该基类方法时传入矿工列表，从而父类收到了来自子类的矿工列表。因为
+        /// 该基类有两个子类，一个子类的数据源是redis一个子类的数据源是litedb。
         /// </summary>
-        /// <param name="isPull"></param>
+        /// <param name="isPull">内网群控传true，外网群控传false</param>
         /// <param name="getDatas"></param>
         public ClientDataSetBase(bool isPull, Action<Action<IEnumerable<ClientData>>> getDatas) {
             _isPull = isPull;
-            getDatas(datas => {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            getDatas(clientDatas => {
                 InitedOn = DateTime.Now;
                 IsReadied = true;
-                foreach (var item in datas) {
-                    if (!_dicByObjectId.ContainsKey(item.Id)) {
-                        _dicByObjectId.Add(item.Id, item);
-                    }
-                    if (!_dicByClientId.ContainsKey(item.ClientId)) {
-                        _dicByClientId.Add(item.ClientId, item);
-                    }
+                foreach (var clientData in clientDatas) {
+                    _dicByObjectId[clientData.Id] = clientData;
+                    _dicByClientId[clientData.ClientId] = clientData;
                 }
-                NTMinerConsole.UserLine("矿机集就绪", isPull ? MessageType.Debug : MessageType.Ok);
+                stopwatch.Stop();
+                NTMinerConsole.UserLine($"矿机集就绪，耗时 {stopwatch.GetElapsedSeconds().ToString("f2")} 秒", isPull ? MessageType.Debug : MessageType.Ok);
                 VirtualRoot.RaiseEvent(new ClientSetInitedEvent());
             });
         }
 
-        public ClientCount ClientCount { get; private set; } = new ClientCount();
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user">传null表示是内网群控调用</param>
+        /// <param name="query"></param>
+        /// <param name="total"></param>
+        /// <param name="coinSnapshots"></param>
+        /// <param name="onlineCount"></param>
+        /// <param name="miningCount"></param>
+        /// <returns></returns>
         public List<ClientData> QueryClients(
             IUser user,
             QueryClientsRequest query,
@@ -57,13 +74,14 @@ namespace NTMiner.Core.Impl {
             coinSnapshots = new CoinSnapshotData[0];
             onlineCount = 0;
             miningCount = 0;
-            if (!IsReadied) {
+            if (!IsReadied || query == null) {
                 total = 0;
                 return new List<ClientData>();
             }
             List<ClientData> list = new List<ClientData>();
             var data = _dicByObjectId.Values.ToArray();
-            bool isFilterByUser = user != null && !string.IsNullOrEmpty(user.LoginName) && !user.IsAdmin();
+            bool isIntranet = user == null;
+            bool isFilterByUser = !isIntranet && !string.IsNullOrEmpty(user.LoginName) && !user.IsAdmin();
             bool isFilterByGroup = query.GroupId.HasValue && query.GroupId.Value != Guid.Empty;
             bool isFilterByMinerIp = !string.IsNullOrEmpty(query.MinerIp);
             bool isFilterByMinerName = !string.IsNullOrEmpty(query.MinerName);
@@ -157,7 +175,7 @@ namespace NTMiner.Core.Impl {
             }
             total = list.Count();
             list.Sort(new ClientDataComparer(query.SortDirection, query.SortField));
-            ClientData[] items = (user == null || user.IsAdmin()) ? data : data.Where(a => a.LoginName == user.LoginName).ToArray();
+            ClientData[] items = (isIntranet || user.IsAdmin()) ? data : data.Where(a => a.LoginName == user.LoginName).ToArray();
             coinSnapshots = VirtualRoot.CreateCoinSnapshots(_isPull, DateTime.Now, items, out onlineCount, out miningCount).ToArray();
             var results = list.Take(query).ToList();
             DateTime time = DateTime.Now.AddSeconds(_isPull ? -20 : -180);
@@ -190,35 +208,32 @@ namespace NTMiner.Core.Impl {
             return clientData;
         }
 
-        public virtual void UpdateClient(string objectId, string propertyName, object value) {
+        public void UpdateClient(string objectId, string propertyName, object value) {
             if (!IsReadied) {
                 return;
             }
             if (objectId == null) {
                 return;
             }
-            if (_dicByObjectId.TryGetValue(objectId, out ClientData clientData)) {
-                PropertyInfo propertyInfo = typeof(ClientData).GetProperty(propertyName);
-                if (propertyInfo != null) {
-                    value = VirtualRoot.ConvertValue(propertyInfo.PropertyType, value);
-                    var oldValue = propertyInfo.GetValue(clientData, null);
-                    if (oldValue != value) {
-                        propertyInfo.SetValue(clientData, value, null);
-                        DoUpdateSave(MinerData.Create(clientData));
-                    }
+            if (_dicByObjectId.TryGetValue(objectId, out ClientData clientData)
+                && ClientData.TryGetReflectionUpdateProperty(propertyName, out PropertyInfo propertyInfo)) {
+                value = VirtualRoot.ConvertValue(propertyInfo.PropertyType, value);
+                var oldValue = propertyInfo.GetValue(clientData, null);
+                if (oldValue != value) {
+                    propertyInfo.SetValue(clientData, value, null);
+                    DoUpdateSave(MinerData.Create(clientData));
                 }
             }
         }
 
-        public virtual void UpdateClients(string propertyName, Dictionary<string, object> values) {
+        public void UpdateClients(string propertyName, Dictionary<string, object> values) {
             if (!IsReadied) {
                 return;
             }
             if (values.Count == 0) {
                 return;
             }
-            PropertyInfo propertyInfo = typeof(ClientData).GetProperty(propertyName);
-            if (propertyInfo != null) {
+            if (ClientData.TryGetReflectionUpdateProperty(propertyName, out PropertyInfo propertyInfo)) {
                 values.ChangeValueType(propertyInfo.PropertyType);
                 List<MinerData> minerDatas = new List<MinerData>();
                 foreach (var kv in values) {
@@ -265,6 +280,9 @@ namespace NTMiner.Core.Impl {
         }
 
         public IEnumerable<ClientData> AsEnumerable() {
+            if (!IsReadied) {
+                return new List<ClientData>();
+            }
             return _dicByObjectId.Values;
         }
     }

@@ -38,6 +38,8 @@ namespace NTMiner.Gpus.Impl {
                         name = name.Replace("Radeon RX ", string.Empty);
                     }
                     var gpu = Gpu.Create(GpuType.AMD, i, atiGpu.BusNumber.ToString(), name);
+                    gpu.MemoryTimingLevels = atiGpu.MemoryTimingLevels;
+                    gpu.CurrentMemoryTimingLevel = atiGpu.CurrentMemoryTimingLevel;
                     gpu.TotalMemory = _adlHelper.GetTotalMemory(i);
                     _gpus.Add(i, gpu);
                     i++;
@@ -96,11 +98,12 @@ namespace NTMiner.Gpus.Impl {
             if (gpuIndex == NTMinerContext.GpuAllId) {
                 return;
             }
-            _adlHelper.GetPowerFanTemp(gpuIndex, out uint power, out uint fanSpeed, out int temp);
+            _adlHelper.GetPowerFanTemp(gpuIndex, out uint power, out uint fanSpeed, out int coreTemp, out int memTemp);
 
             Gpu gpu = _gpus[gpuIndex];
-            bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != fanSpeed;
-            gpu.Temperature = temp;
+            bool isChanged = gpu.Temperature != coreTemp || gpu.MemTemperature != memTemp || gpu.PowerUsage != power || gpu.FanSpeed != fanSpeed;
+            gpu.Temperature = coreTemp;
+            gpu.MemTemperature = memTemp;
             gpu.PowerUsage = power;
             gpu.FanSpeed = fanSpeed;
 

@@ -2,6 +2,7 @@
     public class GpuData : IGpuStaticData {
         public GpuData() {
             this.PowerDefault = 100;
+            this.MemoryTimingLevels = new int[0];
         }
 
         public GpuType GpuType { get; set; }
@@ -25,6 +26,7 @@
         public int TempLimitMin { get; set; }
         public int TempLimitDefault { get; set; }
         public int TempLimitMax { get; set; }
+        public int[] MemoryTimingLevels { get; set; }
 
         bool IGpuName.IsValid() {
             return GpuName.IsValid(this.GpuType, this.Name, this.TotalMemory);

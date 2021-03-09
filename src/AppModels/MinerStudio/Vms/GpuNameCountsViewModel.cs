@@ -10,7 +10,7 @@ namespace NTMiner.MinerStudio.Vms {
         private int _pageIndex = 1;
         private int _pageSize = 100;
         private string _keyword;
-        private PagingViewModel _pagingVm;
+        private readonly PagingViewModel _pagingVm;
 
         public ICommand ClearKeyword { get; private set; }
 

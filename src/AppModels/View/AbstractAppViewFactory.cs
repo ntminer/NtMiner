@@ -47,9 +47,9 @@ namespace NTMiner.View {
         public abstract void BuildPaths();
         public abstract Window CreateMainWindow();
 
-        public void ShowMainWindow(Application app, NTMinerAppType appType) {
+        public void ShowMainWindow(Application app) {
             try {
-                switch (appType) {
+                switch (ClientAppType.AppType) {
                     case NTMinerAppType.MinerClient:
                         RpcRoot.Client.MinerClientService.ShowMainWindowAsync((isSuccess, exception) => {
                             if (!isSuccess) {

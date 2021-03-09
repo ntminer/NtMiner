@@ -29,7 +29,6 @@ namespace NTMiner {
         public const string RestartWindowsRoutingKey = WsMessage.RestartWindows;
         public const string ShutdownWindowsRoutingKey = WsMessage.ShutdownWindows;
         public const string UpgradeNTMinerRoutingKey = WsMessage.UpgradeNTMiner;
-        public const string StartMineRoutingKey = WsMessage.StartMine;
         public const string StopMineRoutingKey = WsMessage.StopMine;
     }
 }

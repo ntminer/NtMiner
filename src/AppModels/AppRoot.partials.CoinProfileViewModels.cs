@@ -15,19 +15,19 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                BuildEventPath<CoinKernelProfilePropertyChangedEvent>("币种内核设置变更后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<CoinKernelProfilePropertyChangedEvent>("刷新VM内存", LogEnum.DevConsole,
                     path: message => {
                         if (_coinKernelProfileDicById.ContainsKey(message.CoinKernelId)) {
                             _coinKernelProfileDicById[message.CoinKernelId].OnPropertyChanged(message.PropertyName);
                         }
                     }, location: this.GetType());
-                BuildEventPath<CoinProfilePropertyChangedEvent>("币种设置变更后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<CoinProfilePropertyChangedEvent>("刷新VM内存", LogEnum.DevConsole,
                     path: message => {
                         if (_coinProfileDicById.ContainsKey(message.CoinId)) {
                             _coinProfileDicById[message.CoinId].OnPropertyChanged(message.PropertyName);
                         }
                     }, location: this.GetType());
-                VirtualRoot.BuildEventPath<LocalContextReInitedEvent>("LocalContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.BuildEventPath<LocalContextReInitedEvent>("刷新VM内存", LogEnum.DevConsole,
                     path: message => {
                         _coinKernelProfileDicById.Clear();
                         _coinProfileDicById.Clear();

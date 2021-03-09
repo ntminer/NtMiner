@@ -11,6 +11,7 @@ namespace NTMiner.Gpus.Nvapi {
         internal const int MAX_PHYSICAL_GPUS = 64;
         internal const int MAX_PSTATES_PER_GPU = 8;
         internal const int MAX_COOLER_PER_GPU = 20;
+        internal static readonly uint GPU_THERMAL_SETTINGS_VER = (uint)Marshal.SizeOf(typeof(NvGPUThermalSettings)) | 0x10000;
         internal const int MAX_THERMAL_SENSORS_PER_GPU = 3;
         internal const int MAX_POWER_ENTRIES_PER_GPU = 4;
 
@@ -408,6 +409,10 @@ namespace NTMiner.Gpus.Nvapi {
 
             return r;
         }
+
+        public override string ToString() {
+            return VirtualRoot.JsonSerializer.Serialize(this);
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -458,6 +463,10 @@ namespace NTMiner.Gpus.Nvapi {
 
             return r;
         }
+
+        public override string ToString() {
+            return VirtualRoot.JsonSerializer.Serialize(this);
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -500,6 +509,10 @@ namespace NTMiner.Gpus.Nvapi {
             };
 
             return r;
+        }
+
+        public override string ToString() {
+            return VirtualRoot.JsonSerializer.Serialize(this);
         }
     }
 
@@ -663,6 +676,62 @@ namespace NTMiner.Gpus.Nvapi {
             }
 
             return r;
+        }
+    }
+
+    internal enum NvThermalController {
+        NONE = 0,
+        GPU_INTERNAL,
+        ADM1032,
+        MAX6649,
+        MAX1617,
+        LM99,
+        LM89,
+        LM64,
+        ADT7473,
+        SBMAX6649,
+        VBIOSEVT,
+        OS,
+        UNKNOWN = -1,
+    }
+
+    internal enum NvThermalTarget {
+        NONE = 0,
+        GPU = 1,
+        MEMORY = 2,
+        POWER_SUPPLY = 4,
+        BOARD = 8,
+        ALL = 15,
+        UNKNOWN = -1
+    };
+
+    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    internal struct NvSensor {
+        public NvThermalController Controller;
+        public uint DefaultMinTemp;
+        public uint DefaultMaxTemp;
+        public uint CurrentTemp;
+        public NvThermalTarget Target;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    internal struct NvGPUThermalSettings {
+        public uint Version;
+        public uint Count;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_THERMAL_SENSORS_PER_GPU)]
+        public NvSensor[] Sensor;
+
+        public static NvGPUThermalSettings Create() {
+            NvGPUThermalSettings settings = new NvGPUThermalSettings {
+                Version = NvapiConst.GPU_THERMAL_SETTINGS_VER,
+                Count = NvapiConst.MAX_THERMAL_SENSORS_PER_GPU,
+                Sensor = new NvSensor[NvapiConst.MAX_THERMAL_SENSORS_PER_GPU]
+            };
+            return settings;
+        }
+
+        public override string ToString() {
+            return VirtualRoot.JsonSerializer.Serialize(this);
         }
     }
     #endregion

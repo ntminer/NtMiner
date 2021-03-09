@@ -10,6 +10,7 @@ namespace NTMiner.Controllers {
     public interface INTMinerDaemonController {
         DataResponse<IntPtr> ShowConsole();
         WsClientState GetWsDaemonState();
+        void ReClientId(Guid clientId);
         ResponseBase EnableRemoteDesktop();
         ResponseBase BlockWAU();
         ResponseBase SwitchRadeonGpu(bool on);

@@ -20,6 +20,7 @@ namespace NTMiner.MinerStudio.Vms {
         private bool _isAutoFanSpeed;
         private int _coreVoltage;
         private int _memoryVoltage;
+        private int _currentMemoryTimingLevel;
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
@@ -73,6 +74,7 @@ namespace NTMiner.MinerStudio.Vms {
             _cool = data.Cool;
             _coreVoltage = data.CoreVoltage;
             _memoryVoltage = data.MemoryVoltage;
+            _currentMemoryTimingLevel = data.CurrentMemoryTimingLevel;
         }
 
         public Guid GetId() {
@@ -208,6 +210,14 @@ namespace NTMiner.MinerStudio.Vms {
             set {
                 _memoryVoltage = value;
                 OnPropertyChanged(nameof(MemoryVoltage));
+            }
+        }
+
+        public int CurrentMemoryTimingLevel {
+            get => _currentMemoryTimingLevel;
+            set {
+                _currentMemoryTimingLevel = value;
+                OnPropertyChanged(nameof(CurrentMemoryTimingLevel));
             }
         }
 

@@ -1,4 +1,6 @@
-﻿namespace NTMiner.Gpus.Impl {
+﻿using NTMiner.Core;
+
+namespace NTMiner.Gpus.Impl {
     public class Gpu : IGpu {
         public static readonly Gpu GpuAll = new Gpu {
             Index = NTMinerContext.GpuAllId,
@@ -18,6 +20,7 @@
         }
 
         private Gpu() {
+            this.MemoryTimingLevels = new int[0];
         }
 
         public GpuType GpuType { get; set; }
@@ -27,6 +30,7 @@
         public ulong TotalMemory { get; set; }
 
         public int Temperature { get; set; }
+        public int MemTemperature { get; set; }
         public uint FanSpeed { get; set; }
         public uint PowerUsage { get; set; }
         public int CoreClockDelta { get; set; }
@@ -51,6 +55,8 @@
         public int TempLimit { get; set; }
         public int CoreVoltage { get; set; }
         public int MemoryVoltage { get; set; }
+        public int[] MemoryTimingLevels { get; set; }
+        public int CurrentMemoryTimingLevel { get; set; }
 
         bool IGpuName.IsValid() {
             return GpuName.IsValid(this.GpuType, this.Name, this.TotalMemory);

@@ -18,6 +18,7 @@ namespace NTMiner.Vms {
         private string _privateKey;
         private string _roles;
         private DateTime _createdOn;
+        private DateTime _lastLogin;
 
         public ICommand Enable { get; private set; }
         public ICommand Disable { get; private set; }
@@ -75,6 +76,7 @@ namespace NTMiner.Vms {
             _privateKey = data.PrivateKey;
             _roles = data.Roles;
             _createdOn = data.CreatedOn;
+            _lastLogin = data.LastLogin;
         }
 
         public string LoginName {
@@ -210,6 +212,24 @@ namespace NTMiner.Vms {
         public string CreatedOnText {
             get {
                 return this.CreatedOn.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+        }
+
+        public DateTime LastLogin {
+            get { return _lastLogin; }
+            set {
+                _lastLogin = value;
+                OnPropertyChanged(nameof(LastLogin));
+                OnPropertyChanged(nameof(LastLoginText));
+            }
+        }
+
+        public string LastLoginText {
+            get {
+                if (this.LastLogin <= Timestamp.UnixBaseTime) {
+                    return string.Empty;
+                }
+                return this.LastLogin.ToString("yyyy-MM-dd HH:mm:ss");
             }
         }
     }

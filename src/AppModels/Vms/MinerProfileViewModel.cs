@@ -1,10 +1,13 @@
 ﻿using NTMiner.Core;
+using NTMiner.Core.Kernels;
 using NTMiner.Core.Profile;
 using NTMiner.MinerStudio.Vms;
 using NTMiner.Ws;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 
@@ -27,6 +30,7 @@ namespace NTMiner.Vms {
         public ICommand Up { get; private set; }
         public ICommand Down { get; private set; }
         public ICommand WsRetry { get; private set; }
+        public ICommand CopyArgsAssembly { get; private set; }
 
         public MinerProfileViewModel() {
             if (WpfUtil.IsInDesignMode) {
@@ -47,6 +51,18 @@ namespace NTMiner.Vms {
             this.WsRetry = new DelegateCommand(() => {
                 RpcRoot.Client.NTMinerDaemonService.StartOrStopWsAsync(isResetFailCount: true);
                 IsConnecting = true;
+            });
+            string GetRowArgsAssembly(){
+                string argsAssembly = this.ArgsAssembly ?? "无";
+                if (argsAssembly.Contains("{logfile}")) {
+                    argsAssembly = Regex.Replace(argsAssembly, "\\s\\S+\\s\"\\{logfile\\}\"", string.Empty);
+                }
+                return argsAssembly.Trim();
+            }
+            this.CopyArgsAssembly = new DelegateCommand(() => {
+                string argsAssembly = GetRowArgsAssembly();
+                Clipboard.SetDataObject(argsAssembly, true);
+                VirtualRoot.Out.ShowSuccess("命令行", header: "复制成功");
             });
             if (ClientAppType.IsMinerClient) {
                 if (this.IsSystemName) {
@@ -128,7 +144,7 @@ namespace NTMiner.Vms {
                     this.ArgsAssembly = string.Empty;
                 }
             });
-            AppRoot.BuildCmdPath<RefreshAutoBootStartCommand>("刷新开机启动和自动挖矿的展示", LogEnum.DevConsole,
+            AppRoot.BuildEventPath<AutoBootStartRefreshedEvent>("刷新开机启动和自动挖矿的展示", LogEnum.DevConsole,
                 path: message => {
                     this.OnPropertyChanged(nameof(IsAutoBoot));
                     this.OnPropertyChanged(nameof(IsAutoStart));
@@ -547,10 +563,10 @@ namespace NTMiner.Vms {
         }
 
         public bool IsAutoStart {
-            get => NTMinerRegistry.GetIsAutoStart();
+            get => NTMinerContext.Instance.MinerProfile.IsAutoStart;
             set {
-                if (NTMinerRegistry.GetIsAutoStart() != value) {
-                    NTMinerRegistry.SetIsAutoStart(value);
+                if (NTMinerContext.Instance.MinerProfile.IsAutoStart != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStart), value);
                     OnPropertyChanged(nameof(IsAutoStart));
                 }
             }
@@ -1051,12 +1067,13 @@ namespace NTMiner.Vms {
         }
 
         public bool IsAutoReboot {
-            get {
-                return Windows.Crash.GetAutoReboot();
-            }
+            get => NTMinerContext.Instance.MinerProfile.IsAutoReboot;
             set {
-                Windows.Crash.SetAutoReboot(value);
-                OnPropertyChanged(nameof(IsAutoBoot));
+                if (NTMinerContext.Instance.MinerProfile.IsAutoReboot != value) {
+                    Windows.Crash.SetAutoReboot(value);
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoReboot), value);
+                    OnPropertyChanged(nameof(IsAutoReboot));
+                }
             }
         }
     }

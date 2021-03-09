@@ -4,7 +4,6 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     public class GpuNameController : ApiControllerBase, IGpuNameController {
         [Role.Admin]
-        [HttpGet]
         [HttpPost]
         public QueryGpuNameCountsResponse QueryGpuNameCounts([FromBody]QueryGpuNameCountsRequest request) {
             if (request == null) {

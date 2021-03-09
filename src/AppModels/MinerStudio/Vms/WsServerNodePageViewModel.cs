@@ -1,18 +1,24 @@
 ﻿using NTMiner.Vms;
 using System.Windows;
+using System.Windows.Input;
 
 namespace NTMiner.MinerStudio.Vms {
     public class WsServerNodePageViewModel : ViewModelBase {
         private WebApiServerStateViewModel _webApiServerStateVm;
 
+        public ICommand Refresh { get; private set; }
+
         public WsServerNodePageViewModel() {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            Refresh();
+            this.Refresh = new DelegateCommand(() => {
+                this.DoRefresh();
+            });
+            DoRefresh();
         }
 
-        public void Refresh() {
+        public void DoRefresh() {
             RpcRoot.OfficialServer.WebApiServerNodeService.GetServerStateAsync((response, e) => {
                 if (response.IsSuccess()) {
                     UIThread.Execute(() => {

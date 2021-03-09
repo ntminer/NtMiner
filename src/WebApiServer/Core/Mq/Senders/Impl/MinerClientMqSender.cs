@@ -1,19 +1,20 @@
 ﻿using NTMiner.Core.MinerServer;
 using RabbitMQ.Client;
+using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Mq.Senders.Impl {
     public class MinerClientMqSender : IMinerClientMqSender {
-        private readonly IMqRedis _mq;
-        public MinerClientMqSender(IMqRedis mq) {
+        private readonly IMq _mq;
+        public MinerClientMqSender(IMq mq) {
             _mq = mq;
         }
 
-        public void SendMinerDataAdded(string minerId) {
+        public void SendMinerDataAdded(string minerId, Guid clientId) {
             if (string.IsNullOrEmpty(minerId)) {
                 return;
             }
-            var basicProperties = CreateBasicProperties();
+            var basicProperties = CreateBasicProperties(clientId);
             _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerDataAddedRoutingKey,
@@ -21,11 +22,11 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: MinerClientMqBodyUtil.GetMinerIdMqSendBody(minerId));
         }
 
-        public void SendMinerDataRemoved(string minerId) {
+        public void SendMinerDataRemoved(string minerId, Guid clientId) {
             if (string.IsNullOrEmpty(minerId)) {
                 return;
             }
-            var basicProperties = CreateBasicProperties();
+            var basicProperties = CreateBasicProperties(clientId);
             _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerDataRemovedRoutingKey,
@@ -33,11 +34,11 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: MinerClientMqBodyUtil.GetMinerIdMqSendBody(minerId));
         }
 
-        public void SendMinerSignChanged(string minerId) {
+        public void SendMinerSignChanged(string minerId, Guid clientId) {
             if (string.IsNullOrEmpty(minerId)) {
                 return;
             }
-            var basicProperties = CreateBasicProperties();
+            var basicProperties = CreateBasicProperties(clientId);
             _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerSignChangedRoutingKey,
@@ -71,12 +72,15 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             return basicProperties;
         }
 
-        private IBasicProperties CreateBasicProperties() {
+        private IBasicProperties CreateBasicProperties(Guid clientId) {
             var basicProperties = _mq.MqChannel.CreateBasicProperties();
             basicProperties.Persistent = true;// 持久化的
             basicProperties.Expiration = MqKeyword.Expiration60sec;
             basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
             basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;
+            basicProperties.Headers = new Dictionary<string, object> {
+                [MqKeyword.ClientIdHeaderName] = clientId.ToString()
+            };
 
             return basicProperties;
         }

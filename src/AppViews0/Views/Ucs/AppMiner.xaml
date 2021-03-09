@@ -63,13 +63,28 @@
             <controls:KbMuiltilineTextBox 
 				Background="Transparent"
 				FontFamily="Courier New"
-				Padding="10 2 4 2"
+				Padding="10 2 22 2"
 				ToolTip="参数总成。这是高级用户的工具，通常我们无需关心这一块。"
 				BorderThickness="0"
 				Foreground="LightGray"						
 				IsReadOnly="True" 
 				FontSize="14"
 				Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}"></controls:KbMuiltilineTextBox>
+            <StackPanel Margin="4 0" VerticalAlignment="Top" HorizontalAlignment="Right">
+                <controls:KbButton 
+                    Margin="0 4 0 0"
+					Padding="2"
+					ToolTip="复制命令行"
+					Background="Transparent" BorderThickness="0"
+					Command="{Binding MinerProfile.CopyArgsAssembly}">
+                    <Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_Copy}"
+						Fill="White"
+						Stretch="Fill" />
+                </controls:KbButton>
+            </StackPanel>
         </Grid>
         <StackPanel Grid.Row="2">
             <WrapPanel Visibility="{Binding MinerProfile.CoinVm.Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">

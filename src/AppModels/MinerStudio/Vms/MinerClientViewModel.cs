@@ -55,7 +55,7 @@ namespace NTMiner.MinerStudio.Vms {
             this.Remove = new DelegateCommand(() => {
                 #region
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定删除该矿机吗？", title: "确认", onYes: () => {
-                    MinerStudioService.Instance.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {
+                    MinerStudioRoot.MinerStudioService.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {
                         if (!response.IsSuccess()) {
                             VirtualRoot.Out.ShowError("删除矿机失败：" + response.ReadMessage(e), autoHideSeconds: 4, toConsole: true);
                         }
@@ -98,22 +98,22 @@ namespace NTMiner.MinerStudio.Vms {
             });
             this.RestartWindows = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定重启{this.GetMinerText()}电脑吗？", title: "确认", onYes: () => {
-                    MinerStudioService.Instance.RestartWindowsAsync(this);
+                    MinerStudioRoot.MinerStudioService.RestartWindowsAsync(this);
                 }));
             });
             this.ShutdownWindows = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定关闭{this.GetMinerText()}电脑吗？", title: "确认", onYes: () => {
-                    MinerStudioService.Instance.ShutdownWindowsAsync(this);
+                    MinerStudioRoot.MinerStudioService.ShutdownWindowsAsync(this);
                 }));
             });
             this.StartMine = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"{this.GetMinerText()}：确定开始挖矿吗？", title: "确认", onYes: () => {
-                    MinerStudioService.Instance.StartMineAsync(this, WorkId);
+                    MinerStudioRoot.MinerStudioService.StartMineAsync(this, WorkId);
                 }));
             });
             this.StopMine = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"{this.GetMinerText()}：确定停止挖矿吗？", title: "确认", onYes: () => {
-                    MinerStudioService.Instance.StopMineAsync(this);
+                    MinerStudioRoot.MinerStudioService.StopMineAsync(this);
                 }));
             });
         }
@@ -187,16 +187,6 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.MACAddress != value) {
                     _data.MACAddress = value;
                     OnPropertyChanged(nameof(MACAddress));
-                }
-            }
-        }
-
-        public string CpuId {
-            get { return _data.CpuId; }
-            set {
-                if (_data.CpuId != value) {
-                    _data.CpuId = value;
-                    OnPropertyChanged(nameof(CpuId));
                 }
             }
         }
@@ -294,7 +284,7 @@ namespace NTMiner.MinerStudio.Vms {
                     var old = _selectedMineWork;
                     this.WorkId = value.Id;
                     _selectedMineWork = value;
-                    MinerStudioService.Instance.UpdateClientAsync(this.Id, nameof(WorkId), value.Id, (response, exception) => {
+                    MinerStudioRoot.MinerStudioService.UpdateClientAsync(this.Id, nameof(WorkId), value.Id, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _selectedMineWork = old;
                             this.WorkId = old.Id;
@@ -496,7 +486,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.WorkerName != value) {
                     var old = _data.WorkerName;
                     _data.WorkerName = value;
-                    MinerStudioService.Instance.UpdateClientAsync(this.Id, nameof(WorkerName), value, (response, e) => {
+                    MinerStudioRoot.MinerStudioService.UpdateClientAsync(this.Id, nameof(WorkerName), value, (response, e) => {
                         if (!response.IsSuccess()) {
                             _data.WorkerName = old;
                             VirtualRoot.Out.ShowError($"设置群控名失败：{this.WorkerName} {this.MinerIp} {response.ReadMessage(e)}", toConsole: true);
@@ -564,7 +554,7 @@ namespace NTMiner.MinerStudio.Vms {
                     var old = _selectedMinerGroup;
                     _selectedMinerGroup = value;
                     this.GroupId = value.Id;
-                    MinerStudioService.Instance.UpdateClientAsync(this.Id, nameof(GroupId), value.Id, (response, exception) => {
+                    MinerStudioRoot.MinerStudioService.UpdateClientAsync(this.Id, nameof(GroupId), value.Id, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _selectedMinerGroup = old;
                             this.GroupId = old.Id;
@@ -593,7 +583,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.WindowsLoginName != value) {
                     var old = _data.WindowsLoginName;
                     _data.WindowsLoginName = value;
-                    MinerStudioService.Instance.UpdateClientAsync(this.Id, nameof(WindowsLoginName), value, (response, exception) => {
+                    MinerStudioRoot.MinerStudioService.UpdateClientAsync(this.Id, nameof(WindowsLoginName), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsLoginName = old;
                             VirtualRoot.Out.ShowError($"设置Windows远程登录用户名失败：{this.MinerName} {this.MinerIp} {response.ReadMessage(exception)}", toConsole: true);
@@ -620,7 +610,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.WindowsPassword != value) {
                     var old = _data.WindowsPassword;
                     _data.WindowsPassword = value;
-                    MinerStudioService.Instance.UpdateClientAsync(this.Id, nameof(WindowsPassword), value, (response, exception) => {
+                    MinerStudioRoot.MinerStudioService.UpdateClientAsync(this.Id, nameof(WindowsPassword), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsPassword = old;
                             VirtualRoot.Out.ShowError($"设置Widnows远程登录密码失败：{this.MinerName} {this.MinerIp} {response.ReadMessage(exception)}", toConsole: true);
@@ -1587,12 +1577,32 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
+        public bool Is1080PillEnabled {
+            get { return _data.Is1080PillEnabled; }
+            set {
+                if (_data.Is1080PillEnabled != value) {
+                    _data.Is1080PillEnabled = value;
+                    OnPropertyChanged(nameof(Is1080PillEnabled));
+                }
+            }
+        }
+
         public bool IsDisableAntiSpyware {
             get { return _data.IsDisableAntiSpyware; }
             set {
                 if (_data.IsDisableAntiSpyware != value) {
                     _data.IsDisableAntiSpyware = value;
                     OnPropertyChanged(nameof(IsDisableAntiSpyware));
+                }
+            }
+        }
+
+        public bool IsAutoReboot {
+            get { return _data.IsAutoReboot; }
+            set {
+                if (_data.IsAutoReboot != value) {
+                    _data.IsAutoReboot = value;
+                    OnPropertyChanged(nameof(IsAutoReboot));
                 }
             }
         }
@@ -1613,6 +1623,76 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.DualCoinSpeedOn != value) {
                     _data.DualCoinSpeedOn = value;
                     OnPropertyChanged(nameof(DualCoinSpeedOn));
+                }
+            }
+        }
+
+        public bool IsPreventDisplaySleep {
+            get { return _data.IsPreventDisplaySleep; }
+            set {
+                if (_data.IsPreventDisplaySleep != value) {
+                    _data.IsPreventDisplaySleep = value;
+                    OnPropertyChanged(nameof(IsPreventDisplaySleep));
+                }
+            }
+        }
+
+        public bool IsLowSpeedRestartComputer {
+            get { return _data.IsLowSpeedRestartComputer; }
+            set {
+                if (_data.IsLowSpeedRestartComputer != value) {
+                    _data.IsLowSpeedRestartComputer = value;
+                    OnPropertyChanged(nameof(IsLowSpeedRestartComputer));
+                }
+            }
+        }
+
+        public int LowSpeedRestartComputerMinutes {
+            get { return _data.LowSpeedRestartComputerMinutes; }
+            set {
+                if (_data.LowSpeedRestartComputerMinutes != value) {
+                    _data.LowSpeedRestartComputerMinutes = value;
+                    OnPropertyChanged(nameof(LowSpeedRestartComputerMinutes));
+                }
+            }
+        }
+
+        public double LowSpeed {
+            get { return _data.LowSpeed; }
+            set {
+                if (_data.LowSpeed != value) {
+                    _data.LowSpeed = value;
+                    OnPropertyChanged(nameof(LowSpeed));
+                }
+            }
+        }
+
+        public bool IsLowSpeedReOverClock {
+            get { return _data.IsLowSpeedReOverClock; }
+            set {
+                if (_data.IsLowSpeedReOverClock != value) {
+                    _data.IsLowSpeedReOverClock = value;
+                    OnPropertyChanged(nameof(IsLowSpeedReOverClock));
+                }
+            }
+        }
+
+        public int LowSpeedReOverClockMinutes {
+            get { return _data.LowSpeedReOverClockMinutes; }
+            set {
+                if (_data.LowSpeedReOverClockMinutes != value) {
+                    _data.LowSpeedReOverClockMinutes = value;
+                    OnPropertyChanged(nameof(LowSpeedReOverClockMinutes));
+                }
+            }
+        }
+
+        public double OverClockLowSpeed {
+            get { return _data.OverClockLowSpeed; }
+            set {
+                if (_data.OverClockLowSpeed != value) {
+                    _data.OverClockLowSpeed = value;
+                    OnPropertyChanged(nameof(OverClockLowSpeed));
                 }
             }
         }

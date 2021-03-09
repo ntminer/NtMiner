@@ -1,6 +1,9 @@
-﻿using NTMiner.Gpus;
+﻿using NTMiner.Core;
+using NTMiner.Gpus;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
@@ -10,6 +13,7 @@ namespace NTMiner.Vms {
         private string _busId;
         private string _name;
         private int _temperature;
+        private int _memTemperature;
         private uint _fanSpeed;
         private uint _powerUsage;
         private int _coreClockDelta;
@@ -35,6 +39,8 @@ namespace NTMiner.Vms {
         private int _voltMin;
         private int _voltMax;
         private int _voltDefault;
+        private int[] _memoryTimingLevels = new int[0];
+        private int _currentMemoryTimingLevel;
 
         public GpuViewModel(IGpu data) {
             _gpuType = data.GpuType;
@@ -43,6 +49,7 @@ namespace NTMiner.Vms {
             _name = data.Name;
             _totalMemory = data.TotalMemory;
             _temperature = data.Temperature;
+            _memTemperature = data.MemTemperature;
             _fanSpeed = data.FanSpeed;
             _powerUsage = data.PowerUsage;
             _coreClockDelta = data.CoreClockDelta;
@@ -67,6 +74,8 @@ namespace NTMiner.Vms {
             _voltMin = data.VoltMin;
             _voltMax = data.VoltMax;
             _voltDefault = data.VoltDefault;
+            _memoryTimingLevels = data.MemoryTimingLevels;
+            _currentMemoryTimingLevel = data.CurrentMemoryTimingLevel;
         }
 
         private readonly bool _isGpuData;
@@ -86,6 +95,7 @@ namespace NTMiner.Vms {
             _name = data.Name;
             _totalMemory = data.TotalMemory;
             _temperature = 0;
+            _memTemperature = 0;
             _fanSpeed = 0;
             _powerUsage = 0;
             _coreClockDelta = 0;
@@ -109,6 +119,8 @@ namespace NTMiner.Vms {
             _voltMin = data.VoltMin;
             _voltMax = data.VoltMax;
             _voltDefault = data.VoltDefault;
+            _memoryTimingLevels = data.MemoryTimingLevels;
+            _currentMemoryTimingLevel = -1;
         }
 
         public GpuType GpuType {
@@ -200,6 +212,24 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int MemTemperature {
+            get { return _memTemperature; }
+            set {
+                if (_memTemperature != value) {
+                    _memTemperature = value;
+                    OnPropertyChanged(nameof(MemTemperature));
+                    OnPropertyChanged(nameof(MemTemperatureText));
+                    OnPropertyChanged(nameof(IsMemTemperatureVisible));
+                }
+            }
+        }
+
+        public Visibility IsMemTemperatureVisible {
+            get {
+                return this.MemTemperature != 0 ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
         public string TemperatureText {
             get {
                 if (_isGpuData) {
@@ -212,6 +242,21 @@ namespace NTMiner.Vms {
                     return $"{AppRoot.GpuVms.TemperatureMinText} - {AppRoot.GpuVms.TemperatureMaxText}";
                 }
                 return this.Temperature.ToString() + "℃";
+            }
+        }
+
+        public string MemTemperatureText {
+            get {
+                if (_isGpuData) {
+                    return "0℃";
+                }
+                if (NTMinerContext.Instance.GpuSet == EmptyGpuSet.Instance) {
+                    return "0℃";
+                }
+                if (this.Index == NTMinerContext.GpuAllId && NTMinerContext.Instance.GpuSet.Count != 0) {
+                    return $"{AppRoot.GpuVms.MemTemperatureMinText} - {AppRoot.GpuVms.MemTemperatureMaxText}";
+                }
+                return this.MemTemperature.ToString() + "℃";
             }
         }
 
@@ -733,11 +778,94 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int[] MemoryTimingLevels {
+            get { return _memoryTimingLevels; }
+            set {
+                if (_memoryTimingLevels != value) {
+                    if (value == null) {
+                        return;
+                    }
+                    if (_memoryTimingLevels != null && _memoryTimingLevels.Length == value.Length) {
+                        if (value.All(a => _memoryTimingLevels.Contains(a))) {
+                            return;
+                        }
+                    }
+                    _memoryTimingLevels = value;
+                    OnPropertyChanged(nameof(MemoryTimingLevels));
+                    OnPropertyChanged(nameof(IsSupportMemoryTiming));
+                    OnPropertyChanged(nameof(MemoryTimingLevelSelects));
+                    OnPropertyChanged(nameof(IsMemoryTimingVisible));
+                }
+            }
+        }
+
+        public int[] MemoryTimingLevelSelects {
+            get {
+                var list = new List<int> { -1 };
+                if (Index == NTMinerContext.GpuAllId) {
+                    IEnumerable<int> levels = new int[0];
+                    if (_isGpuData) {
+                        var first = _gpuDatas.FirstOrDefault();
+                        if (first != null) {
+                            levels = first.MemoryTimingLevels;
+                            foreach (var item in _gpuDatas) {
+                                if (item != first) {
+                                    levels = levels.Intersect(item.MemoryTimingLevels);
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        var query = NTMinerContext.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerContext.GpuAllId);
+                        var first = query.FirstOrDefault();
+                        if (first != null) {
+                            levels = first.MemoryTimingLevels;
+                            foreach (var item in query) {
+                                if (item != first) {
+                                    levels = levels.Intersect(item.MemoryTimingLevels);
+                                }
+                            }
+                        }
+                    }
+                    list.AddRange(levels);
+                }
+                else {
+                    list.AddRange(this.MemoryTimingLevels);
+                }
+                return list.ToArray();
+            }
+        }
+
+        public Visibility IsMemoryTimingVisible {
+            get {
+                if (Index == NTMinerContext.GpuAllId) {
+                    return NTMinerContext.Instance.GpuSet.AsEnumerable().All(a => a.MemoryTimingLevels == null || a.MemoryTimingLevels.Length == 0) ? Visibility.Collapsed : Visibility.Visible;
+                }
+                return (_memoryTimingLevels == null || _memoryTimingLevels.Length == 0) ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
+
+        public bool IsSupportMemoryTiming {
+            get {
+                return _memoryTimingLevels != null && _memoryTimingLevels.Length != 0;
+            }
+        }
+
+        public int CurrentMemoryTimingLevel {
+            get { return _currentMemoryTimingLevel; }
+            set {
+                if (_currentMemoryTimingLevel != value) {
+                    _currentMemoryTimingLevel = value;
+                    OnPropertyChanged(nameof(CurrentMemoryTimingLevel));
+                }
+            }
+        }
+
         public bool IsDeviceArgInclude {
             get => NTMinerContext.Instance.GpuSet.GetIsUseDevice(this.Index);
             set {
                 if (NTMinerContext.Instance.IsMining) {
-                    VirtualRoot.Out.ShowWarn("请先停止挖矿", header:"提示", autoHideSeconds: 3);
+                    VirtualRoot.Out.ShowWarn("请先停止挖矿", header: "提示", autoHideSeconds: 3);
                     return;
                 }
                 int[] old = NTMinerContext.Instance.GpuSet.GetUseDevices();

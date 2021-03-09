@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 namespace NTMiner.Core.Mq.Senders.Impl {
     public class MinerClientMqSender : IMinerClientMqSender {
-        private readonly IMqRedis _mq;
-        public MinerClientMqSender(IMqRedis mq) {
+        private readonly IMq _mq;
+        public MinerClientMqSender(IMq mq) {
             _mq = mq;
         }
 

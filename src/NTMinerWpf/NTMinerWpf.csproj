@@ -59,6 +59,7 @@
     <Compile Include="Converters\IntToHiddenConverter.cs" />
     <Compile Include="Converters\MbToGbConverter.cs" />
     <Compile Include="FrameworkElementExtension.cs" />
+    <Compile Include="IApp.cs" />
     <Compile Include="Views\Ucs\MessagePathIds.xaml.cs">
       <DependentUpon>MessagePathIds.xaml</DependentUpon>
     </Compile>
@@ -295,7 +296,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Controls\Kb.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

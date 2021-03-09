@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Core.Impl {
     public class UserSet : ReadOnlyUserSet, IUserSet {
-        private readonly IUserRedis _redis;
+        private readonly IUserDataRedis _redis;
         private readonly IUserMqSender _mqSender;
         private readonly Dictionary<string, TryLoginTimes> _tryLoginTimesDic = new Dictionary<string, TryLoginTimes>();
-        public UserSet(IUserRedis redis, IUserMqSender mqSender) : base(redis) {
+        public UserSet(IUserDataRedis redis, IUserMqSender mqSender) : base(redis) {
             _redis = redis;
             _mqSender = mqSender;
-            VirtualRoot.BuildCmdPath<UpdateUserRSAKeyMqMessage>(path: message => {
+            VirtualRoot.BuildCmdPath<UpdateUserRSAKeyMqCommand>(path: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -22,7 +22,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(UpdateUserRSAKeyMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(UpdateUserRSAKeyMqCommand) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 if (message.Key != null && _dicByLoginName.TryGetValue(message.LoginName, out UserData userData)) {
@@ -209,6 +209,22 @@ namespace NTMiner.Core.Impl {
                     _mqSender.SendUserUpdated(loginName);
                 });
             }
+        }
+
+        public void UpdateLastLogin(UserData user, DateTime lastLogin) {
+            if (user == null) {
+                return;
+            }
+            if (_dicByLoginName.TryGetValue(user.LoginName, out UserData entity)) {
+                if (entity != user) {
+                    entity.LastLogin = lastLogin;
+                }
+            }
+            else {
+                return;
+            }
+            user.LastLogin = lastLogin;
+            _redis.SetAsync(entity);
         }
 
         public void ChangePassword(string loginName, string newPassword) {

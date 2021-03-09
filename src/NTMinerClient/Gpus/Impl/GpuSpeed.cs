@@ -47,6 +47,18 @@ namespace NTMiner.Gpus.Impl {
             _mainCoinSpeed.AcceptShare++;
         }
 
+        public void SetMainCoinAcceptShare(int acceptShare) {
+            _mainCoinSpeed.AcceptShare = acceptShare;
+        }
+
+        public void SetMainCoinRejectShare(int rejectShare) {
+            _mainCoinSpeed.RejectShare = rejectShare;
+        }
+
+        public void SetMainCoinIncorrectShare(int incorrectShare) {
+            _mainCoinSpeed.IncorrectShare = incorrectShare;
+        }
+
         public void IncreaseMainCoinRejectShare() {
             _mainCoinSpeed.RejectShare++;
         }

@@ -74,7 +74,7 @@ namespace NTMiner {
                                 if (!string.IsNullOrEmpty(serverJson)) {
                                     HomePath.WriteServerJsonFile(serverJson);
                                 }
-                                RpcRoot.OfficialServer.AppSettingService.GetJsonFileVersionAsync(HomePath.ExportServerJsonFileName, serverState => {
+                                RpcRoot.OfficialServer.AppSettingService.GetJsonFileVersionAsync(ClientAppType.AppType, HomePath.ExportServerJsonFileName, serverState => {
                                     SetServerJsonVersion(serverState.JsonFileVersion);
                                     AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
                                     if (Math.Abs((long)Timestamp.GetTimestamp() - (long)serverState.Time) >= Timestamp.DesyncSeconds) {
@@ -114,7 +114,7 @@ namespace NTMiner {
             this.GpusSpeed = new GpusSpeed(this);
             this.CoinShareSet = new CoinShareSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
-            this.ServerMessageSet = new ServerMessageSet(HomePath.LocalDbFileFullName, isServer: false);
+            this.ServerMessageSet = new ServerMessageSet(HomePath.LocalDbFileFullName);
             this._minerProfile = new MinerProfile(this);
             var cpuPackage = new CpuPackage(_minerProfile);
             this.CpuPackage = cpuPackage;
@@ -154,7 +154,7 @@ namespace NTMiner {
         }
 
         private void RefreshServerJsonFile() {
-            RpcRoot.OfficialServer.AppSettingService.GetJsonFileVersionAsync(HomePath.ExportServerJsonFileName, serverState => {
+            RpcRoot.OfficialServer.AppSettingService.GetJsonFileVersionAsync(ClientAppType.AppType, HomePath.ExportServerJsonFileName, serverState => {
                 AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
                 string localServerJsonFileVersion = GetServerJsonVersion();
                 if (!string.IsNullOrEmpty(serverState.JsonFileVersion) && localServerJsonFileVersion != serverState.JsonFileVersion) {
@@ -234,12 +234,14 @@ namespace NTMiner {
             #region 挖矿开始时将无份额内核重启份额计数置0
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
-            DateTime hightSpeedOn = DateTime.Now;
+            DateTime highSpeedOn = DateTime.Now;
+            DateTime overClockHighSpeedOn = DateTime.Now;
             VirtualRoot.BuildEventPath<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0", LogEnum.DevConsole,
                 path: message => {
                     // 将无份额内核重启份额计数置0
                     shareCount = 0;
-                    hightSpeedOn = DateTime.Now;
+                    highSpeedOn = DateTime.Now;
+                    overClockHighSpeedOn = DateTime.Now;
                     if (!message.MineContext.IsRestart) {
                         // 当不是内核重启时更新shareOn，如果是内核重启不用更新shareOn从而给不干扰无内核矿机重启的逻辑
                         shareOn = DateTime.Now;
@@ -256,24 +258,49 @@ namespace NTMiner {
                             IGpuSpeed totalSpeed = GpusSpeed.CurrentSpeed(GpuAllId);
                             if (totalSpeed.MainCoinSpeed.SpeedOn.AddMinutes(coinProfile.LowSpeedRestartComputerMinutes) >= message.BornOn) {
                                 if (totalSpeed.MainCoinSpeed.Value.ToNearSpeed(coinProfile.LowSpeed) >= coinProfile.LowSpeed) {
-                                    hightSpeedOn = message.BornOn;
+                                    highSpeedOn = message.BornOn;
                                 }
                             }
-                            if (hightSpeedOn.AddMinutes(coinProfile.LowSpeedRestartComputerMinutes) < message.BornOn) {
+                            if (highSpeedOn.AddMinutes(coinProfile.LowSpeedRestartComputerMinutes) < message.BornOn) {
                                 string coinCode = string.Empty;
                                 if (ServerContext.CoinSet.TryGetCoin(MinerProfile.CoinId, out ICoin coin)) {
                                     coinCode = coin.Code;
                                 }
                                 VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), $"{coinCode}总算力持续{coinProfile.LowSpeedRestartComputerMinutes}分钟低于{coinProfile.LowSpeed}重启电脑", toConsole: true);
                                 VirtualRoot.Execute(new ShowRestartWindowsCommand(countDownSeconds: 10));
-                                if (!MinerProfile.IsAutoBoot || !NTMinerRegistry.GetIsAutoStart()) {
+                                if (!MinerProfile.IsAutoBoot || !MinerProfile.IsAutoStart) {
                                     VirtualRoot.Execute(new SetAutoStartCommand(true, true));
                                 }
                                 return;
                             }
                         }
                         else {
-                            hightSpeedOn = message.BornOn;
+                            highSpeedOn = message.BornOn;
+                        }
+                    }
+                    #endregion
+
+                    #region 低算力重新应用超频
+                    if (IsMining && LockedMineContext.ProcessCreatedOn != DateTime.MinValue) {
+                        var coinProfile = MinerProfile.GetCoinProfile(MinerProfile.CoinId);
+                        if (coinProfile.IsLowSpeedReOverClock && coinProfile.OverClockLowSpeed != 0 && coinProfile.LowSpeedReOverClockMinutes > 0) {
+                            IGpuSpeed totalSpeed = GpusSpeed.CurrentSpeed(GpuAllId);
+                            if (totalSpeed.MainCoinSpeed.SpeedOn.AddMinutes(coinProfile.LowSpeedReOverClockMinutes) >= message.BornOn) {
+                                if (totalSpeed.MainCoinSpeed.Value.ToNearSpeed(coinProfile.OverClockLowSpeed) >= coinProfile.OverClockLowSpeed) {
+                                    overClockHighSpeedOn = message.BornOn;
+                                }
+                            }
+                            if (overClockHighSpeedOn.AddMinutes(coinProfile.LowSpeedReOverClockMinutes) < message.BornOn) {
+                                string coinCode = string.Empty;
+                                if (ServerContext.CoinSet.TryGetCoin(MinerProfile.CoinId, out ICoin coin)) {
+                                    coinCode = coin.Code;
+                                }
+                                VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), $"{coinCode}总算力持续{coinProfile.LowSpeedReOverClockMinutes}分钟低于{coinProfile.OverClockLowSpeed}重新应用超频", toConsole: true);
+                                VirtualRoot.Execute(new CoinOverClockCommand(MinerProfile.CoinId));
+                            }
+                        }
+                        else {
+                            overClockHighSpeedOn = message.BornOn;
                         }
                     }
                     #endregion
@@ -285,7 +312,7 @@ namespace NTMiner {
                                 string content = $"每运行{MinerProfile.PeriodicRestartKernelHours.ToString()}小时{MinerProfile.PeriodicRestartComputerMinutes.ToString()}分钟重启电脑";
                                 VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), content, toConsole: true);
                                 VirtualRoot.Execute(new ShowRestartWindowsCommand(countDownSeconds: 10));
-                                if (!MinerProfile.IsAutoBoot || !NTMinerRegistry.GetIsAutoStart()) {
+                                if (!MinerProfile.IsAutoBoot || !MinerProfile.IsAutoStart) {
                                     VirtualRoot.Execute(new SetAutoStartCommand(true, true));
                                 }
                                 return;// 退出
@@ -300,7 +327,8 @@ namespace NTMiner {
                     #region 周期重启内核
                     try {
                         if (IsMining && MinerProfile.IsPeriodicRestartKernel && LockedMineContext.MineStartedOn != DateTime.MinValue) {
-                            if ((DateTime.Now - LockedMineContext.MineStartedOn).TotalMinutes > 60 * MinerProfile.PeriodicRestartKernelHours + MinerProfile.PeriodicRestartKernelMinutes) {
+                            DateTime dt = GetKernelRestartBaseOnTime();
+                            if ((DateTime.Now - dt).TotalMinutes > 60 * MinerProfile.PeriodicRestartKernelHours + MinerProfile.PeriodicRestartKernelMinutes) {
                                 VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), $"每运行{MinerProfile.PeriodicRestartKernelHours.ToString()}小时{MinerProfile.PeriodicRestartKernelMinutes.ToString()}分钟重启内核", toConsole: true);
                                 RestartMine();
                                 return;// 退出
@@ -327,9 +355,10 @@ namespace NTMiner {
                                 }
                                 // 如果份额没有增加
                                 if (shareCount == totalShare) {
-                                    bool isMineStartedARestartComputerMinutes = (DateTime.Now - this.LockedMineContext.MineStartedOn).TotalMinutes > MinerProfile.NoShareRestartComputerMinutes;
-                                    if (restartComputer && isMineStartedARestartComputerMinutes) {
-                                        if (!MinerProfile.IsAutoBoot || !NTMinerRegistry.GetIsAutoStart()) {
+                                    // 重启电脑，基于MineStartedOn
+                                    bool isRestartComputerMinutes = (DateTime.Now - this.LockedMineContext.MineStartedOn).TotalMinutes > MinerProfile.NoShareRestartComputerMinutes;
+                                    if (restartComputer && isRestartComputerMinutes) {
+                                        if (!MinerProfile.IsAutoBoot || !MinerProfile.IsAutoStart) {
                                             VirtualRoot.Execute(new SetAutoStartCommand(true, true));
                                         }
                                         string content = $"{MinerProfile.NoShareRestartComputerMinutes.ToString()}分钟无份额重启电脑";
@@ -337,8 +366,10 @@ namespace NTMiner {
                                         VirtualRoot.Execute(new ShowRestartWindowsCommand(countDownSeconds: 10));
                                         return;// 退出
                                     }
-                                    bool isMineStartedARestartKernelMinutes = (DateTime.Now - this.LockedMineContext.MineStartedOn).TotalMinutes > MinerProfile.NoShareRestartKernelMinutes;
-                                    if (restartKernel && isMineStartedARestartKernelMinutes) {
+                                    // 重启内核，如果MineRestartedOn不是DateTime.MineValue则基于MineRestartedOn
+                                    DateTime dt = GetKernelRestartBaseOnTime();
+                                    bool isRestartKernelMinutes = (DateTime.Now - dt).TotalMinutes > MinerProfile.NoShareRestartKernelMinutes;
+                                    if (restartKernel && isRestartKernelMinutes) {
                                         VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), $"{MinerProfile.NoShareRestartKernelMinutes.ToString()}分钟无份额重启内核", toConsole: true);
                                         RestartMine();
                                         return;// 退出
@@ -364,6 +395,16 @@ namespace NTMiner {
                         GpuSet.LoadGpuState();
                     });
                 }, location: this.GetType());
+        }
+        private DateTime GetKernelRestartBaseOnTime() {
+            if (LockedMineContext == null) {
+                return DateTime.MinValue;
+            }
+            DateTime dt = LockedMineContext.MineStartedOn;
+            if (LockedMineContext.MineRestartedOn != DateTime.MinValue) {
+                dt = LockedMineContext.MineRestartedOn;
+            }
+            return dt;
         }
         #endregion
 
@@ -477,77 +518,7 @@ namespace NTMiner {
                         // 如果已经处在挖矿中了又点击了开始挖矿按钮（通常发生在群控端）
                         this.StopMine(StopMineReason.InStartMine);
                     }
-                    IWorkProfile minerProfile = this.MinerProfile;
-                    if (!GetProfileData(out ICoin mainCoin, out ICoinProfile mainCoinProfile, out IPool mainCoinPool, out ICoinKernel mainCoinKernel,
-                        out IKernel kernel, out IKernelInput kernelInput, out IKernelOutput kernelOutput, out string errorMsg)) {
-                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent(errorMsg));
-                        return;
-                    }
-                    if (!kernel.IsSupported(mainCoin)) {
-                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。"));
-                        return;
-                    }
-                    if (string.IsNullOrEmpty(mainCoinProfile.Wallet)) {
-                        MinerProfile.SetCoinProfileProperty(mainCoin.GetId(), nameof(mainCoinProfile.Wallet), mainCoin.TestWallet);
-                    }
-                    if (mainCoinPool.IsUserMode) {
-                        IPoolProfile poolProfile = minerProfile.GetPoolProfile(mainCoinPool.GetId());
-                        string userName = poolProfile.UserName;
-                        if (string.IsNullOrEmpty(userName)) {
-                            VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写矿池用户名。"));
-                            return;
-                        }
-                    }
-                    if (string.IsNullOrEmpty(mainCoinProfile.Wallet) && !mainCoinPool.IsUserMode) {
-                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写钱包地址。"));
-                        return;
-                    }
-                    ICoinKernelProfile coinKernelProfile = minerProfile.GetCoinKernelProfile(mainCoinKernel.GetId());
-                    ICoin dualCoin = null;
-                    IPool dualCoinPool = null;
-                    ICoinProfile dualCoinProfile = null;
-                    if (coinKernelProfile.IsDualCoinEnabled) {
-                        if (!ServerContext.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
-                            VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择双挖币种。"));
-                            return;
-                        }
-                        dualCoinProfile = minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
-                        if (!ServerContext.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out dualCoinPool)) {
-                            VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择双挖矿池。"));
-                            return;
-                        }
-                        if (string.IsNullOrEmpty(dualCoinProfile.DualCoinWallet)) {
-                            MinerProfile.SetCoinProfileProperty(dualCoin.GetId(), nameof(dualCoinProfile.DualCoinWallet), dualCoin.TestWallet);
-                        }
-                        if (string.IsNullOrEmpty(dualCoinProfile.DualCoinWallet)) {
-                            VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写双挖钱包。"));
-                            return;
-                        }
-                    }
-                    if (string.IsNullOrEmpty(kernel.Package)) {
-                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent(kernel.GetFullName() + "没有内核包"));
-                        return;
-                    }
-                    if (string.IsNullOrEmpty(kernelInput.Args)) {
-                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有配置运行参数。"));
-                        return;
-                    }
-                    string packageZipFileFullName = Path.Combine(HomePath.PackagesDirFullName, kernel.Package);
-                    if (!File.Exists(packageZipFileFullName)) {
-                        VirtualRoot.ThisLocalInfo(nameof(NTMinerContext), kernel.GetFullName() + "本地内核包不存在，开始自动下载", toConsole: true);
-                        VirtualRoot.Execute(new ShowKernelDownloaderCommand(kernel.GetId(), downloadComplete: (isSuccess, message) => {
-                            if (isSuccess) {
-                                NTMinerConsole.UserOk(message);
-                                ContinueStartMine(kernel);
-                            }
-                            else {
-                                VirtualRoot.RaiseEvent(new StartingMineFailedEvent("内核下载：" + message));
-                            }
-                        }));
-                    }
-                    else {
-                        ContinueStartMine(kernel);
-                    }
+                    StartMine(ContinueStartMine);
                 }
             }
             catch (Exception e) {
@@ -555,13 +526,97 @@ namespace NTMiner {
             }
         }
 
-        private void ContinueStartMine(IKernel kernel) {
+        public void StartMine(Action<IKernel> callback) {
+            IWorkProfile minerProfile = this.MinerProfile;
+            if (!GetProfileData(out ICoin mainCoin, out ICoinProfile mainCoinProfile, out IPool mainCoinPool, out ICoinKernel mainCoinKernel,
+                out IKernel kernel, out IKernelInput kernelInput, out IKernelOutput kernelOutput, out string errorMsg)) {
+                VirtualRoot.RaiseEvent(new StartingMineFailedEvent(errorMsg));
+                return;
+            }
+            if (!kernel.IsSupported(mainCoin)) {
+                VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。"));
+                return;
+            }
+            if (string.IsNullOrEmpty(mainCoinProfile.Wallet)) {
+                MinerProfile.SetCoinProfileProperty(mainCoin.GetId(), nameof(mainCoinProfile.Wallet), mainCoin.TestWallet);
+            }
+            if (mainCoinPool.IsUserMode) {
+                IPoolProfile poolProfile = minerProfile.GetPoolProfile(mainCoinPool.GetId());
+                string userName = poolProfile.UserName;
+                if (string.IsNullOrEmpty(userName)) {
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写矿池用户名。"));
+                    return;
+                }
+            }
+            if (string.IsNullOrEmpty(mainCoinProfile.Wallet) && !mainCoinPool.IsUserMode) {
+                VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写钱包地址。"));
+                return;
+            }
+            ICoinKernelProfile coinKernelProfile = minerProfile.GetCoinKernelProfile(mainCoinKernel.GetId());
+            ICoin dualCoin = null;
+            IPool dualCoinPool = null;
+            ICoinProfile dualCoinProfile = null;
+            if (kernelInput.IsSupportDualMine && coinKernelProfile.IsDualCoinEnabled) {
+                if (!ServerContext.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择双挖币种。"));
+                    return;
+                }
+                dualCoinProfile = minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
+                if (!ServerContext.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out dualCoinPool)) {
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择双挖矿池。"));
+                    return;
+                }
+                if (string.IsNullOrEmpty(dualCoinProfile.DualCoinWallet)) {
+                    MinerProfile.SetCoinProfileProperty(dualCoin.GetId(), nameof(dualCoinProfile.DualCoinWallet), dualCoin.TestWallet);
+                }
+                if (string.IsNullOrEmpty(dualCoinProfile.DualCoinWallet)) {
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写双挖钱包。"));
+                    return;
+                }
+            }
+            if (string.IsNullOrEmpty(kernel.Package)) {
+                VirtualRoot.RaiseEvent(new StartingMineFailedEvent(kernel.GetFullName() + "没有内核包"));
+                return;
+            }
+            if (string.IsNullOrEmpty(kernelInput.Args)) {
+                VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有配置运行参数。"));
+                return;
+            }
+            string packageZipFileFullName = Path.Combine(HomePath.PackagesDirFullName, kernel.Package);
+            if (!File.Exists(packageZipFileFullName)) {
+                VirtualRoot.ThisLocalInfo(nameof(NTMinerContext), kernel.GetFullName() + "本地内核包不存在，开始自动下载", toConsole: true);
+                VirtualRoot.Execute(new ShowKernelDownloaderCommand(kernel.GetId(), downloadComplete: (isSuccess, message) => {
+                    if (isSuccess) {
+                        NTMinerConsole.UserOk(message);
+                        if (!ExtractPackage(kernel)) {
+                            return;
+                        }
+                        callback?.Invoke(kernel);
+                    }
+                    else {
+                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent("内核下载：" + message));
+                    }
+                }));
+            }
+            else {
+                if (!ExtractPackage(kernel)) {
+                    return;
+                }
+                callback?.Invoke(kernel);
+            }
+        }
+
+        private bool ExtractPackage(IKernel kernel) {
             // 解压内核包
             if (!kernel.ExtractPackage()) {
                 VirtualRoot.RaiseEvent(new StartingMineFailedEvent("内核解压失败，请卸载内核重试。"));
-                return;
+                return false;
             }
             NTMinerConsole.UserOk("内核包解压成功");
+            return true;
+        }
+
+        private void ContinueStartMine(IKernel kernel) {
             if (CurrentMineContext != null) {
                 LockedMineContext = CurrentMineContext;
             }
@@ -728,7 +783,7 @@ namespace NTMiner {
                 if (_kernelOutputKeywordSet == null) {
                     lock (_locker) {
                         if (_kernelOutputKeywordSet == null) {
-                            _kernelOutputKeywordSet = new KernelOutputKeywordSet(HomePath.LocalDbFileFullName, isServer: false);
+                            _kernelOutputKeywordSet = new KernelOutputKeywordSet(HomePath.LocalDbFileFullName);
                         }
                     }
                 }

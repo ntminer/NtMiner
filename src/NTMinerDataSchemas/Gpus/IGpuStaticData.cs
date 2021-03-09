@@ -23,5 +23,6 @@
         int TempLimitMin { get; set; }
         int TempLimitDefault { get; set; }
         int TempLimitMax { get; set; }
+        int[] MemoryTimingLevels { get; set; }
     }
 }

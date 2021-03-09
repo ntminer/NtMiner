@@ -25,5 +25,9 @@
         /// <see cref="ServerNode.WsStatus"/>
         /// </summary>
         WsStatus WsStatus { get; }
+        /// <summary>
+        /// 指示客户端是否需要重新生成ClientId
+        /// </summary>
+        bool NeedReClientId { get; }
     }
 }

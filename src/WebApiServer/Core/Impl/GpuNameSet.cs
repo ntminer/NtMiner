@@ -45,7 +45,7 @@ namespace NTMiner.Core.Impl {
             List<KeyValuePair<GpuName, int>> list = new List<KeyValuePair<GpuName, int>>();
             bool isFilterByKeyword = !string.IsNullOrEmpty(query.Keyword);
             if (isFilterByKeyword) {
-                foreach (var item in _gpuNameCountDic.OrderBy(a => a.Key.Name)) {
+                foreach (var item in _gpuNameCountDic) {
                     if (item.Key.Name.Contains(query.Keyword)) {
                         list.Add(item);
                     }
@@ -55,7 +55,7 @@ namespace NTMiner.Core.Impl {
                 list.AddRange(_gpuNameCountDic);
             }
             total = list.Count;
-            return list.Take(paging: query).Select(a => new GpuNameCount {
+            return list.OrderBy(a => a.Key.Name).Take(paging: query).Select(a => new GpuNameCount {
                 Name = a.Key.Name,
                 Count = a.Value,
                 GpuType = a.Key.GpuType,

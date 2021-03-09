@@ -18,6 +18,7 @@ namespace NTMiner.Hub {
                 object atrrObj = messageType.GetCustomAttributes(typeof(MessageTypeAttribute), false).FirstOrDefault();
                 if (atrrObj == null) {
                     attr = new MessageTypeAttribute(messageType.Name);
+                    Logger.ErrorDebugLine($"意外，消息类型 {messageType.FullName} 未打上 {nameof(MessageTypeAttribute)} 特性");
                 }
                 else {
                     attr = (MessageTypeAttribute)atrrObj;

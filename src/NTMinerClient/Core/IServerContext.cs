@@ -13,7 +13,7 @@ namespace NTMiner.Core {
         /// 2，开始挖矿时作业模式变更了(切换了作业或由作业模式转入非作业模式或由非作业模式转入作业模式都属于作业模式变更)。
         /// </summary>
         void ReInit();
-        void AddCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action, Type location) where TCmd : ICmd;
+        void AddCmdPath<TCmd>(LogEnum logType, Action<TCmd> action, Type location) where TCmd : ICmd;
         void AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type location) where TEvent : IEvent;
         ICoinGroupSet CoinGroupSet { get; }
         ICoinSet CoinSet { get; }

@@ -7,8 +7,8 @@ namespace NTMiner.Core.Redis.Impl {
         protected const string _redisKeyWsServerNodeByAddress = RedisKeyword.WsServerNodesWsServerNodeByAddress;
         protected const string _redisKeyWsServerNodeAddress = RedisKeyword.WsServerNodesAddress;
 
-        protected readonly IMqRedis _redis;
-        public ReadOnlyWsServerNodeRedis(IMqRedis redis) {
+        protected readonly IRedis _redis;
+        public ReadOnlyWsServerNodeRedis(IRedis redis) {
             _redis = redis;
         }
 

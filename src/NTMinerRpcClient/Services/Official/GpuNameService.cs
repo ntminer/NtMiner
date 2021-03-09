@@ -4,7 +4,7 @@ using System;
 
 namespace NTMiner.Services.Official {
     public class GpuNameService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<IGpuNameController>();
+        private readonly string _controllerName = ControllerUtil.GetControllerName<IGpuNameController>();
 
         internal GpuNameService() { }
 

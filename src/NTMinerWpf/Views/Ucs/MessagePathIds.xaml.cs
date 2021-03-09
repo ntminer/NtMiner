@@ -9,7 +9,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "集线器",
                 IconName = "Icon_Logo",
-                Width = 1200,
+                Width = 1400,
                 Height = 600,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {

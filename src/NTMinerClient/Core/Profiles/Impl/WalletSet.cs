@@ -69,9 +69,9 @@ namespace NTMiner.Core.Profiles.Impl {
             }, location: this.GetType());
         }
 
-        public new void Refresh() {
+        public void Refresh() {
             _dicById.Clear();
-            base.Refresh();
+            base.DeferReInit();
         }
 
         protected override void Init() {

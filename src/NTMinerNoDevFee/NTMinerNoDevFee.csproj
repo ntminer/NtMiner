@@ -74,6 +74,9 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\NTMiner.Controllers\ControllerUtil.cs">
+      <Link>ControllerUtil.cs</Link>
+    </Compile>
     <Compile Include="..\NTMiner.Controllers\INTMinerWalletController.cs">
       <Link>Controllers\INTMinerWalletController.cs</Link>
     </Compile>
@@ -184,7 +187,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FodyWeavers.xml" />
+    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

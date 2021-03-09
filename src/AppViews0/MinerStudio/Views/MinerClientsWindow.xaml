@@ -244,39 +244,6 @@
                         </StackPanel>
                         <uc:MinerClients Grid.Row="1">
                         </uc:MinerClients>
-                        <Border 
-                            Grid.Row="1" 
-                            Margin="0 26 0 0" 
-                            Visibility="{Binding IsLoading,Converter={StaticResource BoolToVisibilityConverter}}" 
-                            Background="#0f000000">
-                            <Path 
-							    Width="30"
-							    Height="30"
-							    Data="{StaticResource Icon_Loading}"
-							    Fill="Black"
-							    Stretch="Fill">
-                                <Path.RenderTransform>
-                                    <RotateTransform Angle="{Binding LoadingIconAngle}" CenterX="15" CenterY="15"></RotateTransform>
-                                </Path.RenderTransform>
-                            </Path>
-                        </Border>
-                        <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding IsNoRecordVisible}">
-                            <TextBlock VerticalAlignment="Center" Foreground="Red" Text="没有记录"></TextBlock>
-                            <WrapPanel Visibility="{Binding MainMenu.IsMinerStudioLocalVisible}">
-                                <TextBlock VerticalAlignment="Center" Foreground="Red" Text="，请先添加矿机"></TextBlock>
-                                <controls:KbButton Padding="4" Command="{Binding AddMinerClient}">
-                                    <WrapPanel>
-                                        <Path
-							                Width="16"
-							                Height="16"
-							                Data="{StaticResource Icon_Add}"
-							                Fill="{StaticResource BtnBackground}"
-							                Stretch="Fill" />
-                                        <TextBlock>添加矿机</TextBlock>
-                                    </WrapPanel>
-                                </controls:KbButton>
-                            </WrapPanel>
-                        </WrapPanel>
                         <uc:MinerClientsPagging Grid.Row="2">
                         </uc:MinerClientsPagging>
                         <TextBlock Grid.Row="2" Margin="0 0 4 0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{StaticResource LableColor}">小提示：鼠标配合ctrl和shift可以多选、反选矿机。</TextBlock>

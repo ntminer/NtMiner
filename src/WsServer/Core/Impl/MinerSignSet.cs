@@ -2,6 +2,7 @@
 using NTMiner.Core.Redis;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace NTMiner.Core.Impl {
     public class MinerSignSet : IMinerSignSet {
@@ -12,18 +13,21 @@ namespace NTMiner.Core.Impl {
             get; private set;
         }
 
-        public MinerSignSet(IReadOnlyMinerRedis redis) {
+        public MinerSignSet(IReadOnlyMinerDataRedis redis) {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             redis.GetAllAsync().ContinueWith(t => {
                 _initedOn = DateTime.Now;
                 foreach (var item in t.Result) {
                     Add(MinerSign.Create(item));
                 }
                 IsReadied = true;
-                NTMinerConsole.UserOk("矿机签名集就绪");
+                stopwatch.Stop();
+                NTMinerConsole.UserOk($"矿机签名集就绪，耗时 {stopwatch.GetElapsedSeconds().ToString("f2")} 秒");
                 VirtualRoot.RaiseEvent(new MinerSignSetInitedEvent());
             });
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在MinerSignSetInitedEvent事件之后才会创建
-            VirtualRoot.BuildEventPath<MinerDataRemovedMqMessage>("收到MinerClientRemovedMq消息后移除内存中对应的记录", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<MinerDataRemovedMqEvent>("收到MinerClientRemovedMq消息后移除内存中对应的记录", LogEnum.None, path: message => {
                 #region
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
@@ -32,7 +36,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(MinerDataRemovedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(MinerDataRemovedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 if (_dicByMinerId.TryGetValue(message.MinerId, out MinerSign minerSign)) {
@@ -44,7 +48,7 @@ namespace NTMiner.Core.Impl {
                 }
                 #endregion
             }, this.GetType());
-            VirtualRoot.BuildEventPath<MinerDataAddedMqMessage>("收到MinerDataAddedMq消息后更新内存中对应的记录", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<MinerDataAddedMqEvent>("收到MinerDataAddedMq消息后更新内存中对应的记录", LogEnum.None, path: message => {
                 #region
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
@@ -53,7 +57,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(MinerDataAddedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(MinerDataAddedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 redis.GetByIdAsync(message.MinerId).ContinueWith(t => {
@@ -68,7 +72,7 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
-            VirtualRoot.BuildEventPath<MinerSignChangedMqMessage>("收到MinerSignChangedMq消息后更新内存中对应的记录", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<MinerSignChangedMqEvent>("收到MinerSignChangedMq消息后更新内存中对应的记录", LogEnum.None, path: message => {
                 #region
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
@@ -77,7 +81,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(MinerSignChangedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(MinerSignChangedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 redis.GetByIdAsync(message.MinerId).ContinueWith(t => {
@@ -118,14 +122,6 @@ namespace NTMiner.Core.Impl {
                 return false;
             }
             return _dicByClientId.TryGetValue(clientId, out minerSign);
-        }
-
-        public bool TryGetByMinerId(string minerId, out MinerSign minerSign) {
-            minerSign = null;
-            if (!IsReadied) {
-                return false;
-            }
-            return _dicByMinerId.TryGetValue(minerId, out minerSign);
         }
     }
 }

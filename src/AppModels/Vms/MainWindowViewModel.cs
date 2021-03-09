@@ -52,14 +52,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsUseDevConsole {
-            get { return NTMinerContext.IsUseDevConsole; }
-            set {
-                NTMinerContext.IsUseDevConsole = value;
-                OnPropertyChanged(nameof(IsUseDevConsole));
-            }
-        }
-
         public MinerProfileViewModel MinerProfile {
             get {
                 return AppRoot.MinerProfileVm;

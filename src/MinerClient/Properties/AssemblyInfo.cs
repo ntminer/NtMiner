@@ -7,6 +7,7 @@ using System.Windows;
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("开源矿工挖矿端")]
+[assembly: ClientAppType(NTMinerAppType.MinerClient)]
 // 程序集的版本信息由下面四个值组成:
 //
 //      主版本

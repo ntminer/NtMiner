@@ -216,15 +216,16 @@
                 if (viaTimesLimit == 0) {
                     throw new InvalidProgramException("消息路径的viaTimesLimit不能为0，可以为负数表示不限制通过次数或为正数表示限定通过次数，但不能为0");
                 }
+                _path = action;
                 _isEnabled = true;
+                _viaTimesLimit = viaTimesLimit;
+
                 MessageType = typeof(TMessage);
                 Location = location;
                 Path = $"{location.FullName}[{MessageType.FullName}]";
                 Description = description;
                 LogType = logType;
-                _path = action;
                 PathId = pathId;
-                _viaTimesLimit = viaTimesLimit;
                 CreatedOn = DateTime.Now;
             }
 
@@ -248,6 +249,11 @@
             public PathId PathId { get; private set; }
             public DateTime CreatedOn { get; private set; }
             public Type MessageType { get; private set; }
+            public MessageTypeAttribute MessageTypeAttribute {
+                get {
+                    return MessageTypeAttribute.GetMessageTypeAttribute(this.MessageType);
+                }
+            }
             public Type Location { get; private set; }
             public string Path { get; private set; }
             public LogEnum LogType { get; private set; }

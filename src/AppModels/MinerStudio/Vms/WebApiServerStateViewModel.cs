@@ -15,6 +15,8 @@ namespace NTMiner.MinerStudio.Vms {
         private double _processMemoryMb;
         private long _threadCount;
         private long _handleCount;
+        private string _availableFreeSpaceInfo;
+        private int _captchaCount;
         private CpuData _cpu;
         private CpuDataViewModel _cpuVm;
         private List<WsServerNodeState> _wsServerNodes;
@@ -30,6 +32,8 @@ namespace NTMiner.MinerStudio.Vms {
             _processMemoryMb = data.ProcessMemoryMb;
             _threadCount = data.ThreadCount;
             _handleCount = data.HandleCount;
+            _availableFreeSpaceInfo = data.AvailableFreeSpaceInfo;
+            _captchaCount = data.CaptchaCount;
             _cpu = data.Cpu;
             _cpuVm = new CpuDataViewModel(data.Cpu);
             _wsServerNodes = data.WsServerNodes;
@@ -46,6 +50,8 @@ namespace NTMiner.MinerStudio.Vms {
             this.ProcessMemoryMb = data.ProcessMemoryMb;
             this.ThreadCount = data.ThreadCount;
             this.HandleCount = data.HandleCount;
+            this.AvailableFreeSpaceInfo = data.AvailableFreeSpaceInfo;
+            this.CaptchaCount = data.CaptchaCount;
             this.Cpu = data.Cpu;
             this.WsServerNodes = data.WsServerNodes;
         }
@@ -240,6 +246,28 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_handleCount != value) {
                     _handleCount = value;
                     OnPropertyChanged(nameof(HandleCount));
+                }
+            }
+        }
+
+        public string AvailableFreeSpaceInfo {
+            get {
+                return _availableFreeSpaceInfo;
+            }
+            set {
+                if (_availableFreeSpaceInfo != value) {
+                    _availableFreeSpaceInfo = value;
+                    OnPropertyChanged(nameof(AvailableFreeSpaceInfo));
+                }
+            }
+        }
+
+        public int CaptchaCount {
+            get { return _captchaCount; }
+            set {
+                if (_captchaCount != value) {
+                    _captchaCount = value;
+                    OnPropertyChanged(nameof(CaptchaCount));
                 }
             }
         }

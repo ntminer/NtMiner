@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Services.Official {
     public class ServerMessageService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<IServerMessageController>();
+        private readonly string _controllerName = ControllerUtil.GetControllerName<IServerMessageController>();
 
         internal ServerMessageService() {
         }

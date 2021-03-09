@@ -35,6 +35,8 @@ namespace NTMiner.Gpus.Adl {
         internal delegate AdlStatus ADL2_Graphics_VersionsX2_GetDelegate(IntPtr context, ref ADLVersionsInfoX2 lpVersionsInfo);
         internal delegate AdlStatus ADL2_OverdriveN_MemoryClocksX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
         internal delegate AdlStatus ADL2_OverdriveN_MemoryClocksX2_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
+        internal delegate AdlStatus ADL2_OverdriveN_MemoryTimingLevel_GetDelegate(IntPtr context, int iAdapterIndex, out int lpSupport, out int lpCurrentValue, out int lpDefaultValue, out int lpNumberLevels, ref IntPtr lppLevelList);
+        internal delegate AdlStatus ADL2_OverdriveN_MemoryTimingLevel_SetDelegate(IntPtr context, int iAdapterIndex, int currentValue);
         internal delegate AdlStatus ADL2_OverdriveN_SystemClocksX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
         internal delegate AdlStatus ADL2_OverdriveN_SystemClocksX2_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
         internal delegate AdlStatus ADL2_OverdriveN_CapabilitiesX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNCapabilitiesX2 lpODCapabilities);
@@ -87,6 +89,10 @@ namespace NTMiner.Gpus.Adl {
         internal static ADL2_OverdriveN_MemoryClocksX2_GetDelegate ADL2_OverdriveN_MemoryClocksX2_Get { get; private set; }
         [Adl]
         internal static ADL2_OverdriveN_MemoryClocksX2_SetDelegate ADL2_OverdriveN_MemoryClocksX2_Set { get; private set; }
+        [Adl]
+        internal static ADL2_OverdriveN_MemoryTimingLevel_GetDelegate ADL2_OverdriveN_MemoryTimingLevel_Get { get; private set; }
+        [Adl]
+        internal static ADL2_OverdriveN_MemoryTimingLevel_SetDelegate ADL2_OverdriveN_MemoryTimingLevel_Set { get; private set; }
         [Adl]
         internal static ADL2_OverdriveN_SystemClocksX2_GetDelegate ADL2_OverdriveN_SystemClocksX2_Get { get; private set; }
         [Adl]
@@ -160,12 +166,13 @@ namespace NTMiner.Gpus.Adl {
         }
 
         internal static AdlStatus ADLAdapterAdapterInfoGet(ADLAdapterInfo[] info) {
-            int elementSize = Marshal.SizeOf(typeof(ADLAdapterInfo));
+            Type elementType = typeof(ADLAdapterInfo);
+            int elementSize = Marshal.SizeOf(elementType);
             int size = info.Length * elementSize;
             IntPtr ptr = Marshal.AllocHGlobal(size);
             AdlStatus result = ADL_Adapter_AdapterInfo_Get(ptr, size);
             for (int i = 0; i < info.Length; i++) {
-                info[i] = (ADLAdapterInfo)Marshal.PtrToStructure((IntPtr)((long)ptr + i * elementSize), typeof(ADLAdapterInfo));
+                info[i] = (ADLAdapterInfo)Marshal.PtrToStructure((IntPtr)((long)ptr + i * elementSize), elementType);
             }
             Marshal.FreeHGlobal(ptr);
 

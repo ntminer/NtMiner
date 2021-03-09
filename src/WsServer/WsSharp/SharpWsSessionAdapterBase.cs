@@ -1,4 +1,5 @@
-﻿using WebSocketSharp.Server;
+﻿using System;
+using WebSocketSharp.Server;
 
 namespace NTMiner.WsSharp {
     public abstract class SharpWsSessionAdapterBase : WebSocketBehavior, IWsSessionAdapter {
@@ -13,26 +14,41 @@ namespace NTMiner.WsSharp {
         }
 
         public void CloseAsync(WsCloseCode code, string reason) {
-            if (base.Context.WebSocket == null
-                || base.ConnectionState == WebSocketSharp.WebSocketState.Closing 
-                || base.ConnectionState == WebSocketSharp.WebSocketState.Closed) {
-                return;
+            try {
+                if (base.Context.WebSocket == null
+                    || base.ConnectionState == WebSocketSharp.WebSocketState.Closing
+                    || base.ConnectionState == WebSocketSharp.WebSocketState.Closed) {
+                    return;
+                }
+                base.CloseAsync(code.ToCloseStatusCode(), reason);
             }
-            base.CloseAsync(code.ToCloseStatusCode(), reason);
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
         }
 
         public void SendAsync(string data) {
-            if (base.ConnectionState != WebSocketSharp.WebSocketState.Open) {
-                return;
+            try {
+                if (base.ConnectionState != WebSocketSharp.WebSocketState.Open) {
+                    return;
+                }
+                base.SendAsync(data, completed: null);
             }
-            base.SendAsync(data, completed: null);
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
         }
 
         public void SendAsync(byte[] data) {
-            if (base.ConnectionState != WebSocketSharp.WebSocketState.Open) {
-                return;
+            try {
+                if (base.ConnectionState != WebSocketSharp.WebSocketState.Open) {
+                    return;
+                }
+                base.SendAsync(data, completed: null);
             }
-            base.SendAsync(data, completed: null);
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
         }
     }
 }

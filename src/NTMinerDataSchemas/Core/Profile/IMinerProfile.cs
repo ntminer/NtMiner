@@ -44,6 +44,7 @@ namespace NTMiner.Core.Profile {
         bool IsDisableUAC { get; }
         bool IsDisableWAU { get; }
         bool IsDisableAntiSpyware { get; }
+        bool IsAutoReboot { get; }
         bool IsShowInTaskbar { get; }
         bool IsAutoNoUi { get; }
         int AutoNoUiMinutes { get; }
@@ -53,6 +54,7 @@ namespace NTMiner.Core.Profile {
         bool Is1080PillEnabled { get; }
         bool IsShowCommandLine { get; }
         bool IsAutoBoot { get; }
+        bool IsAutoStart { get; }
         bool IsCreateShortcut { get; }
         bool IsAutoStopByCpu { get; }
         int CpuStopTemperature { get; }

@@ -53,11 +53,10 @@ namespace NTMiner {
             return MessageHub.AddPath(location, description, logType, path, pathId: PathId.Empty, viaTimesLimit: viaTimesLimit);
         }
 
-        public static void BuildCmdPath<TCmd>(Action<TCmd> path, Type location, LogEnum logType = LogEnum.DevConsole)
+        public static IMessagePathId BuildCmdPath<TCmd>(Action<TCmd> path, Type location, LogEnum logType = LogEnum.DevConsole)
             where TCmd : ICmd {
             MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeAttribute(typeof(TCmd));
-            string description = "处理" + messageTypeDescription.Description;
-            BuildMessagePath(description, logType, path, location);
+            return BuildMessagePath($"处理{messageTypeDescription.Description}命令", logType, path, location);
         }
 
         public static IMessagePathId BuildEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> path, Type location)

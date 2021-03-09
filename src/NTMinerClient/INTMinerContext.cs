@@ -18,6 +18,7 @@ namespace NTMiner {
         void Init(Action callback);
 
         void StartMine(bool isRestart = false);
+        void StartMine(Action<IKernel> callback);
 
         void RestartMine(WorkType workType = WorkType.None, string workerName = null);
 

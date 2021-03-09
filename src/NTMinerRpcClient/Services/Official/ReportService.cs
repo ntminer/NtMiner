@@ -4,7 +4,7 @@ using System;
 
 namespace NTMiner.Services.Official {
     public class ReportService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<IReportController>();
+        private readonly string _controllerName = ControllerUtil.GetControllerName<IReportController>();
 
         internal ReportService() {
         }

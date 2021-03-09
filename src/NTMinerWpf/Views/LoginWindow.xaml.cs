@@ -4,32 +4,12 @@ using System;
 using System.Windows;
 
 namespace NTMiner.Views {
-    public partial class LoginWindow : Window {
-        public static void Login(Action onLoginSuccess, string serverHost = null, Action btnCloseClick = null) {
-            if (!RpcRoot.IsLogined) {
-                var parent = WpfUtil.GetTopWindow();
-                LoginWindow window = new LoginWindow(onLoginSuccess, serverHost, btnCloseClick);
-                if (parent != null && parent.GetType() != typeof(NotiCenterWindow)) {
-                    window.Owner = parent;
-                    window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                    window.ShowInTaskbar = false;
-                }
-                window.BuildEventPath<SignUpedEvent>("注册了新外网群控用户后自动填入外网群控用户名", LogEnum.None, path: message => {
-                    window.Vm.LoginName = message.LoginName;
-                }, typeof(LoginWindow));
-                window.ShowSoftDialog();
-                window.PasswordFocus();
-            }
-            else {
-                onLoginSuccess?.Invoke();
-            }
-        }
-
+    public partial class LoginWindow : BlankWindow {
         public LoginWindowViewModel Vm { get; private set; }
 
         private readonly Action _onLoginSuccess;
         private readonly Action _btnCloseClick;
-        private LoginWindow(Action onLoginSuccess, string serverHost, Action btnCloseClick) {
+        internal LoginWindow(Action onLoginSuccess, string serverHost, Action btnCloseClick) {
             _onLoginSuccess = onLoginSuccess;
             _btnCloseClick = btnCloseClick;
             this.Vm = new LoginWindowViewModel(serverHost);
@@ -51,12 +31,6 @@ namespace NTMiner.Views {
             }
             else {
                 this.PbPassword.Focus();
-            }
-        }
-
-        private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) {
-                this.DragMove();
             }
         }
 
@@ -83,7 +57,7 @@ namespace NTMiner.Views {
             NTMinerRegistry.SetControlCenterAddresses(list);
             // 内网免登录
             if (Net.IpUtil.IsInnerIp(Vm.ServerHost)) {
-                RpcRoot.SetRpcUser(RpcUser.Empty);
+                RpcRoot.Login(RpcUser.Empty);
                 RpcRoot.SetIsOuterNet(false);
                 _isLogined = true;
                 this.Close();
@@ -106,7 +80,7 @@ namespace NTMiner.Views {
                     return;
                 }
                 if (response.IsSuccess()) {
-                    RpcRoot.SetRpcUser(new RpcUser(response.Data, passwordSha1));
+                    RpcRoot.Login(new RpcUser(response.Data, passwordSha1));
                     RpcRoot.SetIsOuterNet(true);
                     _isLogined = true;
                     UIThread.Execute(() => {

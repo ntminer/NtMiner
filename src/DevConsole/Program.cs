@@ -7,50 +7,39 @@ using System.Threading.Tasks;
 namespace NTMiner {
     internal unsafe class Program {
         private static volatile bool s_running = true;
-        private static string s_poolIp;
-        private static string s_keyword;
-        private static bool s_ranOnce = false;
+        private static string _keyword = "eth_submitLogin";
+        private static string _wallet = string.Empty;
+        private static bool _ranOnce = false;
 
         // keyword=eth_submitLogin
         private static void Main(string[] args) {
+            NTMinerConsole.MainUiOk();
+            DevMode.SetDevMode();
             Console.CancelKeyPress += delegate { s_running = false; };
 
             if (args.Length >= 1) {
-                if (args[0].StartsWith("keyword=")) {
-                    s_keyword = args[0].Substring("keyword=".Length);
-                }
-                else {
-                    s_poolIp = args[0];
-                }
+                _wallet = args[0];
             }
             else {
-                NTMinerConsole.UserError("ERROR: No poolIp argument was found.");
-                NTMinerConsole.UserInfo("按任意键退出");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("未提供钱包地址");
+                Console.ResetColor();
+                Console.WriteLine("按任意键结束");
                 Console.ReadKey();
                 return;
             }
-            if (args.Length >= 2) {
-                Console.Title = args[1] + "开始时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff");
-            }
-            else {
-                Console.Title = "开始时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff");
-            }
+
+            Console.Title = $"{_keyword} {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}";
 
             WinDivertExtract.Extract();
 
-            string filter;
-            if (string.IsNullOrEmpty(s_keyword)) {
-                filter = $"ip && (ip.DstAddr = {s_poolIp} || ip.SrcAddr = {s_poolIp}) && tcp && tcp.PayloadLength > 100";
-            }
-            else {
-                filter = $"ip && tcp && tcp.PayloadLength > 100";
-            }
+            string filter = $"ip && tcp && tcp.PayloadLength > 100";
             NTMinerConsole.UserInfo(filter);
             var divertHandle = SafeNativeMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
 
             try {
                 if (divertHandle != IntPtr.Zero) {
-                    Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), x => RunDiversion(divertHandle, ref s_ranOnce, ref s_poolIp));
+                    Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), x => RunDiversion(divertHandle, ref _ranOnce));
                 }
             }
             catch (Exception e) {
@@ -61,7 +50,7 @@ namespace NTMiner {
             }
         }
 
-        private static void RunDiversion(IntPtr handle, ref bool ranOnce, ref string poolIp) {
+        private static void RunDiversion(IntPtr handle, ref bool ranOnce) {
             byte[] packet = new byte[65535];
             try {
                 while (s_running) {
@@ -85,28 +74,15 @@ namespace NTMiner {
 
                         if (ipv4Header != null && tcpHdr != null && payload != null) {
                             string text = Marshal.PtrToStringAnsi((IntPtr)payload);
-                            if (!string.IsNullOrEmpty(s_keyword)) {
-                                if (text.Contains(s_keyword)) {
-                                    NTMinerConsole.UserInfo(text);
-                                    Console.WriteLine();
-                                    Console.WriteLine();
-                                    Logger.InfoDebugLine(text);
-                                }
-                            }
-                            else {
-                                string dstIp = ipv4Header->DstAddr.ToString();
-                                var dstPort = tcpHdr->DstPort;
-                                string arrow = $"->{dstIp}:{dstPort.ToString()}";
-                                if (dstIp == poolIp) {
-                                    arrow = $"{dstIp}:{dstPort.ToString()}<-";
-                                    NTMinerConsole.UserInfo($"<-<-<-<-<-<-<-<-<-<-<-<-<-{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-");
-                                }
-                                else {
-                                    NTMinerConsole.UserInfo($"->->->->->->->->->->->->->{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}->->->->->->->->->->->->->->->");
-                                }
-                                NTMinerConsole.UserInfo(arrow + text);
+                            if (text.Contains(_keyword)) {
+                                NTMinerConsole.UserInfo(text);
+                                int walletIndex = text.IndexOf(_wallet);
+                                string msg = $"用户钱包在 {walletIndex.ToString()} 索引位置";
+                                NTMinerConsole.UserInfo(msg);
                                 Console.WriteLine();
                                 Console.WriteLine();
+                                Logger.InfoDebugLine(text);
+                                Logger.InfoDebugLine(msg);
                             }
                         }
                     }

@@ -160,7 +160,6 @@
 							<DataTemplate>
 								<controls:KbLinkButton
 									VerticalAlignment="Center"
-									Padding="0"
 									Visibility="{Binding TutorialUrl,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
 									Command="{x:Static app:AppStatic.ViewUrl}"
 									CommandParameter="{Binding TutorialUrl}"
@@ -299,7 +298,6 @@
 									<DataTemplate>
                                         <WrapPanel>
                                             <controls:KbLinkButton
-									            Padding="0"
 								                Command="{x:Static app:AppStatic.ViewUrl}"
 								                CommandParameter="{Binding Website}"
 									            KbDisplayLine="False"
@@ -356,7 +354,6 @@
 									<DataTemplate>
 										<controls:KbLinkButton
 											VerticalAlignment="Center"
-											Padding="0"
 											Visibility="{Binding TutorialUrl,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
 											Command="{x:Static app:AppStatic.ViewUrl}"
 											CommandParameter="{Binding TutorialUrl}"

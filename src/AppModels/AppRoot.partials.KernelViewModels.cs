@@ -19,16 +19,16 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新VM内存", LogEnum.DevConsole,
                     path: message => {
                         _dicById.Clear();
                         Init();
                     }, location: this.GetType());
-                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole,
                     path: message => {
                         OnPropertyChanged(nameof(AllKernels));
                     }, location: this.GetType());
-                BuildEventPath<KernelAddedEvent>("添加了内核后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<KernelAddedEvent>("调整VM内存", LogEnum.DevConsole,
                     path: (message) => {
                         _dicById.Add(message.Source.GetId(), new KernelViewModel(message.Source));
                         OnPropertyChanged(nameof(AllKernels));
@@ -36,7 +36,7 @@ namespace NTMiner {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
                     }, location: this.GetType());
-                BuildEventPath<KernelRemovedEvent>("删除了内核后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<KernelRemovedEvent>("调整VM内存", LogEnum.DevConsole,
                     path: message => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllKernels));
@@ -44,7 +44,7 @@ namespace NTMiner {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
                     }, location: this.GetType());
-                BuildEventPath<KernelUpdatedEvent>("更新了内核后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<KernelUpdatedEvent>("调整VM内存", LogEnum.DevConsole,
                     path: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out KernelViewModel vm)) {
                             PublishStatus publishStatus = vm.PublishState;

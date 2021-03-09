@@ -8,7 +8,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly IServerContext _context;
         public KernelInputSet(IServerContext context) {
             _context = context;
-            context.AddCmdPath<AddKernelInputCommand>("添加内核输入组", LogEnum.DevConsole,
+            context.AddCmdPath<AddKernelInputCommand>(LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -24,7 +24,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelInputAddedEvent(message.MessageId, entity));
                 }, location: this.GetType());
-            context.AddCmdPath<UpdateKernelInputCommand>("更新内核输入组", LogEnum.DevConsole,
+            context.AddCmdPath<UpdateKernelInputCommand>(LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -45,7 +45,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelInputUpdatedEvent(message.MessageId, entity));
                 }, location: this.GetType());
-            context.AddCmdPath<RemoveKernelInputCommand>("移除内核输入组", LogEnum.DevConsole,
+            context.AddCmdPath<RemoveKernelInputCommand>(LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

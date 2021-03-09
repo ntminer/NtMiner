@@ -102,7 +102,7 @@
     <Compile Include="WsSharp\MessageEventArgsExtensions.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="WsSharp\MinerClientSharpWsSessionAdapter.cs" />
-    <Compile Include="MinerClientWsMessageHandler.cs" />
+    <Compile Include="WsMessageFromMinerClientHandler.cs" />
     <Compile Include="WsSharp\MinerStudioSharpWsSessionAdapter.cs" />
     <Compile Include="Core\IMinerClientSession.cs" />
     <Compile Include="Core\IMinerClientSessionSet.cs" />
@@ -116,7 +116,7 @@
     <Compile Include="Core\Impl\AbstractSessionSet`1.cs" />
     <Compile Include="Core\ISession.cs" />
     <Compile Include="Core\ISessionSet`1.cs" />
-    <Compile Include="MinerStudioWsMessageHandler.cs" />
+    <Compile Include="WsMessageFromMinerStudioHandler.cs" />
     <Compile Include="WsSharp\SharpWsSessionAdapterBase.cs" />
     <Compile Include="WsCloseCode.cs" />
     <Compile Include="WsMqKeyword.cs" />
@@ -139,10 +139,6 @@
     <ProjectReference Include="..\NTMinerLogging\NTMinerLogging.csproj">
       <Project>{f5091b28-5bb6-4446-9b97-02b37125e340}</Project>
       <Name>NTMinerLogging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NTMinerRpcClient\NTMinerRpcClient.csproj">
-      <Project>{c7108d8f-eb73-4ae3-916f-be817ede37af}</Project>
-      <Name>NTMinerRpcClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerServer\NTMinerServer.csproj">
       <Project>{cb2619b7-3f59-41b7-a562-4a3f117822ce}</Project>
@@ -168,7 +164,7 @@
     <EmbeddedResource Include="logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FodyWeavers.xml" />
+    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

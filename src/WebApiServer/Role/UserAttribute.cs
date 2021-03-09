@@ -48,7 +48,7 @@ namespace NTMiner.Role {
             var actionDescripter = actionContext.ActionDescriptor;
             var actionParameters = actionDescripter.GetParameters();
             bool isLoginAction = actionDescripter.ActionName == nameof(UserController.Login) 
-                && actionDescripter.ControllerDescriptor.ControllerName == RpcRoot.GetControllerName<UserController>();
+                && actionDescripter.ControllerDescriptor.ControllerName == ControllerUtil.GetControllerName<UserController>();
             if (actionParameters.Count == 1 && typeof(ISignableData).IsAssignableFrom(actionParameters[0].ParameterType)) {
                 data = (ISignableData)actionContext.ActionArguments.First().Value;
             }
@@ -105,7 +105,7 @@ namespace NTMiner.Role {
                     return false;
                 }
             }
-            string mySign = RpcUser.CalcSign(user.LoginName, user.Password, clientSign.Timestamp, data);
+            string mySign = HashUtil.CalcSign(user.LoginName, user.Password, clientSign.Timestamp, data);
             if (clientSign.Sign != mySign) {
                 string message = "签名错误：1. 可能因为登录名或密码错误；2. 可能因为软件版本过期需要升级软件。";
                 response = ResponseBase.Forbidden(message);

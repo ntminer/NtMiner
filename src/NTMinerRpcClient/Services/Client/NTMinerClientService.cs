@@ -9,7 +9,7 @@ using System.IO;
 
 namespace NTMiner.Services.Client {
     public class MinerClientService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<IMinerClientController>();
+        private readonly string _controllerName = ControllerUtil.GetControllerName<IMinerClientController>();
         internal MinerClientService() {
         }
 
@@ -66,7 +66,7 @@ namespace NTMiner.Services.Client {
                 nameof(IMinerClientController.GetSpeed),
                 null,
                 callback,
-                timeountMilliseconds: 3000);
+                timeountMilliseconds: 4000);
         }
 
         public void WsGetSpeedAsync(Action<SpeedDto, Exception> callback) {

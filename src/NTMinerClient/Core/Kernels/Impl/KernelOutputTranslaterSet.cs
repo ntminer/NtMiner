@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 namespace NTMiner.Core.Kernels.Impl {
     internal class KernelOutputTranslaterSet : SetBase, IKernelOutputTranslaterSet {
         public class SortNumberComparer : IComparer<ISortable> {
+            public SortNumberComparer() { }
+
             public int Compare(ISortable x, ISortable y) {
                 if (x == null || y == null) {
                     throw new ArgumentNullException();
@@ -19,7 +21,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly IServerContext _context;
         public KernelOutputTranslaterSet(IServerContext context) {
             _context = context;
-            context.AddCmdPath<AddKernelOutputTranslaterCommand>("添加内核输出翻译器", LogEnum.DevConsole,
+            context.AddCmdPath<AddKernelOutputTranslaterCommand>(LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -42,7 +44,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelOutputTranslaterAddedEvent(message.MessageId, entity));
                 }, location: this.GetType());
-            context.AddCmdPath<UpdateKernelOutputTranslaterCommand>("更新内核输出翻译器", LogEnum.DevConsole,
+            context.AddCmdPath<UpdateKernelOutputTranslaterCommand>(LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -65,7 +67,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelOutputTranslaterUpdatedEvent(message.MessageId, entity));
                 }, location: this.GetType());
-            context.AddCmdPath<RemoveKernelOutputTranslaterCommand>("移除内核输出翻译器", LogEnum.DevConsole,
+            context.AddCmdPath<RemoveKernelOutputTranslaterCommand>(LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

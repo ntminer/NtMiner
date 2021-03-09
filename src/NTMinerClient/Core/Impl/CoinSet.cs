@@ -10,7 +10,7 @@ namespace NTMiner.Core.Impl {
         private readonly IServerContext _context;
         public CoinSet(IServerContext context) {
             _context = context;
-            context.AddCmdPath<AddCoinCommand>("添加币种", LogEnum.DevConsole,
+            context.AddCmdPath<AddCoinCommand>(LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -33,7 +33,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new CoinAddedEvent(message.MessageId, entity));
                 }, location: this.GetType());
-            context.AddCmdPath<UpdateCoinCommand>("更新币种", LogEnum.DevConsole,
+            context.AddCmdPath<UpdateCoinCommand>(LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -48,13 +48,25 @@ namespace NTMiner.Core.Impl {
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
+                    bool isMinGpuMemoryGbChanged = entity.MinGpuMemoryGb != message.Input.MinGpuMemoryGb;
                     entity.Update(message.Input);
+                    if (isMinGpuMemoryGbChanged && entity.Code == "ETH" 
+                        && NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, NTKeyword.OsVmPerGpuSysDicItemCode, out ISysDicItem dicItem)) {
+                        VirtualRoot.Execute(new UpdateSysDicItemCommand(new SysDicItemData {
+                            Code = dicItem.Code,
+                            Description = dicItem.Description,
+                            DicId = dicItem.DicId,
+                            Id = dicItem.GetId(),
+                            SortNumber = dicItem.SortNumber,
+                            Value = message.Input.MinGpuMemoryGb.ToString()
+                        }));
+                    }
                     var repository = context.CreateServerRepository<CoinData>();
                     repository.Update(entity);
 
                     VirtualRoot.RaiseEvent(new CoinUpdatedEvent(message.MessageId, message.Input));
                 }, location: this.GetType());
-            context.AddCmdPath<RemoveCoinCommand>("移除币种", LogEnum.DevConsole,
+            context.AddCmdPath<RemoveCoinCommand>(LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

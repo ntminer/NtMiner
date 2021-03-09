@@ -37,6 +37,7 @@ namespace NTMiner.Gpus.Nvapi {
         internal delegate NvStatus NvFanCoolersGetStatusDelegate(NvPhysicalGpuHandle physicalGpu, ref PrivateFanCoolersStatusV1 status);
         internal delegate NvStatus NvFanCoolersGetControlDelegate(NvPhysicalGpuHandle physicalGpu, ref PrivateFanCoolersControlV1 control);
         internal delegate NvStatus NvFanCoolersSetControlDelegate(NvPhysicalGpuHandle physicalGpu, ref PrivateFanCoolersControlV1 control);
+        internal delegate NvStatus NvGetThermalSettingsDelegate(NvPhysicalGpuHandle physicalGpu, int sensorIndex, ref NvGPUThermalSettings gpuThermalSettings);
 
         private static nvapi_QueryInterfaceDelegate nvapi_QueryInterface { get; set; }
         private static NvInitializeDelegate NvInitialize { get; set; }
@@ -75,6 +76,8 @@ namespace NTMiner.Gpus.Nvapi {
         internal static NvFanCoolersGetControlDelegate NvFanCoolersGetControl { get; private set; }
         [Id(0xA58971A5)]
         internal static NvFanCoolersSetControlDelegate NvFanCoolersSetControl { get; private set; }
+        [Id(0xE3640A56)]
+        internal static NvGetThermalSettingsDelegate NvGetThermalSettings { get; private set; }
 
         #endregion
 

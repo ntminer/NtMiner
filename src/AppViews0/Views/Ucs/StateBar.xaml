@@ -139,7 +139,6 @@
 			<WrapPanel HorizontalAlignment="Right" Margin="0 -13 480 0">
                 <Border Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.NoPool1,Converter={StaticResource BoolToVisibilityInvertConverter}}">
                     <controls:KbLinkButton
-					    Padding="0"
 					    Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.ViewPoolIncome}"
 					    KbDisplayLine="False"
 					    Content="备池收益"
@@ -159,10 +158,10 @@
 			<StackPanel HorizontalAlignment="Right" Margin="0 0 20 0">
 				<WrapPanel>
 					<controls:KbLinkButton
-						Padding="0"
 						Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.ViewPoolIncome}"
 						KbDisplayLine="False"
 						Content="查看收益"
+                        ToolTip="挖矿和运气有关，矿池通常都是面向多卡矿机的算力设计的，矿池下发给矿机的任务难度会保证让大部分矿机每10分钟都能找到有效份额，但单卡矿机算力太低如果碰巧10分钟都没能找到有效份额的话矿池会提示离线，这是假离线可以通过加卡避免或忽略矿池的离线提示。"
 						Background="Transparent">
 					</controls:KbLinkButton>
 					<controls:KbButton 
@@ -219,7 +218,6 @@
                         Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 						<controls:KbLinkButton
 							VerticalAlignment="Center"
-							Padding="0"
 							Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.ViewPoolIncome}"
 							KbDisplayLine="False"
 							Content="辅币收益"

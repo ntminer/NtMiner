@@ -69,10 +69,10 @@ namespace NTMiner {
 
         [TestMethod]
         public void UriPathTest() {
-            string url = "http://ntminer.oss-cn-beijing.aliyuncs.com/NTMinerUpdater.exe?Expires=1583773008&OSSAccessKeyId=abcdefg1234567890&Signature=0XnsSp5SvbznvsteogbFhsPRm6k%3d";
+            string url = "http://ntminer.oss-cn-beijing.aliyuncs.com/NTMinerUpdater.exe?Expires=1583773008";
             Uri uri = new Uri(url);
-            Console.WriteLine(uri.LocalPath);
-            Console.WriteLine(Path.GetFileName(uri.LocalPath));
+            Assert.AreEqual("/NTMinerUpdater.exe", uri.LocalPath);
+            Assert.AreEqual("NTMinerUpdater.exe", Path.GetFileName(uri.LocalPath));
         }
 
         [TestMethod]
@@ -82,10 +82,10 @@ namespace NTMiner {
 
         [TestMethod]
         public void SizeOfTest() {
-            Console.WriteLine("bool:" + sizeof(bool));
+            Assert.AreEqual(1, sizeof(bool));
             unsafe {
-                Console.WriteLine("DateTime:" + sizeof(DateTime));
-                Console.WriteLine("Guid:" + sizeof(Guid));
+                Assert.AreEqual(8, sizeof(DateTime));
+                Assert.AreEqual(16, sizeof(Guid));
             }
         }
 
@@ -190,12 +190,12 @@ namespace NTMiner {
 
         [TestMethod]
         public void DoubleTest() {
-            Console.WriteLine(0.00000012000025222.ToString("f7"));
-            Console.WriteLine(1.ToString("f7"));
-            Console.WriteLine(1.1.ToString("f0"));
+            Assert.AreEqual("0.0000001", 0.00000012000025222.ToString("f7"));
+            Assert.AreEqual("1.0000000", 1.ToString("f7"));
+            Assert.AreEqual("1", 1.1.ToString("f0"));
 
-            Console.WriteLine(1.12.ToString("f1"));
-            Console.WriteLine(1.17.ToString("f1"));
+            Assert.AreEqual("1.1", 1.12.ToString("f1"));
+            Assert.AreEqual("1.2", 1.17.ToString("f1"));
         }
 
         [TestMethod]
@@ -237,10 +237,10 @@ namespace NTMiner {
 
         [TestMethod]
         public void GetControllerNameTest() {
-            Assert.AreEqual("FileUrl", RpcRoot.GetControllerName<IFileUrlController>());
+            Assert.AreEqual("FileUrl", ControllerUtil.GetControllerName<IFileUrlController>());
             string typeName = typeof(ICaptchaController<string>).Name;
             Console.WriteLine(typeName);
-            Assert.AreEqual("Captcha", RpcRoot.GetControllerName<ICaptchaController<string>>());
+            Assert.AreEqual("Captcha", ControllerUtil.GetControllerName<ICaptchaController<string>>());
         }
 
         [TestMethod]
@@ -299,6 +299,30 @@ namespace NTMiner {
             Assert.IsFalse(r);
             r = int.TryParse(null, out _);
             Assert.IsFalse(r);
+        }
+
+        [TestMethod]
+        public void TempTest() {
+            Assert.AreEqual(256, 1 << 8);
+        }
+
+        [TestMethod]
+        public void ArrayTest() {
+            int[] a = new int[] { 1, 2, 3 };
+            int[] b = new int[] { 1, 2, 3 };
+            Assert.AreNotEqual(a, b);
+            Assert.IsFalse(a.Equals(b));
+        }
+
+        [TestMethod]
+        public void AvailableFreeSpaceInfoTest() {
+            Console.WriteLine(VirtualRoot.GetAvailableFreeSpaceInfo());
+            NTStopwatch.Start();
+            for (int i = 0; i < 1000; i++) {
+                VirtualRoot.GetAvailableFreeSpaceInfo();
+            }
+            var elapsedMilliseconds = NTStopwatch.Stop();
+            Console.WriteLine(elapsedMilliseconds);
         }
     }
 }

@@ -78,6 +78,33 @@ namespace NTMiner {
                             gpuSpeedVm.MainCoinSpeed.AcceptShare = message.Source.MainCoinSpeed.AcceptShare;
                         }
                     }, location: this.GetType());
+                BuildEventPath<AcceptShareSetedEvent>("刷新显卡接受份额VM内存", LogEnum.DevConsole,
+                    path: message => {
+                        ResetIfMainCoinSwitched();
+                        int index = message.Source.Gpu.Index;
+                        GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
+                        if (gpuSpeedVm != null) {
+                            gpuSpeedVm.MainCoinSpeed.AcceptShare = message.Source.MainCoinSpeed.AcceptShare;
+                        }
+                    }, location: this.GetType());
+                BuildEventPath<RejectShareSetedEvent>("刷新显卡拒绝份额VM内存", LogEnum.DevConsole,
+                    path: message => {
+                        ResetIfMainCoinSwitched();
+                        int index = message.Source.Gpu.Index;
+                        GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
+                        if (gpuSpeedVm != null) {
+                            gpuSpeedVm.MainCoinSpeed.RejectShare = message.Source.MainCoinSpeed.RejectShare;
+                        }
+                    }, location: this.GetType());
+                BuildEventPath<IncorrectShareSetedEvent>("刷新显卡计算错误份额VM内存", LogEnum.DevConsole,
+                    path: message => {
+                        ResetIfMainCoinSwitched();
+                        int index = message.Source.Gpu.Index;
+                        GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
+                        if (gpuSpeedVm != null) {
+                            gpuSpeedVm.MainCoinSpeed.IncorrectShare = message.Source.MainCoinSpeed.IncorrectShare;
+                        }
+                    }, location: this.GetType());
                 BuildEventPath<RejectShareIncreasedEvent>("拒绝一个份额后刷新VM内存", LogEnum.DevConsole,
                     path: message => {
                         ResetIfMainCoinSwitched();

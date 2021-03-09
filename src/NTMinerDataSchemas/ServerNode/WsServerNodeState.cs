@@ -28,6 +28,7 @@ namespace NTMiner.ServerNode {
         public double ProcessMemoryMb { get; set; }
         public long ThreadCount { get; set; }
         public long HandleCount { get; set; }
+        public string AvailableFreeSpaceInfo { get; set; }
 
         public StringBuilder GetSignData() {
             return this.GetActionIdSign("F9C674C1-247D-45DF-984A-2180AD76F2BB");

@@ -29,6 +29,7 @@ namespace NTMiner {
                     MinerProfileData data = col.FindById(MinerProfileData.DefaultId);
                     if (data != null) {
                         data.IsAutoBoot = isAutoBoot;
+                        data.IsAutoStart = isAutoStart;
                         NTMinerRegistry.SetIsAutoStart(isAutoStart);
                         col.Update(data);
                     }

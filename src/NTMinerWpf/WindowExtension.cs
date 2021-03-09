@@ -129,8 +129,7 @@ namespace NTMiner {
                 window.Closed += UiElement_Closed;
             }
             MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeAttribute(typeof(TCmd));
-            string description = "处理" + messageTypeDescription.Description;
-            var messagePathId = VirtualRoot.BuildMessagePath(description, logType, path, location);
+            var messagePathId = VirtualRoot.BuildCmdPath(path, location, logType);
             messagePathIds.Add(messagePathId);
         }
 

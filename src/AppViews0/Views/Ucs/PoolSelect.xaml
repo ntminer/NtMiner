@@ -155,7 +155,6 @@
 						<DataTemplate>
                             <controls:KbLinkButton
 								VerticalAlignment="Center"
-								Padding="0"
 								Visibility="{Binding TutorialUrl,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
 								Command="{x:Static app:AppStatic.ViewUrl}"
 								CommandParameter="{Binding TutorialUrl}"
@@ -171,7 +170,6 @@
                         <DataTemplate>
                             <controls:KbLinkButton
 								VerticalAlignment="Center"
-								Padding="0"
 								Visibility="{Binding Url,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
 								Command="{Binding ViewPoolIncome}"
 								KbDisplayLine="False"

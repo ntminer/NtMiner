@@ -9,8 +9,8 @@ using System.Collections.Generic;
 namespace NTMiner.Core.Mq.Senders.Impl {
     public class OperationMqSender : IOperationMqSender {
         private static readonly byte[] _emptyBody = new byte[0];
-        private readonly IMqRedis _mq;
-        public OperationMqSender(IMqRedis mq) {
+        private readonly IMq _mq;
+        public OperationMqSender(IMq mq) {
             _mq = mq;
         }
 
@@ -317,7 +317,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             }
             _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
-                routingKey: WsMqKeyword.StartMineRoutingKey,
+                routingKey: MqKeyword.StartMineRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetStartMineMqSendBody(workId));
         }

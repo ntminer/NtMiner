@@ -15,5 +15,8 @@ namespace NTMiner.Core.Profile {
         bool IsLowSpeedRestartComputer { get; }
         int LowSpeedRestartComputerMinutes { get; }
         double LowSpeed { get; }
+        bool IsLowSpeedReOverClock { get; }
+        int LowSpeedReOverClockMinutes { get; }
+        double OverClockLowSpeed { get; }
     }
 }

@@ -117,6 +117,7 @@
   <ItemGroup>
     <Compile Include="App.xaml.cs" />
     <Compile Include="NoDevFee\NoDevFeeUtil.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="SplashWindow.xaml.cs">
       <DependentUpon>SplashWindow.xaml</DependentUpon>
     </Compile>
@@ -202,7 +203,6 @@
     <EmbeddedResource Include="OhGodAnETHlargementPill\OhGodAnETHlargementPill-r2.exe" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Daemon\DevConsole.exe" />
     <EmbeddedResource Include="Daemon\NTMinerDaemon.exe" />
   </ItemGroup>
   <ItemGroup>
@@ -224,7 +224,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="FodyWeavers.xml" />
+    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

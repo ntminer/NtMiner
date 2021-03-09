@@ -14,7 +14,7 @@ namespace NTMiner.Vms {
         private CoinViewModel _selectedCoinVm = CoinViewModel.PleaseSelect;
         private int _pageIndex = 1;
         private int _pageSize = 15;
-        private PagingViewModel _pagingVm;
+        private readonly PagingViewModel _pagingVm;
 
         public ICommand Home { get; private set; }
         public ICommand ChangeCurrentKernelMenu { get; private set; }

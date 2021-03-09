@@ -259,13 +259,7 @@ namespace NTMiner {
         public static Guid GetClientId(NTMinerAppType appType) {
             string valueName = GetValueName(appType, NTKeyword.ClientIdRegistryKey);
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, valueName);
-            // 如果是通过克隆磁盘装的系统注册表会被克隆
-            string cpuId = GetCpuId();
-            string realCpuId = VirtualRoot.CpuId;
-            if (cpuId != realCpuId) {
-                SetCpuId(realCpuId);
-            }
-            if (value == null || !Guid.TryParse((string)value, out Guid id) || cpuId != realCpuId) {
+            if (value == null || !Guid.TryParse((string)value, out Guid id)) {
                 id = Guid.NewGuid();
                 Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, valueName, id.ToString());
             }
@@ -273,25 +267,10 @@ namespace NTMiner {
         }
         #endregion
 
-        #region GetCpuId
-        private static string GetCpuId() {
-            string cpuId;
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.CpuIdRegistryKey);
-            if (value == null) {
-                cpuId = VirtualRoot.CpuId;
-                SetCpuId(cpuId);
-            }
-            else {
-                cpuId = (string)value;
-            }
-            return cpuId;
-        }
-
-        private static void SetCpuId(string cpuId) {
-            if (string.IsNullOrEmpty(cpuId)) {
-                cpuId = "unknow";
-            }
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.CpuIdRegistryKey, cpuId);
+        #region ReClientId
+        public static void ReClientId(NTMinerAppType appType) {
+            string valueName = GetValueName(appType, NTKeyword.ClientIdRegistryKey);
+            Windows.WinRegistry.DeleteValue(Registry.Users, NTMinerRegistrySubKey, valueName);
         }
         #endregion
 

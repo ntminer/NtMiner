@@ -29,7 +29,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                 string sessionId = ea.BasicProperties.ReadHeaderString(MqKeyword.SessionIdHeaderName);
                 QueryClientsResponse response = MinerClientMqBodyUtil.GetQueryClientsResponseMqReceiveBody(ea.Body);
                 if (response != null) {
-                    VirtualRoot.RaiseEvent(new QueryClientsForWsResponseMqMessage(appId, timestamp, loginName, sessionId, response));
+                    VirtualRoot.RaiseEvent(new QueryClientsForWsResponseMqEvent(appId, timestamp, loginName, sessionId, response));
                 }
                 return true;
             }

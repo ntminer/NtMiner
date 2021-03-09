@@ -13,17 +13,17 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新VM内存", LogEnum.DevConsole,
                     path: message => {
                         _dicById.Clear();
                         _listByGroupId.Clear();
                         Init();
                     }, location: this.GetType());
-                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole,
                     path: message => {
                         // 什么也不做，因为该集合没有什么属性
                     }, location: this.GetType());
-                BuildEventPath<CoinGroupAddedEvent>("添加了币组后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<CoinGroupAddedEvent>("调整VM内存", LogEnum.DevConsole,
                     path: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(message.Source);
@@ -35,7 +35,7 @@ namespace NTMiner {
                             OnGroupPropertyChanged(coinGroupVm.GroupId);
                         }
                     }, location: this.GetType());
-                BuildEventPath<CoinGroupRemovedEvent>("删除了币组后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<CoinGroupRemovedEvent>("调整VM内存", LogEnum.DevConsole,
                     path: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             var entity = _dicById[message.Source.GetId()];

@@ -18,6 +18,11 @@ namespace NTMiner {
             Console.WriteLine(Marshal.SizeOf(typeof(ADLODNCapabilitiesX2)));
         }
 
+        [TestMethod]
+        public void Test() {
+            Assert.AreEqual(sizeof(int), Marshal.SizeOf(typeof(int)));
+        }
+
         [StructLayout(LayoutKind.Sequential)]
         struct ADLODNPerformanceLevelX2 {
             public int iClock;

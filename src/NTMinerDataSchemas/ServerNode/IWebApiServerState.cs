@@ -3,5 +3,6 @@
 namespace NTMiner.ServerNode {
     public interface IWebApiServerState : IServerState {
         List<WsServerNodeState> WsServerNodes { get; }
+        int CaptchaCount { get; }
     }
 }

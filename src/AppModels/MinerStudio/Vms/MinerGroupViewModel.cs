@@ -65,7 +65,16 @@ namespace NTMiner.MinerStudio.Vms {
                     return;
                 }
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除 “{this.Name}” 矿机分组吗？", title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new RemoveMinerGroupCommand(this.Id));
+                    if (RpcRoot.IsOuterNet) {
+                        RpcRoot.OfficialServer.UserMinerGroupService.RemoveMinerGroupAsync(this.Id, (response, e) => {
+                            if (response.IsSuccess()) {
+                                VirtualRoot.RaiseEvent(new MinerGroupRemovedEvent(PathId.Empty, this));
+                            }
+                        });
+                    }
+                    else {
+                        VirtualRoot.Execute(new RemoveMinerGroupCommand(this.Id));
+                    }
                 }));
             });
         }

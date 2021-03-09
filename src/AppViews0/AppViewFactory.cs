@@ -286,6 +286,11 @@ namespace NTMiner {
                     MinerStudioUcs.GpuNameCounts.ShowWindow();
                 });
             }, location: location);
+            VirtualRoot.BuildCmdPath<ShowActionCountPageCommand>(path: message => {
+                UIThread.Execute(() => {
+                    MinerStudioUcs.ActionCounts.ShowWindow();
+                });
+            }, location: location);
             VirtualRoot.BuildCmdPath<ShowChangePassword>(path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.ChangePassword.ShowWindow();

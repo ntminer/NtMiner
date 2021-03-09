@@ -1,6 +1,7 @@
 ﻿using NTMiner.MinerStudio.Vms;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NTMiner.MinerStudio.Views.Ucs {
     public partial class MinerClientsPagging : UserControl {
@@ -35,6 +36,10 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 ((ColumnsShowSelect)popup.Child).Vm.SelectedResult = selected;
             }
             popup.IsOpen = true;
+        }
+
+        public void TextBoxPageIndex_KeyUp(object sender, KeyEventArgs e) {
+            WpfUtil.TextBoxPageIndex_KeyUp(sender, e);
         }
     }
 }

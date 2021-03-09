@@ -39,6 +39,7 @@ namespace NTMiner {
         [STAThread]
         static void Main(string[] args) {
             SetOut(new ConsoleOut());
+            NTMinerConsole.MainUiOk();
             if (args.Length != 0) {
                 if (args.Contains("--sha1", StringComparer.OrdinalIgnoreCase)) {
                     File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sha1"), Sha1);
@@ -100,19 +101,6 @@ namespace NTMiner {
                 Windows.ConsoleHandler.Register(Exit);
                 HttpServer.Start($"http://{NTKeyword.Localhost}:{NTKeyword.NTMinerDaemonPort.ToString()}");
                 DaemonWsClient = new DaemonWsClient();
-                BuildEventPath<Per2MinuteEvent>("每2分钟通过Ws通道上报一次算力", LogEnum.DevConsole, path: message => {
-                    if (!DaemonWsClient.IsOpen) {
-                        return;
-                    }
-                    RpcRoot.Client.MinerClientService.WsGetSpeedAsync((data, ex) => {
-                        if (!DaemonWsClient.IsOpen) {
-                            return;
-                        }
-                        DaemonWsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.Speed) {
-                            Data = data
-                        });
-                    });
-                }, typeof(VirtualRoot));
 
                 _waitHandle.WaitOne();
                 Exit();

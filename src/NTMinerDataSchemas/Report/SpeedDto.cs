@@ -126,8 +126,6 @@ namespace NTMiner.Report {
         public bool IsFoundOneGpuShare { get; set; }
         public bool IsGotOneIncorrectGpuShare { get; set; }
 
-        public string CpuId { get; set; }
-
         public int CpuPerformance { get; set; }
 
         public int CpuTemperature { get; set; }
@@ -146,7 +144,11 @@ namespace NTMiner.Report {
 
         public bool IsDisableWAU { get; set; }
 
+        public bool Is1080PillEnabled { get; set; }
+
         public bool IsDisableAntiSpyware { get; set; }
+
+        public bool IsAutoReboot { get; set; }
 
         public DateTime MainCoinSpeedOn { get; set; }
 
@@ -156,6 +158,13 @@ namespace NTMiner.Report {
         /// 内网群控时看到的外网群控用户
         /// </summary>
         public string ReportOuterUserId { get; set; }
+        public bool IsPreventDisplaySleep { get; set; }
+        public bool IsLowSpeedRestartComputer { get; set; }
+        public int LowSpeedRestartComputerMinutes { get; set; }
+        public double LowSpeed { get; set; }
+        public bool IsLowSpeedReOverClock { get; set; }
+        public int LowSpeedReOverClockMinutes { get; set; }
+        public double OverClockLowSpeed { get; set; }
 
         public GpuSpeedData[] GpuTable { get; set; }
     }

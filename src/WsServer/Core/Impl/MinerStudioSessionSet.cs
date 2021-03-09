@@ -9,10 +9,10 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<string, List<IMinerStudioSession>> _dicByLoginName = new Dictionary<string, List<IMinerStudioSession>>();
 
         public MinerStudioSessionSet(IWsSessionsAdapter wsSessions) : base(wsSessions) {
-            VirtualRoot.BuildEventPath<UserPasswordChangedMqMessage>("群控用户密码变更后通知群控客户端重新登录", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<UserPasswordChangedMqEvent>("群控用户密码变更后通知群控客户端重新登录", LogEnum.None, path: message => {
                 SendToMinerStudioAsync(message.LoginName, new WsMessage(message.MessageId, WsMessage.ReLogin));
             }, this.GetType());
-            VirtualRoot.BuildEventPath<ConsoleOutLinesMqMessage>("收到ConsoleOutLinesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<ConsoleOutLinesMqEvent>("收到ConsoleOutLinesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
                     return;
@@ -25,7 +25,7 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
-            VirtualRoot.BuildEventPath<LocalMessagesMqMessage>("收到LocalMessagesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<LocalMessagesMqEvent>("收到LocalMessagesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
                     return;
@@ -38,7 +38,7 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
-            VirtualRoot.BuildEventPath<DrivesMqMessage>("收到DrivesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<DrivesMqEvent>("收到DrivesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
                     return;
@@ -51,7 +51,7 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
-            VirtualRoot.BuildEventPath<LocalIpsMqMessage>("收到LocalIpsMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<LocalIpsMqEvent>("收到LocalIpsMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
                     return;
@@ -64,7 +64,7 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
-            VirtualRoot.BuildEventPath<OperationResultsMqMessage>("收到OperationResultsMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<OperationResultsMqEvent>("收到OperationResultsMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
                     return;
@@ -77,7 +77,7 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
-            VirtualRoot.BuildEventPath<OperationReceivedMqMessage>("收到OperationReceivedMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<OperationReceivedMqEvent>("收到OperationReceivedMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
                     return;
@@ -89,7 +89,7 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
-            VirtualRoot.BuildEventPath<LocalJsonMqMessage>("收到LocalJsonMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<LocalJsonMqEvent>("收到LocalJsonMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
                     return;
@@ -102,7 +102,7 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
-            VirtualRoot.BuildEventPath<GpuProfilesJsonMqMessage>("收到GpuProfilesJsonMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<GpuProfilesJsonMqEvent>("收到GpuProfilesJsonMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
                     return;
@@ -115,7 +115,7 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
-            VirtualRoot.BuildEventPath<QueryClientsForWsResponseMqMessage>("收到QueryClientsResponseMq消息后通过Ws通道发送给群控客户端", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<QueryClientsForWsResponseMqEvent>("收到QueryClientsResponseMq消息后通过Ws通道发送给群控客户端", LogEnum.None, path: message => {
                 #region
                 if (IsTooOld(message.Timestamp)) {
                     return;
@@ -165,15 +165,12 @@ namespace NTMiner.Core.Impl {
         }
 
         public void SendToMinerStudioAsync(string loginName, WsMessage message) {
+            // TODO:考虑给每一个登录的MinerStudio用户建立一个会话，由基于LoginName推送改为基于会话Id推送
             var minerStudioSessions = GetSessionsByLoginName(loginName).ToArray();// 避免发生集合被修改的异常
             var userData = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(loginName));
             if (userData != null) {
                 foreach (var minerStudioSession in minerStudioSessions) {
-                    try {
-                        minerStudioSession.SendAsync(message, userData.Password);
-                    }
-                    catch {
-                    }
+                    minerStudioSession.SendAsync(message, userData.Password);
                 }
             }
         }

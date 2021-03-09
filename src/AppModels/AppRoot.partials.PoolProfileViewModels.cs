@@ -12,13 +12,13 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                BuildEventPath<PoolProfilePropertyChangedEvent>("矿池设置变更后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<PoolProfilePropertyChangedEvent>("刷新VM内存", LogEnum.DevConsole,
                     path: message => {
                         if (_dicById.TryGetValue(message.PoolId, out PoolProfileViewModel vm)) {
                             vm.OnPropertyChanged(message.PropertyName);
                         }
                     }, location: this.GetType());
-                VirtualRoot.BuildEventPath<LocalContextReInitedEvent>("LocalContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.BuildEventPath<LocalContextReInitedEvent>("刷新VM内存", LogEnum.DevConsole,
                     path: message => {
                         _dicById.Clear();
                     }, location: this.GetType());

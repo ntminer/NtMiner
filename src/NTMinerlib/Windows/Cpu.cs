@@ -17,7 +17,6 @@ namespace NTMiner.Windows {
             return new CpuData {
                 ClockSpeed = this.ClockSpeed,
                 Identifier = this.Identifier,
-                CpuId = this.CpuId,
                 Name = this.Name,
                 NumberOfLogicalCores = this.NumberOfLogicalCores,
                 ProcessorArchitecture = this.ProcessorArchitecture,
@@ -56,12 +55,6 @@ namespace NTMiner.Windows {
                 return 0.0f;
             }
             return CpuCounterTotal.NextValue();
-        }
-
-        public string CpuId {
-            get {
-                return VirtualRoot.CpuId;
-            }
         }
 
         #region Properties

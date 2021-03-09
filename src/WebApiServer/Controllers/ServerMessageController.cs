@@ -37,7 +37,6 @@ namespace NTMiner.Controllers {
             }
             try {
                 VirtualRoot.Execute(new AddOrUpdateServerMessageCommand(request.Data));
-                AppRoot.UpdateServerMessageTimestamp();
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -54,7 +53,6 @@ namespace NTMiner.Controllers {
             }
             try {
                 VirtualRoot.Execute(new MarkDeleteServerMessageCommand(request.Data));
-                AppRoot.UpdateServerMessageTimestamp();
                 return ResponseBase.Ok();
             }
             catch (Exception e) {

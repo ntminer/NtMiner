@@ -49,6 +49,7 @@
     <Compile Include="Gpus\NvmlHelper.cs" />
     <Compile Include="Gpus\Nvml\NvmlNativeMethods.cs" />
     <Compile Include="Gpus\Nvml\NvmlTypes.cs" />
+    <Compile Include="Gpus\OverClockValue.cs" />
     <Compile Include="Gpus\PInvokeDelegateFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

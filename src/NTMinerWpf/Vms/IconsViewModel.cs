@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -26,6 +27,7 @@ namespace NTMiner.Vms {
         private string _keyword;
 
         public ICommand ClearKeyword { get; private set; }
+        public ICommand OpenIconfontWebSite { get; private set; }
 
         public IconsViewModel() {
             if (WpfUtil.IsInDesignMode) {
@@ -47,6 +49,9 @@ namespace NTMiner.Vms {
             }
             this.ClearKeyword = new DelegateCommand(() => {
                 this.Keyword = string.Empty;
+            });
+            this.OpenIconfontWebSite = new DelegateCommand(() => {
+                Process.Start("https://www.iconfont.cn/");
             });
         }
 

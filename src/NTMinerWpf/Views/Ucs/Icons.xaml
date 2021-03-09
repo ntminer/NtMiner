@@ -19,7 +19,7 @@
             <RowDefinition Height="60"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+        <WrapPanel VerticalAlignment="Center" Margin="0 0 -100 0" HorizontalAlignment="Center">
             <Path 
 				Width="30"
 				Height="30"
@@ -54,6 +54,14 @@
 					Fill="{StaticResource BtnBackground}"
 					Stretch="Fill" />
             </controls:KbButton>
+            <controls:KbLinkButton
+                Margin="2 0 0 0"
+				Command="{Binding OpenIconfontWebSite}"
+				KbDisplayLine="False"
+                VerticalAlignment="Bottom"
+				Content="阿里巴巴矢量图标库"
+				Background="Transparent">
+            </controls:KbLinkButton>
         </WrapPanel>
         <ScrollViewer
             Grid.Row="1"

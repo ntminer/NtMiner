@@ -390,7 +390,15 @@ namespace NTMiner {
                 if (clientData.IsMining) {
                     miningCount++;
                     mainCoinSnapshotData.MainCoinMiningCount += 1;
-                    mainCoinSnapshotData.Speed += clientData.MainCoinSpeed;
+                    // TODO:考虑是否应该针对每一个币种配置一个最大正常算力
+                    if ("ETH".Equals(clientData.MainCoinCode, StringComparison.OrdinalIgnoreCase)) {
+                        if (clientData.MainCoinSpeed < 2 * NTKeyword.DoubleG) {
+                            mainCoinSnapshotData.Speed += clientData.MainCoinSpeed;
+                        }
+                    }
+                    else {
+                        mainCoinSnapshotData.Speed += clientData.MainCoinSpeed;
+                    }
                 }
 
                 mainCoinSnapshotData.MainCoinOnlineCount += 1;
@@ -405,7 +413,15 @@ namespace NTMiner {
                     }
 
                     if (clientData.IsMining) {
-                        dualCoinSnapshotData.Speed += clientData.DualCoinSpeed;
+                        // TODO:考虑是否应该针对每一个币种配置一个最大正常算力
+                        if ("ETH".Equals(clientData.DualCoinCode, StringComparison.OrdinalIgnoreCase)) {
+                            if (clientData.DualCoinSpeed < 2 * NTKeyword.DoubleG) {
+                                dualCoinSnapshotData.Speed += clientData.DualCoinSpeed;
+                            }
+                        }
+                        else {
+                            dualCoinSnapshotData.Speed += clientData.DualCoinSpeed;
+                        }
                     }
                 }
             }

@@ -12,6 +12,26 @@ using System.Windows.Media;
 
 namespace NTMiner {
     public static class WpfUtil {
+        public static void Login(Action onLoginSuccess, string serverHost = null, Action btnCloseClick = null) {
+            if (!RpcRoot.IsLogined) {
+                var parent = GetTopWindow();
+                LoginWindow window = new LoginWindow(onLoginSuccess, serverHost, btnCloseClick);
+                if (parent != null && parent.GetType() != typeof(NotiCenterWindow)) {
+                    window.Owner = parent;
+                    window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                    window.ShowInTaskbar = false;
+                }
+                window.BuildEventPath<SignUpedEvent>("注册了新外网群控用户后自动填入外网群控用户名", LogEnum.None, path: message => {
+                    window.Vm.LoginName = message.LoginName;
+                }, typeof(LoginWindow));
+                window.ShowSoftDialog();
+                window.PasswordFocus();
+            }
+            else {
+                onLoginSuccess?.Invoke();
+            }
+        }
+
         /// <summary>
         /// SolidColorBrush是DependencyObject，必须在UI线程创建，所以这里提供一个什么也不干的Init方法只
         /// 是为了触发静态构造函数从而确保SolidColorBrush是在UI显存构建的。
@@ -199,6 +219,22 @@ namespace NTMiner {
             DataGrid_MouseDoubleClick<T>(sender, e, t => {
                 t.Edit.Execute(FormType.Edit);
             });
+        }
+
+        public static void TextBoxPageIndex_KeyUp(object sender, KeyEventArgs e) {
+            try {
+                if (e.Key == Key.Enter) {
+                    TraversalRequest request = new TraversalRequest(FocusNavigationDirection.Next);
+
+                    if (Keyboard.FocusedElement is UIElement focusElement) {
+                        focusElement.MoveFocus(request);
+                        ((UIElement)sender).Focus();
+                    }
+                    e.Handled = true;
+                }
+            }
+            catch {
+            }
         }
     }
 }

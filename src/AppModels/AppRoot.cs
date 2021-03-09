@@ -23,9 +23,9 @@ namespace NTMiner {
 
         #region methods
         // 因为是上下文路径，无需返回路径标识
-        public static void BuildCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> path, Type location)
+        public static void BuildCmdPath<TCmd>(LogEnum logType, Action<TCmd> path, Type location)
             where TCmd : ICmd {
-            var messagePathId = VirtualRoot.BuildMessagePath(description, logType, path, location);
+            var messagePathId = VirtualRoot.BuildCmdPath(path, location, logType);
             _contextPathIds.Add(messagePathId);
         }
 
@@ -92,7 +92,7 @@ namespace NTMiner {
         public static string NppPackageUrl {
             get {
                 const string url = "https://minerjson.oss-cn-beijing.aliyuncs.com/npp.zip";
-                if (WpfUtil.IsDevMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return url;
                 }
                 return NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue("Tool", "npp", defaultValue: url);
@@ -103,10 +103,10 @@ namespace NTMiner {
         public static double OsVmPerGpu {
             get {
                 double value = 5.0;
-                if (WpfUtil.IsDevMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return value;
                 }
-                return NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue(NTKeyword.ThisSystemSysDicCode, "OsVmPerGpu", value);
+                return NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue(NTKeyword.ThisSystemSysDicCode, NTKeyword.OsVmPerGpuSysDicItemCode, value);
             }
         }
 
@@ -132,14 +132,14 @@ namespace NTMiner {
             }));
         }
 
-        public static void Upgrade(NTMinerAppType appType, string fileName, Action callback) {
+        public static void Upgrade(string fileName, Action callback) {
             RpcRoot.OfficialServer.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, e) => {
                 try {
                     string argument = string.Empty;
                     if (!string.IsNullOrEmpty(fileName)) {
                         argument = "ntminerFileName=" + fileName;
                     }
-                    if (appType == NTMinerAppType.MinerStudio) {
+                    if (ClientAppType.IsMinerStudio) {
                         argument += " --minerstudio";
                     }
                     if (string.IsNullOrEmpty(downloadFileUrl)) {

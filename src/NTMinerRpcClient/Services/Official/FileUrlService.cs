@@ -1,12 +1,10 @@
 ﻿using NTMiner.Controllers;
 using NTMiner.Core.MinerServer;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace NTMiner.Services.Official {
     public class FileUrlService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<IFileUrlController>();
+        private readonly string _controllerName = ControllerUtil.GetControllerName<IFileUrlController>();
 
         internal FileUrlService() {
         }
@@ -23,58 +21,6 @@ namespace NTMiner.Services.Official {
                 _controllerName,
                 nameof(IFileUrlController.NTMinerUrl),
                 request,
-                callback);
-        }
-        #endregion
-
-        #region GetNTMinerFilesAsync
-        // ReSharper disable once InconsistentNaming
-        public void GetNTMinerFilesAsync(NTMinerAppType appType, Action<List<NTMinerFileData>> callback) {
-            RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
-                _controllerName,
-                nameof(IFileUrlController.NTMinerFiles),
-                callback: (List<NTMinerFileData> data, Exception e) => {
-                    if (data != null) {
-                        data = data.Where(a => a.AppType == appType).ToList();
-                    }
-                    else {
-                        data = new List<NTMinerFileData>();
-                    }
-                    callback?.Invoke(data);
-                });
-        }
-        #endregion
-
-        #region AddOrUpdateNTMinerFileAsync
-        // ReSharper disable once InconsistentNaming
-        public void AddOrUpdateNTMinerFileAsync(NTMinerFileData entity, Action<ResponseBase, Exception> callback) {
-            DataRequest<NTMinerFileData> request = new DataRequest<NTMinerFileData>() {
-                Data = entity
-            };
-            RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
-                _controllerName, 
-                nameof(IFileUrlController.AddOrUpdateNTMinerFile), 
-                data: request, 
-                callback);
-        }
-        #endregion
-
-        #region RemoveNTMinerFileAsync
-        // ReSharper disable once InconsistentNaming
-        public void RemoveNTMinerFileAsync(Guid id, Action<ResponseBase, Exception> callback) {
-            DataRequest<Guid> request = new DataRequest<Guid>() {
-                Data = id
-            };
-            RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
-                _controllerName, 
-                nameof(IFileUrlController.RemoveNTMinerFile), 
-                data: request, 
                 callback);
         }
         #endregion

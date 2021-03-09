@@ -32,6 +32,11 @@ namespace NTMiner {
         }
 
         [HttpPost]
+        public void ReClientId(Guid newClientId) {
+            VirtualRoot.DaemonWsClient.OnClientIdChanged(newClientId);
+        }
+
+        [HttpPost]
         public ResponseBase EnableRemoteDesktop() {
             return VirtualRoot.DaemonOperation.EnableRemoteDesktop();
         }

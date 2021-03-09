@@ -32,7 +32,6 @@ namespace NTMiner.Services.OSS {
                         data = ZipDecompress(data);
                         callback?.Invoke(data);
                     }
-                    Logger.InfoDebugLine($"下载完成：{fileUrl}");
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);

@@ -14,7 +14,8 @@ namespace NTMiner.Controllers {
                 if (Version.TryParse(speedDto.Version, out Version version)) {
                     string jsonVersionKey = HomePath.GetServerJsonVersion(version);
                     var response = ReportResponse.Ok(AppRoot.GetServerStateResponse(jsonVersionKey));
-                    if (speedDto.LocalServerMessageTimestamp.AddSeconds(1) < AppRoot.ServerMessageTimestamp) {
+                    if (speedDto.LocalServerMessageTimestamp.AddDays(1) > DateTime.Now // 为了排除Timestamp.UnixBaseTime
+                        && speedDto.LocalServerMessageTimestamp.AddSeconds(1) < AppRoot.ServerMessageTimestamp) {
                         var list = AppRoot.ServerMessageSet.GetServerMessages(speedDto.LocalServerMessageTimestamp);
                         // 如果服务器新消息少于10条直接在上报算力时的响应消息中携带上，如果较多就算了推迟到用户切换到消息界面查看时再获取
                         if (list.Count < 10) {

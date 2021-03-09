@@ -14,6 +14,8 @@ namespace NTMiner {
             private string _fanSpeedMaxText = "0 %";
             private string _temperatureMinText = "0 ℃";
             private string _temperatureMaxText = "0 ℃";
+            private string _memTemperatureMinText = "0 ℃";
+            private string _memTemperatureMaxText = "0 ℃";
             private SolidColorBrush _temperatureMaxForeground;
             private readonly GpuViewModel _gpuAllVm;
             private GpuViewModels() {
@@ -54,6 +56,7 @@ namespace NTMiner {
                         if (_gpuVms.ContainsKey(message.Source.Index)) {
                             GpuViewModel vm = _gpuVms[message.Source.Index];
                             vm.Temperature = message.Source.Temperature;
+                            vm.MemTemperature = message.Source.MemTemperature;
                             vm.FanSpeed = message.Source.FanSpeed;
                             vm.PowerUsage = message.Source.PowerUsage;
                             vm.CoreClockDelta = message.Source.CoreClockDelta;
@@ -62,6 +65,7 @@ namespace NTMiner {
                             vm.CoreClockDeltaMax = message.Source.CoreClockDeltaMax;
                             vm.MemoryClockDeltaMin = message.Source.MemoryClockDeltaMin;
                             vm.MemoryClockDeltaMax = message.Source.MemoryClockDeltaMax;
+                            vm.CurrentMemoryTimingLevel = message.Source.CurrentMemoryTimingLevel;
                             vm.Cool = message.Source.Cool;
                             vm.CoolMin = message.Source.CoolMin;
                             vm.CoolMax = message.Source.CoolMax;
@@ -79,6 +83,7 @@ namespace NTMiner {
                             vm.VoltDefault = message.Source.VoltDefault;
                             if (_gpuAllVm != null) {
                                 _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.TemperatureText));
+                                _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.MemTemperatureText));
                                 _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.FanSpeedText));
                                 _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.PowerUsageWText));
                                 _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.CoreClockDeltaMText));
@@ -112,6 +117,7 @@ namespace NTMiner {
                 this.FanSpeedMaxText = maxFan + " %";
                 this.FanSpeedMinText = minFan + " %";
                 int minTemp = int.MaxValue, maxTemp = int.MinValue;
+                int memMinTemp = int.MaxValue, memMaxTemp = int.MinValue;
                 foreach (var item in _gpuVms.Values) {
                     if (item.Index == NTMinerContext.GpuAllId) {
                         continue;
@@ -122,9 +128,17 @@ namespace NTMiner {
                     if (item.Temperature < minTemp) {
                         minTemp = item.Temperature;
                     }
+                    if (item.MemTemperature > memMaxTemp) {
+                        memMaxTemp = item.MemTemperature;
+                    }
+                    if (item.MemTemperature < memMinTemp) {
+                        memMinTemp = item.MemTemperature;
+                    }
                 }
                 this.TemperatureMinText = minTemp + " ℃";
                 this.TemperatureMaxText = maxTemp + " ℃";
+                this.MemTemperatureMinText = memMinTemp + " ℃";
+                this.MemTemperatureMaxText = memMaxTemp + " ℃";
                 if (maxTemp >= MinerProfileVm.MaxTemp) {
                     this.TemperatureMaxForeground = WpfUtil.RedBrush;
                 }
@@ -164,6 +178,26 @@ namespace NTMiner {
                     if (_temperatureMaxText != value) {
                         _temperatureMaxText = value;
                         OnPropertyChanged(nameof(TemperatureMaxText));
+                    }
+                }
+            }
+
+            public string MemTemperatureMinText {
+                get => _memTemperatureMinText;
+                set {
+                    if (_memTemperatureMinText != value) {
+                        _memTemperatureMinText = value;
+                        OnPropertyChanged(nameof(MemTemperatureMinText));
+                    }
+                }
+            }
+
+            public string MemTemperatureMaxText {
+                get => _memTemperatureMaxText;
+                set {
+                    if (_memTemperatureMaxText != value) {
+                        _memTemperatureMaxText = value;
+                        OnPropertyChanged(nameof(MemTemperatureMaxText));
                     }
                 }
             }

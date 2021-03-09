@@ -1,4 +1,4 @@
-点击加入 [NTMiner官方QQ群](http://qm.qq.com/cgi-bin/qm/qr?k=cvTZEdM92suKOTy0fjzdCvZkJ-tFFekn): 863725136
+点击加入 [NTMiner官方QQ群](https://jq.qq.com/?_wv=1027&k=NdqW5ONU): 530887262
 
 1. 开源矿工内置的所有内核均为原版，开源矿工永远不会额外增加矿工支出；
 2. 开源矿工永远开源；
@@ -22,7 +22,7 @@
 ## 开发者也是用户
 良好的软件都有一个共性：开发者自己每天都在使用自己开发的软件。这个软件展示给矿工的只是挖矿相关的核心功能，更多的功能是给开发者用的，开发者管理币种、矿池、内核等一切数据的工具也是这个软件本身，开发者在开发者模式写配置导出了放在阿里云OSS上，然后矿工们运行的普通模式从阿里云读配置，最终矿工只需要填写自己的钱包地址一键开挖即可。
 
-## 商业模式
+## 如何盈利/商业逻辑
 开源矿工的原则是永远不增加矿工的支出，永远不非法获取国人内核作者的开发费。开源矿工的源代码是开源的，全世界的人可以围观，杜绝了作恶的可能，因为如果开源矿工做出越界的事情的话人群中一定会有人站出来大喝一声指出的，所以大家可以放心使用，开源是一种态度，作者想表明自己没有作恶的意愿。
 
 ### 为什么可以说开源矿工是0抽水？
@@ -34,10 +34,10 @@
 
 类似开源矿工这些同类挖矿辅助工具降低了挖矿门槛帮助矿工管理矿机，获得一点收入是合理的，但是不能偷。
 
-点击加入 [NTMiner官方QQ群](http://qm.qq.com/cgi-bin/qm/qr?k=cvTZEdM92suKOTy0fjzdCvZkJ-tFFekn): 863725136
+点击加入 [NTMiner官方QQ群](https://jq.qq.com/?_wv=1027&k=NdqW5ONU): 530887262
 
 # 授权协议
 The LGPL license。
 
 # 友情链接
-[蜜蜂矿池](https://www.beepool.org/)&nbsp;&nbsp;&nbsp;&nbsp;[BMiner](https://www.bminer.me/)&nbsp;&nbsp;&nbsp;&nbsp;[loserhub](https://www.loserhub.cn/)&nbsp;&nbsp;&nbsp;&nbsp;[挖币网](http://www.wabi.com/)
+[蜜蜂矿池](https://www.beepool.org/)&nbsp;&nbsp;&nbsp;&nbsp;[鱼池](https://www.f2pool.com/)&nbsp;&nbsp;&nbsp;&nbsp;[星火](https://www.sparkpool.com/)&nbsp;&nbsp;&nbsp;&nbsp;[BMiner](https://www.bminer.me/)&nbsp;&nbsp;&nbsp;&nbsp;[NBMiner](https://nbminer.com/)&nbsp;&nbsp;&nbsp;&nbsp;[loserhub](https://www.loserhub.cn/)&nbsp;&nbsp;&nbsp;&nbsp;[挖币网](http://www.wabi.com/)
