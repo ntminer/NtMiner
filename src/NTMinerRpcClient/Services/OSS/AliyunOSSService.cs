@@ -9,7 +9,7 @@ namespace NTMiner.Services.OSS {
         internal AliyunOSSService() { }
 
         public void GetAliyunServerJson(Action<byte[]> callback) {
-            string serverJsonFileUrl = $"{OfficialServices.MinerJsonBucket}{HomePath.ExportServerJsonFileName}";
+            string serverJsonFileUrl = $"https://minerjson.{NTKeyword.CloudFileDomain}/{HomePath.ExportServerJsonFileName}";
             string fileUrl = serverJsonFileUrl + "?t=" + DateTime.Now.Ticks;
             Task.Factory.StartNew(() => {
                 try {

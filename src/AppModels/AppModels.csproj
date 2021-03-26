@@ -116,6 +116,7 @@
     <Compile Include="MinerStudio\Vms\LocalIpConfigViewModel.cs" />
     <Compile Include="MinerStudio\Vms\NTMinerFileSelectViewModel.cs" />
     <Compile Include="MinerStudio\Vms\NTMinerFileViewModel.cs" />
+    <Compile Include="MinerStudio\Vms\QQGroupQrCodeViewModel.cs" />
     <Compile Include="MinerStudio\Vms\VirtualMemoryViewModel.cs" />
     <Compile Include="MinerStudio\Vms\WebApiServerStateViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

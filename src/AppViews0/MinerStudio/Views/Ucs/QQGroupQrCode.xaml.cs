@@ -1,4 +1,5 @@
-﻿using NTMiner.Views;
+﻿using NTMiner.MinerStudio.Vms;
+using NTMiner.Views;
 using NTMiner.Vms;
 using System.Windows.Controls;
 
@@ -15,7 +16,14 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             }, ucFactory: (window) => new QQGroupQrCode(), fixedSize: true);
         }
 
+        public QQGroupQrCodeViewModel Vm { get; private set; }
+
         public QQGroupQrCode() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
+            this.Vm = new QQGroupQrCodeViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
     }

@@ -412,7 +412,7 @@ namespace NTMiner.Vms {
                         File.Delete(iconFileFullName);
                     }
                 };
-                webClient.DownloadFileAsync(new Uri($"{Services.OfficialServices.MinerJsonBucket}coin_icons/{this.Icon}"), iconFileFullName);
+                webClient.DownloadFileAsync(new Uri($"https://minerjson.{NTKeyword.CloudFileDomain}/coin_icons/{this.Icon}"), iconFileFullName);
             }
         }
 

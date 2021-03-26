@@ -9,7 +9,7 @@ namespace NTMiner {
     public class OSSTests {
         [TestMethod]
         public void AliGeneratePresignedUriTest() {
-            string ossEndpoint = "oss-cn-beijing.aliyuncs.com";
+            string ossEndpoint = NTKeyword.CloudFileDomain;
             string ossAccessKeyId = "ATAI4G7BGjsCjRF2ThyDdgBo";// 假的
             string ossAccessKeySecret = "A1VdRfHJ6k8NeklCtHjQlt7MYlRShE";// 假的
             var ossClient= new OssClient(ossEndpoint, ossAccessKeyId, ossAccessKeySecret);

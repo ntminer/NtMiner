@@ -69,7 +69,7 @@ namespace NTMiner {
 
         [TestMethod]
         public void UriPathTest() {
-            string url = "http://ntminer.oss-cn-beijing.aliyuncs.com/NTMinerUpdater.exe?Expires=1583773008";
+            string url = $"http://ntminer.{NTKeyword.CloudFileDomain}/NTMinerUpdater.exe?Expires=1583773008";
             Uri uri = new Uri(url);
             Assert.AreEqual("/NTMinerUpdater.exe", uri.LocalPath);
             Assert.AreEqual("NTMinerUpdater.exe", Path.GetFileName(uri.LocalPath));

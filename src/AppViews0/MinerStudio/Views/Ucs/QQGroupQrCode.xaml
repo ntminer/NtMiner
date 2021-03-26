@@ -6,8 +6,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
+    d:DataContext="{d:DesignData Source=../Design/QQGroupQrCodeViewModel.xaml}"
     mc:Ignorable="d" d:DesignHeight="320" d:DesignWidth="280">
     <Grid>
-        <Image Source="https://minerjson.oss-cn-beijing.aliyuncs.com/NTMiner_QQGroupQrCode.png"></Image>
+        <Image Source="{Binding QQGroupQrCodeUrl}"></Image>
     </Grid>
 </UserControl>

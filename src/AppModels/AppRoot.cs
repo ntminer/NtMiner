@@ -91,7 +91,7 @@ namespace NTMiner {
 
         public static string NppPackageUrl {
             get {
-                const string url = "https://minerjson.oss-cn-beijing.aliyuncs.com/npp.zip";
+                string url = $"https://minerjson.{NTKeyword.CloudFileDomain}/npp.zip";
                 if (WpfUtil.IsInDesignMode) {
                     return url;
                 }

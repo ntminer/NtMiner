@@ -19,6 +19,8 @@ namespace NTMiner {
         public const string Copyright = "Copyright ©  NTMiner";
         public const string Company = "开源矿工 https://github.com/ntminer/NtMiner";
 
+        public const string CloudFileDomain = "oss-cn-beijing.aliyuncs.com";
+
         public const string TempDirName = "NTMiner";
         public const string RootLockFileName = "home.lock";
         public const string RootConfigFileName = "home.config";
