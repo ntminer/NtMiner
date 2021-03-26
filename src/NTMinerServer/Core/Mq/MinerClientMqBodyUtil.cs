@@ -53,12 +53,11 @@ namespace NTMiner.Core.Mq {
 
         #region QueryClientsResponse
         public static byte[] GetQueryClientsResponseMqSendBody(QueryClientsResponse response) {
-            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(response));
+            return VirtualRoot.BinarySerializer.Serialize(response);
         }
 
         public static QueryClientsResponse GetQueryClientsResponseMqReceiveBody(byte[] body) {
-            string json = Encoding.UTF8.GetString(body);
-            return VirtualRoot.JsonSerializer.Deserialize<QueryClientsResponse>(json);
+            return VirtualRoot.BinarySerializer.Deserialize<QueryClientsResponse>(body);
         }
         #endregion
     }
