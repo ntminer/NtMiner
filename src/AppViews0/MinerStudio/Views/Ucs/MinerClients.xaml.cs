@@ -26,7 +26,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             WpfUtil.DataGrid_MouseDoubleClick<MinerClientViewModel>(sender, e, rowVm => {
-                rowVm.RemoteDesktop.Execute(Vm.SelectedMinerClients[0].GetRemoteDesktopIp());
+                rowVm.RemoteDesktop.Execute(null);
             });
         }
     }

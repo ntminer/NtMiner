@@ -1,6 +1,8 @@
-﻿using NTMiner.ServerNode;
+﻿using NTMiner.RemoteDesktop;
+using NTMiner.ServerNode;
 using NTMiner.Vms;
 using System;
+using System.Windows.Input;
 
 namespace NTMiner.MinerStudio.Vms {
     public class WsServerNodeStateViewModel : ViewModelBase, IWsServerNode {
@@ -20,6 +22,8 @@ namespace NTMiner.MinerStudio.Vms {
         private string _availableFreeSpaceInfo;
         private CpuData _cpu;
         private CpuDataViewModel _cpuVm;
+
+        public ICommand RemoteDesktop { get; private set; }
 
         [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public WsServerNodeStateViewModel() {
@@ -45,6 +49,13 @@ namespace NTMiner.MinerStudio.Vms {
             _availableFreeSpaceInfo = data.AvailableFreeSpaceInfo;
             _cpu = data.Cpu;
             _cpuVm = new CpuDataViewModel(data.Cpu);
+            this.RemoteDesktop = new DelegateCommand(() => {
+                #region
+                AppRoot.RemoteDesktop?.Invoke(new RdpInput(GetRemoteDesktopIp(), "administrator", string.Empty, string.Empty, onDisconnected: message => {
+                    VirtualRoot.Out.ShowError(message, autoHideSeconds: 4, toConsole: true);
+                }));
+                #endregion
+            });
         }
 
         public void Update(IVarWsServerNode data) {
@@ -61,6 +72,13 @@ namespace NTMiner.MinerStudio.Vms {
             this.ThreadCount = data.ThreadCount;
             this.HandleCount = data.HandleCount;
             this.AvailableFreeSpaceInfo = data.AvailableFreeSpaceInfo;
+        }
+
+        private string GetRemoteDesktopIp() {
+            if (string.IsNullOrEmpty(Address)) {
+                return string.Empty;
+            }
+            return Address.Substring(0, Address.IndexOf(':'));
         }
 
         public string Address {

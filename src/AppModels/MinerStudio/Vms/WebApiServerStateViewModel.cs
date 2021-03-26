@@ -1,7 +1,7 @@
 ﻿using NTMiner.ServerNode;
 using NTMiner.Vms;
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace NTMiner.MinerStudio.Vms {
@@ -21,6 +21,7 @@ namespace NTMiner.MinerStudio.Vms {
         private CpuDataViewModel _cpuVm;
         private List<WsServerNodeState> _wsServerNodes;
         private ObservableCollection<WsServerNodeStateViewModel> _wsServerNodeVms;
+        private WsServerNodeStateViewModel _selectedItemVm;
 
         public WebApiServerStateViewModel(IWebApiServerState data) {
             _description = data.Description;
@@ -93,6 +94,14 @@ namespace NTMiner.MinerStudio.Vms {
         public ObservableCollection<WsServerNodeStateViewModel> WsServerNodeVms {
             get {
                 return _wsServerNodeVms;
+            }
+        }
+
+        public WsServerNodeStateViewModel SelectedItemVm {
+            get => _selectedItemVm;
+            set {
+                _selectedItemVm = value;
+                OnPropertyChanged(nameof(SelectedItemVm));
             }
         }
 
