@@ -81,7 +81,9 @@ namespace NTMiner.Gpus.Impl {
             bool isChanged = gpu.Temperature != coreTemperature || gpu.MemTemperature != memoryTemperature || gpu.PowerUsage != power || gpu.FanSpeed != fanSpeed;
             gpu.Temperature = (int)coreTemperature;
             gpu.MemTemperature = (int)memoryTemperature;
-            gpu.PowerUsage = power;
+            if (power != 0) {
+                gpu.PowerUsage = power;
+            }
             gpu.FanSpeed = fanSpeed;
 
             if (isChanged) {

@@ -214,7 +214,7 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Content}" TextWrapping="Wrap" ToolTip="{Binding Content}" Foreground="{Binding IconFill}"></TextBlock>
+                            <TextBox Text="{Binding Content,Mode=OneWay}" Height="Auto" IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap" ToolTip="{Binding Content}" Foreground="{Binding IconFill}"></TextBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

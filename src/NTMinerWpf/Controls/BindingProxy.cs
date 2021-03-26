@@ -6,6 +6,9 @@ namespace NTMiner.Controls {
             return new BindingProxy();
         }
 
+        /// <summary>
+        /// {Binding}是View的ViewModel
+        /// </summary>
         public object Data {
             get { return (object)GetValue(DataProperty); }
             set { SetValue(DataProperty, value); }

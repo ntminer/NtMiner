@@ -6,7 +6,7 @@ namespace NTMiner.Core.Profiles {
         IGpuProfile GetGpuProfile(Guid coinId, int index);
         bool IsOverClockEnabled(Guid coinId);
         bool IsOverClockGpuAll(Guid coinId);
-        void Refresh();
+        void RemoteOverClock();
         void SetIsOverClockEnabled(Guid coinId, bool value);
         void SetIsOverClockGpuAll(Guid coinId, bool value);
     }

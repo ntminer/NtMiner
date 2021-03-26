@@ -49,7 +49,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerContext.Instance.ServerContext.FragmentWriterSet.AsEnumerable()) {
+                foreach (var item in NTMinerContext.Instance.ServerContext.FragmentWriterSet.AsEnumerable().ToArray()) {
                     FragmentWriterViewModel groupVm = new FragmentWriterViewModel(item);
                     _dicById.Add(item.GetId(), groupVm);
                 }

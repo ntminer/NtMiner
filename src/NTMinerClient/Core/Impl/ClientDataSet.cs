@@ -32,7 +32,7 @@ namespace NTMiner.Core.Impl {
             }
             var clientData = ClientData.Create(minerIp, out MinerData minerData);
             if (!_dicByObjectId.ContainsKey(clientData.Id)) {
-                _dicByObjectId.Add(clientData.Id, clientData);
+                _dicByObjectId.TryAdd(clientData.Id, clientData);
             }
             // 因为ClientId是服务端随机生成的，所以需要等待获取挖矿端的ClientId
             DoUpdateSave(minerData);
@@ -106,12 +106,12 @@ namespace NTMiner.Core.Impl {
                     else {
                         if (speedData.ClientId != clientData.ClientId) {
                             if (_dicByClientId.TryGetValue(clientData.ClientId, out ClientData value)) {
-                                _dicByClientId.Remove(clientData.ClientId);
+                                _dicByClientId.TryRemove(clientData.ClientId, out _);
                             }
                             if (!_dicByClientId.ContainsKey(speedData.ClientId)) {
-                                _dicByClientId.Add(speedData.ClientId, clientData);
+                                _dicByClientId.TryAdd(speedData.ClientId, clientData);
                                 if (!_dicByObjectId.ContainsKey(clientData.Id)) {
-                                    _dicByObjectId.Add(clientData.Id, clientData);
+                                    _dicByObjectId.TryAdd(clientData.Id, clientData);
                                 }
                             }
                         }

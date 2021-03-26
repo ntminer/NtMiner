@@ -101,7 +101,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerContext.Instance.ServerContext.CoinSet.AsEnumerable()) {
+                foreach (var item in NTMinerContext.Instance.ServerContext.CoinSet.AsEnumerable().ToArray()) {
                     _dicById.Add(item.GetId(), new CoinViewModel(item));
                 }
                 foreach (var coinVm in _dicById.Values) {

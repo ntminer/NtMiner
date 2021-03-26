@@ -2,6 +2,7 @@
 using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.MinerStudio {
@@ -50,7 +51,7 @@ namespace NTMiner.MinerStudio {
 
             private void Init(bool refresh) {
                 _dicById.Clear();
-                foreach (var item in NTMinerContext.MinerStudioContext.NTMinerWalletSet.AsEnumerable()) {
+                foreach (var item in NTMinerContext.MinerStudioContext.NTMinerWalletSet.AsEnumerable().ToArray()) {
                     _dicById.Add(item.GetId(), new NTMinerWalletViewModel(item));
                 }
                 if (refresh) {

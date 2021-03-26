@@ -12,20 +12,13 @@ namespace NTMiner.Core.Impl {
 
         public string KodoAccessKey { get; set; }
         public string KodoSecretKey { get; set; }
-        public string KodoZoneID { get; set; }
+        public string KodoDomain { get; set; }
 
         public string RedisConfig { get; set; }
 
         public string MqHostName { get; set; }
         public string MqUserName { get; set; }
         public string MqPassword { get; set; }
-
-        /// <summary>
-        /// <see cref="IHostConfig.RpcServerLocalAddress"/>
-        /// </summary>
-        public string RpcServerLocalAddress { get; set; }
-        public string RpcLoginName { get; set; }
-        public string RpcPassword { get; set; }
 
         /// <summary>
         /// <see cref="IHostConfig.ThisServerAddress"/>

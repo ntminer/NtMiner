@@ -35,6 +35,9 @@ namespace NTMiner.Serialization {
                 byte[] array = new byte[data.Length - _head.Length];
                 Array.Copy(data, _head.Length, array, 0, array.Length);
                 array = GZipUtil.Decompress(array);
+                if (array == null || array.Length == 0) {
+                    return default;
+                }
                 return _jsonSerializer.Deserialize<TObject>(Encoding.UTF8.GetString(array));
             }
             else {

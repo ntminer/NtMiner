@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Core.Profile;
 using NTMiner.Core.Profiles;
 using NTMiner.Cpus;
 using NTMiner.Gpus;
@@ -17,6 +18,9 @@ namespace NTMiner {
 
         void Init(Action callback);
 
+        bool GetProfileData(
+            out ICoin mainCoin, out ICoinProfile mainCoinProfile, out IPool mainCoinPool, out ICoinKernel mainCoinKernel, out IKernel kernel,
+            out IKernelInput kernelInput, out IKernelOutput kernelOutput, out string errorMsg);
         void StartMine(bool isRestart = false);
         void StartMine(Action<IKernel> callback);
 
@@ -25,7 +29,6 @@ namespace NTMiner {
         StopMineReason StopReason { get; }
         void StopMineAsync(StopMineReason stopReason, Action callback = null);
 
-        IMineContext CreateMineContext();
         IMineContext CurrentMineContext { get; set; }
         /// <summary>
         /// 开始挖矿时锁定的挖矿上下文

@@ -64,7 +64,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerContext.Instance.ServerContext.KernelOutputTranslaterSet.AsEnumerable()) {
+                foreach (var item in NTMinerContext.Instance.ServerContext.KernelOutputTranslaterSet.AsEnumerable().ToArray()) {
                     if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
                         _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputTranslaterViewModel>());
                     }

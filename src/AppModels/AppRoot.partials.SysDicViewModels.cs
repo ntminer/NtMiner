@@ -60,7 +60,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerContext.Instance.ServerContext.SysDicSet.AsEnumerable()) {
+                foreach (var item in NTMinerContext.Instance.ServerContext.SysDicSet.AsEnumerable().ToArray()) {
                     SysDicViewModel sysDicVm = new SysDicViewModel(item);
                     _dicById.Add(item.GetId(), sysDicVm);
                     _dicByCode.Add(item.Code, sysDicVm);

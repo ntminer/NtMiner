@@ -4,7 +4,7 @@ using NTMiner.Vms;
 namespace NTMiner.MinerStudio.Vms {
     public class ActionCountViewModel : ViewModelBase, IActionCount {
         private string _actionName;
-        private int _count;
+        private long _count;
 
         public ActionCountViewModel(IActionCount data) {
             _actionName = data.ActionName;
@@ -21,7 +21,7 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public int Count {
+        public long Count {
             get => _count;
             set {
                 if (_count != value) {

@@ -157,7 +157,7 @@
                     MinWidth="30" Width="30" IsReadOnly="True"
                     Visibility="{Binding Data.GpuSpeedVms.MinerProfile.CoinVm.CoinKernel.Kernel.KernelOutputVm.IsRejectOneGpuShare,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}">
                     <DataGridTemplateColumn.Header>
-                        <TextBlock Text="拒绝" ToolTip="矿池拒绝的份额数" FontSize="10"></TextBlock>
+                        <TextBlock Text="拒绝" ToolTip="矿池拒绝的份额数，拒绝无法消减到0因为拒绝和网络有关，但通常不应超过2%" FontSize="10"></TextBlock>
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -547,7 +547,7 @@
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="时时功耗" FontSize="10"></TextBlock>
+                                <TextBlock Text="实时功耗" FontSize="10"></TextBlock>
                                 <TextBlock Text="{Binding Data.GpuSpeedVms.GpuAllVm.PowerUsageWText, Source={StaticResource proxy}}" FontSize="11"></TextBlock>
                             </StackPanel>
                         </DataTemplate>

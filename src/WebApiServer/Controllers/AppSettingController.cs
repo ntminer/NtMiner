@@ -32,7 +32,7 @@ namespace NTMiner.Controllers {
                     var clientData = AppRoot.ClientDataSet.GetByClientId(request.ClientId);
                     if (clientData != null && !string.IsNullOrEmpty(clientData.MACAddress)) {
                         serverState.NeedReClientId = request.MACAddress.All(a => !clientData.MACAddress.Contains(a));
-                        NTMinerConsole.UserWarn($"重复的网卡地址：{string.Join(",", request.MACAddress)}");
+                        //NTMinerConsole.UserWarn($"重复的网卡地址：{string.Join(",", request.MACAddress)}");
                     }
                 }
             }

@@ -1,4 +1,5 @@
-﻿using NTMiner.Core;
+﻿using LiteDB;
+using NTMiner.Core;
 using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,27 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     public class Program {
+        private static ConfigData _config;
+        private static readonly object _locker = new object();
+        public static ConfigData Config {
+            get {
+                if (_config == null) {
+                    lock (_locker) {
+                        if (_config == null) {
+                            using (LiteDatabase db = new LiteDatabase($"filename={Path.Combine(HomePath.AppDomainBaseDirectory, NTKeyword.LocalDbFileName)}")) {
+                                var col = db.GetCollection<ConfigData>();
+                                _config = col.FindOne(Query.All());
+                            }
+                            if (_config == null) {
+                                throw new NTMinerException("未配置ConfigData");
+                            }
+                        }
+                    }
+                }
+                return _config;
+            }
+        }
+
         static void Main() {
             VirtualRoot.SetOut(new ConsoleOut());
             NTMinerConsole.MainUiOk();
@@ -60,7 +82,7 @@ namespace NTMiner {
                         FillCny(incomeItems, usdCny);
                         NeatenSpeedUnit(incomeItems);
                         if (incomeItems != null && incomeItems.Count != 0) {
-                            RpcRoot.Login(new RpcUser(ServerRoot.HostConfig.RpcLoginName, HashUtil.Sha1(ServerRoot.HostConfig.RpcPassword)));
+                            RpcRoot.Login(new RpcUser(Config.RpcLoginName, HashUtil.Sha1(Config.RpcPassword)));
                             RpcRoot.SetIsOuterNet(false);
                             RpcRoot.OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
                                 NTMinerConsole.UserInfo($"NTMiner有{data.Count.ToString()}个币种");

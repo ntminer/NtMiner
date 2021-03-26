@@ -1,4 +1,5 @@
 ﻿using RabbitMQ.Client;
+using System;
 
 namespace NTMiner.Core.Mq.Senders.Impl {
     public class WsServerNodeMqSender : IWsServerNodeMqSender {
@@ -30,10 +31,9 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         }
 
         private IBasicProperties CreateBasicProperties() {
-            var basicProperties = _mq.MqChannel.CreateBasicProperties();
+            var basicProperties = _mq.CreateBasicProperties();
             basicProperties.Persistent = false;
             basicProperties.Expiration = MqKeyword.Expiration36sec;
-            basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;
 
             return basicProperties;
         }

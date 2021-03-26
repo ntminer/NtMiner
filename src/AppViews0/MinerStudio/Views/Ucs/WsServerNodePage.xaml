@@ -86,9 +86,20 @@
 			<DataGrid.Resources>
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
-			<DataGrid.Columns>
-				<DataGridTextColumn IsReadOnly="True" Width="140" Header="节点地址" Binding="{Binding Address}">
-                </DataGridTextColumn>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn IsReadOnly="True" Width="140">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock Text="节点地址"></TextBlock>
+                            <TextBlock Margin="4 0 0 0" Text="{Binding Data.WebApiServerStateVm.WsServerNodeVms.Count,Source={StaticResource proxy}}"></TextBlock>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding Address,Mode=OneWay}"></TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="100" Binding="{Binding MinerClientWsSessionCount}">
                     <DataGridTextColumn.Header>
                         <StackPanel>

@@ -85,7 +85,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         List<Guid> toRemoves = new List<Guid>();
                         IPool[] pools = context.PoolSet.AsEnumerable().Where(a => a.CoinId == coin.GetId()).ToArray();
                         foreach (IPool pool in pools) {
-                            foreach (PoolKernelData poolKernel in context.PoolKernelSet.AsEnumerable().Where(a => a.PoolId == pool.GetId() && a.KernelId == entity.KernelId)) {
+                            foreach (PoolKernelData poolKernel in context.PoolKernelSet.AsEnumerable().Where(a => a.PoolId == pool.GetId() && a.KernelId == entity.KernelId).ToArray()) {
                                 toRemoves.Add(poolKernel.Id);
                             }
                         }

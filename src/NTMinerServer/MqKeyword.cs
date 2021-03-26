@@ -14,8 +14,6 @@ namespace NTMiner {
         public const string SessionIdHeaderName = "sessionId";
         public const string MinerIpHeaderName = "minerIp";
 
-        // TODO:因为一个节点只对应两个队列，一个不持久队列和一个持久队列，消息通过路由键分类。
-        // 通过Mq的管理后台是看不出每个路由键的消息速率的，所以考虑统计一下每个路由键消息的速率。
         public const string UserAddedRoutingKey = "UserAdded";
         public const string UserUpdatedRoutingKey = "UserUpdated";
         public const string UserRemovedRoutingKey = "UserRemoved";

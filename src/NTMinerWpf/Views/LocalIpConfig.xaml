@@ -93,7 +93,7 @@
                                     </GroupBox.Header>
                                     <StackPanel IsEnabled="{Binding IsAutoDNSServer, Converter={StaticResource BoolInvertConverter}}">
                                         <WrapPanel Margin="0 0 0 4">
-                                            <TextBlock Style="{StaticResource LblTb}" Text="首选 DNS 服务器:"></TextBlock>
+                                            <TextBlock Style="{StaticResource LblTb}" Text="首选 DNS（不填表示用腾讯的）:"></TextBlock>
                                             <controls:IpAddressControl 
                                                 BorderThickness="1" 
                                                 BorderBrush="#666" 
@@ -101,7 +101,7 @@
                                                 DataContext="{Binding DNSServer0Vm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
                                         </WrapPanel>
                                         <WrapPanel>
-                                            <TextBlock Style="{StaticResource LblTb}" Text="备用 DNS 服务器:"></TextBlock>
+                                            <TextBlock Style="{StaticResource LblTb}" Text="备用 DNS（不填表示用阿里的）:"></TextBlock>
                                             <controls:IpAddressControl 
                                                 BorderThickness="1" 
                                                 BorderBrush="#666" 

@@ -55,6 +55,8 @@
     <Compile Include="CosturaUtil.cs" />
     <Compile Include="GZipUtil.cs" />
     <Compile Include="HomePath.cs" />
+    <Compile Include="IdGenerator\DefaultIdGenerator.cs" />
+    <Compile Include="IdGenerator\IIdGenerator.cs" />
     <Compile Include="Net\Hosts.cs" />
     <Compile Include="NTMinerRegistry.partials.cs" />
     <Compile Include="Net\IpUtil.cs" />

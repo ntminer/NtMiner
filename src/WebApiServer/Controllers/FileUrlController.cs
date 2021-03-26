@@ -11,7 +11,7 @@ namespace NTMiner.Controllers {
             if (request == null || string.IsNullOrEmpty(request.FileName)) {
                 return string.Empty;
             }
-            return AppRoot.NTMinerFileUrlGenerater.GeneratePresignedUrl("ntminer", request.FileName);
+            return AppRoot.CloudFileUrlGenerater.GeneratePresignedUrl("ntminer", request.FileName);
         }
 
         [Role.Public]
@@ -25,7 +25,7 @@ namespace NTMiner.Controllers {
                 else {
                     fileName = (string)setting.Value;
                 }
-                return AppRoot.NTMinerFileUrlGenerater.GeneratePresignedUrl("ntminer", $"tools/{fileName}");
+                return AppRoot.CloudFileUrlGenerater.GeneratePresignedUrl("ntminer", $"tools/{fileName}");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -44,7 +44,7 @@ namespace NTMiner.Controllers {
                 else {
                     fileName = (string)setting.Value;
                 }
-                return AppRoot.NTMinerFileUrlGenerater.GeneratePresignedUrl("ntminer", $"tools/{fileName}");
+                return AppRoot.CloudFileUrlGenerater.GeneratePresignedUrl("ntminer", $"tools/{fileName}");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -56,7 +56,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public string LiteDbExplorerUrl() {
             try {
-                return AppRoot.NTMinerFileUrlGenerater.GeneratePresignedUrl("ntminer", "tools/LiteDBExplorerPortable.zip");
+                return AppRoot.CloudFileUrlGenerater.GeneratePresignedUrl("ntminer", "tools/LiteDBExplorerPortable.zip");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -75,7 +75,7 @@ namespace NTMiner.Controllers {
                 else {
                     fileName = (string)setting.Value;
                 }
-                return AppRoot.NTMinerFileUrlGenerater.GeneratePresignedUrl("ntminer", $"tools/{fileName}");
+                return AppRoot.CloudFileUrlGenerater.GeneratePresignedUrl("ntminer", $"tools/{fileName}");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -94,7 +94,7 @@ namespace NTMiner.Controllers {
                 else {
                     fileName = (string)setting.Value;
                 }
-                return AppRoot.NTMinerFileUrlGenerater.GeneratePresignedUrl("ntminer", $"tools/{fileName}");
+                return AppRoot.CloudFileUrlGenerater.GeneratePresignedUrl("ntminer", $"tools/{fileName}");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -117,7 +117,7 @@ namespace NTMiner.Controllers {
                 if (request == null || string.IsNullOrEmpty(request.Package)) {
                     return string.Empty;
                 }
-                return AppRoot.NTMinerFileUrlGenerater.GeneratePresignedUrl("ntminer", $"packages/{request.Package}");
+                return AppRoot.CloudFileUrlGenerater.GeneratePresignedUrl("ntminer", $"packages/{request.Package}");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);

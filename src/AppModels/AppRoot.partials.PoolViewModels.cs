@@ -53,7 +53,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerContext.Instance.ServerContext.PoolSet.AsEnumerable()) {
+                foreach (var item in NTMinerContext.Instance.ServerContext.PoolSet.AsEnumerable().ToArray()) {
                     _dicById.Add(item.GetId(), new PoolViewModel(item));
                 }
             }

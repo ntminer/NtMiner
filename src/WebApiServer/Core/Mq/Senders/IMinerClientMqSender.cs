@@ -6,6 +6,11 @@ namespace NTMiner.Core.Mq.Senders {
         void SendMinerDataAdded(string minerId, Guid clientId);
         void SendMinerDataRemoved(string minerId, Guid clientId);
         void SendMinerSignChanged(string minerId, Guid clientId);
-        void SendResponseClientsForWs(string wsServerIp, string loginName, string sessionId, QueryClientsResponse response);
+        void SendResponseClientsForWs(
+            string wsServerIp, 
+            string loginName, 
+            string sessionId, 
+            string mqCorrelationId, 
+            QueryClientsResponse response);
     }
 }

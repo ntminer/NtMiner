@@ -125,11 +125,6 @@ namespace NTMiner.Core.Kernels.Impl {
             return r;
         }
 
-        public IEnumerable<IKernelOutputTranslater> AsEnumerable() {
-            InitOnece();
-            return _dicById.Values;
-        }
-
         public void Translate(Guid kernelOutputId, ref string input, bool isPre = false) {
             try {
                 InitOnece();
@@ -154,6 +149,11 @@ namespace NTMiner.Core.Kernels.Impl {
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
             }
+        }
+
+        public IEnumerable<IKernelOutputTranslater> AsEnumerable() {
+            InitOnece();
+            return _dicById.Values;
         }
     }
 }

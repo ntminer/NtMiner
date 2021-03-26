@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace NTMiner {
     public class Cleaner {
@@ -50,7 +51,7 @@ namespace NTMiner {
         /// </summary>
         private void ClearPackages() {
             HashSet<string> packageFileNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            foreach (var kernel in NTMinerContext.Instance.ServerContext.KernelSet.AsEnumerable()) {
+            foreach (var kernel in NTMinerContext.Instance.ServerContext.KernelSet.AsEnumerable().ToArray()) {
                 if (!string.IsNullOrEmpty(kernel.Package)) {
                     packageFileNames.Add(kernel.Package);
                 }

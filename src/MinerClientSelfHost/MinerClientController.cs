@@ -137,7 +137,7 @@ namespace NTMiner {
         [HttpPost]
         public void OverClock() {
             VirtualRoot.ThisLocalInfo(nameof(MinerClientController), $"通过群控刷新超频", toConsole: true);
-            NTMinerContext.Instance.GpuProfileSet.Refresh();
+            NTMinerContext.Instance.GpuProfileSet.RemoteOverClock();
         }
 
         [HttpPost]

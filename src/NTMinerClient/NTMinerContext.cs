@@ -465,7 +465,7 @@ namespace NTMiner {
         }
         #endregion
 
-        private bool GetProfileData(
+        public bool GetProfileData(
             out ICoin mainCoin, out ICoinProfile mainCoinProfile, out IPool mainCoinPool, out ICoinKernel mainCoinKernel, out IKernel kernel,
             out IKernelInput kernelInput, out IKernelOutput kernelOutput, out string errorMsg) {
             mainCoinProfile = null;
@@ -621,7 +621,7 @@ namespace NTMiner {
                 LockedMineContext = CurrentMineContext;
             }
             else {
-                LockedMineContext = CreateMineContext();
+                LockedMineContext = MineContextFactory.CreateMineContext();
                 CurrentMineContext = LockedMineContext;
             }
             if (LockedMineContext == null) {

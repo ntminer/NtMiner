@@ -58,7 +58,7 @@ namespace NTMiner.Core.Profiles.Impl {
             }
         }
 
-        public void Refresh() {
+        public void RemoteOverClock() {
             base.DeferReInit();
             VirtualRoot.RaiseEvent(new GpuProfileSetRefreshedEvent());
             // 之前下面这行代码在GpuProfileViewModels的构造中，但GpuProfileViewModels是在切换到

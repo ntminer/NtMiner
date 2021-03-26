@@ -3,6 +3,7 @@ using NTMiner.Gpus;
 using NTMiner.User;
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -13,8 +14,15 @@ namespace NTMiner.Core.Impl {
     /// 外网群控运行在服务端，内网群控子类的数据源是litedb，内网群控运行在用户的电脑上。
     /// </summary>
     public abstract class ClientDataSetBase {
-        protected readonly Dictionary<string, ClientData> _dicByObjectId = new Dictionary<string, ClientData>();
-        protected readonly Dictionary<Guid, ClientData> _dicByClientId = new Dictionary<Guid, ClientData>();
+        protected readonly ConcurrentDictionary<string, ClientData> _dicByObjectId = new ConcurrentDictionary<string, ClientData>();
+        protected readonly ConcurrentDictionary<Guid, ClientData> _dicByClientId = new ConcurrentDictionary<Guid, ClientData>();
+        private readonly Queue<long> _queryClientsMilliseconds = new Queue<long>();
+
+        public long AverageQueryClientsMilliseconds {
+            get {
+                return (long)_queryClientsMilliseconds.Average();
+            }
+        }
 
         protected DateTime InitedOn = DateTime.MinValue;
         public bool IsReadied {
@@ -41,12 +49,12 @@ namespace NTMiner.Core.Impl {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             getDatas(clientDatas => {
-                InitedOn = DateTime.Now;
-                IsReadied = true;
                 foreach (var clientData in clientDatas) {
                     _dicByObjectId[clientData.Id] = clientData;
                     _dicByClientId[clientData.ClientId] = clientData;
                 }
+                InitedOn = DateTime.Now;
+                IsReadied = true;
                 stopwatch.Stop();
                 NTMinerConsole.UserLine($"矿机集就绪，耗时 {stopwatch.GetElapsedSeconds().ToString("f2")} 秒", isPull ? MessageType.Debug : MessageType.Ok);
                 VirtualRoot.RaiseEvent(new ClientSetInitedEvent());
@@ -71,6 +79,8 @@ namespace NTMiner.Core.Impl {
             out int onlineCount,
             out int miningCount) {
 
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             coinSnapshots = new CoinSnapshotData[0];
             onlineCount = 0;
             miningCount = 0;
@@ -186,6 +196,11 @@ namespace NTMiner.Core.Impl {
                     clientData.MainCoinSpeed = 0;
                 }
             }
+            stopwatch.Stop();
+            _queryClientsMilliseconds.Enqueue(stopwatch.ElapsedMilliseconds);
+            while (_queryClientsMilliseconds.Count > 100) {
+                _queryClientsMilliseconds.Dequeue();
+            }
             return results;
         }
 
@@ -259,8 +274,8 @@ namespace NTMiner.Core.Impl {
                 return;
             }
             if (_dicByObjectId.TryGetValue(objectId, out ClientData clientData)) {
-                _dicByObjectId.Remove(objectId);
-                _dicByClientId.Remove(clientData.ClientId);
+                _dicByObjectId.TryRemove(objectId, out _);
+                _dicByClientId.TryRemove(clientData.ClientId, out _);
                 DoRemoveSave(MinerData.Create(clientData));
             }
         }

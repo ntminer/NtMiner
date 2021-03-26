@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
 
 namespace NTMiner {
@@ -16,7 +15,7 @@ namespace NTMiner {
                     return stream.ToArray();
                 }
             }
-            catch (Exception) {
+            catch {
                 return data;
             }
         }
@@ -25,21 +24,26 @@ namespace NTMiner {
             if (zippedData == null || zippedData.Length == 0) {
                 return zippedData;
             }
-            using (MemoryStream inputStream = new MemoryStream(zippedData))
-            using (GZipStream gZipStream = new GZipStream(inputStream, CompressionMode.Decompress))
-            using (MemoryStream outputStream = new MemoryStream()) {
-                byte[] block = new byte[NTKeyword.IntK];
-                while (true) {
-                    int bytesRead = gZipStream.Read(block, 0, block.Length);
-                    if (bytesRead <= 0) {
-                        break;
+            try {
+                using (MemoryStream inputStream = new MemoryStream(zippedData))
+                using (GZipStream gZipStream = new GZipStream(inputStream, CompressionMode.Decompress))
+                using (MemoryStream outputStream = new MemoryStream()) {
+                    byte[] block = new byte[NTKeyword.IntK];
+                    while (true) {
+                        int bytesRead = gZipStream.Read(block, 0, block.Length);
+                        if (bytesRead <= 0) {
+                            break;
+                        }
+                        else {
+                            outputStream.Write(block, 0, bytesRead);
+                        }
                     }
-                    else {
-                        outputStream.Write(block, 0, bytesRead);
-                    }
+                    gZipStream.Close();
+                    return outputStream.ToArray();
                 }
-                gZipStream.Close();
-                return outputStream.ToArray();
+            }
+            catch {
+                return new byte[0];
             }
         }
     }

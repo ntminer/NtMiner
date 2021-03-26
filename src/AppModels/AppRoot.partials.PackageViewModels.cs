@@ -51,7 +51,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerContext.Instance.ServerContext.PackageSet.AsEnumerable()) {
+                foreach (var item in NTMinerContext.Instance.ServerContext.PackageSet.AsEnumerable().ToArray()) {
                     _dicById.Add(item.GetId(), new PackageViewModel(item));
                 }
             }

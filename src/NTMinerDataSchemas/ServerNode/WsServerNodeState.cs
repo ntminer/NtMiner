@@ -3,7 +3,7 @@
 namespace NTMiner.ServerNode {
     public class WsServerNodeState : IWsServerNode, ISignableData {
         public WsServerNodeState() {
-            this.Cpu = CpuData.Empty;
+            this.Cpu = new CpuData();
         }
 
         public string Address { get; set; }

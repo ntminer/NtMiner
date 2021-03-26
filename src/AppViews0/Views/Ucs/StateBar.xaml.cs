@@ -23,7 +23,7 @@ namespace NTMiner.Views.Ucs {
                     Vm.OnPropertyChanged(nameof(Vm.AutoAdminLogonToolTip));
                     VirtualRoot.Execute(new RefreshIsRemoteDesktopEnabledCommand());
                 };
-                window.BuildEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
+                window.BuildEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延实时展示到界面", LogEnum.DevConsole,
                     path: message => {
                         if (message.IsDual) {
                             Vm.DualPoolDelayText = message.PoolDelayText;

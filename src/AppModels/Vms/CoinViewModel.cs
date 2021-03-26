@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -118,7 +119,10 @@ namespace NTMiner.Vms {
         }
 
         private void ApplyOverClock() {
-            VirtualRoot.Execute(new CoinOverClockCommand(this.Id));
+            Task.Factory.StartNew(() => {
+                // 比较耗时，防止界面卡
+                VirtualRoot.Execute(new CoinOverClockCommand(this.Id));
+            });
         }
 
         private void FillOverClock(OverClockDataViewModel data) {
@@ -322,7 +326,7 @@ namespace NTMiner.Vms {
                 if (this.Id == PleaseSelect.Id || NTMinerContext.Instance.GpuSet.GpuType == GpuType.Empty) {
                     return true;
                 }
-                foreach (var coinKernel in NTMinerContext.Instance.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == this.Id)) {
+                foreach (var coinKernel in NTMinerContext.Instance.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == this.Id).ToArray()) {
                     if (coinKernel.SupportedGpu.IsSupportedGpu(NTMinerContext.Instance.GpuSet.GpuType)) {
                         return true;
                     }

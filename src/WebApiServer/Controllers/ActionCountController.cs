@@ -10,7 +10,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<QueryActionCountsResponse>("参数错误");
             }
             request.PagingTrim();
-            var data = AppRoot.QueryActionCounts(request, out int total);
+            var data = ActionCountRoot.QueryActionCounts(request, out int total);
 
             return QueryActionCountsResponse.Ok(data, total);
         }

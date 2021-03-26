@@ -56,7 +56,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerContext.Instance.ServerContext.GroupSet.AsEnumerable()) {
+                foreach (var item in NTMinerContext.Instance.ServerContext.GroupSet.AsEnumerable().ToArray()) {
                     GroupViewModel groupVm = new GroupViewModel(item);
                     _dicById.Add(item.GetId(), groupVm);
                 }

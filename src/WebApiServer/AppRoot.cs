@@ -1,4 +1,6 @@
 ﻿using LiteDB;
+using NTMiner.CloudFileUrlGenerater;
+using NTMiner.CloudFileUrlGenerater.Impl;
 using NTMiner.Controllers;
 using NTMiner.Core;
 using NTMiner.Core.Impl;
@@ -7,8 +9,6 @@ using NTMiner.Core.Mq.MqMessagePaths;
 using NTMiner.Core.Mq.Senders.Impl;
 using NTMiner.Core.Redis;
 using NTMiner.Core.Redis.Impl;
-using NTMiner.NTMinerFileUrlGenerater;
-using NTMiner.NTMinerFileUrlGenerater.Impl;
 using NTMiner.ServerNode;
 using NTMiner.User;
 using System;
@@ -66,7 +66,7 @@ namespace NTMiner {
                         }
                         Console.Title = $"{ServerAppType.WebApiServer.GetName()}_{ServerRoot.HostConfig.ThisServerAddress}";
                         // 阿里云OSS坑爹比七牛Kodo贵一半
-                        NTMinerFileUrlGenerater = new AliNTMinerOSSFileUrlGenerater();
+                        CloudFileUrlGenerater = new AliCloudOSSFileUrlGenerater();
                         IRedis redis = mqRedis;
                         IMq mq = mqRedis;
                         var minerClientMqSender = new MinerClientMqSender(mq);
@@ -167,44 +167,7 @@ namespace NTMiner {
         static AppRoot() {
         }
 
-        private static readonly Dictionary<string, ActionCountData> _actionCounts = new Dictionary<string, ActionCountData>();
-        public static IEnumerable<ActionCountData> ActionCounts {
-            get { return _actionCounts.Values; }
-        }
-
-        public static void Action(string actionName) {
-            if (_actionCounts.TryGetValue(actionName, out ActionCountData count)) {
-                if (count.Count == int.MaxValue) {
-                    count.Count = 0;
-                }
-                count.Count += 1;
-            }
-            else {
-                _actionCounts[actionName] = new ActionCountData {
-                    ActionName = actionName,
-                    Count = 1
-                };
-            }
-        }
-
-        public static List<ActionCountData> QueryActionCounts(QueryActionCountsRequest query, out int total) {
-            List<ActionCountData> list = new List<ActionCountData>();
-            bool isFilterByKeyword = !string.IsNullOrEmpty(query.Keyword);
-            if (isFilterByKeyword) {
-                foreach (var item in _actionCounts) {
-                    if (item.Key.Contains(query.Keyword)) {
-                        list.Add(item.Value);
-                    }
-                }
-            }
-            else {
-                list.AddRange(_actionCounts.Values);
-            }
-            total = list.Count;
-            return list.OrderBy(a => a.ActionName).Take(paging: query).ToList();
-        }
-
-        public static INTMinerFileUrlGenerater NTMinerFileUrlGenerater { get; private set; }
+        public static ICloudFileUrlGenerater CloudFileUrlGenerater { get; private set; }
 
         public static IWsServerNodeRedis WsServerNodeRedis { get; private set; }
 

@@ -122,11 +122,6 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        public IEnumerable<ISysDicItem> AsEnumerable() {
-            InitOnece();
-            return _dicById.Values;
-        }
-
         public bool ContainsKey(Guid dicItemId) {
             InitOnece();
             return _dicById.ContainsKey(dicItemId);
@@ -190,6 +185,11 @@ namespace NTMiner.Core.Impl {
                 return new List<ISysDicItem>();
             }
             return _dicByDicId[sysDic.GetId()].Values.ToList();
+        }
+
+        public IEnumerable<ISysDicItem> AsEnumerable() {
+            InitOnece();
+            return _dicById.Values;
         }
     }
 }

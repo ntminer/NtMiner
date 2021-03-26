@@ -58,20 +58,22 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     }
                     break;
                 case MqKeyword.ChangeMinerSignRoutingKey: {
+                        string appId = ea.BasicProperties.AppId;
                         MinerSign minerSign = MinerClientMqBodyUtil.GetChangeMinerSignMqReceiveBody(ea.Body);
                         if (minerSign != null) {
-                            VirtualRoot.Execute(new ChangeMinerSignMqCommand(minerSign));
+                            VirtualRoot.Execute(new ChangeMinerSignMqCommand(appId, minerSign));
                         }
                     }
                     break;
                 case MqKeyword.QueryClientsForWsRoutingKey: {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
+                        string mqMessageId = ea.BasicProperties.MessageId;
                         string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
                         string sessionId = ea.BasicProperties.ReadHeaderString(MqKeyword.SessionIdHeaderName);
                         QueryClientsForWsRequest query = MinerClientMqBodyUtil.GetQueryClientsForWsMqReceiveBody(ea.Body);
                         if (query != null) {
-                            VirtualRoot.Execute(new QueryClientsForWsMqCommand(appId, timestamp, loginName, sessionId, query));
+                            VirtualRoot.Execute(new QueryClientsForWsMqCommand(appId, mqMessageId, timestamp, loginName, sessionId, query));
                         }
                     }
                     break;

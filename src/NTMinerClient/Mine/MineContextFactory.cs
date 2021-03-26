@@ -2,32 +2,35 @@
 using NTMiner.Core.Kernels;
 using NTMiner.Core.Profile;
 using NTMiner.Gpus;
-using NTMiner.Mine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace NTMiner {
-    public partial class NTMinerContext : INTMinerContext {
+namespace NTMiner.Mine {
+    public static class MineContextFactory {
         private class ParameterNames {
             // 根据这个判断是否换成过期
             internal string Body = string.Empty;
             internal readonly HashSet<string> Names = new HashSet<string>();
         }
 
-        public IMineContext CreateMineContext() {
-            if (!GetProfileData(out ICoin mainCoin, out ICoinProfile mainCoinProfile, out IPool mainCoinPool, out ICoinKernel mainCoinKernel, out IKernel kernel,
+        public static IMineContext CreateMineContext() {
+            INTMinerContext ntminerContext = NTMinerContext.Instance;
+            var minerProfile = ntminerContext.MinerProfile;
+            var serverContext = ntminerContext.ServerContext;
+            var gpuSet = ntminerContext.GpuSet;
+            if (!ntminerContext.GetProfileData(out ICoin mainCoin, out ICoinProfile mainCoinProfile, out IPool mainCoinPool, out ICoinKernel mainCoinKernel, out IKernel kernel,
                 out IKernelInput kernelInput, out IKernelOutput kernelOutput, out string _)) {
                 return null;
             }
             if (!kernel.IsSupported(mainCoin)) {
                 return null;
             }
-            ICoinKernelProfile coinKernelProfile = this.MinerProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId);
+            ICoinKernelProfile coinKernelProfile = minerProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId);
             string poolKernelArgs = string.Empty;
-            IPoolKernel poolKernel = ServerContext.PoolKernelSet.AsEnumerable().FirstOrDefault(a => a.PoolId == mainCoinPool.GetId() && a.KernelId == kernel.GetId());
+            IPoolKernel poolKernel = serverContext.PoolKernelSet.AsEnumerable().FirstOrDefault(a => a.PoolId == mainCoinPool.GetId() && a.KernelId == kernel.GetId());
             if (poolKernel != null) {
                 poolKernelArgs = poolKernel.Args;
             }
@@ -42,7 +45,7 @@ namespace NTMiner {
             string password = NTKeyword.PasswordDefaultValue;
             string wallet = mainCoinProfile.Wallet;
             if (mainCoinPool.IsUserMode) {
-                IPoolProfile poolProfile = MinerProfile.GetPoolProfile(mainCoinPool.GetId());
+                IPoolProfile poolProfile = minerProfile.GetPoolProfile(mainCoinPool.GetId());
                 password = poolProfile.Password;
                 if (string.IsNullOrEmpty(password)) {
                     password = NTKeyword.PasswordDefaultValue;
@@ -59,16 +62,16 @@ namespace NTMiner {
             parameters.Add(NTKeyword.HostParameterName, mainCoinPool.GetHost());
             parameters.Add(NTKeyword.PortParameterName, mainCoinPool.GetPort().ToString());
             parameters.Add(NTKeyword.PoolParameterName, mainCoinPool.Server);
-            string minerName = $"{mainCoinPool.MinerNamePrefix}{this.MinerProfile.MinerName}{mainCoinPool.MinerNamePostfix}";
+            string minerName = $"{mainCoinPool.MinerNamePrefix}{minerProfile.MinerName}{mainCoinPool.MinerNamePostfix}";
             parameters.Add(NTKeyword.WorkerParameterName, minerName);
             if (mainCoinKernel.IsSupportPool1 && !mainCoinPool.NoPool1) {
                 parameters.Add(NTKeyword.Worker1ParameterName, minerName);
-                if (ServerContext.PoolSet.TryGetPool(mainCoinProfile.PoolId1, out IPool mainCoinPool1)) {
+                if (serverContext.PoolSet.TryGetPool(mainCoinProfile.PoolId1, out IPool mainCoinPool1)) {
                     parameters.Add(NTKeyword.Host1ParameterName, mainCoinPool1.GetHost());
                     parameters.Add(NTKeyword.Port1ParameterName, mainCoinPool1.GetPort().ToString());
                     parameters.Add(NTKeyword.Pool1ParameterName, mainCoinPool1.Server);
                     if (mainCoinPool1.IsUserMode) {
-                        IPoolProfile poolProfile1 = MinerProfile.GetPoolProfile(mainCoinPool1.GetId());
+                        IPoolProfile poolProfile1 = minerProfile.GetPoolProfile(mainCoinPool1.GetId());
                         string password1 = poolProfile1.Password;
                         if (string.IsNullOrEmpty(password1)) {
                             password1 = NTKeyword.PasswordDefaultValue;
@@ -86,15 +89,15 @@ namespace NTMiner {
             if (coinKernelProfile.IsDualCoinEnabled && kernelInput.IsSupportDualMine) {
                 Guid dualCoinGroupId = mainCoinKernel.DualCoinGroupId;
                 if (dualCoinGroupId != Guid.Empty) {
-                    if (this.ServerContext.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out ICoin dualCoin)) {
-                        ICoinProfile dualCoinProfile = this.MinerProfile.GetCoinProfile(dualCoin.GetId());
-                        if (ServerContext.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out IPool dualCoinPool)) {
+                    if (serverContext.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out ICoin dualCoin)) {
+                        ICoinProfile dualCoinProfile = minerProfile.GetCoinProfile(dualCoin.GetId());
+                        if (serverContext.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out IPool dualCoinPool)) {
                             string dualUserName = string.Empty;
                             string dualPassword = NTKeyword.PasswordDefaultValue;
                             string dualWallet = dualCoinProfile.DualCoinWallet;
                             parameters.Add(NTKeyword.DualCoinParameterName, dualCoin.Code);
                             if (dualCoinPool.IsUserMode) {
-                                IPoolProfile dualPoolProfile = MinerProfile.GetPoolProfile(dualCoinPool.GetId());
+                                IPoolProfile dualPoolProfile = minerProfile.GetPoolProfile(dualCoinPool.GetId());
                                 dualPassword = dualPoolProfile.Password;
                                 if (string.IsNullOrEmpty(dualPassword)) {
                                     dualPassword = NTKeyword.PasswordDefaultValue;
@@ -137,7 +140,7 @@ namespace NTMiner {
                             if (!string.IsNullOrEmpty(poolKernelArgs)) {
                                 dualSb.Append(" ").Append(poolKernelArgs);
                             }
-                            BuildFragments(ServerContext, mainCoinKernel, parameters, out fileWriters, out fragments);
+                            BuildFragments(serverContext, mainCoinKernel, parameters, out fileWriters, out fragments);
                             foreach (var fragment in fragments.Values) {
                                 dualSb.Append(" ").Append(fragment);
                             }
@@ -151,7 +154,7 @@ namespace NTMiner {
                             // 注意：这里退出
                             return new DualMineContext(
                                 new MineContext(
-                                    this.MinerProfile.MinerName,
+                                    minerProfile.MinerName,
                                     mainCoin,
                                     mainCoinPool,
                                     kernel,
@@ -163,7 +166,7 @@ namespace NTMiner {
                                     parameters,
                                     fragments,
                                     fileWriters,
-                                    GpuSet.GetUseDevices()),
+                                    gpuSet.GetUseDevices()),
                                 dualCoin,
                                 dualCoinPool,
                                 dualWallet,
@@ -171,7 +174,7 @@ namespace NTMiner {
                                 parameters,
                                 fragments,
                                 fileWriters,
-                                GpuSet.GetUseDevices());
+                                gpuSet.GetUseDevices());
                         }
                     }
                 }
@@ -191,7 +194,7 @@ namespace NTMiner {
             if (!string.IsNullOrEmpty(devicesArgs)) {
                 sb.Append(" ").Append(devicesArgs);
             }
-            BuildFragments(ServerContext, mainCoinKernel, parameters, out fileWriters, out fragments);
+            BuildFragments(serverContext, mainCoinKernel, parameters, out fileWriters, out fragments);
             foreach (var fragment in fragments.Values) {
                 sb.Append(" ").Append(fragment);
             }
@@ -200,7 +203,7 @@ namespace NTMiner {
             }
 
             return new MineContext(
-                this.MinerProfile.MinerName,
+                minerProfile.MinerName,
                 mainCoin,
                 mainCoinPool,
                 kernel,
@@ -212,7 +215,7 @@ namespace NTMiner {
                 parameters,
                 fragments,
                 fileWriters,
-                GpuSet.GetUseDevices());
+                gpuSet.GetUseDevices());
         }
 
         #region 私有方法
@@ -240,11 +243,13 @@ namespace NTMiner {
             }
         }
 
-        private string GetDevicesArgs(IKernelInput kernelInput) {
+        private static string GetDevicesArgs(IKernelInput kernelInput) {
+            INTMinerContext ntminerContext = NTMinerContext.Instance;
+            var gpuSet = ntminerContext.GpuSet;
             string devicesArgs = string.Empty;
             if (!string.IsNullOrWhiteSpace(kernelInput.DevicesArg)) {
-                int[] useDevices = this.GpuSet.GetUseDevices();
-                if ((useDevices.Length != 0 && useDevices.Length != GpuSet.Count) || kernelInput.IsDeviceAllNotEqualsNone) {
+                int[] useDevices = gpuSet.GetUseDevices();
+                if ((useDevices.Length != 0 && useDevices.Length != gpuSet.Count) || kernelInput.IsDeviceAllNotEqualsNone) {
                     string separator = kernelInput.DevicesSeparator;
                     // 因为空格在界面上不易被人读取所以以关键字代替空格
                     if (kernelInput.DevicesSeparator == NTKeyword.SpaceKeyword) {
@@ -259,7 +264,7 @@ namespace NTMiner {
                         string nText = NTKeyword.GetIndexChar(i, separator);
                         gpuIndexes.Add(nText);
                     }
-                    switch (GpuSet.GpuType) {
+                    switch (gpuSet.GpuType) {
                         case GpuType.Empty:
                             break;
                         case GpuType.NVIDIA:
@@ -318,6 +323,7 @@ namespace NTMiner {
             // 这里不要考虑{logfile}，{logfile}往后推迟
         }
 
+        private static readonly object _locker = new object();
         private static readonly Dictionary<Guid, ParameterNames> _parameterNameDic = new Dictionary<Guid, ParameterNames>();
         private static readonly string logfile = NTKeyword.LogFileParameterName.TrimStart('{').TrimEnd('}');
         private static ParameterNames GetParameterNames(IFragmentWriter writer) {

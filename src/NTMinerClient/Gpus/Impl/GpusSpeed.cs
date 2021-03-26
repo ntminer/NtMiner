@@ -120,8 +120,10 @@ namespace NTMiner.Gpus.Impl {
                 return;
             }
             CheckReset();
-            gpuSpeed.SetMainCoinAcceptShare(acceptShare);
-            VirtualRoot.RaiseEvent(new AcceptShareSetedEvent(Guid.Empty, gpuSpeed: gpuSpeed));
+            if (gpuSpeed.MainCoinSpeed.AcceptShare != acceptShare) {
+                gpuSpeed.SetMainCoinAcceptShare(acceptShare);
+                VirtualRoot.RaiseEvent(new AcceptShareSetedEvent(Guid.Empty, gpuSpeed: gpuSpeed));
+            }
         }
 
         public void SetRejectShare(int gpuIndex, int rejectShare) {
@@ -130,8 +132,10 @@ namespace NTMiner.Gpus.Impl {
                 return;
             }
             CheckReset();
-            gpuSpeed.SetMainCoinRejectShare(rejectShare);
-            VirtualRoot.RaiseEvent(new RejectShareSetedEvent(Guid.Empty, gpuSpeed: gpuSpeed));
+            if (gpuSpeed.MainCoinSpeed.RejectShare != rejectShare) {
+                gpuSpeed.SetMainCoinRejectShare(rejectShare);
+                VirtualRoot.RaiseEvent(new RejectShareSetedEvent(Guid.Empty, gpuSpeed: gpuSpeed));
+            }
         }
 
         public void SetIncorrectShare(int gpuIndex, int incorrectShare) {
@@ -140,8 +144,10 @@ namespace NTMiner.Gpus.Impl {
                 return;
             }
             CheckReset();
-            gpuSpeed.SetMainCoinIncorrectShare(incorrectShare);
-            VirtualRoot.RaiseEvent(new IncorrectShareSetedEvent(Guid.Empty, gpuSpeed: gpuSpeed));
+            if (gpuSpeed.MainCoinSpeed.IncorrectShare != incorrectShare) {
+                gpuSpeed.SetMainCoinIncorrectShare(incorrectShare);
+                VirtualRoot.RaiseEvent(new IncorrectShareSetedEvent(Guid.Empty, gpuSpeed: gpuSpeed));
+            }
         }
 
         public void IncreaseRejectShare(int gpuIndex) {

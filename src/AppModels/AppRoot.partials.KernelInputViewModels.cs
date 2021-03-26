@@ -60,7 +60,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerContext.Instance.ServerContext.KernelInputSet.AsEnumerable()) {
+                foreach (var item in NTMinerContext.Instance.ServerContext.KernelInputSet.AsEnumerable().ToArray()) {
                     _dicById.Add(item.GetId(), new KernelInputViewModel(item));
                 }
             }

@@ -59,7 +59,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerContext.Instance.ServerContext.SysDicItemSet.AsEnumerable()) {
+                foreach (var item in NTMinerContext.Instance.ServerContext.SysDicItemSet.AsEnumerable().ToArray()) {
                     _dicById.Add(item.GetId(), new SysDicItemViewModel(item));
                 }
             }

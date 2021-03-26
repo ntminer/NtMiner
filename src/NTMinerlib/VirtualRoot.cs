@@ -1,6 +1,7 @@
 ﻿using NTMiner.AppSetting;
 using NTMiner.Core;
 using NTMiner.Core.MinerServer;
+using NTMiner.IdGenerator;
 using NTMiner.Repositories;
 using NTMiner.Serialization;
 using System;
@@ -18,6 +19,10 @@ namespace NTMiner {
     /// </summary>
     /// <remarks>开源矿工代码较多，文档较少。程序员需要在脑子里构建系统的影像，面向这棵树的空间造型和运动景象编程。</remarks>
     public static partial class VirtualRoot {
+        private static readonly IIdGenerator _idGenerator = new DefaultIdGenerator();
+        public static IIdGenerator IdGenerator {
+            get { return _idGenerator; }
+        }
         #region FormatLocalIps
         /// <summary>
         /// 获取本机的Ip地址和网卡地址，Ip地址以字符串返回，形如：192.168.1.11(动态),192.168.1.33(🔒)

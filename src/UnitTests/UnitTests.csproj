@@ -84,10 +84,6 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Web" />
-    <Reference Include="websocket-sharp, Version=1.0.2.36837, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ThirdPartyDlls\websocket-sharp.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -210,6 +206,10 @@
     <ProjectReference Include="..\NTMinerWpf\NTMinerWpf.csproj">
       <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>
       <Name>NTMinerWpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\websocket-sharp\websocket-sharp.csproj">
+      <Project>{b357bac7-529e-4d81-a0d2-71041b19c8de}</Project>
+      <Name>websocket-sharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

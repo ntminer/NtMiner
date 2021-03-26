@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Kernels;
 using NTMiner.Core.Profile;
+using NTMiner.Mine;
 using NTMiner.MinerStudio.Vms;
 using NTMiner.Ws;
 using System;
@@ -136,7 +137,7 @@ namespace NTMiner.Vms {
                     }
                 }
                 #endregion
-                NTMinerContext.Instance.CurrentMineContext = NTMinerContext.Instance.CreateMineContext();
+                NTMinerContext.Instance.CurrentMineContext = MineContextFactory.CreateMineContext();
                 if (NTMinerContext.Instance.CurrentMineContext != null) {
                     this.ArgsAssembly = NTMinerContext.Instance.CurrentMineContext.CommandLine;
                 }

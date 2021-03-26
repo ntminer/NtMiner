@@ -496,7 +496,7 @@ namespace NTMiner.Mine {
                                         }
                                     }
                                     // 挖矿时如果主界面状态栏的数据更新的慢不是程序执行的慢而是挖矿内核将输出刷到磁盘的时间有缓冲
-                                    NTMinerContext.Instance.ServerContext.KernelOutputSet.Pick(ref input, this);
+                                    KernelOutputPicker.Pick(ref input, this);
                                     var kernelOutputKeywords = NTMinerContext.Instance.KernelOutputKeywordSet.GetKeywords(this.KernelOutput.GetId());
                                     if (kernelOutputKeywords != null && kernelOutputKeywords.Count != 0) {
                                         foreach (var keyword in kernelOutputKeywords) {

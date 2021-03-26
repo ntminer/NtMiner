@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NTMiner.Core.Impl {
     public class MinerIdSet : IMinerIdSet {
@@ -55,6 +57,18 @@ namespace NTMiner.Core.Impl {
             }
             _dicByClientId.Remove(clientId);
             _redis.DeleteByClientIdAsync(clientId);
+        }
+
+        public Task WaitReadiedAsync() {
+            if (IsReadied) {
+                return TaskEx.CompletedTask;
+            }
+            return Task.Factory.StartNew(() => {
+                while (!IsReadied) {
+                    Thread.Sleep(50);
+                }
+                return;
+            });
         }
     }
 }

@@ -19,7 +19,7 @@ namespace NTMiner {
             }
             string controllerName = actionContext.ActionDescriptor.ControllerDescriptor.ControllerName;
             string actionName = $"{controllerName}.{actionContext.ActionDescriptor.ActionName}";
-            AppRoot.Action(actionName);
+            ActionCountRoot.Count(actionName);
         }
     }
 }

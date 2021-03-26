@@ -1,6 +1,7 @@
 ﻿using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner {
     public static partial class AppRoot {
@@ -50,7 +51,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerContext.Instance.ServerContext.CoinGroupSet.AsEnumerable()) {
+                foreach (var item in NTMinerContext.Instance.ServerContext.CoinGroupSet.AsEnumerable().ToArray()) {
                     CoinGroupViewModel groupVm = new CoinGroupViewModel(item);
                     _dicById.Add(item.GetId(), groupVm);
                     if (!_listByGroupId.ContainsKey(item.GroupId)) {

@@ -72,7 +72,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerContext.Instance.ServerContext.CoinKernelSet.AsEnumerable()) {
+                foreach (var item in NTMinerContext.Instance.ServerContext.CoinKernelSet.AsEnumerable().ToArray()) {
                     _dicById.Add(item.GetId(), new CoinKernelViewModel(item));
                 }
             }

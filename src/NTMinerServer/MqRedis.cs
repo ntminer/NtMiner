@@ -82,6 +82,7 @@ namespace NTMiner {
                         mqMessagePath.Build(channel);
                     }
                     consumer.Received += (model, ea) => {
+                        MqRoutingCountRoot.Count(ea.RoutingKey, queue);
                         bool isPass = false;
                         foreach (var mqMessagePath in mqMessagePathsByQueue) {
                             try {
@@ -117,5 +118,12 @@ namespace NTMiner {
         public ConnectionMultiplexer RedisConn { get; private set; }
 
         public IModel MqChannel { get; private set; }
+
+        public IBasicProperties CreateBasicProperties() {
+            IBasicProperties basicProperties = MqChannel.CreateBasicProperties();
+            basicProperties.MessageId = VirtualRoot.IdGenerator.Generate();
+            basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;
+            return basicProperties;
+        }
     }
 }

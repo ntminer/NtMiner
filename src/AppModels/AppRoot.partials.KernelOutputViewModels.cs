@@ -49,7 +49,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerContext.Instance.ServerContext.KernelOutputSet.AsEnumerable()) {
+                foreach (var item in NTMinerContext.Instance.ServerContext.KernelOutputSet.AsEnumerable().ToArray()) {
                     _dicById.Add(item.GetId(), new KernelOutputViewModel(item));
                 }
             }

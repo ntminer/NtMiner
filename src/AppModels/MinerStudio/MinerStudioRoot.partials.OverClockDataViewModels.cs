@@ -2,6 +2,7 @@
 using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.MinerStudio {
     public static partial class MinerStudioRoot {
@@ -44,7 +45,7 @@ namespace NTMiner.MinerStudio {
 
             private void Init(bool refresh) {
                 _dicById.Clear();
-                foreach (var item in NTMinerContext.Instance.OverClockDataSet.AsEnumerable()) {
+                foreach (var item in NTMinerContext.Instance.OverClockDataSet.AsEnumerable().ToArray()) {
                     _dicById.Add(item.GetId(), new OverClockDataViewModel(item));
                 }
                 if (refresh) {

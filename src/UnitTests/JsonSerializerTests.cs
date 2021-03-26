@@ -1,7 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using NTMiner;
-using NTMiner.Core;
 using NTMiner.Ws;
 using System;
 using System.Collections.Generic;

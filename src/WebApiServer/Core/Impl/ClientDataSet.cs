@@ -21,7 +21,8 @@ namespace NTMiner.Core.Impl {
                 var getMinersTask = minerRedis.GetAllAsync();
                 var getClientActiveOnsTask = clientActiveOnRedis.GetAllAsync();
                 var getSpeedsTask = speedDataRedis.GetAllAsync();
-                Task.WhenAll(getMinersTask, getClientActiveOnsTask, getSpeedsTask).ContinueWith(t => {
+                var waitMinerIdSetReadiedTask = AppRoot.MinerIdSet.WaitReadiedAsync();
+                Task.WhenAll(getMinersTask, getClientActiveOnsTask, getSpeedsTask, waitMinerIdSetReadiedTask).ContinueWith(t => {
                     NTMinerConsole.UserInfo($"从redis加载了 {getMinersTask.Result.Count} 条MinerData，和 {getSpeedsTask.Result.Count} 条SpeedData");
                     Dictionary<Guid, SpeedData> speedDataDic = getSpeedsTask.Result;
                     Dictionary<string, DateTime> clientActiveOnDic = getClientActiveOnsTask.Result;
@@ -35,6 +36,9 @@ namespace NTMiner.Core.Impl {
                         clientDatas.Add(clientData);
                         if (speedDataDic.TryGetValue(minerData.ClientId, out SpeedData speedData) && speedData.SpeedOn > speedOn) {
                             clientData.Update(speedData, out bool _);
+                        }
+                        if (!AppRoot.MinerIdSet.TryGetMinerId(minerData.ClientId, out _)) {
+                            AppRoot.MinerIdSet.Set(minerData.ClientId, minerData.Id);
                         }
                     }
                     callback?.Invoke(clientDatas);
@@ -101,6 +105,8 @@ namespace NTMiner.Core.Impl {
                     }
                     NTMinerConsole.DevWarn($"{count.ToString()} 条MAC地址重复的矿机记录被删除");
                 }
+
+                NTMinerConsole.DevDebug($"QueryClients平均耗时 {AverageQueryClientsMilliseconds.ToString()} 毫秒");
             }, this.GetType());
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在ClientSetInitedEvent事件之后才会创建
             VirtualRoot.BuildEventPath<SpeedDataMqEvent>("收到SpeedDataMq消息后更新ClientData内存", LogEnum.None, path: message => {
@@ -168,7 +174,7 @@ namespace NTMiner.Core.Impl {
             }, this.GetType(), LogEnum.None);
             VirtualRoot.BuildCmdPath<QueryClientsForWsMqCommand>(path: message => {
                 QueryClientsResponse response = AppRoot.QueryClientsForWs(message.Query);
-                _mqSender.SendResponseClientsForWs(message.AppId, message.LoginName, message.SessionId, response);
+                _mqSender.SendResponseClientsForWs(message.AppId, message.LoginName, message.SessionId, message.MqMessageId, response);
             }, this.GetType(), LogEnum.None);
         }
 
@@ -258,9 +264,9 @@ namespace NTMiner.Core.Impl {
                 return;
             }
             if (!_dicByClientId.ContainsKey(clientData.ClientId)) {
-                _dicByClientId.Add(clientData.ClientId, clientData);
+                _dicByClientId.TryAdd(clientData.ClientId, clientData);
                 if (!_dicByObjectId.ContainsKey(clientData.Id)) {
-                    _dicByObjectId.Add(clientData.Id, clientData);
+                    _dicByObjectId.TryAdd(clientData.Id, clientData);
                 }
                 var minerData = MinerData.Create(clientData);
                 _minerRedis.SetAsync(minerData).ContinueWith(t => {

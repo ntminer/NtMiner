@@ -6,8 +6,7 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
 
-    <ControlTemplate x:Key="WindowTemplate"
-                     TargetType="{x:Type local:BlankWindow}">
+    <ControlTemplate x:Key="WindowTemplate" TargetType="{x:Type local:BlankWindow}">
         <Border Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}">
@@ -34,12 +33,9 @@
     </ControlTemplate>
 
     <Style TargetType="{x:Type local:BlankWindow}">
-        <Setter Property="Template"
-                Value="{StaticResource WindowTemplate}" />
-        <Setter Property="UseLayoutRounding"
-                Value="True" />
-        <Setter Property="GlowBrush"
-                Value="Black" />
+        <Setter Property="Template" Value="{StaticResource WindowTemplate}" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="GlowBrush" Value="Black" />
         <Setter Property="behaviours:StylizedBehaviors.Behaviors">
             <Setter.Value>
                 <behaviours:StylizedBehaviorCollection>
@@ -53,9 +49,7 @@
 
     <system:Double x:Key="GlowOpacity">0.3</system:Double>
     <system:Double x:Key="ShadowOpacity">0.3</system:Double>
-    <BlurEffect x:Key="GlowBlurEffect"
-                Radius="3"
-                options:Freeze="True" />
+    <BlurEffect x:Key="GlowBlurEffect" Radius="3" options:Freeze="True" />
 
     <ControlTemplate x:Key="TopGlowTemplate">
         <Border x:Name="GlowBorder"
@@ -65,22 +59,15 @@
                 Opacity="{StaticResource GlowOpacity}"
                 Background="{TemplateBinding Background}">
             <Border.OpacityMask>
-                <LinearGradientBrush options:Freeze="True"
-                                     StartPoint="0.5,0"
-                                     EndPoint="0.5,1">
-                    <GradientStop Color="Transparent"
-                                  Offset="0" />
-                    <GradientStop Color="Black"
-                                  Offset="1" />
+                <LinearGradientBrush options:Freeze="True" StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Color="Transparent" Offset="0" />
+                    <GradientStop Color="Black" Offset="1" />
                 </LinearGradientBrush>
             </Border.OpacityMask>
         </Border>
         <ControlTemplate.Triggers>
-            <Trigger Property="BorderThickness"
-                     Value="0">
-                <Setter TargetName="GlowBorder"
-                        Property="Opacity"
-                        Value="{StaticResource ShadowOpacity}" />
+            <Trigger Property="BorderThickness" Value="0">
+                <Setter TargetName="GlowBorder" Property="Opacity" Value="{StaticResource ShadowOpacity}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -93,22 +80,15 @@
                 Opacity="{StaticResource GlowOpacity}"
                 Background="{TemplateBinding Background}">
             <Border.OpacityMask>
-                <LinearGradientBrush options:Freeze="True"
-                                     StartPoint="0.5,0"
-                                     EndPoint="0.5,1">
-                    <GradientStop Color="Black"
-                                  Offset="0" />
-                    <GradientStop Color="Transparent"
-                                  Offset="1" />
+                <LinearGradientBrush options:Freeze="True" StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Color="Black" Offset="0" />
+                    <GradientStop Color="Transparent" Offset="1" />
                 </LinearGradientBrush>
             </Border.OpacityMask>
         </Border>
         <ControlTemplate.Triggers>
-            <Trigger Property="BorderThickness"
-                     Value="0">
-                <Setter TargetName="GlowBorder"
-                        Property="Opacity"
-                        Value="{StaticResource ShadowOpacity}" />
+            <Trigger Property="BorderThickness" Value="0">
+                <Setter TargetName="GlowBorder" Property="Opacity" Value="{StaticResource ShadowOpacity}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -121,22 +101,15 @@
                 Opacity="{StaticResource GlowOpacity}"
                 Background="{TemplateBinding Background}">
             <Border.OpacityMask>
-                <LinearGradientBrush options:Freeze="True"
-                                     StartPoint="0,0.5"
-                                     EndPoint="1,0.5">
-                    <GradientStop Color="Transparent"
-                                  Offset="0" />
-                    <GradientStop Color="Black"
-                                  Offset="1" />
+                <LinearGradientBrush options:Freeze="True" StartPoint="0,0.5" EndPoint="1,0.5">
+                    <GradientStop Color="Transparent" Offset="0" />
+                    <GradientStop Color="Black" Offset="1" />
                 </LinearGradientBrush>
             </Border.OpacityMask>
         </Border>
         <ControlTemplate.Triggers>
-            <Trigger Property="BorderThickness"
-                     Value="0">
-                <Setter TargetName="GlowBorder"
-                        Property="Opacity"
-                        Value="{StaticResource ShadowOpacity}" />
+            <Trigger Property="BorderThickness" Value="0">
+                <Setter TargetName="GlowBorder" Property="Opacity" Value="{StaticResource ShadowOpacity}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -149,30 +122,21 @@
                 Opacity="{StaticResource GlowOpacity}"
                 Background="{TemplateBinding Background}">
             <Border.OpacityMask>
-                <LinearGradientBrush options:Freeze="True"
-                                     StartPoint="0,0.5"
-                                     EndPoint="1,0.5">
-                    <GradientStop Color="Black"
-                                  Offset="0" />
-                    <GradientStop Color="Transparent"
-                                  Offset="1" />
+                <LinearGradientBrush options:Freeze="True" StartPoint="0,0.5" EndPoint="1,0.5">
+                    <GradientStop Color="Black" Offset="0" />
+                    <GradientStop Color="Transparent" Offset="1" />
                 </LinearGradientBrush>
             </Border.OpacityMask>
         </Border>
         <ControlTemplate.Triggers>
-            <Trigger Property="BorderThickness"
-                     Value="0">
-                <Setter TargetName="GlowBorder"
-                        Property="Opacity"
-                        Value="{StaticResource ShadowOpacity}" />
+            <Trigger Property="BorderThickness" Value="0">
+                <Setter TargetName="GlowBorder" Property="Opacity" Value="{StaticResource ShadowOpacity}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <ControlTemplate x:Key="GlowTemplate"
-                     TargetType="{x:Type local:Glow}">
-        <Grid Margin="{TemplateBinding Padding}"
-              Background="Transparent">
+    <ControlTemplate x:Key="GlowTemplate" TargetType="{x:Type local:Glow}">
+        <Grid Margin="{TemplateBinding Padding}" Background="Transparent">
             <Border Background="{TemplateBinding Background}" />
             <Border x:Name="glowSource"
                     Margin="-1,0"
@@ -184,47 +148,30 @@
             </Border>
         </Grid>
         <ControlTemplate.Triggers>
-            <Trigger Property="Orientation"
-                     Value="Horizontal">
-                <Setter TargetName="glowSource"
-                        Property="Margin"
-                        Value="0,-1" />
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter TargetName="glowSource" Property="Margin" Value="0,-1" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
     <Style TargetType="{x:Type local:Glow}">
-        <Setter Property="UseLayoutRounding"
-                Value="True" />
-        <Setter Property="Background"
-                Value="{Binding RelativeSource={RelativeSource Self}, Path=GlowBrush}" />
-        <Setter Property="Padding"
-                Value="0" />
-        <Setter Property="VerticalAlignment"
-                Value="Stretch" />
-        <Setter Property="HorizontalAlignment"
-                Value="Stretch" />
-        <Setter Property="VerticalContentAlignment"
-                Value="Stretch" />
-        <Setter Property="HorizontalContentAlignment"
-                Value="Stretch" />
-        <Setter Property="Template"
-                Value="{StaticResource TopGlowTemplate}" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self}, Path=GlowBrush}" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template" Value="{StaticResource TopGlowTemplate}" />
         <Style.Triggers>
-            <Trigger Property="Direction"
-                     Value="Bottom">
-                <Setter Property="Template"
-                        Value="{StaticResource BottomGlowTemplate}" />
+            <Trigger Property="Direction" Value="Bottom">
+                <Setter Property="Template" Value="{StaticResource BottomGlowTemplate}" />
             </Trigger>
-            <Trigger Property="Direction"
-                     Value="Left">
-                <Setter Property="Template"
-                        Value="{StaticResource LeftGlowTemplate}" />
+            <Trigger Property="Direction" Value="Left">
+                <Setter Property="Template" Value="{StaticResource LeftGlowTemplate}" />
             </Trigger>
-            <Trigger Property="Direction"
-                     Value="Right">
-                <Setter Property="Template"
-                        Value="{StaticResource RightGlowTemplate}" />
+            <Trigger Property="Direction" Value="Right">
+                <Setter Property="Template" Value="{StaticResource RightGlowTemplate}" />
             </Trigger>
         </Style.Triggers>
     </Style>

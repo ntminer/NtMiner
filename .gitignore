@@ -289,6 +289,17 @@ AppViews1.dll
 /src/MinerClient/Daemon/LiteDB.dll
 /src/MinerClient/NoDevFee/LiteDB.xml
 /src/MinerClient/NoDevFee/LiteDB.dll
+/src/MinerClient/NoDevFee/NTMinerNoDevFee.exe.config
+/src/MinerClient/NoDevFee/log4net.xml
+/src/MinerClient/Daemon/websocket-sharp.xml
+/src/MinerClient/Daemon/System.Net.Http.Primitives.xml
+/src/MinerClient/Daemon/System.Net.Http.Extensions.xml
+/src/MinerClient/Daemon/NTMinerRpcClient.dll.config
+/src/MinerClient/Daemon/NTMinerDaemon.exe.config
+/src/MinerClient/NoDevFee/System.Net.Http.Primitives.xml
+/src/MinerClient/NoDevFee/System.Net.Http.Formatting.xml
+/src/MinerClient/NoDevFee/System.Net.Http.Extensions.xml
+/src/MinerClient/NoDevFee/Newtonsoft.Json.xml
 /src/MinerStudio/NTMinerServices/System.Web.Http.xml
 /src/MinerStudio/NTMinerServices/System.Web.Http.SelfHost.xml
 /src/MinerStudio/NTMinerServices/System.Web.Http.SelfHost.dll
@@ -310,5 +321,3 @@ AppViews1.dll
 /src/MinerStudio/NTMinerServices/LiteDB.xml
 /src/MinerStudio/NTMinerServices/LiteDB.dll
 /src/MinerStudio/NTMinerServices/Aliyun.OSS.dll
-/src/MinerClient/NoDevFee/NTMinerNoDevFee.exe.config
-/src/MinerClient/NoDevFee/log4net.xml

@@ -81,7 +81,8 @@ namespace NTMiner.Core.Kernels {
             if (NTMinerContext.Instance.GpuSet.GpuType == GpuType.Empty) {
                 return true;
             }
-            foreach (var item in NTMinerContext.Instance.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == coin.GetId() && a.KernelId == kernel.GetId())) {
+            var coinKernelSet = NTMinerContext.Instance.ServerContext.CoinKernelSet;
+            foreach (var item in coinKernelSet.AsEnumerable().Where(a => a.CoinId == coin.GetId() && a.KernelId == kernel.GetId()).ToArray()) {
                 if (item.SupportedGpu.IsSupportedGpu(NTMinerContext.Instance.GpuSet.GpuType)) {
                     return true;
                 }

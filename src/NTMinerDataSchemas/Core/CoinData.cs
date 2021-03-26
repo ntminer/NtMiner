@@ -2,25 +2,6 @@
 
 namespace NTMiner.Core {
     public class CoinData : ICoin, IDbEntity<Guid> {
-        public static readonly ICoin Empty = new CoinData() {
-            Id = Guid.Empty,
-            Code = string.Empty,
-            EnName = string.Empty,
-            CnName = string.Empty,
-            Icon = string.Empty,
-            AlgoId = Guid.Empty,
-            Algo = string.Empty,
-            TestWallet = string.Empty,
-            WalletRegexPattern = string.Empty,
-            JustAsDualCoin = false,
-            Notice = string.Empty,
-            TutorialUrl = string.Empty,
-            IsHot = false,
-            KernelBrand = string.Empty,
-            MinGpuMemoryGb = 0,
-            SortNumber = 0
-        };
-
         public CoinData() {
         }
 

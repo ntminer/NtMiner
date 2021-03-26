@@ -29,11 +29,10 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         }
 
         private IBasicProperties CreateBasicProperties(string loginName) {
-            var basicProperties = _mq.MqChannel.CreateBasicProperties();
+            var basicProperties = _mq.CreateBasicProperties();
             basicProperties.Persistent = false;
             basicProperties.Expiration = MqKeyword.Expiration36sec;
             basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
-            basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;
             basicProperties.Headers = new Dictionary<string, object> {
                 [MqKeyword.LoginNameHeaderName] = loginName
             };

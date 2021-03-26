@@ -7,7 +7,7 @@ namespace NTMiner.ServerNode {
     public class WebApiServerState : IWebApiServerState {
         public WebApiServerState() {
             this.WsServerNodes = new List<WsServerNodeState>();
-            this.Cpu = CpuData.Empty;
+            this.Cpu = new CpuData();// 注意这里不能指向一个静态对象，因为反序列化貌似不会赋值整个复杂类型的属性而是赋值该属性的属性
         }
 
         public string Address { get; set; }

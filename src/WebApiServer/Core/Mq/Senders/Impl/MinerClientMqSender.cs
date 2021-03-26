@@ -46,11 +46,19 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: MinerClientMqBodyUtil.GetMinerIdMqSendBody(minerId));
         }
 
-        public void SendResponseClientsForWs(string wsServerIp, string loginName, string sessionId, QueryClientsResponse response) {
+        public void SendResponseClientsForWs(
+            string wsServerIp, 
+            string loginName, 
+            string sessionId, 
+            string mqCorrelationId, 
+            QueryClientsResponse response) {
             if (response == null) {
                 return;
             }
             var basicProperties = CreateWsBasicProperties(loginName, sessionId);
+            if (!string.IsNullOrEmpty(mqCorrelationId)) {
+                basicProperties.CorrelationId = mqCorrelationId;
+            }
             _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: string.Format(MqKeyword.QueryClientsForWsResponseRoutingKey, wsServerIp),
@@ -59,11 +67,10 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         }
 
         private IBasicProperties CreateWsBasicProperties(string loginName, string sessionId) {
-            var basicProperties = _mq.MqChannel.CreateBasicProperties();
+            var basicProperties = _mq.CreateBasicProperties();
             basicProperties.Persistent = false;// 非持久化的
             basicProperties.Expiration = MqKeyword.Expiration36sec;
             basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
-            basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;
             basicProperties.Headers = new Dictionary<string, object> {
                 [MqKeyword.LoginNameHeaderName] = loginName,
                 [MqKeyword.SessionIdHeaderName] = sessionId
@@ -73,11 +80,10 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         }
 
         private IBasicProperties CreateBasicProperties(Guid clientId) {
-            var basicProperties = _mq.MqChannel.CreateBasicProperties();
+            var basicProperties = _mq.CreateBasicProperties();
             basicProperties.Persistent = true;// 持久化的
             basicProperties.Expiration = MqKeyword.Expiration60sec;
             basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
-            basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;
             basicProperties.Headers = new Dictionary<string, object> {
                 [MqKeyword.ClientIdHeaderName] = clientId.ToString()
             };

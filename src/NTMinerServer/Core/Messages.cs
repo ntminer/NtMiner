@@ -95,7 +95,7 @@ namespace NTMiner.Core {
 
     [MessageType(description: "收到了UpdateUserRSAKey Mq消息后，注意该消息是命令")]
     public class UpdateUserRSAKeyMqCommand : Cmd {
-        public UpdateUserRSAKeyMqCommand(string appId, string loginName, DateTime timestamp, Cryptography.RSAKey key) {
+        public UpdateUserRSAKeyMqCommand(string appId, string loginName, DateTime timestamp, RSAKey key) {
             this.AppId = appId;
             this.LoginName = loginName;
             this.Timestamp = timestamp;
@@ -179,19 +179,22 @@ namespace NTMiner.Core {
 
     [MessageType(description: "收到了ChangeMinerSign Mq消息后，该消息是个命令")]
     public class ChangeMinerSignMqCommand : Cmd {
-        public ChangeMinerSignMqCommand(MinerSign data) {
+        public ChangeMinerSignMqCommand(string appId, MinerSign data) {
+            this.AppId = appId;
             this.Data = data;
         }
 
+        public string AppId { get; private set; }
         public MinerSign Data { get; private set; }
     }
 
     [MessageType(description: "收到了QueryClientsForWs Mq消息后，该消息是个命令")]
     public class QueryClientsForWsMqCommand : Cmd {
         public QueryClientsForWsMqCommand(
-            string appId, DateTime timestamp, string loginName, 
+            string appId, string mqMessageId, DateTime timestamp, string loginName,
             string sessionId, QueryClientsForWsRequest query) {
             this.AppId = appId;
+            this.MqMessageId = mqMessageId;
             this.Timestamp = timestamp;
             this.LoginName = loginName;
             this.SessionId = sessionId;
@@ -199,6 +202,7 @@ namespace NTMiner.Core {
         }
 
         public string AppId { get; private set; }
+        public string MqMessageId { get; private set; }
         public DateTime Timestamp { get; private set; }
         public string LoginName { get; private set; }
         public string SessionId { get; private set; }
@@ -208,9 +212,10 @@ namespace NTMiner.Core {
     [MessageType(description: "收到了QueryClientsForWsResponse Mq消息后，该消息是个命令")]
     public class QueryClientsForWsResponseMqEvent : EventBase {
         public QueryClientsForWsResponseMqEvent(
-            string appId, DateTime timestamp, string loginName, 
+            string appId, string mqCorrelationId, DateTime timestamp, string loginName,
             string sessionId, QueryClientsResponse response) {
             this.AppId = appId;
+            this.MqCorrelationId = mqCorrelationId;
             this.Timestamp = timestamp;
             this.LoginName = loginName;
             this.SessionId = sessionId;
@@ -218,6 +223,7 @@ namespace NTMiner.Core {
         }
 
         public string AppId { get; private set; }
+        public string MqCorrelationId { get; private set; }
         public DateTime Timestamp { get; private set; }
         public string LoginName { get; private set; }
         public string SessionId { get; private set; }
