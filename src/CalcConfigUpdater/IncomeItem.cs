@@ -1,5 +1,7 @@
 ﻿namespace NTMiner {
     public class IncomeItem {
+        public IncomeItem() { }
+
         public string DataCode { get; set; }
         public string CoinCode { get; set; }
         public double Speed { get; set; }
