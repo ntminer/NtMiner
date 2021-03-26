@@ -4,6 +4,7 @@ namespace NTMiner {
     public static class MqKeyword {
         public const string SafeIgnoreMessage = "该消息发生的时间早于本节点启动时间1分钟，安全忽略";
         public const string DurableQueueEndsWith = ".durable";
+        public const string WsBreathQueueEndsWith = ".breath";
         public const string Expiration36sec = "36000000"; // 36秒，单位是微秒（1微秒是10的负6次方秒）
         public const string Expiration60sec = "60000000";
 

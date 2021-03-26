@@ -117,6 +117,7 @@
     <Compile Include="CloudFileUrlGenerater\ICloudFileUrlGenerater.cs" />
     <Compile Include="Core\IServerMessageSet.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\OperationMqMessagePath.cs" />
+    <Compile Include="Core\Mq\MqMessagePaths\WsBreathMqMessagePath.cs" />
     <Compile Include="Core\Mq\Senders\Impl\OperationMqSender.cs" />
     <Compile Include="Core\Mq\Senders\IOperationMqSender.cs" />
     <Compile Include="Core\Redis\IClientActiveOnRedis.cs" />

@@ -10,9 +10,6 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
 
         protected override void Build(IModel channal) {
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.SpeedRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.MinerClientWsOpenedRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.MinerClientWsClosedRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.MinerClientWsBreathedRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.ChangeMinerSignRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.QueryClientsForWsRoutingKey, arguments: null);
 
@@ -28,33 +25,6 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string appId = ea.BasicProperties.AppId;
                         string minerIp = ea.BasicProperties.ReadHeaderString(MqKeyword.MinerIpHeaderName);
                         VirtualRoot.RaiseEvent(new SpeedDataMqEvent(appId, clientId, minerIp, timestamp));
-                    }
-                    break;
-                case MqKeyword.MinerClientWsOpenedRoutingKey: {
-                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
-                        string appId = ea.BasicProperties.AppId;
-                        Guid clientId = MinerClientMqBodyUtil.GetClientIdMqReciveBody(ea.Body);
-                        if (clientId != Guid.Empty) {
-                            VirtualRoot.RaiseEvent(new MinerClientWsOpenedMqEvent(appId, clientId, timestamp));
-                        }
-                    }
-                    break;
-                case MqKeyword.MinerClientWsClosedRoutingKey: {
-                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
-                        string appId = ea.BasicProperties.AppId;
-                        Guid clientId = MinerClientMqBodyUtil.GetClientIdMqReciveBody(ea.Body);
-                        if (clientId != Guid.Empty) {
-                            VirtualRoot.RaiseEvent(new MinerClientWsClosedMqEvent(appId, clientId, timestamp));
-                        }
-                    }
-                    break;
-                case MqKeyword.MinerClientWsBreathedRoutingKey: {
-                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
-                        string appId = ea.BasicProperties.AppId;
-                        Guid clientId = MinerClientMqBodyUtil.GetClientIdMqReciveBody(ea.Body);
-                        if (clientId != Guid.Empty) {
-                            VirtualRoot.RaiseEvent(new MinerClientWsBreathedMqEvent(appId, clientId, timestamp));
-                        }
                     }
                     break;
                 case MqKeyword.ChangeMinerSignRoutingKey: {

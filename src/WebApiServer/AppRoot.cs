@@ -55,9 +55,11 @@ namespace NTMiner {
                         // 用本节点的地址作为队列名，消费消息时根据路由键区分消息类型
                         string queue = $"{ServerAppType.WebApiServer.GetName()}.{ServerRoot.HostConfig.ThisServerAddress}";
                         string durableQueue = queue + MqKeyword.DurableQueueEndsWith;
+                        string wsBreathQueue = queue + MqKeyword.WsBreathQueueEndsWith;
                         AbstractMqMessagePath[] mqMessagePaths = new AbstractMqMessagePath[] {
                             new UserMqMessagePath(durableQueue),
                             new MinerClientMqMessagePath(queue),
+                            new WsBreathMqMessagePath(wsBreathQueue),
                             new OperationMqMessagePath(queue)
                         };
                         if (!MqRedis.Create(ServerAppType.WebApiServer, mqMessagePaths, out IMqRedis mqRedis)) {
