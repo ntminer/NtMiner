@@ -202,12 +202,7 @@ namespace NTMiner.MinerStudio.Vms {
                 SortField = SortField,
                 SortDirection = this._sortDirection[SortField]
             });
-            2.SecondsDelay().ContinueWith(t => {
-                if (this.CountDown == 0) {
-                    this.ResetCountDown();
-                    this.IsLoading = false;
-                }
-            });
+            this.ResetCountDown();
         }
 
         private void AddEventPath() {
@@ -1212,6 +1207,9 @@ namespace NTMiner.MinerStudio.Vms {
 
         public void DownCountDown() {
             this.CountDown -= 1;
+            if (this.CountDown == 0) {
+                this.IsLoading = false;
+            }
         }
 
         public void ResetCountDown() {
