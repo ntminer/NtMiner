@@ -56,6 +56,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateWsBasicProperties(loginName, sessionId);
+            basicProperties.Priority = 9;
             if (!string.IsNullOrEmpty(mqCorrelationId)) {
                 basicProperties.CorrelationId = mqCorrelationId;
             }

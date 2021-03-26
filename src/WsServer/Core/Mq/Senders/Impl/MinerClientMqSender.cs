@@ -76,6 +76,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateNonePersistentWsBasicProperties(request.LoginName, sessionId);
+            basicProperties.Priority = 9;
             _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.QueryClientsForWsRoutingKey,
