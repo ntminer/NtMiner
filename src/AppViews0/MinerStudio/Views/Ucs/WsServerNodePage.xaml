@@ -82,6 +82,8 @@
 			ColumnHeaderHeight="36"
             ItemsSource="{Binding WebApiServerStateVm.WsServerNodeVms}" 
 			BorderThickness="0 1 0 0"
+            SelectedItem="{Binding WebApiServerStateVm.SelectedItemVm}"
+            MouseDoubleClick="DataGrid_MouseDoubleClick"
             BorderBrush="{StaticResource LightLineColor}">
 			<DataGrid.Resources>
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />

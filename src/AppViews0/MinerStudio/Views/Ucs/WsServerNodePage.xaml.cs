@@ -34,5 +34,11 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 }, this.GetType());
             });
         }
+
+        private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            WpfUtil.DataGrid_MouseDoubleClick<WsServerNodeStateViewModel>(sender, e, rowVm => {
+                rowVm.RemoteDesktop.Execute(null);
+            });
+        }
     }
 }

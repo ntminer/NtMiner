@@ -25,7 +25,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
 
         private void TbIp_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e) {
             MinerClientViewModel vm = (MinerClientViewModel)((FrameworkElement)sender).Tag;
-            vm.RemoteDesktop.Execute(vm.GetRemoteDesktopIp());
+            vm.RemoteDesktop.Execute(null);
             e.Handled = true;
         }
     }
