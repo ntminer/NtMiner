@@ -82,8 +82,8 @@ namespace NTMiner {
                         mqMessagePath.Build(channel);
                     }
                     consumer.Received += (model, ea) => {
+                        MqRoutingCountRoot.Count(ea.RoutingKey, queue);
                         Task.Factory.StartNew(() => {
-                            MqRoutingCountRoot.Count(ea.RoutingKey, queue);
                             bool isPass = false;
                             foreach (var mqMessagePath in mqMessagePathsByQueue) {
                                 try {
