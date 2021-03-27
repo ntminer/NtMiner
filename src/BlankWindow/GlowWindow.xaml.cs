@@ -32,8 +32,8 @@ namespace NTMiner {
 
             this.Owner = owner;
 
-            this.Owner.StateChanged += (sender, args) => {
-                if (this.Owner.WindowState == WindowState.Normal) {
+            this.Owner.IsVisibleChanged += (sender, args) => {
+                if (this.Owner.IsVisible) {
                     this.Show();
                 }
                 else {
