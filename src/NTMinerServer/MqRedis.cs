@@ -83,6 +83,7 @@ namespace NTMiner {
                     }
                     consumer.Received += (model, ea) => {
                         MqRoutingCountRoot.Count(ea.RoutingKey, queue);
+                        // 多线程消费，否则mq会成为瓶颈，尤其WebApiServer消息量大
                         Task.Factory.StartNew(() => {
                             bool isPass = false;
                             foreach (var mqMessagePath in mqMessagePathsByQueue) {
