@@ -82,27 +82,29 @@ namespace NTMiner {
                         mqMessagePath.Build(channel);
                     }
                     consumer.Received += (model, ea) => {
-                        MqRoutingCountRoot.Count(ea.RoutingKey, queue);
-                        bool isPass = false;
-                        foreach (var mqMessagePath in mqMessagePathsByQueue) {
-                            try {
-                                if (!isPass) {
-                                    isPass = mqMessagePath.Go(ea);
+                        Task.Factory.StartNew(() => {
+                            MqRoutingCountRoot.Count(ea.RoutingKey, queue);
+                            bool isPass = false;
+                            foreach (var mqMessagePath in mqMessagePathsByQueue) {
+                                try {
+                                    if (!isPass) {
+                                        isPass = mqMessagePath.Go(ea);
+                                    }
+                                    else {
+                                        mqMessagePath.Go(ea);
+                                    }
                                 }
-                                else {
-                                    mqMessagePath.Go(ea);
+                                catch (Exception e) {
+                                    Logger.ErrorDebugLine(e);
                                 }
                             }
-                            catch (Exception e) {
-                                Logger.ErrorDebugLine(e);
+                            if (!isPass) {
+                                Logger.WarnDebugLine($"路由键 {ea.RoutingKey} 没有消费者");
                             }
-                        }
-                        if (!isPass) {
-                            Logger.WarnDebugLine($"路由键 {ea.RoutingKey} 没有消费者");
-                        }
-                        if (!autoAck) {
-                            channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
-                        }
+                            if (!autoAck) {
+                                channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+                            }
+                        });
                     };
                     channel.BasicConsume(queue: queue, autoAck: autoAck, consumer: consumer);
                 }
