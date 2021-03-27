@@ -11,8 +11,7 @@ namespace NTMiner.NoDevFee {
     public static unsafe partial class NoDevFeeUtil {
         public enum Kernel {
             Claymore,
-            PhoenixMiner,
-            GMiner
+            PhoenixMiner
         }
 
         public class KernelInfo {
@@ -25,13 +24,11 @@ namespace NTMiner.NoDevFee {
 
         private static readonly List<Regex> walRegexList = new List<Regex> {
             VirtualRoot.GetRegex(@"-ewal\s+(\w+)"),
-            VirtualRoot.GetRegex(@"-wal\s+(\w+)"),
-            VirtualRoot.GetRegex(@"--user\s+(\w+)")
+            VirtualRoot.GetRegex(@"-wal\s+(\w+)")
         };
         private static readonly List<Regex> workerRegexList = new List<Regex> {
             VirtualRoot.GetRegex(@"-eworker\s+(\S+)"),
             VirtualRoot.GetRegex(@"-worker\s+(\S+)"),
-            VirtualRoot.GetRegex(@"--user\s+\w+\.(\S+)"),
             VirtualRoot.GetRegex(@"-ewal\s+\w+\.(\S+)"),
             VirtualRoot.GetRegex(@"-wal\s+\w+\.(\S+)"),
         };
@@ -46,11 +43,6 @@ namespace NTMiner.NoDevFee {
                 ProcessName = "PhoenixMiner.exe",
                 Kernel = Kernel.PhoenixMiner,
                 CommandLineKeyword = string.Empty
-            },
-            new KernelInfo {
-                ProcessName = "miner.exe",
-                Kernel = Kernel.GMiner,
-                CommandLineKeyword = "GMiner"
             }
         };
         private static bool TryGetCommandLine(out Kernel kernel, out string minerName, out string userWallet) {
@@ -175,9 +167,6 @@ namespace NTMiner.NoDevFee {
                         else {
                             workNameLen = "eth1.0".Length;
                         }
-                        break;
-                    case Kernel.GMiner:
-                        baseIndex = 102;
                         break;
                     default:
                         break;
