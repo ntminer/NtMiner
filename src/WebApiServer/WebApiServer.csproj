@@ -127,7 +127,7 @@
     <Compile Include="Core\Redis\Impl\WsServerNodeRedis.cs" />
     <Compile Include="Core\Redis\IWsServerNodeRedis.cs" />
     <Compile Include="HttpRequestMessageExtensions.cs" />
-    <Compile Include="GuardActionFilterAttribute.cs" />
+    <Compile Include="CountActionFilterAttribute.cs" />
     <Compile Include="Role\AdminAttribute.cs" />
     <Compile Include="Role\ClientSignData.cs" />
     <Compile Include="Role\PublicAttribute.cs" />

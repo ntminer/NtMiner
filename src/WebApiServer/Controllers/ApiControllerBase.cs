@@ -2,7 +2,7 @@
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    [GuardActionFilter]
+    [CountActionFilter]
     public abstract class ApiControllerBase : ApiController {
         protected new UserData User {
             get {

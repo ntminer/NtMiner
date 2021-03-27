@@ -4,12 +4,9 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
 namespace NTMiner {
-    /// <summary>
-    /// 门卫
-    /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class GuardActionFilterAttribute : ActionFilterAttribute {
-        public GuardActionFilterAttribute() { }
+    public class CountActionFilterAttribute : ActionFilterAttribute {
+        public CountActionFilterAttribute() { }
 
         public override void OnActionExecuting(HttpActionContext actionContext) {
             base.OnActionExecuting(actionContext);
@@ -18,7 +15,7 @@ namespace NTMiner {
                 VirtualRoot.RaiseEvent(new WebApiRequestEvent(remoteIp));
             }
             string controllerName = actionContext.ActionDescriptor.ControllerDescriptor.ControllerName;
-            string actionName = $"{controllerName}.{actionContext.ActionDescriptor.ActionName}";
+            string actionName = $"{controllerName}Controller.{actionContext.ActionDescriptor.ActionName}";
             ActionCountRoot.Count(actionName);
         }
     }
