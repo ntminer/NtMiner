@@ -182,7 +182,6 @@
     <Compile Include="Core\Impl\CoinShare.cs" />
     <Compile Include="Core\ICoinShare.cs" />
     <Compile Include="Core\Kernels\KernelExtensions.cs" />
-    <Compile Include="Core\PoolExtensions.cs" />
     <Compile Include="Mine\IDualMineContext.cs" />
     <Compile Include="Mine\IMineContext.cs" />
     <Compile Include="Core\IServerContext.cs" />

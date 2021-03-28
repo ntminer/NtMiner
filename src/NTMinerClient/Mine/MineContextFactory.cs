@@ -59,25 +59,25 @@ namespace NTMiner.Mine {
             parameters.Add(NTKeyword.UserNameParameterName, userName);
             parameters.Add(NTKeyword.PasswordParameterName, password);
             parameters.Add(NTKeyword.WalletParameterName, wallet);
-            parameters.Add(NTKeyword.HostParameterName, mainCoinPool.GetHost());
-            parameters.Add(NTKeyword.PortParameterName, mainCoinPool.GetPort().ToString());
             string server = mainCoinPool.Server;
             if (!string.IsNullOrWhiteSpace(poolProfile.Server)) {
                 server = poolProfile.Server;
             }
+            parameters.Add(NTKeyword.HostParameterName, GetHost(server));
+            parameters.Add(NTKeyword.PortParameterName, GetPort(server).ToString());
             parameters.Add(NTKeyword.PoolParameterName, server);
             string minerName = $"{mainCoinPool.MinerNamePrefix}{minerProfile.MinerName}{mainCoinPool.MinerNamePostfix}";
             parameters.Add(NTKeyword.WorkerParameterName, minerName);
             if (mainCoinKernel.IsSupportPool1 && !mainCoinPool.NoPool1) {
                 parameters.Add(NTKeyword.Worker1ParameterName, minerName);
                 if (serverContext.PoolSet.TryGetPool(mainCoinProfile.PoolId1, out IPool mainCoinPool1)) {
-                    parameters.Add(NTKeyword.Host1ParameterName, mainCoinPool1.GetHost());
-                    parameters.Add(NTKeyword.Port1ParameterName, mainCoinPool1.GetPort().ToString());
                     IPoolProfile poolProfile1 = minerProfile.GetPoolProfile(mainCoinPool1.GetId());
                     string server1 = mainCoinPool1.Server;
                     if (!string.IsNullOrWhiteSpace(poolProfile1.Server)) {
                         server1 = poolProfile1.Server;
                     }
+                    parameters.Add(NTKeyword.Host1ParameterName, GetHost(server1));
+                    parameters.Add(NTKeyword.Port1ParameterName, GetPort(server1).ToString());
                     parameters.Add(NTKeyword.Pool1ParameterName, server1);
                     if (mainCoinPool1.IsUserMode) {
                         string password1 = poolProfile1.Password;
@@ -119,12 +119,12 @@ namespace NTMiner.Mine {
                             parameters.Add(NTKeyword.DualUserNameParameterName, dualUserName);
                             parameters.Add(NTKeyword.DualPasswordParameterName, dualPassword);
                             parameters.Add(NTKeyword.DualWalletParameterName, dualWallet);
-                            parameters.Add(NTKeyword.DualHostParameterName, dualCoinPool.GetHost());
-                            parameters.Add(NTKeyword.DualPortParameterName, dualCoinPool.GetPort().ToString());
                             string dualCoinPoolServer = dualCoinPool.Server;
                             if (!string.IsNullOrWhiteSpace(dualPoolProfile.Server)) {
                                 dualCoinPoolServer = dualPoolProfile.Server;
                             }
+                            parameters.Add(NTKeyword.DualHostParameterName, GetHost(dualCoinPoolServer));
+                            parameters.Add(NTKeyword.DualPortParameterName, GetPort(dualCoinPoolServer).ToString());
                             parameters.Add(NTKeyword.DualPoolParameterName, dualCoinPoolServer);
 
                             kernelArgs = mainCoinKernel.DualFullArgs;
@@ -231,6 +231,36 @@ namespace NTMiner.Mine {
         }
 
         #region 私有方法
+        private static string GetHost(string server) {
+            if (string.IsNullOrEmpty(server)) {
+                return string.Empty;
+            }
+            if (string.IsNullOrEmpty(server)) {
+                return string.Empty;
+            }
+            int index = server.IndexOf(':');
+            if (index > 0) {
+                return server.Substring(0, index);
+            }
+            return server;
+        }
+
+        private static int GetPort(string server) {
+            if (string.IsNullOrEmpty(server)) {
+                return 0;
+            }
+            if (string.IsNullOrEmpty(server)) {
+                return 0;
+            }
+            int index = server.IndexOf(':');
+            if (index > 0) {
+                int port;
+                int.TryParse(server.Substring(index + 1), out port);
+                return port;
+            }
+            return 0;
+        }
+
         private static void BuildFragments(IServerContext serverContext, ICoinKernel coinKernel, Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments) {
             fileWriters = new Dictionary<Guid, string>();
             fragments = new Dictionary<Guid, string>();
