@@ -45,5 +45,17 @@ namespace NTMiner.Vms {
                 }
             }
         }
+
+        public string Server {
+            get { return _inner.Server; }
+            set {
+                if (_inner.Server != value) {
+                    NTMinerContext.Instance.MinerProfile.SetPoolProfileProperty(this.PoolId, nameof(Server), value ?? string.Empty);
+                    OnPropertyChanged(nameof(Server));
+                    // 不必判断该对象是否是主界面上当前展示的对象，因为若不是主界面上当前显式的对象的话没有机会变更
+                    NTMinerContext.RefreshArgsAssembly.Invoke("用户重写了矿池地址");
+                }
+            }
+        }
     }
 }

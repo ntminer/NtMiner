@@ -5,5 +5,6 @@ namespace NTMiner.Core.Profile {
         Guid PoolId { get; }
         string UserName { get; }
         string Password { get; }
+        string Server { get; }
     }
 }

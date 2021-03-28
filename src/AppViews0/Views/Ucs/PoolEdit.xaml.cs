@@ -55,5 +55,9 @@ namespace NTMiner.Views.Ucs {
                     })
                 });
         }
+
+        private void PathPoolProfileServer_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            TbPoolProfileServer.Focus();
+        }
     }
 }

@@ -44,8 +44,8 @@ namespace NTMiner.Mine {
             string userName = string.Empty;
             string password = NTKeyword.PasswordDefaultValue;
             string wallet = mainCoinProfile.Wallet;
+            IPoolProfile poolProfile = minerProfile.GetPoolProfile(mainCoinPool.GetId());
             if (mainCoinPool.IsUserMode) {
-                IPoolProfile poolProfile = minerProfile.GetPoolProfile(mainCoinPool.GetId());
                 password = poolProfile.Password;
                 if (string.IsNullOrEmpty(password)) {
                     password = NTKeyword.PasswordDefaultValue;
@@ -61,7 +61,11 @@ namespace NTMiner.Mine {
             parameters.Add(NTKeyword.WalletParameterName, wallet);
             parameters.Add(NTKeyword.HostParameterName, mainCoinPool.GetHost());
             parameters.Add(NTKeyword.PortParameterName, mainCoinPool.GetPort().ToString());
-            parameters.Add(NTKeyword.PoolParameterName, mainCoinPool.Server);
+            string server = mainCoinPool.Server;
+            if (!string.IsNullOrWhiteSpace(poolProfile.Server)) {
+                server = poolProfile.Server;
+            }
+            parameters.Add(NTKeyword.PoolParameterName, server);
             string minerName = $"{mainCoinPool.MinerNamePrefix}{minerProfile.MinerName}{mainCoinPool.MinerNamePostfix}";
             parameters.Add(NTKeyword.WorkerParameterName, minerName);
             if (mainCoinKernel.IsSupportPool1 && !mainCoinPool.NoPool1) {
@@ -69,9 +73,13 @@ namespace NTMiner.Mine {
                 if (serverContext.PoolSet.TryGetPool(mainCoinProfile.PoolId1, out IPool mainCoinPool1)) {
                     parameters.Add(NTKeyword.Host1ParameterName, mainCoinPool1.GetHost());
                     parameters.Add(NTKeyword.Port1ParameterName, mainCoinPool1.GetPort().ToString());
-                    parameters.Add(NTKeyword.Pool1ParameterName, mainCoinPool1.Server);
+                    IPoolProfile poolProfile1 = minerProfile.GetPoolProfile(mainCoinPool1.GetId());
+                    string server1 = mainCoinPool1.Server;
+                    if (!string.IsNullOrWhiteSpace(poolProfile1.Server)) {
+                        server1 = poolProfile1.Server;
+                    }
+                    parameters.Add(NTKeyword.Pool1ParameterName, server1);
                     if (mainCoinPool1.IsUserMode) {
-                        IPoolProfile poolProfile1 = minerProfile.GetPoolProfile(mainCoinPool1.GetId());
                         string password1 = poolProfile1.Password;
                         if (string.IsNullOrEmpty(password1)) {
                             password1 = NTKeyword.PasswordDefaultValue;
@@ -96,8 +104,8 @@ namespace NTMiner.Mine {
                             string dualPassword = NTKeyword.PasswordDefaultValue;
                             string dualWallet = dualCoinProfile.DualCoinWallet;
                             parameters.Add(NTKeyword.DualCoinParameterName, dualCoin.Code);
+                            IPoolProfile dualPoolProfile = minerProfile.GetPoolProfile(dualCoinPool.GetId());
                             if (dualCoinPool.IsUserMode) {
-                                IPoolProfile dualPoolProfile = minerProfile.GetPoolProfile(dualCoinPool.GetId());
                                 dualPassword = dualPoolProfile.Password;
                                 if (string.IsNullOrEmpty(dualPassword)) {
                                     dualPassword = NTKeyword.PasswordDefaultValue;
@@ -113,7 +121,11 @@ namespace NTMiner.Mine {
                             parameters.Add(NTKeyword.DualWalletParameterName, dualWallet);
                             parameters.Add(NTKeyword.DualHostParameterName, dualCoinPool.GetHost());
                             parameters.Add(NTKeyword.DualPortParameterName, dualCoinPool.GetPort().ToString());
-                            parameters.Add(NTKeyword.DualPoolParameterName, dualCoinPool.Server);
+                            string dualCoinPoolServer = dualCoinPool.Server;
+                            if (!string.IsNullOrWhiteSpace(dualPoolProfile.Server)) {
+                                dualCoinPoolServer = dualPoolProfile.Server;
+                            }
+                            parameters.Add(NTKeyword.DualPoolParameterName, dualCoinPoolServer);
 
                             kernelArgs = mainCoinKernel.DualFullArgs;
                             AssembleArgs(parameters, ref kernelArgs, isDual: true);

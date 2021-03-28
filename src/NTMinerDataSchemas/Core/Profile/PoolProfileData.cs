@@ -9,7 +9,8 @@ namespace NTMiner.Core.Profile {
             return new PoolProfileData() {
                 PoolId = pool.GetId(),
                 UserName = pool.UserName,
-                Password = pool.Password
+                Password = pool.Password,
+                Server = string.Empty
             };
         }
 
@@ -23,6 +24,8 @@ namespace NTMiner.Core.Profile {
         public string UserName { get; set; }
 
         public string Password { get; set; }
+
+        public string Server { get; set; }
 
         // 检测内存状态是否变更时使用
         public override string ToString() {

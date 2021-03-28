@@ -86,7 +86,27 @@
 							</TextBox>
 						</WrapPanel>
 
-						<WrapPanel Margin="0 2">
+                        <WrapPanel Margin="0 2">
+                            <TextBlock Style="{StaticResource LblTb}">重写矿池地址:</TextBlock>
+                            <TextBox 
+                                x:Name="TbPoolProfileServer"
+                                Width="420" 
+                                Padding="0 0 20 0"
+                                VerticalContentAlignment="Center" 
+                                ToolTip="比如您在海外，矿池列表中没有海外的矿池，您可以在这里将本矿池的地址重写为海外的地址，这降低了自定义添加矿池的门槛。"
+                                Text="{Binding PoolProfileVm.Server, ValidatesOnExceptions=True}">
+                            </TextBox>
+                            <Path
+                                Margin="-16 0 0 0"
+								Width="12"
+								Height="12"
+                                MouseDown="PathPoolProfileServer_MouseDown"
+								Data="{StaticResource Icon_Edit}"
+								Fill="{StaticResource BtnBackground}"
+								Stretch="Fill" />
+                        </WrapPanel>
+
+                        <WrapPanel Margin="0 2">
 							<TextBlock Style="{StaticResource LblTb}">收益查看地址</TextBlock>
 							<TextBox Width="420" IsReadOnly="{Binding IsReadOnly}" VerticalContentAlignment="Center" Text="{Binding Url}">
 							</TextBox>

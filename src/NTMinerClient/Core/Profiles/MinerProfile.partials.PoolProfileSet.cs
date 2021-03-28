@@ -99,6 +99,13 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
+                public string Server {
+                    get { return _data.Server; }
+                    private set {
+                        _data.Server = value;
+                    }
+                }
+
                 private static Dictionary<string, PropertyInfo> _sProperties;
                 [IgnoreReflectionSet]
                 private static Dictionary<string, PropertyInfo> Properties {

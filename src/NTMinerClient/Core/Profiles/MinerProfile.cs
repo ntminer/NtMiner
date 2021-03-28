@@ -118,11 +118,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         public void SetPoolProfileProperty(Guid poolId, string propertyName, object value) {
-            if (_root.ServerContext.PoolSet.TryGetPool(poolId, out IPool pool)) {
-                if (!pool.IsUserMode) {
-                    NTMinerConsole.UserError($"{pool.Name}不是用户名密码模式的矿池");
-                    return;
-                }
+            if (_root.ServerContext.PoolSet.TryGetPool(poolId, out _)) {
                 _poolProfileSet.SetPoolProfileProperty(poolId, propertyName, value);
             }
         }
