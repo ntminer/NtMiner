@@ -338,6 +338,7 @@
 						x:Name="ButtonMainCoinWallet"
 						Width="284"
 						Padding="4"
+                        ToolTip="请注意一定要填自己的钱包地址，不填也能挖是因为不填时会自动使用默认的测试钱包地址，这是为了方便大家测试。"
 						BorderThickness="1"
 						BorderBrush="{StaticResource LightLineColor}"
 						IsEnabled="{Binding ElementName=PopupMainCoinWallet,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
