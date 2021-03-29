@@ -823,7 +823,7 @@ namespace NTMiner {
         });
 
         public static ICommand OpenLGPL { get; private set; } = new DelegateCommand(() => {
-            string url = $"https://minerjson.{NTKeyword.CloudFileDomain}/LGPL.png";
+            string url = $"https://ntwebsite.{NTKeyword.CloudFileDomain}/img/LGPL.png";
             url = NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue(NTKeyword.ThisSystemSysDicCode, "LGPL", url);
             VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);

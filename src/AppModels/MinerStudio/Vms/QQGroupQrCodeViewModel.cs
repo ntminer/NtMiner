@@ -6,7 +6,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public string QQGroupQrCodeUrl {
             get {
-                return $"https://minerjson.{NTKeyword.CloudFileDomain}/NTMiner_QQGroupQrCode.png";
+                return $"https://ntwebsite.{NTKeyword.CloudFileDomain}/img/NTMiner_QQGroupQrCode.png";
             }
         }
     }
