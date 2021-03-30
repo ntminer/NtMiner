@@ -245,8 +245,8 @@
                             <StackPanel>
                                 <WrapPanel>
                                     <TextBlock Foreground="{Binding GpuVm.TemperatureForeground}" Text="{Binding GpuVm.TemperatureText}"></TextBlock>
-                                    <TextBlock Foreground="{Binding GpuVm.TemperatureForeground}" Visibility="{Binding GpuVm.IsMemTemperatureVisible}" Text=" / "></TextBlock>
-                                    <TextBlock Foreground="{Binding GpuVm.TemperatureForeground}" Visibility="{Binding GpuVm.IsMemTemperatureVisible}" Text="{Binding GpuVm.MemTemperatureText}"></TextBlock>
+                                    <TextBlock Foreground="{Binding GpuVm.TemperatureForeground}" Visibility="{Binding GpuVm.IsMemoryTemperatureVisible}" Text=" / "></TextBlock>
+                                    <TextBlock Foreground="{Binding GpuVm.TemperatureForeground}" Visibility="{Binding GpuVm.IsMemoryTemperatureVisible}" Text="{Binding GpuVm.MemoryTemperatureText}"></TextBlock>
                                 </WrapPanel>
                                 <Border Visibility="{Binding ElementName=Uc,Path=IsOverClockVisible}">
                                     <CheckBox 

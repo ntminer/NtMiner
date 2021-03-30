@@ -26,6 +26,8 @@
 
         public int Temperature { get; set; }
 
+        public int MemoryTemperature { get; set; }
+
         public uint FanSpeed { get; set; }
 
         public uint PowerUsage { get; set; }

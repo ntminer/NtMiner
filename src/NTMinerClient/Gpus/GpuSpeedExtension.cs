@@ -21,6 +21,7 @@ namespace NTMiner.Gpus {
                 IncorrectShare = data.MainCoinSpeed.IncorrectShare,
                 FanSpeed = data.Gpu.FanSpeed,
                 Temperature = data.Gpu.Temperature,
+                MemoryTemperature = data.Gpu.MemoryTemperature,
                 PowerUsage = data.Gpu.PowerUsage,
                 Cool = data.Gpu.Cool,
                 PowerCapacity = data.Gpu.PowerCapacity,

@@ -101,9 +101,9 @@ namespace NTMiner.Gpus.Impl {
             _adlHelper.GetPowerFanTemp(gpuIndex, out uint power, out uint fanSpeed, out int coreTemp, out int memTemp);
 
             Gpu gpu = _gpus[gpuIndex];
-            bool isChanged = gpu.Temperature != coreTemp || gpu.MemTemperature != memTemp || gpu.PowerUsage != power || gpu.FanSpeed != fanSpeed;
+            bool isChanged = gpu.Temperature != coreTemp || gpu.MemoryTemperature != memTemp || gpu.PowerUsage != power || gpu.FanSpeed != fanSpeed;
             gpu.Temperature = coreTemp;
-            gpu.MemTemperature = memTemp;
+            gpu.MemoryTemperature = memTemp;
             gpu.PowerUsage = power;
             gpu.FanSpeed = fanSpeed;
 

@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
         private string _busId;
         private string _name;
         private int _temperature;
-        private int _memTemperature;
+        private int _memoryTemperature;
         private uint _fanSpeed;
         private uint _powerUsage;
         private int _coreClockDelta;
@@ -49,7 +49,7 @@ namespace NTMiner.Vms {
             _name = data.Name;
             _totalMemory = data.TotalMemory;
             _temperature = data.Temperature;
-            _memTemperature = data.MemTemperature;
+            _memoryTemperature = data.MemoryTemperature;
             _fanSpeed = data.FanSpeed;
             _powerUsage = data.PowerUsage;
             _coreClockDelta = data.CoreClockDelta;
@@ -95,7 +95,7 @@ namespace NTMiner.Vms {
             _name = data.Name;
             _totalMemory = data.TotalMemory;
             _temperature = 0;
-            _memTemperature = 0;
+            _memoryTemperature = 0;
             _fanSpeed = 0;
             _powerUsage = 0;
             _coreClockDelta = 0;
@@ -212,21 +212,21 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int MemTemperature {
-            get { return _memTemperature; }
+        public int MemoryTemperature {
+            get { return _memoryTemperature; }
             set {
-                if (_memTemperature != value) {
-                    _memTemperature = value;
-                    OnPropertyChanged(nameof(MemTemperature));
-                    OnPropertyChanged(nameof(MemTemperatureText));
-                    OnPropertyChanged(nameof(IsMemTemperatureVisible));
+                if (_memoryTemperature != value) {
+                    _memoryTemperature = value;
+                    OnPropertyChanged(nameof(MemoryTemperature));
+                    OnPropertyChanged(nameof(MemoryTemperatureText));
+                    OnPropertyChanged(nameof(IsMemoryTemperatureVisible));
                 }
             }
         }
 
-        public Visibility IsMemTemperatureVisible {
+        public Visibility IsMemoryTemperatureVisible {
             get {
-                return this.MemTemperature != 0 ? Visibility.Visible : Visibility.Collapsed;
+                return this.MemoryTemperature != 0 ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
@@ -245,7 +245,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string MemTemperatureText {
+        public string MemoryTemperatureText {
             get {
                 if (_isGpuData) {
                     return "0℃";
@@ -254,9 +254,9 @@ namespace NTMiner.Vms {
                     return "0℃";
                 }
                 if (this.Index == NTMinerContext.GpuAllId && NTMinerContext.Instance.GpuSet.Count != 0) {
-                    return $"{AppRoot.GpuVms.MemTemperatureMinText} - {AppRoot.GpuVms.MemTemperatureMaxText}";
+                    return $"{AppRoot.GpuVms.MemoryTemperatureMinText} - {AppRoot.GpuVms.MemoryTemperatureMaxText}";
                 }
-                return this.MemTemperature.ToString() + "℃";
+                return this.MemoryTemperature.ToString() + "℃";
             }
         }
 

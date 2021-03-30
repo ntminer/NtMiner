@@ -18,6 +18,7 @@
         double DualCoinSpeed { get; }
 
         int Temperature { get; }
+        int MemoryTemperature { get; }
 
         uint FanSpeed { get; }
 

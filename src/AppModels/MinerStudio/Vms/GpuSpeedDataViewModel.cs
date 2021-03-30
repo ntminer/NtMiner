@@ -94,9 +94,26 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
+        public int MemoryTemperature {
+            get { return _data.MemoryTemperature; }
+            set {
+                if (_data.MemoryTemperature != value) {
+                    _data.MemoryTemperature = value;
+                    OnPropertyChanged(nameof(MemoryTemperature));
+                    OnPropertyChanged(nameof(MemoryTemperatureText));
+                }
+            }
+        }
+
         public string TemperatureText {
             get {
                 return this.Temperature.ToString() + "℃";
+            }
+        }
+
+        public string MemoryTemperatureText {
+            get {
+                return this.MemoryTemperature.ToString() + "℃";
             }
         }
 

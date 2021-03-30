@@ -30,7 +30,7 @@ namespace NTMiner.Gpus.Impl {
         public ulong TotalMemory { get; set; }
 
         public int Temperature { get; set; }
-        public int MemTemperature { get; set; }
+        public int MemoryTemperature { get; set; }
         public uint FanSpeed { get; set; }
         public uint PowerUsage { get; set; }
         public int CoreClockDelta { get; set; }
