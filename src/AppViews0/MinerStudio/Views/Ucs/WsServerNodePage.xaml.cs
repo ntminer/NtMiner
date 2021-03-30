@@ -11,7 +11,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 Title = "外网群控websocket服务器节点",
                 IconName = "Icon_Server",
                 Width = 1590,
-                Height = 500,
+                Height = 400,
                 IsMaskTheParent = false,
                 IsChildWindow = true,
                 CloseVisible = Visibility.Visible,
