@@ -123,7 +123,7 @@ namespace NTMiner {
             if (_started) {
                 try {
                     WsServerNodeRedis.DeleteByAddressAsync(ServerRoot.HostConfig.ThisServerAddress).ContinueWith(_ => {
-                        _wsServerNodeMqSender.SendWsServerNodeRemoved(ServerRoot.HostConfig.ThisServerAddress);
+                        _wsServerNodeMqSender.SendWsServerNodeRemoved();
                     }).Wait();
                 }
                 catch {

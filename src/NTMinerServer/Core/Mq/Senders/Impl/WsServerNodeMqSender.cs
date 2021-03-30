@@ -1,5 +1,4 @@
 ﻿using RabbitMQ.Client;
-using System;
 
 namespace NTMiner.Core.Mq.Senders.Impl {
     public class WsServerNodeMqSender : IWsServerNodeMqSender {
@@ -8,7 +7,8 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             _mq = mq;
         }
 
-        public void SendWsServerNodeAdded(string wsServerNodeAddress) {
+        public void SendWsServerNodeAdded() {
+            string wsServerNodeAddress = ServerRoot.HostConfig.ThisServerAddress;
             if (string.IsNullOrEmpty(wsServerNodeAddress)) {
                 return;
             }
@@ -19,7 +19,8 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: WsServerNodeMqBodyUtil.GetWsServerNodeAddressMqSendBody(wsServerNodeAddress));
         }
 
-        public void SendWsServerNodeRemoved(string wsServerNodeAddress) {
+        public void SendWsServerNodeRemoved() {
+            string wsServerNodeAddress = ServerRoot.HostConfig.ThisServerAddress;
             if (string.IsNullOrEmpty(wsServerNodeAddress)) {
                 return;
             }

@@ -17,7 +17,7 @@ namespace NTMiner.Core.Impl {
                         NTMinerConsole.UserOk("Ws服务器节点地址集初始化完成");
                         VirtualRoot.RaiseEvent(new WsServerNodeAddressSetInitedEvent());
                     });
-                    _wsServerNodeMqSender.SendWsServerNodeAdded(ServerRoot.HostConfig.ThisServerAddress);
+                    _wsServerNodeMqSender.SendWsServerNodeAdded();
                 });
                 VirtualRoot.BuildEventPath<Per10SecondEvent>("节点呼吸", LogEnum.UserConsole, path: message => {
                     ReportNodeAsync();
