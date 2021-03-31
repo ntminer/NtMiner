@@ -81,6 +81,7 @@ namespace NTMiner.MinerStudio.Impl {
         }
         #endregion
 
+        #region GetLocalMessagesAsync
         public void GetLocalMessagesAsync(IMinerData client, long afterTime) {
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.GetLocalMessages) {
                 Data = new WrapperClientIdData {
@@ -89,6 +90,15 @@ namespace NTMiner.MinerStudio.Impl {
                 }
             });
         }
+        public void ManualGetLocalMessagesAsync(IMinerData client, long afterTime) {
+            MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ManualGetLocalMessages) {
+                Data = new WrapperClientIdData {
+                    ClientId = client.ClientId,
+                    Data = afterTime
+                }
+            });
+        }
+        #endregion
 
         #region BlockWAUAsync
         public void BlockWAUAsync(IMinerData client) {

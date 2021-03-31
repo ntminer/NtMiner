@@ -12,6 +12,7 @@ namespace NTMiner.MinerStudio {
         void GetConsoleOutLinesAsync(IMinerData client, long afterTime);
         void ManualGetConsoleOutLinesAsync(IMinerData client, long afterTime);
         void GetLocalMessagesAsync(IMinerData client, long afterTime);
+        void ManualGetLocalMessagesAsync(IMinerData client, long afterTime);
 
         void EnableRemoteDesktopAsync(IMinerData client);
         void BlockWAUAsync(IMinerData client);

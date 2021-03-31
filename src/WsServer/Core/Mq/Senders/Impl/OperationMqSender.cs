@@ -58,6 +58,17 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetGetLocalMessagesMqSendBody(afterTime));
         }
 
+        public void SendManualGetLocalMessages(string loginName, Guid clientId, long afterTime) {
+            if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
+                return;
+            }
+            _mq.MqChannel.BasicPublish(
+                exchange: MqKeyword.NTMinerExchange,
+                routingKey: WsMqKeyword.ManualGetLocalMessagesRoutingKey,
+                basicProperties: CreateBasicProperties(loginName, clientId),
+                body: OperationMqBodyUtil.GetGetLocalMessagesMqSendBody(afterTime));
+        }
+
         public void SendLocalMessages(string loginName, Guid clientId, List<LocalMessageDto> datas) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || datas == null || datas.Count == 0) {
                 return;

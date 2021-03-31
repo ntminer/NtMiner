@@ -39,6 +39,11 @@ namespace NTMiner {
                         AppRoot.OperationMqSender.SendGetLocalMessages(session.LoginName, wrapperClientIdData.ClientId, afterTime);
                     }
                 },
+                [WsMessage.ManualGetLocalMessages] = (session, message) => {
+                    if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
+                        AppRoot.OperationMqSender.SendManualGetLocalMessages(session.LoginName, wrapperClientIdData.ClientId, afterTime);
+                    }
+                },
                 [WsMessage.GetDrives] = (session, message) => {
                     if (message.TryGetData(out WrapperClientId wrapperClientId)) {
                         AppRoot.OperationMqSender.SendGetDrives(session.LoginName, wrapperClientId.ClientId);

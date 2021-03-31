@@ -13,6 +13,7 @@ namespace NTMiner.Core.Mq.Senders {
         void SendManualGetConsoleOutLines(string loginName, Guid clientId, long asterTime);
 
         void SendGetLocalMessages(string loginName, Guid clientId, long afterTime);
+        void SendManualGetLocalMessages(string loginName, Guid clientId, long afterTime);
         void SendLocalMessages(string loginName, Guid clientId, List<LocalMessageDto> datas);
 
         void SendGetDrives(string loginName, Guid clientId);

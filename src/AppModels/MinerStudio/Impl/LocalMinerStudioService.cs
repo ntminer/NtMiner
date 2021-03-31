@@ -123,6 +123,9 @@ namespace NTMiner.MinerStudio.Impl {
                 }
             });
         }
+        public void ManualGetLocalMessagesAsync(IMinerData client, long afterTime) {
+            GetLocalMessagesAsync(client, afterTime);
+        }
         #endregion
 
         #region BlockWAUAsync

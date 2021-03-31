@@ -33,7 +33,7 @@ namespace NTMiner.MinerStudio {
                                 this._minerClientVm = message.MinerClientVm;
                                 OnPropertyChanged(nameof(IsNoRecord));
                             }
-                            SendGetLocalMessagesMqMessage();
+                            SendGetLocalMessagesMqMessage(isManual: true);
                         }
                     }, this.GetType());
                     VirtualRoot.BuildEventPath<ClientLocalMessagesEvent>("将收到的挖矿端本地消息展示到消息列表", LogEnum.DevConsole,
@@ -52,7 +52,7 @@ namespace NTMiner.MinerStudio {
                             });
                         }, location: this.GetType());
                     VirtualRoot.BuildEventPath<Per5SecondEvent>("周期获取当前选中的那台矿机的本地消息", LogEnum.DevConsole, path: message => {
-                        SendGetLocalMessagesMqMessage();
+                        SendGetLocalMessagesMqMessage(isManual: false);
                     }, this.GetType());
                 }
             }
@@ -71,7 +71,7 @@ namespace NTMiner.MinerStudio {
 
             private DateTime _preSendMqMessageOn = DateTime.MinValue;
             private MinerClientViewModel _preMinerClientVm;
-            public void SendGetLocalMessagesMqMessage() {
+            public void SendGetLocalMessagesMqMessage(bool isManual) {
                 if (this._minerClientVm == null || !IsMinerClientMessagesVisible) {
                     return;
                 }
@@ -91,7 +91,12 @@ namespace NTMiner.MinerStudio {
                         afterTime = item.Timestamp;
                     }
                 }
-                MinerStudioService.GetLocalMessagesAsync(minerClientVm, afterTime);
+                if (isManual) {
+                    MinerStudioService.ManualGetLocalMessagesAsync(minerClientVm, afterTime);
+                }
+                else {
+                    MinerStudioService.GetLocalMessagesAsync(minerClientVm, afterTime);
+                }
             }
         }
     }
