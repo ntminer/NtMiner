@@ -124,6 +124,30 @@ namespace NTMiner.Core.Impl {
                     ReportSpeed(t.Result.SpeedDto, message.MinerIp, isFromWsServerNode: true);
                 });
             }, this.GetType());
+            VirtualRoot.BuildEventPath<SpeedDatasMqEvent>("收到SpeedDatasMq消息后更新ClientData内存", LogEnum.None, path: message => {
+                if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
+                    return;
+                }
+                if (message.ClientIdIps == null || message.ClientIdIps.Length == 0) {
+                    return;
+                }
+                if (IsOldMqMessage(message.Timestamp)) {
+                    NTMinerConsole.UserOk(nameof(SpeedDatasMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
+                    return;
+                }
+                speedDataRedis.GetByClientIdsAsync(message.ClientIdIps.Select(a => a.ClientId).ToArray()).ContinueWith(t => {
+                    if (t.Result != null && t.Result.Length != 0) {
+                        foreach (var item in t.Result) {
+                            string minerIp = string.Empty;
+                            var clientIdIp = message.ClientIdIps.FirstOrDefault(a => a.ClientId == item.ClientId);
+                            if (clientIdIp != null) {
+                                minerIp = clientIdIp.MinerIp;
+                            }
+                            ReportSpeed(item.SpeedDto, minerIp, isFromWsServerNode: true);
+                        }
+                    }
+                });
+            }, this.GetType());
             VirtualRoot.BuildEventPath<MinerClientWsOpenedMqEvent>("收到MinerClientWsOpenedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, path: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
                     NTMinerConsole.UserOk(nameof(MinerClientWsOpenedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
@@ -227,8 +251,8 @@ namespace NTMiner.Core.Impl {
             }
             else {
                 bool isLoginNameChanged = false;
-                if (speedDto.IsOuterUserEnabled && 
-                    !string.IsNullOrEmpty(speedDto.ReportOuterUserId) 
+                if (speedDto.IsOuterUserEnabled &&
+                    !string.IsNullOrEmpty(speedDto.ReportOuterUserId)
                     && (string.IsNullOrEmpty(clientData.LoginName) || clientData.OuterUserId != speedDto.ReportOuterUserId)) {
                     UserData userData = AppRoot.UserSet.GetUser(UserId.Create(speedDto.ReportOuterUserId));
                     if (userData != null) {

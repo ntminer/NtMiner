@@ -1,7 +1,9 @@
 ﻿using NTMiner.Report;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NTMiner.Core.Redis.Impl {
@@ -49,6 +51,22 @@ namespace NTMiner.Core.Redis.Impl {
                 else {
                     return null;
                 }
+            });
+        }
+
+        public Task<SpeedData[]> GetByClientIdsAsync(Guid[] clientIds) {
+            if (clientIds == null || clientIds.Length == 0) {
+                return Task.FromResult<SpeedData[]>(null);
+            }
+            var db = _redis.RedisConn.GetDatabase();
+            return db.HashGetAsync(_redisKeySpeedDataByClientId, clientIds.Select(a => (RedisValue)a.ToString()).ToArray()).ContinueWith(t => {
+                List<SpeedData> speedDatas = new List<SpeedData>();
+                if (t.Result != null && t.Result.Length != 0) {
+                    foreach (var item in t.Result) {
+                        speedDatas.Add(VirtualRoot.JsonSerializer.Deserialize<SpeedData>(item));
+                    }
+                }
+                return speedDatas.ToArray();
             });
         }
 
