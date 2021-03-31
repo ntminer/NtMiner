@@ -8,6 +8,20 @@ using System.Collections.Generic;
 
 namespace NTMiner {
     public static class WsMessageFromMinerStudioHandler {
+        private static readonly List<UserGetSpeedData> _userGetSpeedDatas = new List<UserGetSpeedData>();
+        private static readonly object _lockerForUserGetSpeedDatas = new object();
+        static WsMessageFromMinerStudioHandler() {
+            // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
+            VirtualRoot.BuildEventPath<Per1SecondEvent>("每1秒钟将WsServer暂存的来自挖矿端的GetSpeed广播到Mq", LogEnum.None, message => {
+                UserGetSpeedData[] userGetSpeedDatas;
+                lock (_lockerForUserGetSpeedDatas) {
+                    userGetSpeedDatas = _userGetSpeedDatas.ToArray();
+                    _userGetSpeedDatas.Clear();
+                }
+                AppRoot.OperationMqSender.SendGetSpeed(userGetSpeedDatas);
+            }, typeof(WsMessageFromMinerClientHandler));
+        }
+
         private static readonly Dictionary<string, Action<IMinerStudioSession, WsMessage>>
             _handlers = new Dictionary<string, Action<IMinerStudioSession, WsMessage>>(StringComparer.OrdinalIgnoreCase) {
                 [WsMessage.GetConsoleOutLines] = (session, message) => {
@@ -36,8 +50,13 @@ namespace NTMiner {
                     }
                 },
                 [WsMessage.GetSpeed] = (session, message) => {
-                    if (message.TryGetData(out List<Guid> minerIds)) {
-                        AppRoot.OperationMqSender.SendGetSpeed(session.LoginName, minerIds);
+                    if (message.TryGetData(out List<Guid> clientIds)) {
+                        lock (_lockerForUserGetSpeedDatas) {
+                            _userGetSpeedDatas.Add(new UserGetSpeedData {
+                                LoginName = session.LoginName,
+                                ClientIds = clientIds
+                            });
+                        }
                     }
                 },
                 [WsMessage.EnableRemoteDesktop] = (session, message) => {

@@ -135,15 +135,15 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: _emptyBody);
         }
 
-        public void SendGetSpeed(string loginName, List<Guid> clientIds) {
-            if (string.IsNullOrEmpty(loginName) || clientIds == null || clientIds.Count == 0) {
+        public void SendGetSpeed(UserGetSpeedData[] data) {
+            if (data == null || data.Length == 0) {
                 return;
             }
             _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetSpeedRoutingKey,
-                basicProperties: CreateBasicProperties(loginName),
-                body: OperationMqBodyUtil.GetGetSpeedMqSendBody(clientIds));
+                basicProperties: CreateBasicProperties(),
+                body: OperationMqBodyUtil.GetGetSpeedMqSendBody(data));
         }
 
         public void SendEnableRemoteDesktop(string loginName, Guid clientId) {
@@ -348,6 +348,15 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             basicProperties.Headers = new Dictionary<string, object> {
                 [MqKeyword.LoginNameHeaderName] = loginName
             };
+
+            return basicProperties;
+        }
+
+        private IBasicProperties CreateBasicProperties() {
+            var basicProperties = _mq.CreateBasicProperties();
+            basicProperties.Persistent = false;
+            basicProperties.Expiration = MqKeyword.Expiration36sec;
+            basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
 
             return basicProperties;
         }

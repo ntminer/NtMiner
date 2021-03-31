@@ -133,12 +133,12 @@ namespace NTMiner.Core.Mq {
         #endregion
 
         #region GetSpeed
-        public static byte[] GetGetSpeedMqSendBody(List<Guid> clientIds) {
-            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(clientIds));
+        public static byte[] GetGetSpeedMqSendBody(UserGetSpeedData[] data) {
+            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(data));
         }
-        public static List<Guid> GetGetSpeedMqReceiveBody(byte[] body) {
+        public static UserGetSpeedData[] GetGetSpeedMqReceiveBody(byte[] body) {
             string json = Encoding.UTF8.GetString(body);
-            return VirtualRoot.JsonSerializer.Deserialize<List<Guid>>(json);
+            return VirtualRoot.JsonSerializer.Deserialize<UserGetSpeedData[]>(json);
         }
         #endregion
 

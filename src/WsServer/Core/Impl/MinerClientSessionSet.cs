@@ -56,24 +56,26 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
             VirtualRoot.BuildEventPath<GetSpeedMqEvent>("收到GetSpeedMq消息后检查是否是应由本节点处理的消息，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
-                if (message.ClientIds == null || message.ClientIds.Count == 0) {
+                if (message.Datas == null || message.Datas.Length == 0) {
                     return;
                 }
                 if (IsTooOld(message.Timestamp)) {
                     return;
                 }
-                IUser user = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(message.LoginName));
-                if (user == null) {
-                    return;
-                }
-                foreach (var clientId in message.ClientIds.Where(a => TryGetByClientId(a, out _))) {
-                    if (clientId == null || clientId == Guid.Empty) {
+                foreach (var data in message.Datas) {
+                    IUser user = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(data.LoginName));
+                    if (user == null) {
                         continue;
                     }
-                    if (!AppRoot.MinerSignSet.TryGetByClientId(clientId, out MinerSign minerSign) || !minerSign.IsOwnerBy(user)) {
-                        continue;
+                    foreach (var clientId in data.ClientIds.Where(a => TryGetByClientId(a, out _))) {
+                        if (clientId == null || clientId == Guid.Empty) {
+                            continue;
+                        }
+                        if (!AppRoot.MinerSignSet.TryGetByClientId(clientId, out MinerSign minerSign) || !minerSign.IsOwnerBy(user)) {
+                            continue;
+                        }
+                        SendToMinerClientAsync(clientId, new WsMessage(message.MessageId, WsMessage.GetSpeed));
                     }
-                    SendToMinerClientAsync(clientId, new WsMessage(message.MessageId, WsMessage.GetSpeed));
                 }
                 #endregion
             }, this.GetType());
