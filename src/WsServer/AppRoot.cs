@@ -10,6 +10,7 @@ using NTMiner.User;
 using NTMiner.Ws;
 using NTMiner.WsSharp;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Text;
 
@@ -84,6 +85,7 @@ namespace NTMiner {
                 return;
             }
             VirtualRoot.RaiseEvent(new WebSocketServerStatedEvent());
+            MinerClientsBreatherInit();
 
             Console.ReadKey(true);
             Exit();
@@ -170,9 +172,25 @@ namespace NTMiner {
             MinerStudioSessionSet.ActiveByWsSessionId(sessionId, out _);
         }
 
+        private static readonly List<Guid> _toBreathClientIds = new List<Guid>();
+        private static readonly object _lockerForBreather = new object();
+        private static void MinerClientsBreatherInit() {
+            // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上
+            VirtualRoot.BuildEventPath<Per1SecondEvent>("每1秒钟将WsServer暂存的来自挖矿端的呼吸通过Mq发送给WebApiServer", LogEnum.None, message => {
+                Guid[] clientIds;
+                lock (_lockerForBreather) {
+                    clientIds = _toBreathClientIds.ToArray();
+                    _toBreathClientIds.Clear();
+                }
+                MinerClientMqSender.SendMinerClientsWsBreathed(clientIds);
+            }, typeof(AppRoot));
+        }
+
         public static void ActiveMinerClientSession(string sessionId) {
             if (MinerClientSessionSet.ActiveByWsSessionId(sessionId, out IMinerClientSession minerSession)) {
-                MinerClientMqSender.SendMinerClientWsBreathed(minerSession.ClientId);
+                lock (_lockerForBreather) {
+                    _toBreathClientIds.Add(minerSession.ClientId);
+                }
             }
         }
 
