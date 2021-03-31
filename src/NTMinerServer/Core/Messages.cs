@@ -151,15 +151,6 @@ namespace NTMiner.Core {
         }
     }
 
-    [MessageType(description: "收到了SpeedData Mq消息后")]
-    public class SpeedDataMqEvent : MinerClientMqEvent {
-        public SpeedDataMqEvent(string appId, Guid clientId, string minerIp, DateTime timestamp) : base(appId, clientId, timestamp) {
-            this.MinerIp = minerIp;
-        }
-
-        public string MinerIp { get; private set; }
-    }
-
     [MessageType(description: "收到了SpeedDatas Mq消息后")]
     public class SpeedDatasMqEvent : EventBase {
         public SpeedDatasMqEvent(string appId, ClientIdIp[] clientIdIps, DateTime timestamp) {
@@ -182,12 +173,6 @@ namespace NTMiner.Core {
     [MessageType(description: "收到了MinerClientWsClosed Mq消息后")]
     public class MinerClientWsClosedMqEvent : MinerClientMqEvent {
         public MinerClientWsClosedMqEvent(string appId, Guid clientId, DateTime timestamp) : base(appId, clientId, timestamp) {
-        }
-    }
-
-    [MessageType(description: "收到了MinerClientWsBreathed Mq消息后")]
-    public class MinerClientWsBreathedMqEvent : MinerClientMqEvent {
-        public MinerClientWsBreathedMqEvent(string appId, Guid clientId, DateTime timestamp) : base(appId, clientId, timestamp) {
         }
     }
 

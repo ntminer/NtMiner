@@ -109,21 +109,6 @@ namespace NTMiner.Core.Impl {
                 NTMinerConsole.DevDebug($"QueryClients平均耗时 {AverageQueryClientsMilliseconds.ToString()} 毫秒");
             }, this.GetType());
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在ClientSetInitedEvent事件之后才会创建
-            VirtualRoot.BuildEventPath<SpeedDataMqEvent>("收到SpeedDataMq消息后更新ClientData内存", LogEnum.None, path: message => {
-                if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
-                    return;
-                }
-                if (message.ClientId == Guid.Empty) {
-                    return;
-                }
-                if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(SpeedDataMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
-                    return;
-                }
-                speedDataRedis.GetByClientIdAsync(message.ClientId).ContinueWith(t => {
-                    ReportSpeed(t.Result.SpeedDto, message.MinerIp, isFromWsServerNode: true);
-                });
-            }, this.GetType());
             VirtualRoot.BuildEventPath<SpeedDatasMqEvent>("收到SpeedDatasMq消息后更新ClientData内存", LogEnum.None, path: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
@@ -166,16 +151,6 @@ namespace NTMiner.Core.Impl {
                 if (_dicByClientId.TryGetValue(message.ClientId, out ClientData clientData)) {
                     clientData.NetActiveOn = message.Timestamp;
                     clientData.IsOnline = false;
-                }
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<MinerClientWsBreathedMqEvent>("收到MinerClientWsBreathedMq消息后更新NetActiveOn", LogEnum.None, path: message => {
-                if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(MinerClientWsBreathedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
-                    return;
-                }
-                if (_dicByClientId.TryGetValue(message.ClientId, out ClientData clientData)) {
-                    clientData.NetActiveOn = message.Timestamp;
-                    clientData.IsOnline = true;
                 }
             }, this.GetType());
             VirtualRoot.BuildEventPath<MinerClientsWsBreathedMqEvent>("收到MinerClientsWsBreathedMq消息后更新NetActiveOn", LogEnum.None, path: message => {
