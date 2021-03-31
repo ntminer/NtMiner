@@ -10,11 +10,11 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             _mq = mq;
         }
 
-        public void SendSpeed(string loginName, Guid clientId, string minerIp) {
-            if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || string.IsNullOrEmpty(minerIp)) {
+        public void SendSpeed(Guid clientId, string minerIp) {
+            if (clientId == Guid.Empty || string.IsNullOrEmpty(minerIp)) {
                 return;
             }
-            var basicProperties = CreateNonePersistentBasicProperties(loginName);
+            var basicProperties = CreateNonePersistentBasicProperties();
             basicProperties.Headers[MqKeyword.MinerIpHeaderName] = minerIp;
             _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,

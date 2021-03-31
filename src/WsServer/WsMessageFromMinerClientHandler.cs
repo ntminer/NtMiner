@@ -41,7 +41,7 @@ namespace NTMiner {
                 [WsMessage.Speed] = (session, clientId, message) => {
                     if (message.TryGetData(out SpeedDto speedDto)) {
                         AppRoot.SpeedDataRedis.SetAsync(new SpeedData(speedDto, DateTime.Now)).ContinueWith(t => {
-                            AppRoot.MinerClientMqSender.SendSpeed(session.LoginName, speedDto.ClientId, session.RemoteEndPoint.ToString());
+                            AppRoot.MinerClientMqSender.SendSpeed(speedDto.ClientId, session.RemoteEndPoint.ToString());
                         });
                     }
                 },
