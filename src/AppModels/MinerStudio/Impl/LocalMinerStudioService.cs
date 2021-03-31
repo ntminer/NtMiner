@@ -110,7 +110,7 @@ namespace NTMiner.MinerStudio.Impl {
                 }
             });
         }
-        public void ManualGetConsoleOutLinesAsync(IMinerData client, long afterTime) {
+        public void FastGetConsoleOutLinesAsync(IMinerData client, long afterTime) {
             GetConsoleOutLinesAsync(client, afterTime);
         }
         #endregion
@@ -123,7 +123,7 @@ namespace NTMiner.MinerStudio.Impl {
                 }
             });
         }
-        public void ManualGetLocalMessagesAsync(IMinerData client, long afterTime) {
+        public void FastGetLocalMessagesAsync(IMinerData client, long afterTime) {
             GetLocalMessagesAsync(client, afterTime);
         }
         #endregion
@@ -138,7 +138,7 @@ namespace NTMiner.MinerStudio.Impl {
                 }
             }, timeountMilliseconds: 3000);
         }
-        public void ManualGetOperationResultsAsync(IMinerData client, long afterTime) {
+        public void FastGetOperationResultsAsync(IMinerData client, long afterTime) {
             GetOperationResultsAsync(client, afterTime);
         }
         #endregion

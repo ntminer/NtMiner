@@ -25,7 +25,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetGetConsoleOutLinesMqSendBody(asterTime));
         }
 
-        public void SendManualGetConsoleOutLines(string loginName, Guid clientId, long asterTime) {
+        public void SendFastGetConsoleOutLines(string loginName, Guid clientId, long asterTime) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
@@ -58,7 +58,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetGetLocalMessagesMqSendBody(afterTime));
         }
 
-        public void SendManualGetLocalMessages(string loginName, Guid clientId, long afterTime) {
+        public void SendFastGetLocalMessages(string loginName, Guid clientId, long afterTime) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }

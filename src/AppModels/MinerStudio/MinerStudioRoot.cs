@@ -82,7 +82,7 @@ namespace NTMiner.MinerStudio {
         public static void SetIsMinerClientMessagesVisible(bool value) {
             _isMinerClientMessagesVisible = value;
             if (value) {
-                MinerClientMessagesVm.SendGetLocalMessagesMqMessage(isManual: true);
+                MinerClientMessagesVm.SendGetLocalMessagesMqMessage(isFast: true);
             }
         }
     }

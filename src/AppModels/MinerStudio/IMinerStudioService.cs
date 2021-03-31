@@ -10,11 +10,11 @@ namespace NTMiner.MinerStudio {
         void UpdateClientsAsync(string propertyName, Dictionary<string, object> values, Action<ResponseBase, Exception> callback);
         void RemoveClientsAsync(List<string> objectIds, Action<ResponseBase, Exception> callback);
         void GetConsoleOutLinesAsync(IMinerData client, long afterTime);
-        void ManualGetConsoleOutLinesAsync(IMinerData client, long afterTime);
+        void FastGetConsoleOutLinesAsync(IMinerData client, long afterTime);
         void GetLocalMessagesAsync(IMinerData client, long afterTime);
-        void ManualGetLocalMessagesAsync(IMinerData client, long afterTime);
+        void FastGetLocalMessagesAsync(IMinerData client, long afterTime);
         void GetOperationResultsAsync(IMinerData client, long afterTime);
-        void ManualGetOperationResultsAsync(IMinerData client, long afterTime);
+        void FastGetOperationResultsAsync(IMinerData client, long afterTime);
 
         void EnableRemoteDesktopAsync(IMinerData client);
         void BlockWAUAsync(IMinerData client);

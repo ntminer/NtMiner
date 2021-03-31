@@ -31,7 +31,7 @@ namespace NTMiner {
                 },
                 [WsMessage.FastGetConsoleOutLines] = (session, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
-                        AppRoot.OperationMqSender.SendManualGetConsoleOutLines(session.LoginName, wrapperClientIdData.ClientId, afterTime);
+                        AppRoot.OperationMqSender.SendFastGetConsoleOutLines(session.LoginName, wrapperClientIdData.ClientId, afterTime);
                     }
                 },
                 [WsMessage.GetLocalMessages] = (session, message) => {
@@ -41,7 +41,7 @@ namespace NTMiner {
                 },
                 [WsMessage.FastGetLocalMessages] = (session, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
-                        AppRoot.OperationMqSender.SendManualGetLocalMessages(session.LoginName, wrapperClientIdData.ClientId, afterTime);
+                        AppRoot.OperationMqSender.SendFastGetLocalMessages(session.LoginName, wrapperClientIdData.ClientId, afterTime);
                     }
                 },
                 [WsMessage.GetDrives] = (session, message) => {

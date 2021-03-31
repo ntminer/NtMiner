@@ -10,11 +10,14 @@ namespace NTMiner.Core.Mq.Senders {
     public interface IOperationMqSender : IMqSender {
         void SendGetConsoleOutLines(string loginName, Guid clientId, long afterTime);
         void SendConsoleOutLines(string loginName, Guid clientId, List<ConsoleOutLine> datas);
-        void SendManualGetConsoleOutLines(string loginName, Guid clientId, long asterTime);
+        void SendFastGetConsoleOutLines(string loginName, Guid clientId, long asterTime);
 
         void SendGetLocalMessages(string loginName, Guid clientId, long afterTime);
-        void SendManualGetLocalMessages(string loginName, Guid clientId, long afterTime);
+        void SendFastGetLocalMessages(string loginName, Guid clientId, long afterTime);
         void SendLocalMessages(string loginName, Guid clientId, List<LocalMessageDto> datas);
+
+        void SendGetOperationResults(string loginName, Guid clientId, long afterTime);
+        void SendOperationResults(string loginName, Guid clientId, List<OperationResultData> datas);
 
         void SendGetDrives(string loginName, Guid clientId);
         void SendDrives(string loginName, Guid clientId, List<DriveDto> datas);
@@ -22,8 +25,6 @@ namespace NTMiner.Core.Mq.Senders {
         void SendGetLocalIps(string loginName, Guid clientId);
         void SendLocalIps(string loginName, Guid clientId, List<LocalIpDto> datas);
 
-        void SendGetOperationResults(string loginName, Guid clientId, long afterTime);
-        void SendOperationResults(string loginName, Guid clientId, List<OperationResultData> datas);
         void SendOperationReceived(string loginName, Guid clientId);
 
         void SendGetSpeed(UserGetSpeedData[] data);

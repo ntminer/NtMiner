@@ -71,7 +71,7 @@ namespace NTMiner.MinerStudio.Impl {
                 }
             });
         }
-        public void ManualGetConsoleOutLinesAsync(IMinerData client, long afterTime) {
+        public void FastGetConsoleOutLinesAsync(IMinerData client, long afterTime) {
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.FastGetConsoleOutLines) {
                 Data = new WrapperClientIdData {
                     ClientId = client.ClientId,
@@ -90,7 +90,7 @@ namespace NTMiner.MinerStudio.Impl {
                 }
             });
         }
-        public void ManualGetLocalMessagesAsync(IMinerData client, long afterTime) {
+        public void FastGetLocalMessagesAsync(IMinerData client, long afterTime) {
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.FastGetLocalMessages) {
                 Data = new WrapperClientIdData {
                     ClientId = client.ClientId,
@@ -113,7 +113,7 @@ namespace NTMiner.MinerStudio.Impl {
                 }
             });
         }
-        public void ManualGetOperationResultsAsync(IMinerData client, long afterTime) {
+        public void FastGetOperationResultsAsync(IMinerData client, long afterTime) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
                 ShowWarn();
                 return;
