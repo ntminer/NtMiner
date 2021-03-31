@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core.MinerServer;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace NTMiner.Core.Mq {
@@ -17,6 +18,35 @@ namespace NTMiner.Core.Mq {
                 return clientId;
             }
             return Guid.Empty;
+        }
+        #endregion
+
+        #region ClientIds
+        public static byte[] GetClientIdsMqSendBody(Guid[] clientIds) {
+            StringBuilder sb = new StringBuilder();
+            int len = sb.Length;
+            foreach (var clientId in clientIds) {
+                if (len != sb.Length) {
+                    sb.Append(",");
+                }
+                sb.Append(clientId.ToString());
+            }
+            return Encoding.UTF8.GetBytes(sb.ToString());
+        }
+
+        public static Guid[] GetClientIdsMqReciveBody(byte[] body) {
+            string str = Encoding.UTF8.GetString(body);
+            if (string.IsNullOrEmpty(str)) {
+                return new Guid[0];
+            }
+            List<Guid> guids = new List<Guid>();
+            string[] parts = str.Split(',');
+            foreach (var part in parts) {
+                if (Guid.TryParse(part, out Guid guid)) {
+                    guids.Add(guid);
+                }
+            }
+            return guids.ToArray();
         }
         #endregion
 
