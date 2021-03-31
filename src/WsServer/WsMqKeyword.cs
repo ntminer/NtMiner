@@ -6,12 +6,12 @@ namespace NTMiner {
         public const string ConsoleOutLinesRoutingKey = WsMessage.ConsoleOutLines;
         public const string GetLocalMessagesRoutingKey = WsMessage.GetLocalMessages;
         public const string LocalMessagesRoutingKey = WsMessage.LocalMessages;
+        public const string GetOperationResultsRoutingKey = WsMessage.GetOperationResults;
+        public const string OperationResultsRoutingKey = WsMessage.OperationResults;
         public const string GetDrivesRoutingKey = WsMessage.GetDrives;
         public const string DrivesRoutingKey = WsMessage.Drives;
         public const string GetLocalIpsRoutingKey = WsMessage.GetLocalIps;
         public const string LocalIpsRoutingKey = WsMessage.LocalIps;
-        public const string GetOperationResultsRoutingKey = WsMessage.GetOperationResults;
-        public const string OperationResultsRoutingKey = WsMessage.OperationResults;
         public const string OperationReceivedRoutingKey = WsMessage.OperationReceived;
         public const string GetSpeedRoutingKey = WsMessage.GetSpeed;
         public const string EnableRemoteDesktopRoutingKey = WsMessage.EnableRemoteDesktop;
