@@ -43,7 +43,7 @@ namespace NTMiner.MinerStudio {
                                 }
                                 OnPropertyChanged(nameof(IsNoRecord));
                             }
-                            SendGetOperationResultsMqMessage();
+                            SendGetOperationResultsMqMessage(isManual: true);
                         }
                     }, this.GetType());
                     VirtualRoot.BuildEventPath<ClientOperationResultsEvent>("将收到的挖矿端本地群控响应消息刷到展示层", LogEnum.DevConsole,
@@ -66,11 +66,11 @@ namespace NTMiner.MinerStudio {
                     VirtualRoot.BuildEventPath<ClientOperationReceivedEvent>("收到了挖矿端群控响应了群控操作的通知", LogEnum.DevConsole,
                         path: message => {
                             if (_minerClientVm != null && _minerClientVm.ClientId == message.ClientId) {
-                                SendGetOperationResultsMqMessage();
+                                SendGetOperationResultsMqMessage(isManual: true);
                             }
                         }, location: this.GetType());
                     VirtualRoot.BuildEventPath<Per5SecondEvent>("周期获取当前选中的那台矿机的本地群控响应消息", LogEnum.DevConsole, path: message => {
-                        SendGetOperationResultsMqMessage();
+                        SendGetOperationResultsMqMessage(isManual: false);
                     }, this.GetType());
                 }
             }
@@ -99,7 +99,7 @@ namespace NTMiner.MinerStudio {
 
             private DateTime _preSendMqMessageOn = DateTime.MinValue;
             private MinerClientViewModel _preMinerClientVm;
-            private void SendGetOperationResultsMqMessage() {
+            private void SendGetOperationResultsMqMessage(bool isManual) {
                 if (this._minerClientVm == null) {
                     return;
                 }
@@ -122,7 +122,12 @@ namespace NTMiner.MinerStudio {
                         afterTime = item.Timestamp;
                     }
                 }
-                MinerStudioService.GetOperationResultsAsync(minerClientVm, afterTime);
+                if (isManual) {
+                    MinerStudioService.ManualGetOperationResultsAsync(minerClientVm, afterTime);
+                }
+                else {
+                    MinerStudioService.GetOperationResultsAsync(minerClientVm, afterTime);
+                }
             }
         }
     }

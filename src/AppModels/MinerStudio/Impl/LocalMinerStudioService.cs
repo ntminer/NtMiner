@@ -128,6 +128,21 @@ namespace NTMiner.MinerStudio.Impl {
         }
         #endregion
 
+        #region GetOperationResultsAsync
+        public void GetOperationResultsAsync(IMinerData client, long afterTime) {
+            RpcRoot.JsonRpc.GetAsync<List<OperationResultData>>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.GetOperationResults), new Dictionary<string, string> {
+                ["afterTime"] = afterTime.ToString()
+            }, (data, e) => {
+                if (data != null && data.Count > 0) {
+                    VirtualRoot.RaiseEvent(new ClientOperationResultsEvent(client.ClientId, data));
+                }
+            }, timeountMilliseconds: 3000);
+        }
+        public void ManualGetOperationResultsAsync(IMinerData client, long afterTime) {
+            GetOperationResultsAsync(client, afterTime);
+        }
+        #endregion
+
         #region BlockWAUAsync
         public void BlockWAUAsync(IMinerData client) {
             RpcRoot.JsonRpc.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.BlockWAU), null, null, timeountMilliseconds: 3000);
@@ -225,18 +240,6 @@ namespace NTMiner.MinerStudio.Impl {
             RpcRoot.JsonRpc.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SetLocalIps), new DataRequest<List<LocalIpInput>> {
                 Data = data
             }, null, timeountMilliseconds: 3000);
-        }
-        #endregion
-
-        #region GetOperationResultsAsync
-        public void GetOperationResultsAsync(IMinerData client, long afterTime) {
-            RpcRoot.JsonRpc.GetAsync<List<OperationResultData>>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.GetOperationResults), new Dictionary<string, string> {
-                ["afterTime"] = afterTime.ToString()
-            }, (data, e) => {
-                if (data != null && data.Count > 0) {
-                    VirtualRoot.RaiseEvent(new ClientOperationResultsEvent(client.ClientId, data));
-                }
-            }, timeountMilliseconds: 3000);
         }
         #endregion
 

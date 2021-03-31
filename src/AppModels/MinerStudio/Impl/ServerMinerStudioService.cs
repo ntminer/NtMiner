@@ -100,6 +100,33 @@ namespace NTMiner.MinerStudio.Impl {
         }
         #endregion
 
+        #region GetOperationResultsAsync
+        public void GetOperationResultsAsync(IMinerData client, long afterTime) {
+            if (!MinerStudioRoot.WsClient.IsOpen) {
+                ShowWarn();
+                return;
+            }
+            MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.GetOperationResults) {
+                Data = new WrapperClientIdData {
+                    ClientId = client.ClientId,
+                    Data = afterTime
+                }
+            });
+        }
+        public void ManualGetOperationResultsAsync(IMinerData client, long afterTime) {
+            if (!MinerStudioRoot.WsClient.IsOpen) {
+                ShowWarn();
+                return;
+            }
+            MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ManualGetOperationResults) {
+                Data = new WrapperClientIdData {
+                    ClientId = client.ClientId,
+                    Data = afterTime
+                }
+            });
+        }
+        #endregion
+
         #region BlockWAUAsync
         public void BlockWAUAsync(IMinerData client) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
@@ -271,21 +298,6 @@ namespace NTMiner.MinerStudio.Impl {
                 Data = new WrapperClientIdData {
                     ClientId = client.ClientId,
                     Data = data
-                }
-            });
-        }
-        #endregion
-
-        #region GetOperationResultsAsync
-        public void GetOperationResultsAsync(IMinerData client, long afterTime) {
-            if (!MinerStudioRoot.WsClient.IsOpen) {
-                ShowWarn();
-                return;
-            }
-            MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.GetOperationResults) {
-                Data = new WrapperClientIdData {
-                    ClientId = client.ClientId,
-                    Data = afterTime
                 }
             });
         }

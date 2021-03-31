@@ -13,6 +13,8 @@ namespace NTMiner.MinerStudio {
         void ManualGetConsoleOutLinesAsync(IMinerData client, long afterTime);
         void GetLocalMessagesAsync(IMinerData client, long afterTime);
         void ManualGetLocalMessagesAsync(IMinerData client, long afterTime);
+        void GetOperationResultsAsync(IMinerData client, long afterTime);
+        void ManualGetOperationResultsAsync(IMinerData client, long afterTime);
 
         void EnableRemoteDesktopAsync(IMinerData client);
         void BlockWAUAsync(IMinerData client);
@@ -27,7 +29,6 @@ namespace NTMiner.MinerStudio {
         void SetVirtualMemoryAsync(IMinerData client, Dictionary<string, int> data);
         void GetLocalIpsAsync(IMinerData client);
         void SetLocalIpsAsync(IMinerData client, List<LocalIpInput> data);
-        void GetOperationResultsAsync(IMinerData client, long afterTime);
         void GetSelfWorkLocalJsonAsync(IMinerData client);
         void SaveSelfWorkLocalJsonAsync(IMinerData client, string localJson, string serverJson);
         void GetGpuProfilesJsonAsync(IMinerData client);
