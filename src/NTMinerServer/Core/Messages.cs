@@ -177,6 +177,19 @@ namespace NTMiner.Core {
         }
     }
 
+    [MessageType(description: "收到了MinerClientsWsBreathed Mq消息后")]
+    public class MinerClientsWsBreathedMqEvent : EventBase {
+        public MinerClientsWsBreathedMqEvent(string appId, Guid[] clientIds, DateTime timestamp) {
+            this.AppId = appId;
+            this.ClientIds = clientIds;
+            this.Timestamp = timestamp;
+        }
+
+        public string AppId { get; private set; }
+        public DateTime Timestamp { get; private set; }
+        public Guid[] ClientIds { get; private set; }
+    }
+
     [MessageType(description: "收到了ChangeMinerSign Mq消息后，该消息是个命令")]
     public class ChangeMinerSignMqCommand : Cmd {
         public ChangeMinerSignMqCommand(string appId, MinerSign data) {
