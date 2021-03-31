@@ -110,6 +110,9 @@ namespace NTMiner.MinerStudio.Impl {
                 }
             });
         }
+        public void ManualGetConsoleOutLinesAsync(IMinerData client, long afterTime) {
+            GetConsoleOutLinesAsync(client, afterTime);
+        }
         #endregion
 
         #region GetLocalMessagesAsync

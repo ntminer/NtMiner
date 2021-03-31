@@ -29,6 +29,11 @@ namespace NTMiner {
                         AppRoot.OperationMqSender.SendGetConsoleOutLines(session.LoginName, wrapperClientIdData.ClientId, afterTime);
                     }
                 },
+                [WsMessage.ManualGetConsoleOutLines] = (session, message) => {
+                    if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
+                        AppRoot.OperationMqSender.SendManualGetConsoleOutLines(session.LoginName, wrapperClientIdData.ClientId, afterTime);
+                    }
+                },
                 [WsMessage.GetLocalMessages] = (session, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
                         AppRoot.OperationMqSender.SendGetLocalMessages(session.LoginName, wrapperClientIdData.ClientId, afterTime);

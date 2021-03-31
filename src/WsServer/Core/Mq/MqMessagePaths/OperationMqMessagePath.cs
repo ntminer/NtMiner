@@ -12,6 +12,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
 
         protected override void Build(IModel channal) {
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GetConsoleOutLinesRoutingKey, arguments: null);
+            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.ManualGetConsoleOutLinesRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.ConsoleOutLinesRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GetLocalMessagesRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.LocalMessagesRoutingKey, arguments: null);
@@ -48,6 +49,16 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
         public override bool Go(BasicDeliverEventArgs ea) {
             switch (ea.RoutingKey) {
                 case WsMqKeyword.GetConsoleOutLinesRoutingKey: {
+                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
+                        string appId = ea.BasicProperties.AppId;
+                        long afterTimestamp = OperationMqBodyUtil.GetGetConsoleOutLinesMqReceiveBody(ea.Body);
+                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                            VirtualRoot.RaiseEvent(new GetConsoleOutLinesMqEvent(appId, loginName, timestamp, clientId, afterTimestamp));
+                        }
+                    }
+                    break;
+                case WsMqKeyword.ManualGetConsoleOutLinesRoutingKey: {
                         string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;

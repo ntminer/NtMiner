@@ -10,6 +10,7 @@ namespace NTMiner.Core.Mq.Senders {
     public interface IOperationMqSender : IMqSender {
         void SendGetConsoleOutLines(string loginName, Guid clientId, long afterTime);
         void SendConsoleOutLines(string loginName, Guid clientId, List<ConsoleOutLine> datas);
+        void SendManualGetConsoleOutLines(string loginName, Guid clientId, long asterTime);
 
         void SendGetLocalMessages(string loginName, Guid clientId, long afterTime);
         void SendLocalMessages(string loginName, Guid clientId, List<LocalMessageDto> datas);

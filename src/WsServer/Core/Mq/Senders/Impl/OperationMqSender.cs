@@ -25,6 +25,17 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetGetConsoleOutLinesMqSendBody(asterTime));
         }
 
+        public void SendManualGetConsoleOutLines(string loginName, Guid clientId, long asterTime) {
+            if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
+                return;
+            }
+            _mq.MqChannel.BasicPublish(
+                exchange: MqKeyword.NTMinerExchange,
+                routingKey: WsMqKeyword.ManualGetConsoleOutLinesRoutingKey,
+                basicProperties: CreateBasicProperties(loginName, clientId),
+                body: OperationMqBodyUtil.GetGetConsoleOutLinesMqSendBody(asterTime));
+        }
+
         public void SendConsoleOutLines(string loginName, Guid clientId, List<ConsoleOutLine> datas) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || datas == null || datas.Count == 0) {
                 return;
