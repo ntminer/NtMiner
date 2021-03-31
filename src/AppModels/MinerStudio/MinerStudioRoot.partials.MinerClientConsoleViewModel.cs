@@ -50,7 +50,7 @@ namespace NTMiner.MinerStudio {
                                 }
                                 this._minerClientVm = message.MinerClientVm;
                             }
-                            SendGetConsoleOutLinesMqMessage();
+                            SendGetConsoleOutLinesMqMessage(isManual: true);
                         }
                     }, this.GetType());
                     VirtualRoot.BuildEventPath<ClientConsoleOutLinesEvent>("将收到的挖矿端控制台消息输出到输出窗口", LogEnum.DevConsole, path: message => {
@@ -70,7 +70,7 @@ namespace NTMiner.MinerStudio {
                         }
                     }, this.GetType());
                     VirtualRoot.BuildEventPath<Per5SecondEvent>("周期获取当前选中的那台矿机的控制台输出", LogEnum.DevConsole, path: message => {
-                        SendGetConsoleOutLinesMqMessage();
+                        SendGetConsoleOutLinesMqMessage(isManual: false);
                     }, this.GetType());
                     VirtualRoot.BuildEventPath<Per1SecondEvent>("客户端控制台输出倒计时秒表", LogEnum.None, path: message => {
                         if (this._minerClientVm == null || this._latestTimestamp == Timestamp.UnixBaseTime) {
@@ -81,7 +81,7 @@ namespace NTMiner.MinerStudio {
                 }
             }
 
-            private void SendGetConsoleOutLinesMqMessage() {
+            private void SendGetConsoleOutLinesMqMessage(bool isManual) {
                 if (this._minerClientVm == null) {
                     return;
                 }
@@ -93,7 +93,12 @@ namespace NTMiner.MinerStudio {
                         afterTime = item.Timestamp;
                     }
                 }
-                MinerStudioService.GetConsoleOutLinesAsync(minerClientVm, afterTime);
+                if (isManual) {
+                    MinerStudioService.ManualGetConsoleOutLinesAsync(minerClientVm, afterTime);
+                }
+                else {
+                    MinerStudioService.GetConsoleOutLinesAsync(minerClientVm, afterTime);
+                }
             }
         }
     }
