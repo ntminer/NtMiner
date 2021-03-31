@@ -20,11 +20,11 @@ namespace NTMiner.Ws {
         /// </summary>
         public const string ReLogin = "ReLogin";                                // WebApiServer:UserPasswordChangedMqMessage->Mq->WsServer->MinerStudio
         public const string GetConsoleOutLines = "GetConsoleOutLines";          // MinerStudio->WsServer->Mq->WsServer->MinerClient
-        public const string AutoGetConsoleOutLines = "AutoGetConsoleOutLines";  // MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string ManualGetConsoleOutLines = "ManualGetConsoleOutLines";  // MinerStudio->WsServer->Mq->WsServer->MinerClient
         public const string GetLocalMessages = "GetLocalMessages";              // MinerStudio->WsServer->Mq->WsServer->MinerClient
-        public const string AutoGetLocalMessages = "AutoGetLocalMessages";      // MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string ManualGetLocalMessages = "ManualGetLocalMessages";      // MinerStudio->WsServer->Mq->WsServer->MinerClient
         public const string GetOperationResults = "GetOperationResults";        // MinerStudio->WsServer->Mq->WsServer->MinerClient
-        public const string AutoGetOperationResults = "AutoGetOperationResults";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string ManualGetOperationResults = "ManualGetOperationResults";// MinerStudio->WsServer->Mq->WsServer->MinerClient
         public const string GetDrives = "GetDrives";                            // MinerStudio->WsServer->Mq->WsServer->MinerClient
         public const string GetLocalIps = "GetLocalIps";                        // MinerStudio->WsServer->Mq->WsServer->MinerClient
         public const string GetSpeed = "GetSpeed";                              // MinerStudio->WsServer->Mq->WsServer->MinerClient
@@ -59,11 +59,11 @@ namespace NTMiner.Ws {
         public const string QueryClientDatas = "QueryClientDatas";              // MinerStudio->WsServer->Mq->WebApiServer
 
         public const string ConsoleOutLines = "ConsoleOutLines";                // MinerClient->WsServer->Mq->WsServer->MinerStudio
-        public const string AutoConsoleOutLines = "AutoConsoleOutLines";        // MinerClient->WsServer->Mq->WsServer->MinerStudio
+        public const string ManualConsoleOutLines = "ManualConsoleOutLines";        // MinerClient->WsServer->Mq->WsServer->MinerStudio
         public const string LocalMessages = "LocalMessages";                    // MinerClient->WsServer->Mq->WsServer->MinerStudio
-        public const string AutoLocalMessages = "AutoLocalMessages";            // MinerClient->WsServer->Mq->WsServer->MinerStudio
+        public const string ManualLocalMessages = "ManualLocalMessages";            // MinerClient->WsServer->Mq->WsServer->MinerStudio
         public const string OperationResults = "OperationResults";              // MinerClient->WsServer->Mq->WsServer->MinerStudio
-        public const string AutoOperationResults = "AutoOperationResults";      // MinerClient->WsServer->Mq->WsServer->MinerStudio
+        public const string ManualOperationResults = "ManualOperationResults";      // MinerClient->WsServer->Mq->WsServer->MinerStudio
         public const string Drives = "Drives";                                  // MinerClient->WsServer->Mq->WsServer->MinerStudio
         public const string LocalIps = "LocalIps";                              // MinerClient->WsServer->Mq->WsServer->MinerStudio
         public const string Speed = "Speed";                                    // MinerClient->WsServer->Mq->WebApiServer
