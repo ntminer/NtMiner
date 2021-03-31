@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core.Daemon;
 using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
+using NTMiner.Core.Mq;
 using NTMiner.Cryptography;
 using NTMiner.Hub;
 using NTMiner.VirtualMemory;
@@ -157,6 +158,19 @@ namespace NTMiner.Core {
         }
 
         public string MinerIp { get; private set; }
+    }
+
+    [MessageType(description: "收到了SpeedDatas Mq消息后")]
+    public class SpeedDatasMqEvent : EventBase {
+        public SpeedDatasMqEvent(string appId, ClientIdIp[] clientIdIps, DateTime timestamp) {
+            this.AppId = appId;
+            this.ClientIdIps = clientIdIps;
+            this.Timestamp = timestamp;
+        }
+
+        public string AppId { get; private set; }
+        public ClientIdIp[] ClientIdIps { get; private set; }
+        public DateTime Timestamp { get; private set; }
     }
 
     [MessageType(description: "收到了MinerClientWsOpened Mq消息后")]
