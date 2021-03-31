@@ -28,6 +28,16 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
+            VirtualRoot.BuildEventPath<GetOperationResultsMqEvent>("收到GetOperationResults Mq消息后检查是否是应由本节点处理的消息，如果是则处理，否则忽略", LogEnum.None, path: message => {
+                #region
+                if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
+                    return;
+                }
+                SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.GetOperationResults) {
+                    Data = message.Data
+                });
+                #endregion
+            }, this.GetType());
             VirtualRoot.BuildEventPath<GetDrivesMqEvent>("收到GetDrives Mq消息后检查是否是应由本节点处理的消息，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
@@ -42,16 +52,6 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.GetLocalIps));
-                #endregion
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<GetOperationResultsMqEvent>("收到GetOperationResults Mq消息后检查是否是应由本节点处理的消息，如果是则处理，否则忽略", LogEnum.None, path: message => {
-                #region
-                if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
-                    return;
-                }
-                SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.GetOperationResults) {
-                    Data = message.Data
-                });
                 #endregion
             }, this.GetType());
             VirtualRoot.BuildEventPath<GetSpeedMqEvent>("收到GetSpeedMq消息后检查是否是应由本节点处理的消息，如果是则处理，否则忽略", LogEnum.None, path: message => {

@@ -80,6 +80,39 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetLocalMessagesMqSendBody(datas));
         }
 
+        public void SendGetOperationResults(string loginName, Guid clientId, long afterTime) {
+            if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
+                return;
+            }
+            _mq.MqChannel.BasicPublish(
+                exchange: MqKeyword.NTMinerExchange,
+                routingKey: WsMqKeyword.GetOperationResultsRoutingKey,
+                basicProperties: CreateBasicProperties(loginName, clientId),
+                body: OperationMqBodyUtil.GetGetOperationResultsMqSendBody(afterTime));
+        }
+
+        public void SendFastGetOperationResults(string loginName, Guid clientId, long afterTime) {
+            if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
+                return;
+            }
+            _mq.MqChannel.BasicPublish(
+                exchange: MqKeyword.NTMinerExchange,
+                routingKey: WsMqKeyword.FastGetOperationResultsRoutingKey,
+                basicProperties: CreateBasicProperties(loginName, clientId),
+                body: OperationMqBodyUtil.GetGetOperationResultsMqSendBody(afterTime));
+        }
+
+        public void SendOperationResults(string loginName, Guid clientId, List<OperationResultData> datas) {
+            if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || datas == null || datas.Count == 0) {
+                return;
+            }
+            _mq.MqChannel.BasicPublish(
+                exchange: MqKeyword.NTMinerExchange,
+                routingKey: WsMqKeyword.OperationResultsRoutingKey,
+                basicProperties: CreateBasicProperties(loginName, clientId),
+                body: OperationMqBodyUtil.GetOperationResultsMqSendBody(datas));
+        }
+
         public void SendGetDrives(string loginName, Guid clientId) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
@@ -122,28 +155,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 routingKey: WsMqKeyword.LocalIpsRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetLocalIpsMqSendBody(datas));
-        }
-
-        public void SendGetOperationResults(string loginName, Guid clientId, long afterTime) {
-            if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
-                return;
-            }
-            _mq.MqChannel.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
-                routingKey: WsMqKeyword.GetOperationResultsRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
-                body: OperationMqBodyUtil.GetGetOperationResultsMqSendBody(afterTime));
-        }
-
-        public void SendOperationResults(string loginName, Guid clientId, List<OperationResultData> datas) {
-            if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || datas == null || datas.Count == 0) {
-                return;
-            }
-            _mq.MqChannel.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
-                routingKey: WsMqKeyword.OperationResultsRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
-                body: OperationMqBodyUtil.GetOperationResultsMqSendBody(datas));
         }
 
         public void SendOperationReceived(string loginName, Guid clientId) {

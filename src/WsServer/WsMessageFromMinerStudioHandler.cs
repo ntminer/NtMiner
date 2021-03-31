@@ -44,6 +44,16 @@ namespace NTMiner {
                         AppRoot.OperationMqSender.SendFastGetLocalMessages(session.LoginName, wrapperClientIdData.ClientId, afterTime);
                     }
                 },
+                [WsMessage.GetOperationResults] = (session, message) => {
+                    if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
+                        AppRoot.OperationMqSender.SendGetOperationResults(session.LoginName, wrapperClientIdData.ClientId, afterTime);
+                    }
+                },
+                [WsMessage.FastGetOperationResults] = (session, message) => {
+                    if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
+                        AppRoot.OperationMqSender.SendFastGetOperationResults(session.LoginName, wrapperClientIdData.ClientId, afterTime);
+                    }
+                },
                 [WsMessage.GetDrives] = (session, message) => {
                     if (message.TryGetData(out WrapperClientId wrapperClientId)) {
                         AppRoot.OperationMqSender.SendGetDrives(session.LoginName, wrapperClientId.ClientId);
@@ -52,11 +62,6 @@ namespace NTMiner {
                 [WsMessage.GetLocalIps] = (session, message) => {
                     if (message.TryGetData(out WrapperClientId wrapperClientId)) {
                         AppRoot.OperationMqSender.SendGetLocalIps(session.LoginName, wrapperClientId.ClientId);
-                    }
-                },
-                [WsMessage.GetOperationResults] = (session, message) => {
-                    if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
-                        AppRoot.OperationMqSender.SendGetOperationResults(session.LoginName, wrapperClientIdData.ClientId, afterTime);
                     }
                 },
                 [WsMessage.GetSpeed] = (session, message) => {
