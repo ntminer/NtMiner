@@ -47,18 +47,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: MinerClientMqBodyUtil.GetClientIdMqSendBody(clientId));
         }
 
-        public void SendMinerClientWsBreathed(Guid clientId) {
-            if (clientId == Guid.Empty) {
-                return;
-            }
-            var basicProperties = CreateNonePersistentBasicProperties();
-            _mq.MqChannel.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
-                routingKey: MqKeyword.MinerClientWsBreathedRoutingKey,
-                basicProperties: basicProperties,
-                body: MinerClientMqBodyUtil.GetClientIdMqSendBody(clientId));
-        }
-
         public void SendMinerClientsWsBreathed(Guid[] clientIds) {
             if (clientIds == null || clientIds.Length == 0) {
                 return;
