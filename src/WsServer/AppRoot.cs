@@ -172,7 +172,7 @@ namespace NTMiner {
 
         public static void ActiveMinerClientSession(string sessionId) {
             if (MinerClientSessionSet.ActiveByWsSessionId(sessionId, out IMinerClientSession minerSession)) {
-                MinerClientMqSender.SendMinerClientWsBreathed(minerSession.LoginName, minerSession.ClientId);
+                MinerClientMqSender.SendMinerClientWsBreathed(minerSession.ClientId);
             }
         }
 
@@ -188,7 +188,7 @@ namespace NTMiner {
             IMinerClientSession minerSession = MinerClientSession.Create(userData, wsUserName, remoteEndPoint, session.SessionId, WsServer.MinerClientWsSessions);
             MinerClientSessionSet.Add(minerSession);
             // 通知WebApiServer节点该矿机Ws连线了
-            MinerClientMqSender.SendMinerClientWsOpened(minerSession.LoginName, minerSession.ClientId);
+            MinerClientMqSender.SendMinerClientWsOpened(minerSession.ClientId);
             bool isMinerSignChanged;
             if (!MinerSignSet.TryGetByClientId(wsUserName.ClientId, out MinerSign minerSign)) {
                 // 此时该矿机是第一次在服务端出现
@@ -242,7 +242,7 @@ namespace NTMiner {
         public static void RemoveMinerClientSession(string sessionId) {
             IMinerClientSession minerSession = MinerClientSessionSet.RemoveByWsSessionId(sessionId);
             if (minerSession != null) {
-                MinerClientMqSender.SendMinerClientWsClosed(minerSession.LoginName, minerSession.ClientId);
+                MinerClientMqSender.SendMinerClientWsClosed(minerSession.ClientId);
             }
         }
 
