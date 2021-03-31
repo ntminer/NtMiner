@@ -154,6 +154,20 @@ namespace NTMiner.Core.Impl {
                     clientData.IsOnline = true;
                 }
             }, this.GetType());
+            VirtualRoot.BuildEventPath<MinerClientsWsBreathedMqEvent>("收到MinerClientsWsBreathedMq消息后更新NetActiveOn", LogEnum.None, path: message => {
+                if (IsOldMqMessage(message.Timestamp)) {
+                    NTMinerConsole.UserOk(nameof(MinerClientsWsBreathedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
+                    return;
+                }
+                if (message.ClientIds != null && message.ClientIds.Length != 0) {
+                    foreach (var clientId in message.ClientIds) {
+                        if (_dicByClientId.TryGetValue(clientId, out ClientData clientData)) {
+                            clientData.NetActiveOn = message.Timestamp;
+                            clientData.IsOnline = true;
+                        }
+                    }
+                }
+            }, this.GetType());
             VirtualRoot.BuildCmdPath<ChangeMinerSignMqCommand>(path: message => {
                 if (_dicByObjectId.TryGetValue(message.Data.Id, out ClientData clientData)) {
                     clientData.Update(message.Data, out bool isChanged);
