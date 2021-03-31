@@ -31,7 +31,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             }
             _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
-                routingKey: WsMqKeyword.ManualGetConsoleOutLinesRoutingKey,
+                routingKey: WsMqKeyword.FastGetConsoleOutLinesRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetGetConsoleOutLinesMqSendBody(asterTime));
         }
@@ -64,7 +64,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             }
             _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
-                routingKey: WsMqKeyword.ManualGetLocalMessagesRoutingKey,
+                routingKey: WsMqKeyword.FastGetLocalMessagesRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetGetLocalMessagesMqSendBody(afterTime));
         }

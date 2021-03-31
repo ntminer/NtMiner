@@ -3,13 +3,13 @@
 namespace NTMiner {
     public static class WsMqKeyword {
         public const string GetConsoleOutLinesRoutingKey = WsMessage.GetConsoleOutLines;
-        public const string ManualGetConsoleOutLinesRoutingKey = WsMessage.ManualGetConsoleOutLines;
+        public const string FastGetConsoleOutLinesRoutingKey = WsMessage.FastGetConsoleOutLines;
         public const string ConsoleOutLinesRoutingKey = WsMessage.ConsoleOutLines;
         public const string GetLocalMessagesRoutingKey = WsMessage.GetLocalMessages;
-        public const string ManualGetLocalMessagesRoutingKey = WsMessage.ManualGetLocalMessages;
+        public const string FastGetLocalMessagesRoutingKey = WsMessage.FastGetLocalMessages;
         public const string LocalMessagesRoutingKey = WsMessage.LocalMessages;
         public const string GetOperationResultsRoutingKey = WsMessage.GetOperationResults;
-        public const string ManualGetOperationResultsRoutingKey = WsMessage.ManualGetOperationResults;
+        public const string FastGetOperationResultsRoutingKey = WsMessage.FastGetOperationResults;
         public const string OperationResultsRoutingKey = WsMessage.OperationResults;
         public const string GetDrivesRoutingKey = WsMessage.GetDrives;
         public const string DrivesRoutingKey = WsMessage.Drives;

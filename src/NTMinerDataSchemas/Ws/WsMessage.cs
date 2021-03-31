@@ -20,11 +20,11 @@ namespace NTMiner.Ws {
         /// </summary>
         public const string ReLogin = "ReLogin";                                // WebApiServer:UserPasswordChangedMqMessage->Mq->WsServer->MinerStudio
         public const string GetConsoleOutLines = "GetConsoleOutLines";          // MinerStudio->WsServer->Mq->WsServer->MinerClient
-        public const string ManualGetConsoleOutLines = "ManualGetConsoleOutLines";  // MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string FastGetConsoleOutLines = "FastGetConsoleOutLines";  // MinerStudio->WsServer->Mq->WsServer->MinerClient
         public const string GetLocalMessages = "GetLocalMessages";              // MinerStudio->WsServer->Mq->WsServer->MinerClient
-        public const string ManualGetLocalMessages = "ManualGetLocalMessages";      // MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string FastGetLocalMessages = "FastGetLocalMessages";      // MinerStudio->WsServer->Mq->WsServer->MinerClient
         public const string GetOperationResults = "GetOperationResults";        // MinerStudio->WsServer->Mq->WsServer->MinerClient
-        public const string ManualGetOperationResults = "ManualGetOperationResults";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string FastGetOperationResults = "FastGetOperationResults";// MinerStudio->WsServer->Mq->WsServer->MinerClient
         public const string GetDrives = "GetDrives";                            // MinerStudio->WsServer->Mq->WsServer->MinerClient
         public const string GetLocalIps = "GetLocalIps";                        // MinerStudio->WsServer->Mq->WsServer->MinerClient
         public const string GetSpeed = "GetSpeed";                              // MinerStudio->WsServer->Mq->WsServer->MinerClient

@@ -72,7 +72,7 @@ namespace NTMiner.MinerStudio.Impl {
             });
         }
         public void ManualGetConsoleOutLinesAsync(IMinerData client, long afterTime) {
-            MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ManualGetConsoleOutLines) {
+            MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.FastGetConsoleOutLines) {
                 Data = new WrapperClientIdData {
                     ClientId = client.ClientId,
                     Data = afterTime
@@ -91,7 +91,7 @@ namespace NTMiner.MinerStudio.Impl {
             });
         }
         public void ManualGetLocalMessagesAsync(IMinerData client, long afterTime) {
-            MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ManualGetLocalMessages) {
+            MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.FastGetLocalMessages) {
                 Data = new WrapperClientIdData {
                     ClientId = client.ClientId,
                     Data = afterTime
@@ -118,7 +118,7 @@ namespace NTMiner.MinerStudio.Impl {
                 ShowWarn();
                 return;
             }
-            MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ManualGetOperationResults) {
+            MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.FastGetOperationResults) {
                 Data = new WrapperClientIdData {
                     ClientId = client.ClientId,
                     Data = afterTime
