@@ -23,6 +23,18 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: MinerClientMqBodyUtil.GetClientIdMqSendBody(clientId));
         }
 
+        public void SendSpeeds(ClientIdIp[] clientIdIps) {
+            if (clientIdIps == null || clientIdIps.Length == 0) {
+                return;
+            }
+            var basicProperties = CreateNonePersistentBasicProperties();
+            _mq.MqChannel.BasicPublish(
+                exchange: MqKeyword.NTMinerExchange,
+                routingKey: MqKeyword.SpeedsRoutingKey,
+                basicProperties: basicProperties,
+                body: MinerClientMqBodyUtil.GetClientIdIpsMqSendBody(clientIdIps));
+        }
+
         public void SendMinerClientWsOpened(Guid clientId) {
             if (clientId == Guid.Empty) {
                 return;

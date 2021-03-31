@@ -42,11 +42,45 @@ namespace NTMiner.Core.Mq {
             List<Guid> guids = new List<Guid>();
             string[] parts = str.Split(',');
             foreach (var part in parts) {
-                if (Guid.TryParse(part, out Guid guid)) {
-                    guids.Add(guid);
+                if (Guid.TryParse(part, out Guid clientId)) {
+                    guids.Add(clientId);
                 }
             }
             return guids.ToArray();
+        }
+        #endregion
+
+        #region ClientIdIps
+        public static byte[] GetClientIdIpsMqSendBody(ClientIdIp[] clientIdIps) {
+            StringBuilder sb = new StringBuilder();
+            int len = sb.Length;
+            foreach (var clientIdIp in clientIdIps) {
+                if (len != sb.Length) {
+                    sb.Append("|");
+                }
+                sb.Append(clientIdIp.ClientId.ToString());
+                sb.Append("@");
+                sb.Append(clientIdIp.MinerIp);
+            }
+            return Encoding.UTF8.GetBytes(sb.ToString());
+        }
+
+        public static ClientIdIp[] GetClientIdIpsMqReciveBody(byte[] body) {
+            string str = Encoding.UTF8.GetString(body);
+            if (string.IsNullOrEmpty(str)) {
+                return new ClientIdIp[0];
+            }
+            List<ClientIdIp> clientIdIps = new List<ClientIdIp>();
+            string[] parts = str.Split('|');
+            foreach (var part in parts) {
+                string[] pair = part.Split('@');
+                if (pair.Length == 2) {
+                    if (Guid.TryParse(pair[0], out Guid clientId)) {
+                        clientIdIps.Add(new ClientIdIp(clientId, pair[1]));
+                    }
+                }
+            }
+            return clientIdIps.ToArray();
         }
         #endregion
 

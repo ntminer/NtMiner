@@ -39,6 +39,7 @@ namespace NTMiner {
         public const string QueryClientsForWsRoutingKey = "QueryClientsForWs";
         public const string QueryClientsForWsResponseRoutingKey = "QueryClientsForWsResponse{0}";
         public const string SpeedRoutingKey = WsMessage.Speed;
+        public const string SpeedsRoutingKey = WsMessage.Speed + "s";
 
         public const string StartMineRoutingKey = WsMessage.StartMine;
         public const string StartWorkMineRoutingKey = WsMessage.StartWorkMine;
