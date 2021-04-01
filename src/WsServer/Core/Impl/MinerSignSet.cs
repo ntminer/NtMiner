@@ -50,7 +50,7 @@ namespace NTMiner.Core.Impl {
                 }
                 #endregion
             }, this.GetType());
-            VirtualRoot.BuildEventPath<MinerSignSetedMqEvent>("收到MinerSignChangedMq消息后更新内存中对应的记录", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<MinerSignSetedMqEvent>("收到MinerSignSetedMq消息后更新内存中对应的记录", LogEnum.None, path: message => {
                 #region
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
@@ -120,7 +120,7 @@ namespace NTMiner.Core.Impl {
                     }
                 }
                 _redis.SetAsync(minerData).ContinueWith(_ => {
-                    AppRoot.MinerClientMqSender.SendMinerSignChanged(minerSign);
+                    AppRoot.MinerClientMqSender.SendMinerSignSeted(minerSign);
                 });
             });
         }

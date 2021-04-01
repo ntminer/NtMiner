@@ -58,7 +58,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: MinerClientMqBodyUtil.GetClientIdsMqSendBody(clientIds));
         }
 
-        public void SendMinerSignChanged(MinerSign minerSign) {
+        public void SendMinerSignSeted(MinerSign minerSign) {
             if (minerSign == null || string.IsNullOrEmpty(minerSign.Id)) {
                 return;
             }
