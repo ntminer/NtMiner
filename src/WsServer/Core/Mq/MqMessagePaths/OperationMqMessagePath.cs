@@ -53,7 +53,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                 case WsMqKeyword.GetConsoleOutLinesRoutingKey: {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        AfterTimeRequest[] requests = OperationMqBodyUtil.GetGetConsoleOutLinesMqReceiveBody(ea.Body);
+                        AfterTimeRequest[] requests = OperationMqBodyUtil.GetAfterTimeRequestMqReceiveBody(ea.Body);
                         if (requests != null && requests.Length != 0) {
                             foreach (var request in requests) {
                                 VirtualRoot.RaiseEvent(new GetConsoleOutLinesMqEvent(appId, request.LoginName, timestamp, request.ClientId, request.AfterTime));
@@ -82,12 +82,13 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     }
                     break;
                 case WsMqKeyword.GetLocalMessagesRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        long afterTimestamp = OperationMqBodyUtil.GetFastGetLocalMessagesMqReceiveBody(ea.Body);
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new GetLocalMessagesMqEvent(appId, loginName, timestamp, clientId, afterTimestamp));
+                        AfterTimeRequest[] requests = OperationMqBodyUtil.GetAfterTimeRequestMqReceiveBody(ea.Body);
+                        if (requests != null && requests.Length != 0) {
+                            foreach (var request in requests) {
+                                VirtualRoot.RaiseEvent(new GetLocalMessagesMqEvent(appId, request.LoginName, timestamp, request.ClientId, request.AfterTime));
+                            }
                         }
                     }
                     break;

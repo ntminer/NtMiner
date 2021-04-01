@@ -22,7 +22,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetConsoleOutLinesRoutingKey,
                 basicProperties: CreateBasicProperties(),
-                body: OperationMqBodyUtil.GetGetConsoleOutLinesMqSendBody(requests));
+                body: OperationMqBodyUtil.GetAfterTimeRequestMqSendBody(requests));
         }
 
         public void SendFastGetConsoleOutLines(string loginName, Guid clientId, long afterTime) {
@@ -47,15 +47,15 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetConsoleOutLinesMqSendBody(datas));
         }
 
-        public void SendGetLocalMessages(string loginName, Guid clientId, long afterTime) {
-            if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
+        public void SendGetLocalMessages(AfterTimeRequest[] requests) {
+            if (requests == null || requests.Length == 0) {
                 return;
             }
             _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetLocalMessagesRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
-                body: OperationMqBodyUtil.GetFastGetLocalMessagesMqSendBody(afterTime));
+                basicProperties: CreateBasicProperties(),
+                body: OperationMqBodyUtil.GetAfterTimeRequestMqSendBody(requests));
         }
 
         public void SendFastGetLocalMessages(string loginName, Guid clientId, long afterTime) {

@@ -12,7 +12,7 @@ namespace NTMiner.Core.Mq.Senders {
         void SendConsoleOutLines(string loginName, Guid clientId, List<ConsoleOutLine> datas);
         void SendFastGetConsoleOutLines(string loginName, Guid clientId, long afterTime);
 
-        void SendGetLocalMessages(string loginName, Guid clientId, long afterTime);
+        void SendGetLocalMessages(AfterTimeRequest[] requests);
         void SendFastGetLocalMessages(string loginName, Guid clientId, long afterTime);
         void SendLocalMessages(string loginName, Guid clientId, List<LocalMessageDto> datas);
 

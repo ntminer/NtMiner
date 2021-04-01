@@ -8,6 +8,22 @@ using System.Text;
 
 namespace NTMiner.Core.Mq {
     public static class OperationMqBodyUtil {
+
+        public static byte[] GetAfterTimeRequestMqSendBody(AfterTimeRequest[] requests) {
+            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(requests));
+        }
+        public static AfterTimeRequest[] GetAfterTimeRequestMqReceiveBody(byte[] body) {
+            string json = Encoding.UTF8.GetString(body);
+            if (string.IsNullOrEmpty(json)) {
+                return new AfterTimeRequest[0];
+            }
+            var result = VirtualRoot.JsonSerializer.Deserialize<AfterTimeRequest[]>(json);
+            if (result == null) {
+                result = new AfterTimeRequest[0];
+            }
+            return result;
+        }
+
         #region GetConsoleOutLines
         public static byte[] GetFastGetConsoleOutLinesMqSendBody(long afterTime) {
             return Encoding.UTF8.GetBytes(afterTime.ToString());
@@ -18,21 +34,6 @@ namespace NTMiner.Core.Mq {
                 return value;
             }
             return 0;
-        }
-
-        public static byte[] GetGetConsoleOutLinesMqSendBody(AfterTimeRequest[] requests) {
-            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(requests));
-        }
-        public static AfterTimeRequest[] GetGetConsoleOutLinesMqReceiveBody(byte[] body) {
-            string json = Encoding.UTF8.GetString(body);
-            if (string.IsNullOrEmpty(json)) {
-                return new AfterTimeRequest[0];
-            }
-            var result = VirtualRoot.JsonSerializer.Deserialize<AfterTimeRequest[]>(json);
-            if (result == null) {
-                result = new AfterTimeRequest[0];
-            }
-            return result;
         }
         #endregion
 

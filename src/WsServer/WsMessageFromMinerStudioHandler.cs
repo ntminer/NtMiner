@@ -12,6 +12,8 @@ namespace NTMiner {
         private static readonly object _lockerForUserGetSpeedRequests = new object();
         private static readonly List<AfterTimeRequest> _getConsoleOutLinesRequests = new List<AfterTimeRequest>();
         private static readonly object _lockerForGetConsoleOutLinesRequests = new object();
+        private static readonly List<AfterTimeRequest> _getLocalMessagesRequests = new List<AfterTimeRequest>();
+        private static readonly object _lockerForGetLocalMessagesRequests = new object();
         static WsMessageFromMinerStudioHandler() {
             // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
             VirtualRoot.BuildEventPath<Per1SecondEvent>("每1秒钟将WsServer暂存的来自群控客户端的消息广播到Mq", LogEnum.None, message => {
@@ -28,6 +30,13 @@ namespace NTMiner {
                     _getConsoleOutLinesRequests.Clear();
                 }
                 AppRoot.OperationMqSender.SendGetConsoleOutLines(getConsoleOutLinesRequests);
+
+                AfterTimeRequest[] getLocalMessagesRequests;
+                lock (_lockerForGetLocalMessagesRequests) {
+                    getLocalMessagesRequests = _getLocalMessagesRequests.ToArray();
+                    _getLocalMessagesRequests.Clear();
+                }
+                AppRoot.OperationMqSender.SendGetLocalMessages(getLocalMessagesRequests);
             }, typeof(WsMessageFromMinerClientHandler));
         }
 
@@ -51,7 +60,13 @@ namespace NTMiner {
                 },
                 [WsMessage.GetLocalMessages] = (session, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
-                        AppRoot.OperationMqSender.SendGetLocalMessages(session.LoginName, wrapperClientIdData.ClientId, afterTime);
+                        lock (_lockerForGetLocalMessagesRequests) {
+                            _getLocalMessagesRequests.Add(new AfterTimeRequest {
+                                AfterTime = afterTime,
+                                ClientId = wrapperClientIdData.ClientId,
+                                LoginName = session.LoginName
+                            });
+                        }
                     }
                 },
                 [WsMessage.FastGetLocalMessages] = (session, message) => {
