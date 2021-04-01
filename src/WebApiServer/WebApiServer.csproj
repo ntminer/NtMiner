@@ -106,11 +106,9 @@
     <Compile Include="Controllers\ServerMessageBinaryController.cs" />
     <Compile Include="Core\IGpuNameSet.cs" />
     <Compile Include="Core\IKernelOutputKeywordSet.cs" />
-    <Compile Include="Core\IMinerIdSet.cs" />
     <Compile Include="CloudFileUrlGenerater\Impl\AliCloudOSSFileUrlGenerater.cs" />
     <Compile Include="Core\Impl\GpuNameSet.cs" />
     <Compile Include="Core\Impl\KernelOutputKeywordSet.cs" />
-    <Compile Include="Core\Impl\MinerIdSet.cs" />
     <Compile Include="CloudFileUrlGenerater\Impl\QiniuCloudKodoFileUrlGenerater.cs" />
     <Compile Include="Core\Impl\ServerMessageSet.cs" />
     <Compile Include="Core\Impl\WsServerNodeAddressSet.cs" />
@@ -121,9 +119,7 @@
     <Compile Include="Core\Mq\Senders\Impl\OperationMqSender.cs" />
     <Compile Include="Core\Mq\Senders\IOperationMqSender.cs" />
     <Compile Include="Core\Redis\IClientActiveOnRedis.cs" />
-    <Compile Include="Core\Redis\IMinerIdRedis.cs" />
     <Compile Include="Core\Redis\Impl\ClientActiveOnRedis.cs" />
-    <Compile Include="Core\Redis\Impl\MinerIdRedis.cs" />
     <Compile Include="Core\Redis\Impl\WsServerNodeRedis.cs" />
     <Compile Include="Core\Redis\IWsServerNodeRedis.cs" />
     <Compile Include="HttpRequestMessageExtensions.cs" />

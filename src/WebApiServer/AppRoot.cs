@@ -79,7 +79,6 @@ namespace NTMiner {
                         var speedDataRedis = new SpeedDataRedis(redis);
                         var userRedis = new UserDataRedis(redis);
                         var captchaRedis = new CaptchaDataRedis(redis);
-                        var minerIdRedis = new MinerIdRedis(redis);
 
                         WsServerNodeRedis = new WsServerNodeRedis(redis);
                         WsServerNodeAddressSet = new WsServerNodeAddressSet(WsServerNodeRedis);
@@ -89,7 +88,6 @@ namespace NTMiner {
                         CalcConfigSet = new CalcConfigSet();
                         NTMinerWalletSet = new NTMinerWalletSet();
                         GpuNameSet = new GpuNameSet();
-                        MinerIdSet = new MinerIdSet(minerIdRedis);
                         ClientDataSet clientDataSet = new ClientDataSet(minerRedis, clientActiveOnRedis, speedDataRedis, minerClientMqSender);
                         ClientDataSet = clientDataSet;
                         var operationMqSender = new OperationMqSender(mqRedis);
@@ -188,8 +186,6 @@ namespace NTMiner {
         public static INTMinerWalletSet NTMinerWalletSet { get; private set; }
 
         public static IClientDataSet ClientDataSet { get; private set; }
-
-        public static IMinerIdSet MinerIdSet { get; private set; }
 
         public static IGpuNameSet GpuNameSet { get; private set; }
 

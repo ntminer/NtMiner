@@ -21,8 +21,7 @@ namespace NTMiner.Core.Impl {
                 var getMinersTask = minerRedis.GetAllAsync();
                 var getClientActiveOnsTask = clientActiveOnRedis.GetAllAsync();
                 var getSpeedsTask = speedDataRedis.GetAllAsync();
-                var waitMinerIdSetReadiedTask = AppRoot.MinerIdSet.WaitReadiedAsync();
-                Task.WhenAll(getMinersTask, getClientActiveOnsTask, getSpeedsTask, waitMinerIdSetReadiedTask).ContinueWith(t => {
+                Task.WhenAll(getMinersTask, getClientActiveOnsTask, getSpeedsTask).ContinueWith(t => {
                     NTMinerConsole.UserInfo($"从redis加载了 {getMinersTask.Result.Count} 条MinerData，和 {getSpeedsTask.Result.Count} 条SpeedData");
                     Dictionary<Guid, SpeedData> speedDataDic = getSpeedsTask.Result;
                     Dictionary<string, DateTime> clientActiveOnDic = getClientActiveOnsTask.Result;
@@ -36,9 +35,6 @@ namespace NTMiner.Core.Impl {
                         clientDatas.Add(clientData);
                         if (speedDataDic.TryGetValue(minerData.ClientId, out SpeedData speedData) && speedData.SpeedOn > speedOn) {
                             clientData.Update(speedData, out bool _);
-                        }
-                        if (!AppRoot.MinerIdSet.TryGetMinerId(minerData.ClientId, out _)) {
-                            AppRoot.MinerIdSet.Set(minerData.ClientId, minerData.Id);
                         }
                     }
                     callback?.Invoke(clientDatas);
