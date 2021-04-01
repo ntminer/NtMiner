@@ -55,7 +55,7 @@ namespace NTMiner {
                     }
                     AppRoot.OperationMqSender.SendGetOperationResults(getOperationResultsRequests);
                 });
-            }, typeof(WsMessageFromMinerClientHandler));
+            }, typeof(WsMessageFromMinerStudioHandler));
         }
 
         private static readonly Dictionary<string, Action<IMinerStudioSession, WsMessage>>

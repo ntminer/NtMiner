@@ -147,8 +147,14 @@
                             throw new Exception($"一种命令只应被一个处理器处理:{typeof(TMessage).Name}");
                         }
                     }
-                    else if (messagePath.Location != AnonymousMessagePath.Location && _messagePaths.Any(a => a.Path == messagePath.Path && a.PathId == messagePath.PathId)) {
-                        NTMinerConsole.DevWarn(() => $"重复的路径:{messagePath.Path} {messagePath.Description}");
+                    else if (messagePath.Location != AnonymousMessagePath.Location) {
+                        var paths = _messagePaths.Where(a => a.Path == messagePath.Path && a.PathId == messagePath.PathId).ToArray();
+                        if (paths.Length != 0) {
+                            foreach (var path in paths) {
+                                NTMinerConsole.DevWarn(() => $"重复的路径:{path.Path} {path.Description}");
+                            }
+                            NTMinerConsole.DevWarn(() => $"重复的路径:{messagePath.Path} {messagePath.Description}");
+                        }
                     }
                     _messagePaths.Add(messagePath);
                 }
