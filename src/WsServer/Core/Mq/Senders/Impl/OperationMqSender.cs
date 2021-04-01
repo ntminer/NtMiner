@@ -80,15 +80,15 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetLocalMessagesMqSendBody(datas));
         }
 
-        public void SendGetOperationResults(string loginName, Guid clientId, long afterTime) {
-            if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
+        public void SendGetOperationResults(AfterTimeRequest[] requests) {
+            if (requests == null || requests.Length == 0) {
                 return;
             }
             _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetOperationResultsRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
-                body: OperationMqBodyUtil.GetFastGetOperationResultsMqSendBody(afterTime));
+                basicProperties: CreateBasicProperties(),
+                body: OperationMqBodyUtil.GetAfterTimeRequestMqSendBody(requests));
         }
 
         public void SendFastGetOperationResults(string loginName, Guid clientId, long afterTime) {

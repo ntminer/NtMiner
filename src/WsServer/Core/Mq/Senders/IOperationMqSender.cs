@@ -16,7 +16,7 @@ namespace NTMiner.Core.Mq.Senders {
         void SendFastGetLocalMessages(string loginName, Guid clientId, long afterTime);
         void SendLocalMessages(string loginName, Guid clientId, List<LocalMessageDto> datas);
 
-        void SendGetOperationResults(string loginName, Guid clientId, long afterTime);
+        void SendGetOperationResults(AfterTimeRequest[] requests);
         void SendFastGetOperationResults(string loginName, Guid clientId, long afterTime);
         void SendOperationResults(string loginName, Guid clientId, List<OperationResultData> datas);
 

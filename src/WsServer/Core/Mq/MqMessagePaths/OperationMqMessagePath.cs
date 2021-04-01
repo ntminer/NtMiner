@@ -113,12 +113,13 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     }
                     break;
                 case WsMqKeyword.GetOperationResultsRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        long afterTimestamp = OperationMqBodyUtil.GetFastGetOperationResultsMqReceiveBody(ea.Body);
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new GetOperationResultsMqEvent(appId, loginName, timestamp, clientId, afterTimestamp));
+                        AfterTimeRequest[] requests = OperationMqBodyUtil.GetAfterTimeRequestMqReceiveBody(ea.Body);
+                        if (requests != null && requests.Length != 0) {
+                            foreach (var request in requests) {
+                                VirtualRoot.RaiseEvent(new GetOperationResultsMqEvent(appId, request.LoginName, timestamp, request.ClientId, request.AfterTime));
+                            }
                         }
                     }
                     break;

@@ -14,6 +14,8 @@ namespace NTMiner {
         private static readonly object _lockerForGetConsoleOutLinesRequests = new object();
         private static readonly List<AfterTimeRequest> _getLocalMessagesRequests = new List<AfterTimeRequest>();
         private static readonly object _lockerForGetLocalMessagesRequests = new object();
+        private static readonly List<AfterTimeRequest> _getOperationResultsRequests = new List<AfterTimeRequest>();
+        private static readonly object _lockerForGetOperationResultsRequests = new object();
         static WsMessageFromMinerStudioHandler() {
             // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
             VirtualRoot.BuildEventPath<Per1SecondEvent>("每1秒钟将WsServer暂存的来自群控客户端的消息广播到Mq", LogEnum.None, message => {
@@ -37,6 +39,13 @@ namespace NTMiner {
                     _getLocalMessagesRequests.Clear();
                 }
                 AppRoot.OperationMqSender.SendGetLocalMessages(getLocalMessagesRequests);
+
+                AfterTimeRequest[] getOperationResultsRequests;
+                lock (_lockerForGetOperationResultsRequests) {
+                    getOperationResultsRequests = _getOperationResultsRequests.ToArray();
+                    _getOperationResultsRequests.Clear();
+                }
+                AppRoot.OperationMqSender.SendGetOperationResults(getOperationResultsRequests);
             }, typeof(WsMessageFromMinerClientHandler));
         }
 
@@ -76,7 +85,13 @@ namespace NTMiner {
                 },
                 [WsMessage.GetOperationResults] = (session, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
-                        AppRoot.OperationMqSender.SendGetOperationResults(session.LoginName, wrapperClientIdData.ClientId, afterTime);
+                        lock (_lockerForGetOperationResultsRequests) {
+                            _getOperationResultsRequests.Add(new AfterTimeRequest {
+                                AfterTime = afterTime,
+                                ClientId = wrapperClientIdData.ClientId,
+                                LoginName = session.LoginName
+                            });
+                        }
                     }
                 },
                 [WsMessage.FastGetOperationResults] = (session, message) => {
