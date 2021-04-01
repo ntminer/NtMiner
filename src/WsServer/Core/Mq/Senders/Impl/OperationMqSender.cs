@@ -14,7 +14,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             _mq = mq;
         }
 
-        public void SendGetConsoleOutLines(string loginName, Guid clientId, long asterTime) {
+        public void SendGetConsoleOutLines(string loginName, Guid clientId, long afterTime) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
@@ -22,10 +22,10 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetConsoleOutLinesRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
-                body: OperationMqBodyUtil.GetGetConsoleOutLinesMqSendBody(asterTime));
+                body: OperationMqBodyUtil.GetGetConsoleOutLinesMqSendBody(afterTime));
         }
 
-        public void SendFastGetConsoleOutLines(string loginName, Guid clientId, long asterTime) {
+        public void SendFastGetConsoleOutLines(string loginName, Guid clientId, long afterTime) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
@@ -33,7 +33,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.FastGetConsoleOutLinesRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
-                body: OperationMqBodyUtil.GetGetConsoleOutLinesMqSendBody(asterTime));
+                body: OperationMqBodyUtil.GetGetConsoleOutLinesMqSendBody(afterTime));
         }
 
         public void SendConsoleOutLines(string loginName, Guid clientId, List<ConsoleOutLine> datas) {
