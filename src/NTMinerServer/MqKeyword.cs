@@ -31,9 +31,8 @@ namespace NTMiner {
         public const string MinerClientWsClosedRoutingKey = "MinerClientWsClosed";
         public const string MinerClientsWsBreathedRoutingKey = "MinerClientsWsBreathed";
 
-        public const string MinerDataAddedRoutingKey = "MinerDataAdded";
         public const string MinerDataRemovedRoutingKey = "MinerDataRemoved";
-        public const string MinerSignChangedRoutingKey = "MinerSignChanged";
+        public const string MinerSignSetedRoutingKey = "MinerSignSeted";
 
         public const string QueryClientsForWsRoutingKey = "QueryClientsForWs";
         public const string QueryClientsForWsResponseRoutingKey = "QueryClientsForWsResponse{0}";

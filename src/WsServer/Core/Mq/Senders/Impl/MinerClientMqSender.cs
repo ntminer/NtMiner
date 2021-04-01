@@ -65,7 +65,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             var basicProperties = CreatePersistentBasicProperties(minerSign.LoginName);
             _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
-                routingKey: MqKeyword.MinerSignChangedRoutingKey,
+                routingKey: MqKeyword.MinerSignSetedRoutingKey,
                 basicProperties: basicProperties,
                 body: MinerClientMqBodyUtil.GetMinerSignMqSendBody(minerSign));
         }

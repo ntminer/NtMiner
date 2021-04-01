@@ -163,9 +163,9 @@ namespace NTMiner.Core.Impl {
                     }
                 }
             }, this.GetType());
-            VirtualRoot.BuildEventPath<MinerSignChangedMqEvent>("更新内存中的MinerData的MinerSign部分", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<MinerSignSetedMqEvent>("更新内存中的MinerData的MinerSign部分", LogEnum.None, path: message => {
                 if (_dicByObjectId.TryGetValue(message.Data.Id, out ClientData clientData)) {
-                    clientData.Update(message.Data, out bool isChanged);
+                    clientData.Update(message.Data);
                 }
                 else {
                     clientData = ClientData.Create(message.Data);
@@ -266,13 +266,8 @@ namespace NTMiner.Core.Impl {
             if (clientData.ClientId == Guid.Empty) {
                 return;
             }
-            if (_dicByClientId.TryAdd(clientData.ClientId, clientData)) {
-                _dicByObjectId.TryAdd(clientData.Id, clientData);
-                var minerData = MinerData.Create(clientData);
-                _minerRedis.SetAsync(minerData).ContinueWith(t => {
-                    _mqSender.SendMinerDataAdded(MinerSign.Create(minerData));
-                });
-            }
+            _dicByClientId.TryAdd(clientData.ClientId, clientData);
+            _dicByObjectId.TryAdd(clientData.Id, clientData);
         }
 
         protected override void DoUpdateSave(IEnumerable<MinerData> minerDatas) {

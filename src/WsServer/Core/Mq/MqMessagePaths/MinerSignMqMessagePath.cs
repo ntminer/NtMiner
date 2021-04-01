@@ -9,24 +9,14 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
         }
 
         protected override void Build(IModel channal) {
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.MinerDataAddedRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.MinerDataRemovedRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.MinerSignChangedRoutingKey, arguments: null);
+            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.MinerSignSetedRoutingKey, arguments: null);
 
             NTMinerConsole.UserOk("MinerSignMq QueueBind成功");
         }
 
         public override bool Go(BasicDeliverEventArgs ea) {
             switch (ea.RoutingKey) {
-                case MqKeyword.MinerDataAddedRoutingKey: {
-                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
-                        string appId = ea.BasicProperties.AppId;
-                        MinerSign minerSign = MinerClientMqBodyUtil.GetMinerSignMqReceiveBody(ea.Body);
-                        if (minerSign != null) {
-                            VirtualRoot.RaiseEvent(new MinerDataAddedMqEvent(appId, minerSign, timestamp));
-                        }
-                    }
-                    break;
                 case MqKeyword.MinerDataRemovedRoutingKey: {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
@@ -36,12 +26,12 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         }
                     }
                     break;
-                case MqKeyword.MinerSignChangedRoutingKey: {
+                case MqKeyword.MinerSignSetedRoutingKey: {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         MinerSign minerSign = MinerClientMqBodyUtil.GetMinerSignMqReceiveBody(ea.Body);
                         if (minerSign != null) {
-                            VirtualRoot.RaiseEvent(new MinerSignChangedMqEvent(appId, minerSign, timestamp));
+                            VirtualRoot.RaiseEvent(new MinerSignSetedMqEvent(appId, minerSign, timestamp));
                         }
                     }
                     break;

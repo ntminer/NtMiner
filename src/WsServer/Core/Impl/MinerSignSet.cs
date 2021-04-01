@@ -50,7 +50,7 @@ namespace NTMiner.Core.Impl {
                 }
                 #endregion
             }, this.GetType());
-            VirtualRoot.BuildEventPath<MinerDataAddedMqEvent>("收到MinerDataAddedMq消息后更新内存中对应的记录", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<MinerSignSetedMqEvent>("收到MinerSignChangedMq消息后更新内存中对应的记录", LogEnum.None, path: message => {
                 #region
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
@@ -59,27 +59,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(MinerDataAddedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
-                    return;
-                }
-                if (_dicByMinerId.TryGetValue(message.Data.Id, out MinerSign minerSign)) {
-                    minerSign.Update(message.Data);
-                }
-                else {
-                    Add(message.Data);
-                }
-                #endregion
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<MinerSignChangedMqEvent>("收到MinerSignChangedMq消息后更新内存中对应的记录", LogEnum.None, path: message => {
-                #region
-                if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
-                    return;
-                }
-                if (message.Data == null) {
-                    return;
-                }
-                if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(MinerSignChangedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(MinerSignSetedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 if (_dicByMinerId.TryGetValue(message.Data.Id, out MinerSign minerSign)) {

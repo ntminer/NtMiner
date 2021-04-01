@@ -189,9 +189,9 @@ namespace NTMiner.Core {
         public Guid[] ClientIds { get; private set; }
     }
 
-    [MessageType(description: "收到了MinerSignChanged Mq消息后，该消息是个命令")]
-    public class MinerSignChangedMqEvent : EventBase {
-        public MinerSignChangedMqEvent(string appId, MinerSign data, DateTime timestamp) {
+    [MessageType(description: "收到了MinerSignSeted Mq消息后，该消息是个命令")]
+    public class MinerSignSetedMqEvent : EventBase {
+        public MinerSignSetedMqEvent(string appId, MinerSign data, DateTime timestamp) {
             this.AppId = appId;
             this.Data = data;
             this.Timestamp = timestamp;
@@ -242,19 +242,6 @@ namespace NTMiner.Core {
         public string LoginName { get; private set; }
         public string SessionId { get; private set; }
         public QueryClientsResponse Response { get; private set; }
-    }
-
-    [MessageType(description: "收到了MinerDataAdded Mq消息后")]
-    public class MinerDataAddedMqEvent : EventBase {
-        public MinerDataAddedMqEvent(string appId, MinerSign data, DateTime timestamp) {
-            this.AppId = appId;
-            this.Timestamp = timestamp;
-            this.Data = data;
-        }
-
-        public string AppId { get; private set; }
-        public MinerSign Data { get; private set; }
-        public DateTime Timestamp { get; private set; }
     }
 
     [MessageType(description: "收到了MinerDataRemoved Mq消息后")]

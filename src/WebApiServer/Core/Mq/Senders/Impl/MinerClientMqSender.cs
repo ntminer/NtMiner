@@ -10,18 +10,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             _mq = mq;
         }
 
-        public void SendMinerDataAdded(MinerSign minerSign) {
-            if (minerSign == null) {
-                return;
-            }
-            var basicProperties = CreateBasicProperties(minerSign.ClientId);
-            _mq.MqChannel.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
-                routingKey: MqKeyword.MinerDataAddedRoutingKey,
-                basicProperties: basicProperties,
-                body: MinerClientMqBodyUtil.GetMinerSignMqSendBody(minerSign));
-        }
-
         public void SendMinerDataRemoved(string minerId, Guid clientId) {
             if (string.IsNullOrEmpty(minerId)) {
                 return;

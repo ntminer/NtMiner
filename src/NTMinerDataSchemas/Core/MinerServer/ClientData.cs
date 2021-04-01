@@ -468,28 +468,12 @@ namespace NTMiner.Core.MinerServer {
             };
         }
 
-        public void Update(MinerSign minerSign, out bool isChanged) {
+        public void Update(MinerSign minerSign) {
             #region
-            isChanged = false;
-            if (!isChanged) {
-                isChanged = this.LoginName != minerSign.LoginName;
-            }
             this.LoginName = minerSign.LoginName;
-            if (!isChanged) {
-                isChanged = this.ClientId != minerSign.ClientId;
-            }
             this.ClientId = minerSign.ClientId;
-            if (!isChanged) {
-                isChanged = this.OuterUserId != minerSign.OuterUserId;
-            }
             this.OuterUserId = minerSign.OuterUserId;
-            if (!isChanged) {
-                isChanged = this.AESPassword != minerSign.AESPassword;
-            }
             this.AESPassword = minerSign.AESPassword;
-            if (!isChanged) {
-                isChanged = this.AESPasswordOn != minerSign.AESPasswordOn;
-            }
             this.AESPasswordOn = minerSign.AESPasswordOn;
             #endregion
         }
