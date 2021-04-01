@@ -273,8 +273,8 @@ namespace NTMiner.Core.Impl {
             if (objectId == null) {
                 return;
             }
-            if (_dicByObjectId.TryGetValue(objectId, out ClientData clientData)) {
-                _dicByObjectId.TryRemove(objectId, out _);
+            _dicByObjectId.TryRemove(objectId, out ClientData clientData);
+            if (clientData != null) {
                 _dicByClientId.TryRemove(clientData.ClientId, out _);
                 DoRemoveSave(MinerData.Create(clientData));
             }

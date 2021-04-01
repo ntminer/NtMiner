@@ -276,11 +276,8 @@ namespace NTMiner.Core.Impl {
             if (clientData.ClientId == Guid.Empty) {
                 return;
             }
-            if (!_dicByClientId.ContainsKey(clientData.ClientId)) {
-                _dicByClientId.TryAdd(clientData.ClientId, clientData);
-                if (!_dicByObjectId.ContainsKey(clientData.Id)) {
-                    _dicByObjectId.TryAdd(clientData.Id, clientData);
-                }
+            if (_dicByClientId.TryAdd(clientData.ClientId, clientData)) {
+                _dicByObjectId.TryAdd(clientData.Id, clientData);
                 var minerData = MinerData.Create(clientData);
                 _minerRedis.SetAsync(minerData).ContinueWith(t => {
                     _mqSender.SendMinerDataAdded(minerData.Id, minerData.ClientId);
