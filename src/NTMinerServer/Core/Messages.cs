@@ -262,15 +262,15 @@ namespace NTMiner.Core {
 
     [MessageType(description: "收到了GetSpeed Mq消息后")]
     public class GetSpeedMqEvent : EventBase {
-        public GetSpeedMqEvent(string appId, DateTime timestamp, UserGetSpeedData[] datas) {
+        public GetSpeedMqEvent(string appId, DateTime timestamp, UserGetSpeedRequest[] requests) {
             this.AppId = appId;
             this.Timestamp = timestamp;
-            this.Datas = datas;
+            this.Requests = requests;
         }
 
         public string AppId { get; private set; }
         public DateTime Timestamp { get; private set; }
-        public UserGetSpeedData[] Datas { get; private set; }
+        public UserGetSpeedRequest[] Requests { get; private set; }
     }
 
     [MessageType(description: "收到了GetConsoleOutLines Mq消息后")]

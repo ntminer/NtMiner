@@ -48,7 +48,7 @@
     <Compile Include="Core\CaptchaData.cs" />
     <Compile Include="Core\MinerServer\NTMinerFilesRequest.cs" />
     <Compile Include="Core\MinerServer\NTMinerFilesResponse.cs" />
-    <Compile Include="Core\UserGetSpeedData.cs" />
+    <Compile Include="Core\UserGetSpeedRequest.cs" />
     <Compile Include="Gpus\GpuExtensions.cs" />
     <Compile Include="Gpus\GpuName.cs" />
     <Compile Include="Gpus\GpuNameCount.cs" />

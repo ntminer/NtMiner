@@ -8,17 +8,17 @@ using System.Collections.Generic;
 
 namespace NTMiner {
     public static class WsMessageFromMinerStudioHandler {
-        private static readonly List<UserGetSpeedData> _userGetSpeedDatas = new List<UserGetSpeedData>();
-        private static readonly object _lockerForUserGetSpeedDatas = new object();
+        private static readonly List<UserGetSpeedRequest> _userGetSpeedRequests = new List<UserGetSpeedRequest>();
+        private static readonly object _lockerForUserGetSpeedRequests = new object();
         static WsMessageFromMinerStudioHandler() {
             // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
             VirtualRoot.BuildEventPath<Per1SecondEvent>("每1秒钟将WsServer暂存的来自挖矿端的GetSpeed广播到Mq", LogEnum.None, message => {
-                UserGetSpeedData[] userGetSpeedDatas;
-                lock (_lockerForUserGetSpeedDatas) {
-                    userGetSpeedDatas = _userGetSpeedDatas.ToArray();
-                    _userGetSpeedDatas.Clear();
+                UserGetSpeedRequest[] userGetSpeedRequests;
+                lock (_lockerForUserGetSpeedRequests) {
+                    userGetSpeedRequests = _userGetSpeedRequests.ToArray();
+                    _userGetSpeedRequests.Clear();
                 }
-                AppRoot.OperationMqSender.SendGetSpeed(userGetSpeedDatas);
+                AppRoot.OperationMqSender.SendGetSpeed(userGetSpeedRequests);
             }, typeof(WsMessageFromMinerClientHandler));
         }
 
@@ -66,8 +66,8 @@ namespace NTMiner {
                 },
                 [WsMessage.GetSpeed] = (session, message) => {
                     if (message.TryGetData(out List<Guid> clientIds)) {
-                        lock (_lockerForUserGetSpeedDatas) {
-                            _userGetSpeedDatas.Add(new UserGetSpeedData {
+                        lock (_lockerForUserGetSpeedRequests) {
+                            _userGetSpeedRequests.Add(new UserGetSpeedRequest {
                                 LoginName = session.LoginName,
                                 ClientIds = clientIds
                             });

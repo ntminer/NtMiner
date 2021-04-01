@@ -168,15 +168,15 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: _emptyBody);
         }
 
-        public void SendGetSpeed(UserGetSpeedData[] data) {
-            if (data == null || data.Length == 0) {
+        public void SendGetSpeed(UserGetSpeedRequest[] requests) {
+            if (requests == null || requests.Length == 0) {
                 return;
             }
             _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetSpeedRoutingKey,
                 basicProperties: CreateBasicProperties(),
-                body: OperationMqBodyUtil.GetGetSpeedMqSendBody(data));
+                body: OperationMqBodyUtil.GetGetSpeedMqSendBody(requests));
         }
 
         public void SendEnableRemoteDesktop(string loginName, Guid clientId) {

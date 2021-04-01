@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 
 namespace NTMiner.Core {
-    public class UserGetSpeedData {
-        public UserGetSpeedData() {
+    public class UserGetSpeedRequest {
+        public UserGetSpeedRequest() {
             this.ClientIds = new List<Guid>();
         }
 

@@ -190,9 +190,9 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                 case WsMqKeyword.GetSpeedRoutingKey: {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        UserGetSpeedData[] datas = OperationMqBodyUtil.GetGetSpeedMqReceiveBody(ea.Body);
-                        if (datas != null && datas.Length != 0) {
-                            VirtualRoot.RaiseEvent(new GetSpeedMqEvent(appId, timestamp, datas));
+                        UserGetSpeedRequest[] requests = OperationMqBodyUtil.GetGetSpeedMqReceiveBody(ea.Body);
+                        if (requests != null && requests.Length != 0) {
+                            VirtualRoot.RaiseEvent(new GetSpeedMqEvent(appId, timestamp, requests));
                         }
                     }
                     break;

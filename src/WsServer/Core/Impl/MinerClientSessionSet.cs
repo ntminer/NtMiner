@@ -56,18 +56,18 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
             VirtualRoot.BuildEventPath<GetSpeedMqEvent>("收到GetSpeedMq消息后检查是否是应由本节点处理的消息，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
-                if (message.Datas == null || message.Datas.Length == 0) {
+                if (message.Requests == null || message.Requests.Length == 0) {
                     return;
                 }
                 if (IsTooOld(message.Timestamp)) {
                     return;
                 }
-                foreach (var data in message.Datas) {
-                    IUser user = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(data.LoginName));
+                foreach (var request in message.Requests) {
+                    IUser user = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(request.LoginName));
                     if (user == null) {
                         continue;
                     }
-                    foreach (var clientId in data.ClientIds.Where(a => TryGetByClientId(a, out _))) {
+                    foreach (var clientId in request.ClientIds.Where(a => TryGetByClientId(a, out _))) {
                         if (clientId == null || clientId == Guid.Empty) {
                             continue;
                         }

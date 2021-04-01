@@ -28,7 +28,7 @@ namespace NTMiner.Core.Mq.Senders {
 
         void SendOperationReceived(string loginName, Guid clientId);
 
-        void SendGetSpeed(UserGetSpeedData[] data);
+        void SendGetSpeed(UserGetSpeedRequest[] requests);
 
         void SendEnableRemoteDesktop(string loginName, Guid clientId);
         void SendBlockWAU(string loginName, Guid clientId);
