@@ -50,26 +50,6 @@ namespace NTMiner.Core.Impl {
                 }
                 #endregion
             }, this.GetType());
-            VirtualRoot.BuildEventPath<MinerSignSetedMqEvent>("收到MinerSignSetedMq消息后更新内存中对应的记录", LogEnum.None, path: message => {
-                #region
-                if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
-                    return;
-                }
-                if (message.Data == null) {
-                    return;
-                }
-                if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(MinerSignSetedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
-                    return;
-                }
-                if (_dicByMinerId.TryGetValue(message.Data.Id, out MinerSign minerSign)) {
-                    minerSign.Update(message.Data);
-                }
-                else {
-                    Add(message.Data);
-                }
-                #endregion
-            }, this.GetType());
         }
 
         private bool IsOldMqMessage(DateTime mqMessageTimestamp) {
@@ -99,25 +79,19 @@ namespace NTMiner.Core.Impl {
         }
 
         public void SetMinerSign(MinerSign minerSign) {
+            if (_dicByMinerId.TryGetValue(minerSign.Id, out MinerSign item)) {
+                item.Update(minerSign);
+            }
+            else {
+                Add(minerSign);
+            }
             _redis.GetByIdAsync(minerSign.Id).ContinueWith(t => {
                 MinerData minerData = t.Result;
                 if (minerData != null) {
                     minerData.Update(minerSign);
-                    if (_dicByMinerId.TryGetValue(minerSign.Id, out MinerSign item)) {
-                        item.Update(minerSign);
-                    }
-                    else {
-                        Add(minerSign);
-                    }
                 }
                 else {
                     minerData = MinerData.Create(minerSign);
-                    if (_dicByMinerId.TryGetValue(minerSign.Id, out MinerSign item)) {
-                        item.Update(minerSign);
-                    }
-                    else {
-                        Add(minerSign);
-                    }
                 }
                 _redis.SetAsync(minerData).ContinueWith(_ => {
                     AppRoot.MinerClientMqSender.SendMinerSignSeted(minerSign);
