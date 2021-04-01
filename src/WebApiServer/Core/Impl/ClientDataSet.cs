@@ -129,16 +129,6 @@ namespace NTMiner.Core.Impl {
                     }
                 });
             }, this.GetType());
-            VirtualRoot.BuildEventPath<MinerClientWsOpenedMqEvent>("收到MinerClientWsOpenedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, path: message => {
-                if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(nameof(MinerClientWsOpenedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
-                    return;
-                }
-                if (_dicByClientId.TryGetValue(message.ClientId, out ClientData clientData)) {
-                    clientData.NetActiveOn = message.Timestamp;
-                    clientData.IsOnline = true;
-                }
-            }, this.GetType());
             VirtualRoot.BuildEventPath<MinerClientWsClosedMqEvent>("收到MinerClientWsClosedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, path: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
                     NTMinerConsole.UserOk(nameof(MinerClientWsClosedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);

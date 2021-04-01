@@ -8,7 +8,6 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
         }
 
         protected override void Build(IModel channal) {
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.MinerClientWsOpenedRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.MinerClientWsClosedRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.MinerClientsWsBreathedRoutingKey, arguments: null);
 
@@ -17,15 +16,6 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
 
         public override bool Go(BasicDeliverEventArgs ea) {
             switch (ea.RoutingKey) {
-                case MqKeyword.MinerClientWsOpenedRoutingKey: {
-                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
-                        string appId = ea.BasicProperties.AppId;
-                        Guid clientId = MinerClientMqBodyUtil.GetClientIdMqReciveBody(ea.Body);
-                        if (clientId != Guid.Empty) {
-                            VirtualRoot.RaiseEvent(new MinerClientWsOpenedMqEvent(appId, clientId, timestamp));
-                        }
-                    }
-                    break;
                 case MqKeyword.MinerClientWsClosedRoutingKey: {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;

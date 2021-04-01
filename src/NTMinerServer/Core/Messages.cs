@@ -164,12 +164,6 @@ namespace NTMiner.Core {
         public DateTime Timestamp { get; private set; }
     }
 
-    [MessageType(description: "收到了MinerClientWsOpened Mq消息后")]
-    public class MinerClientWsOpenedMqEvent : MinerClientMqEvent {
-        public MinerClientWsOpenedMqEvent(string appId, Guid clientId, DateTime timestamp) : base(appId, clientId, timestamp) {
-        }
-    }
-
     [MessageType(description: "收到了MinerClientWsClosed Mq消息后")]
     public class MinerClientWsClosedMqEvent : MinerClientMqEvent {
         public MinerClientWsClosedMqEvent(string appId, Guid clientId, DateTime timestamp) : base(appId, clientId, timestamp) {

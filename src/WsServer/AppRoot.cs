@@ -208,7 +208,6 @@ namespace NTMiner {
         public static void AddMinerClientSession(WsUserName wsUserName, UserData userData, IPEndPoint remoteEndPoint, IWsSessionAdapter session) {
             IMinerClientSession minerSession = MinerClientSession.Create(userData, wsUserName, remoteEndPoint, session.SessionId, WsServer.MinerClientWsSessions);
             MinerClientSessionSet.Add(minerSession);
-            bool isMinerSignChanged;
             if (!MinerSignSet.TryGetByClientId(wsUserName.ClientId, out MinerSign minerSign)) {
                 // 此时该矿机是第一次在服务端出现
                 minerSign = new MinerSign {
@@ -219,14 +218,16 @@ namespace NTMiner {
                     AESPassword = string.Empty,
                     AESPasswordOn = Timestamp.UnixBaseTime
                 };
-                isMinerSignChanged = true;
             }
             else {
-                isMinerSignChanged = minerSign.OuterUserId != wsUserName.UserId || minerSign.LoginName != userData.LoginName;
-                if (isMinerSignChanged) {
-                    minerSign.OuterUserId = wsUserName.UserId;
-                    minerSign.LoginName = userData.LoginName;
-                }
+                minerSign.ClientId = wsUserName.ClientId;
+                minerSign.LoginName = userData.LoginName;
+                minerSign.OuterUserId = wsUserName.UserId;
+            }
+            DateTime now = DateTime.Now;
+            if (string.IsNullOrEmpty(minerSign.AESPassword) || minerSign.AESPasswordOn.AddDays(1) < now) {
+                minerSign.AESPassword = Cryptography.AESUtil.GetRandomPassword();
+                minerSign.AESPasswordOn = now;
             }
             // 通常执行不到，因为用户注册的时候已经生成了RSA公私钥对了
             if (string.IsNullOrEmpty(userData.PublicKey) || string.IsNullOrEmpty(userData.PrivateKey)) {
@@ -235,25 +236,13 @@ namespace NTMiner {
                 userData.PrivateKey = key.PrivateKey;
                 UserMqSender.SendUpdateUserRSAKey(userData.LoginName, key);
             }
-            DateTime now = DateTime.Now;
-            if (string.IsNullOrEmpty(minerSign.AESPassword) || minerSign.AESPasswordOn.AddDays(1) < now) {
-                isMinerSignChanged = true;
-                minerSign.AESPassword = Cryptography.AESUtil.GetRandomPassword();
-                minerSign.AESPasswordOn = now;
-            }
             session.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.UpdateAESPassword) {
                 Data = new AESPassword {
                     PublicKey = userData.PublicKey,
                     Password = Cryptography.RSAUtil.EncryptString(minerSign.AESPassword, userData.PrivateKey)
                 }
             }.SignToJson(minerSign.AESPassword));
-            if (isMinerSignChanged) {
-                MinerSignSet.SetMinerSign(minerSign);
-            }
-            else {
-                // 通知WebApiServer节点该矿机Ws连线了
-                MinerClientMqSender.SendMinerClientWsOpened(minerSession.ClientId);
-            }
+            MinerSignSet.SetMinerSign(minerSign);
         }
 
         public static void RemoveMinerStudioSession(string sessionId) {

@@ -27,7 +27,6 @@ namespace NTMiner {
         public const string WsServerNodeAddedRoutingKey = "WsServerNodeAdded";
         public const string WsServerNodeRemovedRoutingKey = "WsServerNodeRemoved";
 
-        public const string MinerClientWsOpenedRoutingKey = "MinerClientWsOpened";
         public const string MinerClientWsClosedRoutingKey = "MinerClientWsClosed";
         public const string MinerClientsWsBreathedRoutingKey = "MinerClientsWsBreathed";
 
