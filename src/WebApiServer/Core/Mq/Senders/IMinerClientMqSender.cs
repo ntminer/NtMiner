@@ -3,7 +3,7 @@ using System;
 
 namespace NTMiner.Core.Mq.Senders {
     public interface IMinerClientMqSender : IMqSender {
-        void SendMinerDataAdded(string minerId, Guid clientId);
+        void SendMinerDataAdded(MinerSign minerSign);
         void SendMinerDataRemoved(string minerId, Guid clientId);
         void SendResponseClientsForWs(
             string wsServerIp, 

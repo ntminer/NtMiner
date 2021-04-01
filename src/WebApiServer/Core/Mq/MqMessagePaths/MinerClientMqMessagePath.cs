@@ -28,7 +28,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                 case MqKeyword.MinerSignChangedRoutingKey: {
                         string appId = ea.BasicProperties.AppId;
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
-                        MinerSign minerSign = MinerClientMqBodyUtil.GetMinerSignChangedMqReceiveBody(ea.Body);
+                        MinerSign minerSign = MinerClientMqBodyUtil.GetMinerSignMqReceiveBody(ea.Body);
                         if (minerSign != null) {
                             VirtualRoot.RaiseEvent(new MinerSignChangedMqEvent(appId, minerSign, timestamp));
                         }

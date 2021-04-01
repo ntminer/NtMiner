@@ -245,9 +245,16 @@ namespace NTMiner.Core {
     }
 
     [MessageType(description: "收到了MinerDataAdded Mq消息后")]
-    public class MinerDataAddedMqEvent : MinerDataMqEvent {
-        public MinerDataAddedMqEvent(string appId, string minerId, Guid clientId, DateTime timestamp) : base(appId, minerId, clientId, timestamp) {
+    public class MinerDataAddedMqEvent : EventBase {
+        public MinerDataAddedMqEvent(string appId, MinerSign data, DateTime timestamp) {
+            this.AppId = appId;
+            this.Timestamp = timestamp;
+            this.Data = data;
         }
+
+        public string AppId { get; private set; }
+        public MinerSign Data { get; private set; }
+        public DateTime Timestamp { get; private set; }
     }
 
     [MessageType(description: "收到了MinerDataRemoved Mq消息后")]

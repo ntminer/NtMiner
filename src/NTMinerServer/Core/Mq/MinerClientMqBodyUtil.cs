@@ -94,11 +94,11 @@ namespace NTMiner.Core.Mq {
         #endregion
 
         #region MinerSignChanged
-        public static byte[] GetMinerSignChangedMqSendBody(MinerSign minerSign) {
+        public static byte[] GetMinerSignMqSendBody(MinerSign minerSign) {
             return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(minerSign));
         }
 
-        public static MinerSign GetMinerSignChangedMqReceiveBody(byte[] body) {
+        public static MinerSign GetMinerSignMqReceiveBody(byte[] body) {
             string json = Encoding.UTF8.GetString(body);
             return VirtualRoot.JsonSerializer.Deserialize<MinerSign>(json);
         }

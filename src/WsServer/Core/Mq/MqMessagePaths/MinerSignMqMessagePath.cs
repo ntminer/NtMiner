@@ -21,9 +21,9 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                 case MqKeyword.MinerDataAddedRoutingKey: {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        string minerId = MinerClientMqBodyUtil.GetMinerIdMqReciveBody(ea.Body);
-                        if (!string.IsNullOrEmpty(minerId) && ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new MinerDataAddedMqEvent(appId, minerId, clientId, timestamp));
+                        MinerSign minerSign = MinerClientMqBodyUtil.GetMinerSignMqReceiveBody(ea.Body);
+                        if (minerSign != null) {
+                            VirtualRoot.RaiseEvent(new MinerDataAddedMqEvent(appId, minerSign, timestamp));
                         }
                     }
                     break;
@@ -39,7 +39,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                 case MqKeyword.MinerSignChangedRoutingKey: {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        MinerSign minerSign = MinerClientMqBodyUtil.GetMinerSignChangedMqReceiveBody(ea.Body);
+                        MinerSign minerSign = MinerClientMqBodyUtil.GetMinerSignMqReceiveBody(ea.Body);
                         if (minerSign != null) {
                             VirtualRoot.RaiseEvent(new MinerSignChangedMqEvent(appId, minerSign, timestamp));
                         }

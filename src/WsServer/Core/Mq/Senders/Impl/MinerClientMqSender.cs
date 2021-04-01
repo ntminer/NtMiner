@@ -67,7 +67,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerSignChangedRoutingKey,
                 basicProperties: basicProperties,
-                body: MinerClientMqBodyUtil.GetMinerSignChangedMqSendBody(minerSign));
+                body: MinerClientMqBodyUtil.GetMinerSignMqSendBody(minerSign));
         }
 
         public void SendQueryClientsForWs(string sessionId, QueryClientsForWsRequest request) {

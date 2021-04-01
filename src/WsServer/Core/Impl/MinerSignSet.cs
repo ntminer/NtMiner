@@ -55,23 +55,19 @@ namespace NTMiner.Core.Impl {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
-                if (string.IsNullOrEmpty(message.MinerId)) {
+                if (message.Data == null) {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
                     NTMinerConsole.UserOk(nameof(MinerDataAddedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
-                redis.GetByIdAsync(message.MinerId).ContinueWith(t => {
-                    if (t.Result != null) {
-                        if (_dicByMinerId.TryGetValue(message.MinerId, out MinerSign minerSign)) {
-                            minerSign.Update(t.Result);
-                        }
-                        else {
-                            Add(MinerSign.Create(t.Result));
-                        }
-                    }
-                });
+                if (_dicByMinerId.TryGetValue(message.Data.Id, out MinerSign minerSign)) {
+                    minerSign.Update(message.Data);
+                }
+                else {
+                    Add(message.Data);
+                }
                 #endregion
             }, this.GetType());
             VirtualRoot.BuildEventPath<MinerSignChangedMqEvent>("收到MinerSignChangedMq消息后更新内存中对应的记录", LogEnum.None, path: message => {

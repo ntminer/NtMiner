@@ -270,7 +270,7 @@ namespace NTMiner.Core.Impl {
                 _dicByObjectId.TryAdd(clientData.Id, clientData);
                 var minerData = MinerData.Create(clientData);
                 _minerRedis.SetAsync(minerData).ContinueWith(t => {
-                    _mqSender.SendMinerDataAdded(minerData.Id, minerData.ClientId);
+                    _mqSender.SendMinerDataAdded(MinerSign.Create(minerData));
                 });
             }
         }
