@@ -50,6 +50,26 @@ namespace NTMiner.Core.Impl {
                 }
                 #endregion
             }, this.GetType());
+            VirtualRoot.BuildEventPath<MinerSignSetedMqEvent>("收到MinerSignSetedMq消息后更新内存中对应的记录", LogEnum.None, path: message => {
+                #region
+                if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
+                    return;
+                }
+                if (message.Data == null) {
+                    return;
+                }
+                if (IsOldMqMessage(message.Timestamp)) {
+                    NTMinerConsole.UserOk(nameof(MinerSignSetedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
+                    return;
+                }
+                if (_dicByMinerId.TryGetValue(message.Data.Id, out MinerSign minerSign)) {
+                    minerSign.Update(message.Data);
+                }
+                else {
+                    Add(message.Data);
+                }
+                #endregion
+            }, this.GetType());
         }
 
         private bool IsOldMqMessage(DateTime mqMessageTimestamp) {
