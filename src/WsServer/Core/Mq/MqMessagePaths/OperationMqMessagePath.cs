@@ -53,7 +53,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                 case WsMqKeyword.GetConsoleOutLinesRoutingKey: {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        GetConsoleOutLinesRequest[] requests = OperationMqBodyUtil.GetGetConsoleOutLinesMqReceiveBody(ea.Body);
+                        AfterTimeRequest[] requests = OperationMqBodyUtil.GetGetConsoleOutLinesMqReceiveBody(ea.Body);
                         if (requests != null && requests.Length != 0) {
                             foreach (var request in requests) {
                                 VirtualRoot.RaiseEvent(new GetConsoleOutLinesMqEvent(appId, request.LoginName, timestamp, request.ClientId, request.AfterTime));

@@ -1,8 +1,8 @@
 ﻿using System;
 
 namespace NTMiner.Core {
-    public class GetConsoleOutLinesRequest {
-        public GetConsoleOutLinesRequest() { }
+    public class AfterTimeRequest {
+        public AfterTimeRequest() { }
 
         public string LoginName { get; set; }
         public Guid ClientId { get; set; }

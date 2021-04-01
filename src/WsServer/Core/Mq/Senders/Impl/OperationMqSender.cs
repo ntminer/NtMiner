@@ -14,7 +14,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             _mq = mq;
         }
 
-        public void SendGetConsoleOutLines(GetConsoleOutLinesRequest[] requests) {
+        public void SendGetConsoleOutLines(AfterTimeRequest[] requests) {
             if (requests == null || requests.Length == 0) {
                 return;
             }

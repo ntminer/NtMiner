@@ -10,7 +10,7 @@ namespace NTMiner {
     public static class WsMessageFromMinerStudioHandler {
         private static readonly List<UserGetSpeedRequest> _userGetSpeedRequests = new List<UserGetSpeedRequest>();
         private static readonly object _lockerForUserGetSpeedRequests = new object();
-        private static readonly List<GetConsoleOutLinesRequest> _getConsoleOutLinesRequests = new List<GetConsoleOutLinesRequest>();
+        private static readonly List<AfterTimeRequest> _getConsoleOutLinesRequests = new List<AfterTimeRequest>();
         private static readonly object _lockerForGetConsoleOutLinesRequests = new object();
         static WsMessageFromMinerStudioHandler() {
             // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
@@ -22,7 +22,7 @@ namespace NTMiner {
                 }
                 AppRoot.OperationMqSender.SendGetSpeed(userGetSpeedRequests);
 
-                GetConsoleOutLinesRequest[] getConsoleOutLinesRequests;
+                AfterTimeRequest[] getConsoleOutLinesRequests;
                 lock (_lockerForGetConsoleOutLinesRequests) {
                     getConsoleOutLinesRequests = _getConsoleOutLinesRequests.ToArray();
                     _getConsoleOutLinesRequests.Clear();
@@ -36,7 +36,7 @@ namespace NTMiner {
                 [WsMessage.GetConsoleOutLines] = (session, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
                         lock (_lockerForGetConsoleOutLinesRequests) {
-                            _getConsoleOutLinesRequests.Add(new GetConsoleOutLinesRequest {
+                            _getConsoleOutLinesRequests.Add(new AfterTimeRequest {
                                 AfterTime = afterTime,
                                 ClientId = wrapperClientIdData.ClientId,
                                 LoginName = session.LoginName

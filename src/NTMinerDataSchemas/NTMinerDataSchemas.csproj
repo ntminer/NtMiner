@@ -46,7 +46,7 @@
     <Compile Include="Base64Util.cs" />
     <Compile Include="ConsoleOutLine.cs" />
     <Compile Include="Core\CaptchaData.cs" />
-    <Compile Include="Core\GetConsoleOutLinesRequest.cs" />
+    <Compile Include="Core\AfterTimeRequest.cs" />
     <Compile Include="Core\MinerServer\NTMinerFilesRequest.cs" />
     <Compile Include="Core\MinerServer\NTMinerFilesResponse.cs" />
     <Compile Include="Core\UserGetSpeedRequest.cs" />

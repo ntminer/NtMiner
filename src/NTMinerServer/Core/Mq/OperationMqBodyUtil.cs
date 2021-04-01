@@ -20,17 +20,17 @@ namespace NTMiner.Core.Mq {
             return 0;
         }
 
-        public static byte[] GetGetConsoleOutLinesMqSendBody(GetConsoleOutLinesRequest[] requests) {
+        public static byte[] GetGetConsoleOutLinesMqSendBody(AfterTimeRequest[] requests) {
             return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(requests));
         }
-        public static GetConsoleOutLinesRequest[] GetGetConsoleOutLinesMqReceiveBody(byte[] body) {
+        public static AfterTimeRequest[] GetGetConsoleOutLinesMqReceiveBody(byte[] body) {
             string json = Encoding.UTF8.GetString(body);
             if (string.IsNullOrEmpty(json)) {
-                return new GetConsoleOutLinesRequest[0];
+                return new AfterTimeRequest[0];
             }
-            var result = VirtualRoot.JsonSerializer.Deserialize<GetConsoleOutLinesRequest[]>(json);
+            var result = VirtualRoot.JsonSerializer.Deserialize<AfterTimeRequest[]>(json);
             if (result == null) {
-                result = new GetConsoleOutLinesRequest[0];
+                result = new AfterTimeRequest[0];
             }
             return result;
         }
