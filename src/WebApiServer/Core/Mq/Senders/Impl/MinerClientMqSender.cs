@@ -34,18 +34,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: MinerClientMqBodyUtil.GetMinerIdMqSendBody(minerId));
         }
 
-        public void SendMinerSignChanged(string minerId, Guid clientId) {
-            if (string.IsNullOrEmpty(minerId)) {
-                return;
-            }
-            var basicProperties = CreateBasicProperties(clientId);
-            _mq.MqChannel.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
-                routingKey: MqKeyword.MinerSignChangedRoutingKey,
-                basicProperties: basicProperties,
-                body: MinerClientMqBodyUtil.GetMinerIdMqSendBody(minerId));
-        }
-
         public void SendResponseClientsForWs(
             string wsServerIp, 
             string loginName, 

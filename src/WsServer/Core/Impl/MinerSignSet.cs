@@ -13,7 +13,9 @@ namespace NTMiner.Core.Impl {
             get; private set;
         }
 
-        public MinerSignSet(IReadOnlyMinerDataRedis redis) {
+        private readonly IMinerDataRedis _redis;
+        public MinerSignSet(IMinerDataRedis redis) {
+            _redis = redis;
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             redis.GetAllAsync().ContinueWith(t => {
@@ -77,23 +79,19 @@ namespace NTMiner.Core.Impl {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
-                if (string.IsNullOrEmpty(message.MinerId)) {
+                if (message.Data == null) {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
                     NTMinerConsole.UserOk(nameof(MinerSignChangedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
-                redis.GetByIdAsync(message.MinerId).ContinueWith(t => {
-                    if (t.Result != null) {
-                        if (_dicByMinerId.TryGetValue(message.MinerId, out MinerSign minerSign)) {
-                            minerSign.Update(t.Result);
-                        }
-                        else {
-                            Add(MinerSign.Create(t.Result));
-                        }
-                    }
-                });
+                if (_dicByMinerId.TryGetValue(message.Data.Id, out MinerSign minerSign)) {
+                    minerSign.Update(message.Data);
+                }
+                else {
+                    Add(message.Data);
+                }
                 #endregion
             }, this.GetType());
         }
@@ -122,6 +120,33 @@ namespace NTMiner.Core.Impl {
                 return false;
             }
             return _dicByClientId.TryGetValue(clientId, out minerSign);
+        }
+
+        public void SetMinerSign(MinerSign minerSign) {
+            _redis.GetByIdAsync(minerSign.Id).ContinueWith(t => {
+                MinerData minerData = t.Result;
+                if (minerData != null) {
+                    minerData.Update(minerSign);
+                    if (_dicByMinerId.TryGetValue(minerSign.Id, out MinerSign item)) {
+                        item.Update(minerSign);
+                    }
+                    else {
+                        Add(minerSign);
+                    }
+                }
+                else {
+                    minerData = MinerData.Create(minerSign);
+                    if (_dicByMinerId.TryGetValue(minerSign.Id, out MinerSign item)) {
+                        item.Update(minerSign);
+                    }
+                    else {
+                        Add(minerSign);
+                    }
+                }
+                _redis.SetAsync(minerData).ContinueWith(_ => {
+                    AppRoot.MinerClientMqSender.SendMinerSignChanged(minerSign);
+                });
+            });
         }
     }
 }

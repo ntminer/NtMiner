@@ -163,15 +163,9 @@ namespace NTMiner.Core.Impl {
                     }
                 }
             }, this.GetType());
-            VirtualRoot.BuildCmdPath<ChangeMinerSignMqCommand>(path: message => {
+            VirtualRoot.BuildEventPath<MinerSignChangedMqEvent>("更新内存中的MinerData的MinerSign部分", LogEnum.None, path: message => {
                 if (_dicByObjectId.TryGetValue(message.Data.Id, out ClientData clientData)) {
                     clientData.Update(message.Data, out bool isChanged);
-                    if (isChanged) {
-                        var minerData = MinerData.Create(clientData);
-                        _minerRedis.SetAsync(minerData).ContinueWith(t => {
-                            _mqSender.SendMinerSignChanged(minerData.Id, minerData.ClientId);
-                        });
-                    }
                 }
                 else {
                     clientData = ClientData.Create(message.Data);
@@ -180,7 +174,7 @@ namespace NTMiner.Core.Impl {
                 clientData.NetActiveOn = DateTime.Now;
                 clientData.IsOnline = true;
                 clientData.IsOuterUserEnabled = true;
-            }, this.GetType(), LogEnum.None);
+            }, this.GetType());
             VirtualRoot.BuildCmdPath<QueryClientsForWsMqCommand>(path: message => {
                 QueryClientsResponse response = AppRoot.QueryClientsForWs(message.Query);
                 _mqSender.SendResponseClientsForWs(message.AppId, message.LoginName, message.SessionId, message.MqMessageId, response);

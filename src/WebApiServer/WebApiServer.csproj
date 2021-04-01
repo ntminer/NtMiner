@@ -169,9 +169,7 @@
     <Compile Include="Core\Mq\Senders\Impl\UserMqSender.cs" />
     <Compile Include="Core\Mq\Senders\IUserMqSender.cs" />
     <Compile Include="Core\Redis\ICaptchaDataRedis.cs" />
-    <Compile Include="Core\Redis\IMinerDataRedis.cs" />
     <Compile Include="Core\Redis\Impl\CaptchaDataRedis.cs" />
-    <Compile Include="Core\Redis\Impl\MinerDataRedis.cs" />
     <Compile Include="Core\Redis\Impl\UserDataRedis.cs" />
     <Compile Include="Core\Redis\IUserDataRedis.cs" />
     <Compile Include="UserDataExtensions.cs" />

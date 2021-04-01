@@ -70,6 +70,14 @@ namespace NTMiner.Core.MinerServer {
             };
         }
 
+        public void Update(MinerSign minerSign) {
+            this.ClientId = minerSign.ClientId;
+            this.LoginName = minerSign.LoginName;
+            this.OuterUserId = minerSign.OuterUserId;
+            this.AESPassword = minerSign.AESPassword;
+            this.AESPasswordOn = minerSign.AESPasswordOn;
+        }
+
         public MinerData() { }
 
         public string Id { get; set; }

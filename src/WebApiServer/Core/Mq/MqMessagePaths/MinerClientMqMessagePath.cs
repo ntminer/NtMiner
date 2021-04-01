@@ -10,7 +10,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
 
         protected override void Build(IModel channal) {
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.SpeedsRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.ChangeMinerSignRoutingKey, arguments: null);
+            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.MinerSignChangedRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.QueryClientsForWsRoutingKey, arguments: null);
 
             NTMinerConsole.UserOk("MinerClientMq QueueBind成功");
@@ -25,11 +25,12 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         VirtualRoot.RaiseEvent(new SpeedDatasMqEvent(appId, clientIdIps, timestamp));
                     }
                     break;
-                case MqKeyword.ChangeMinerSignRoutingKey: {
+                case MqKeyword.MinerSignChangedRoutingKey: {
                         string appId = ea.BasicProperties.AppId;
-                        MinerSign minerSign = MinerClientMqBodyUtil.GetChangeMinerSignMqReceiveBody(ea.Body);
+                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
+                        MinerSign minerSign = MinerClientMqBodyUtil.GetMinerSignChangedMqReceiveBody(ea.Body);
                         if (minerSign != null) {
-                            VirtualRoot.Execute(new ChangeMinerSignMqCommand(appId, minerSign));
+                            VirtualRoot.RaiseEvent(new MinerSignChangedMqEvent(appId, minerSign, timestamp));
                         }
                     }
                     break;

@@ -15,12 +15,12 @@ namespace NTMiner.Core.MinerServer {
 
         public MinerSign() { }
 
-        public void Update(MinerData minerData) {
-            this.ClientId = minerData.ClientId;
-            this.LoginName = minerData.LoginName;
-            this.OuterUserId = minerData.OuterUserId;
-            this.AESPassword = minerData.AESPassword;
-            this.AESPasswordOn = minerData.AESPasswordOn;
+        public void Update(IMinerSign minerSign) {
+            this.ClientId = minerSign.ClientId;
+            this.LoginName = minerSign.LoginName;
+            this.OuterUserId = minerSign.OuterUserId;
+            this.AESPassword = minerSign.AESPassword;
+            this.AESPasswordOn = minerSign.AESPasswordOn;
         }
 
         public string Id { get; set; }

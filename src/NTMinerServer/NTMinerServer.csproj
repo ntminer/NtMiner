@@ -55,6 +55,8 @@
     <Compile Include="Core\Mq\MqMessagePaths\AbstractMqMessagePath`3.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\AbstractMqMessagePath`2.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\ReadOnlyUserMqMessagePath.cs" />
+    <Compile Include="Core\Redis\IMinerDataRedis.cs" />
+    <Compile Include="Core\Redis\Impl\MinerDataRedis.cs" />
     <Compile Include="Core\Redis\Impl\ReadOnlyWsServerNodeRedis.cs" />
     <Compile Include="Core\Redis\Impl\SpeedDataRedis.cs" />
     <Compile Include="Core\Redis\IReadOnlyWsServerNodeRedis.cs" />

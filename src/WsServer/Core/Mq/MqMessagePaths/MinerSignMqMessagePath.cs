@@ -1,4 +1,5 @@
-﻿using RabbitMQ.Client;
+﻿using NTMiner.Core.MinerServer;
+using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
 
@@ -38,9 +39,9 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                 case MqKeyword.MinerSignChangedRoutingKey: {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        string minerId = MinerClientMqBodyUtil.GetMinerIdMqReciveBody(ea.Body);
-                        if (!string.IsNullOrEmpty(minerId) && ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new MinerSignChangedMqEvent(appId, minerId, clientId, timestamp));
+                        MinerSign minerSign = MinerClientMqBodyUtil.GetMinerSignChangedMqReceiveBody(ea.Body);
+                        if (minerSign != null) {
+                            VirtualRoot.RaiseEvent(new MinerSignChangedMqEvent(appId, minerSign, timestamp));
                         }
                     }
                     break;

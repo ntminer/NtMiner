@@ -71,7 +71,7 @@ namespace NTMiner {
             UserMqSender = new UserMqSender(mqRedis);
             _wsServerNodeMqSender = new WsServerNodeMqSender(mqRedis);
             WsServerNodeAddressSet = new WsServerNodeAddressSet(WsServerNodeRedis, _wsServerNodeMqSender);
-            var minerRedis = new ReadOnlyMinerDataRedis(mqRedis);
+            var minerRedis = new MinerDataRedis(mqRedis);
             var userRedis = new ReadOnlyUserDataRedis(mqRedis);
             VirtualRoot.StartTimer();
             // 构造函数中异步访问redis初始化用户列表，因为是异步的所以提前构造
@@ -208,8 +208,6 @@ namespace NTMiner {
         public static void AddMinerClientSession(WsUserName wsUserName, UserData userData, IPEndPoint remoteEndPoint, IWsSessionAdapter session) {
             IMinerClientSession minerSession = MinerClientSession.Create(userData, wsUserName, remoteEndPoint, session.SessionId, WsServer.MinerClientWsSessions);
             MinerClientSessionSet.Add(minerSession);
-            // 通知WebApiServer节点该矿机Ws连线了
-            MinerClientMqSender.SendMinerClientWsOpened(minerSession.ClientId);
             bool isMinerSignChanged;
             if (!MinerSignSet.TryGetByClientId(wsUserName.ClientId, out MinerSign minerSign)) {
                 // 此时该矿机是第一次在服务端出现
@@ -250,9 +248,11 @@ namespace NTMiner {
                 }
             }.SignToJson(minerSign.AESPassword));
             if (isMinerSignChanged) {
-                // TODO:这个可以直接写redis然后发MinerSignChangedMqMessage，没必要发给WebApiServer
-                // 改的时候记得WebApiServer那订阅MinerSignChangedMqMessage
-                MinerClientMqSender.SendChangeMinerSign(minerSign);
+                MinerSignSet.SetMinerSign(minerSign);
+            }
+            else {
+                // 通知WebApiServer节点该矿机Ws连线了
+                MinerClientMqSender.SendMinerClientWsOpened(minerSession.ClientId);
             }
         }
 
