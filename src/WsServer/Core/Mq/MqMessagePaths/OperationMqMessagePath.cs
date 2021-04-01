@@ -51,12 +51,13 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
         public override bool Go(BasicDeliverEventArgs ea) {
             switch (ea.RoutingKey) {
                 case WsMqKeyword.GetConsoleOutLinesRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        long afterTimestamp = OperationMqBodyUtil.GetGetConsoleOutLinesMqReceiveBody(ea.Body);
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new GetConsoleOutLinesMqEvent(appId, loginName, timestamp, clientId, afterTimestamp));
+                        GetConsoleOutLinesRequest[] requests = OperationMqBodyUtil.GetGetConsoleOutLinesMqReceiveBody(ea.Body);
+                        if (requests != null && requests.Length != 0) {
+                            foreach (var request in requests) {
+                                VirtualRoot.RaiseEvent(new GetConsoleOutLinesMqEvent(appId, request.LoginName, timestamp, request.ClientId, request.AfterTime));
+                            }
                         }
                     }
                     break;
@@ -64,7 +65,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        long afterTimestamp = OperationMqBodyUtil.GetGetConsoleOutLinesMqReceiveBody(ea.Body);
+                        long afterTimestamp = OperationMqBodyUtil.GetFastGetConsoleOutLinesMqReceiveBody(ea.Body);
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             VirtualRoot.RaiseEvent(new GetConsoleOutLinesMqEvent(appId, loginName, timestamp, clientId, afterTimestamp));
                         }
@@ -84,7 +85,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        long afterTimestamp = OperationMqBodyUtil.GetGetLocalMessagesMqReceiveBody(ea.Body);
+                        long afterTimestamp = OperationMqBodyUtil.GetFastGetLocalMessagesMqReceiveBody(ea.Body);
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             VirtualRoot.RaiseEvent(new GetLocalMessagesMqEvent(appId, loginName, timestamp, clientId, afterTimestamp));
                         }
@@ -94,7 +95,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        long afterTimestamp = OperationMqBodyUtil.GetGetLocalMessagesMqReceiveBody(ea.Body);
+                        long afterTimestamp = OperationMqBodyUtil.GetFastGetLocalMessagesMqReceiveBody(ea.Body);
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             VirtualRoot.RaiseEvent(new GetLocalMessagesMqEvent(appId, loginName, timestamp, clientId, afterTimestamp));
                         }
@@ -114,7 +115,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        long afterTimestamp = OperationMqBodyUtil.GetGetOperationResultsMqReceiveBody(ea.Body);
+                        long afterTimestamp = OperationMqBodyUtil.GetFastGetOperationResultsMqReceiveBody(ea.Body);
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             VirtualRoot.RaiseEvent(new GetOperationResultsMqEvent(appId, loginName, timestamp, clientId, afterTimestamp));
                         }
@@ -124,7 +125,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        long afterTimestamp = OperationMqBodyUtil.GetGetOperationResultsMqReceiveBody(ea.Body);
+                        long afterTimestamp = OperationMqBodyUtil.GetFastGetOperationResultsMqReceiveBody(ea.Body);
                         if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             VirtualRoot.RaiseEvent(new GetOperationResultsMqEvent(appId, loginName, timestamp, clientId, afterTimestamp));
                         }

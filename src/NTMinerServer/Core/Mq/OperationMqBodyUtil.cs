@@ -9,15 +9,30 @@ using System.Text;
 namespace NTMiner.Core.Mq {
     public static class OperationMqBodyUtil {
         #region GetConsoleOutLines
-        public static byte[] GetGetConsoleOutLinesMqSendBody(long afterTime) {
+        public static byte[] GetFastGetConsoleOutLinesMqSendBody(long afterTime) {
             return Encoding.UTF8.GetBytes(afterTime.ToString());
         }
-        public static long GetGetConsoleOutLinesMqReceiveBody(byte[] body) {
+        public static long GetFastGetConsoleOutLinesMqReceiveBody(byte[] body) {
             string s = Encoding.UTF8.GetString(body);
             if (long.TryParse(s, out long value)) {
                 return value;
             }
             return 0;
+        }
+
+        public static byte[] GetGetConsoleOutLinesMqSendBody(GetConsoleOutLinesRequest[] requests) {
+            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(requests));
+        }
+        public static GetConsoleOutLinesRequest[] GetGetConsoleOutLinesMqReceiveBody(byte[] body) {
+            string json = Encoding.UTF8.GetString(body);
+            if (string.IsNullOrEmpty(json)) {
+                return new GetConsoleOutLinesRequest[0];
+            }
+            var result = VirtualRoot.JsonSerializer.Deserialize<GetConsoleOutLinesRequest[]>(json);
+            if (result == null) {
+                result = new GetConsoleOutLinesRequest[0];
+            }
+            return result;
         }
         #endregion
 
@@ -39,10 +54,10 @@ namespace NTMiner.Core.Mq {
         #endregion
 
         #region GetLocalMessages
-        public static byte[] GetGetLocalMessagesMqSendBody(long afterTime) {
+        public static byte[] GetFastGetLocalMessagesMqSendBody(long afterTime) {
             return Encoding.UTF8.GetBytes(afterTime.ToString());
         }
-        public static long GetGetLocalMessagesMqReceiveBody(byte[] body) {
+        public static long GetFastGetLocalMessagesMqReceiveBody(byte[] body) {
             string s = Encoding.UTF8.GetString(body);
             if (long.TryParse(s, out long value)) {
                 return value;
@@ -69,10 +84,10 @@ namespace NTMiner.Core.Mq {
         #endregion
 
         #region GetOperationResults
-        public static byte[] GetGetOperationResultsMqSendBody(long afterTime) {
+        public static byte[] GetFastGetOperationResultsMqSendBody(long afterTime) {
             return Encoding.UTF8.GetBytes(afterTime.ToString());
         }
-        public static long GetGetOperationResultsMqReceiveBody(byte[] body) {
+        public static long GetFastGetOperationResultsMqReceiveBody(byte[] body) {
             string s = Encoding.UTF8.GetString(body);
             if (long.TryParse(s, out long value)) {
                 return value;

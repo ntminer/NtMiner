@@ -10,15 +10,24 @@ namespace NTMiner {
     public static class WsMessageFromMinerStudioHandler {
         private static readonly List<UserGetSpeedRequest> _userGetSpeedRequests = new List<UserGetSpeedRequest>();
         private static readonly object _lockerForUserGetSpeedRequests = new object();
+        private static readonly List<GetConsoleOutLinesRequest> _getConsoleOutLinesRequests = new List<GetConsoleOutLinesRequest>();
+        private static readonly object _lockerForGetConsoleOutLinesRequests = new object();
         static WsMessageFromMinerStudioHandler() {
             // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
-            VirtualRoot.BuildEventPath<Per1SecondEvent>("每1秒钟将WsServer暂存的来自挖矿端的GetSpeed广播到Mq", LogEnum.None, message => {
+            VirtualRoot.BuildEventPath<Per1SecondEvent>("每1秒钟将WsServer暂存的来自群控客户端的消息广播到Mq", LogEnum.None, message => {
                 UserGetSpeedRequest[] userGetSpeedRequests;
                 lock (_lockerForUserGetSpeedRequests) {
                     userGetSpeedRequests = _userGetSpeedRequests.ToArray();
                     _userGetSpeedRequests.Clear();
                 }
                 AppRoot.OperationMqSender.SendGetSpeed(userGetSpeedRequests);
+
+                GetConsoleOutLinesRequest[] getConsoleOutLinesRequests;
+                lock (_lockerForGetConsoleOutLinesRequests) {
+                    getConsoleOutLinesRequests = _getConsoleOutLinesRequests.ToArray();
+                    _getConsoleOutLinesRequests.Clear();
+                }
+                AppRoot.OperationMqSender.SendGetConsoleOutLines(getConsoleOutLinesRequests);
             }, typeof(WsMessageFromMinerClientHandler));
         }
 
@@ -26,7 +35,13 @@ namespace NTMiner {
             _handlers = new Dictionary<string, Action<IMinerStudioSession, WsMessage>>(StringComparer.OrdinalIgnoreCase) {
                 [WsMessage.GetConsoleOutLines] = (session, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
-                        AppRoot.OperationMqSender.SendGetConsoleOutLines(session.LoginName, wrapperClientIdData.ClientId, afterTime);
+                        lock (_lockerForGetConsoleOutLinesRequests) {
+                            _getConsoleOutLinesRequests.Add(new GetConsoleOutLinesRequest {
+                                AfterTime = afterTime,
+                                ClientId = wrapperClientIdData.ClientId,
+                                LoginName = session.LoginName
+                            });
+                        }
                     }
                 },
                 [WsMessage.FastGetConsoleOutLines] = (session, message) => {
