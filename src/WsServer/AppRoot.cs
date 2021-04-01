@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace NTMiner {
     public static class AppRoot {
@@ -177,12 +178,14 @@ namespace NTMiner {
         private static void MinerClientsBreatherInit() {
             // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
             VirtualRoot.BuildEventPath<Per1SecondEvent>("每1秒钟将WsServer暂存的来自挖矿端的呼吸通过Mq发送给WebApiServer", LogEnum.None, message => {
-                Guid[] clientIds;
-                lock (_lockerForToBreathClientIds) {
-                    clientIds = _toBreathClientIds.ToArray();
-                    _toBreathClientIds.Clear();
-                }
-                MinerClientMqSender.SendMinerClientsWsBreathed(clientIds);
+                Task.Factory.StartNew(() => {
+                    Guid[] clientIds;
+                    lock (_lockerForToBreathClientIds) {
+                        clientIds = _toBreathClientIds.ToArray();
+                        _toBreathClientIds.Clear();
+                    }
+                    MinerClientMqSender.SendMinerClientsWsBreathed(clientIds);
+                });
             }, typeof(AppRoot));
         }
 

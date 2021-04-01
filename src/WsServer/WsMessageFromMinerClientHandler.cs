@@ -6,6 +6,7 @@ using NTMiner.VirtualMemory;
 using NTMiner.Ws;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NTMiner {
     public static class WsMessageFromMinerClientHandler {
@@ -14,12 +15,14 @@ namespace NTMiner {
         static WsMessageFromMinerClientHandler() {
             // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
             VirtualRoot.BuildEventPath<Per1SecondEvent>("每1秒钟将WsServer暂存的来自挖矿端的SpeedData通过Mq发送给WebApiServer", LogEnum.None, message => {
-                ClientIdIp[] clientIdIps;
-                lock (_lockerForClientIdIps) {
-                    clientIdIps = _clientIdIps.ToArray();
-                    _clientIdIps.Clear();
-                }
-                AppRoot.MinerClientMqSender.SendSpeeds(clientIdIps);
+                Task.Factory.StartNew(() => {
+                    ClientIdIp[] clientIdIps;
+                    lock (_lockerForClientIdIps) {
+                        clientIdIps = _clientIdIps.ToArray();
+                        _clientIdIps.Clear();
+                    }
+                    AppRoot.MinerClientMqSender.SendSpeeds(clientIdIps);
+                });
             }, typeof(WsMessageFromMinerClientHandler));
         }
 

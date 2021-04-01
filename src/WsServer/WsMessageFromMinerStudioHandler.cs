@@ -5,6 +5,7 @@ using NTMiner.Core.MinerServer;
 using NTMiner.Ws;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NTMiner {
     public static class WsMessageFromMinerStudioHandler {
@@ -19,33 +20,41 @@ namespace NTMiner {
         static WsMessageFromMinerStudioHandler() {
             // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
             VirtualRoot.BuildEventPath<Per1SecondEvent>("每1秒钟将WsServer暂存的来自群控客户端的消息广播到Mq", LogEnum.None, message => {
-                UserGetSpeedRequest[] userGetSpeedRequests;
-                lock (_lockerForUserGetSpeedRequests) {
-                    userGetSpeedRequests = _userGetSpeedRequests.ToArray();
-                    _userGetSpeedRequests.Clear();
-                }
-                AppRoot.OperationMqSender.SendGetSpeed(userGetSpeedRequests);
+                Task.Factory.StartNew(() => {
+                    UserGetSpeedRequest[] userGetSpeedRequests;
+                    lock (_lockerForUserGetSpeedRequests) {
+                        userGetSpeedRequests = _userGetSpeedRequests.ToArray();
+                        _userGetSpeedRequests.Clear();
+                    }
+                    AppRoot.OperationMqSender.SendGetSpeed(userGetSpeedRequests);
+                });
 
-                AfterTimeRequest[] getConsoleOutLinesRequests;
-                lock (_lockerForGetConsoleOutLinesRequests) {
-                    getConsoleOutLinesRequests = _getConsoleOutLinesRequests.ToArray();
-                    _getConsoleOutLinesRequests.Clear();
-                }
-                AppRoot.OperationMqSender.SendGetConsoleOutLines(getConsoleOutLinesRequests);
+                Task.Factory.StartNew(() => {
+                    AfterTimeRequest[] getConsoleOutLinesRequests;
+                    lock (_lockerForGetConsoleOutLinesRequests) {
+                        getConsoleOutLinesRequests = _getConsoleOutLinesRequests.ToArray();
+                        _getConsoleOutLinesRequests.Clear();
+                    }
+                    AppRoot.OperationMqSender.SendGetConsoleOutLines(getConsoleOutLinesRequests);
+                });
 
-                AfterTimeRequest[] getLocalMessagesRequests;
-                lock (_lockerForGetLocalMessagesRequests) {
-                    getLocalMessagesRequests = _getLocalMessagesRequests.ToArray();
-                    _getLocalMessagesRequests.Clear();
-                }
-                AppRoot.OperationMqSender.SendGetLocalMessages(getLocalMessagesRequests);
+                Task.Factory.StartNew(() => {
+                    AfterTimeRequest[] getLocalMessagesRequests;
+                    lock (_lockerForGetLocalMessagesRequests) {
+                        getLocalMessagesRequests = _getLocalMessagesRequests.ToArray();
+                        _getLocalMessagesRequests.Clear();
+                    }
+                    AppRoot.OperationMqSender.SendGetLocalMessages(getLocalMessagesRequests);
+                });
 
-                AfterTimeRequest[] getOperationResultsRequests;
-                lock (_lockerForGetOperationResultsRequests) {
-                    getOperationResultsRequests = _getOperationResultsRequests.ToArray();
-                    _getOperationResultsRequests.Clear();
-                }
-                AppRoot.OperationMqSender.SendGetOperationResults(getOperationResultsRequests);
+                Task.Factory.StartNew(() => {
+                    AfterTimeRequest[] getOperationResultsRequests;
+                    lock (_lockerForGetOperationResultsRequests) {
+                        getOperationResultsRequests = _getOperationResultsRequests.ToArray();
+                        _getOperationResultsRequests.Clear();
+                    }
+                    AppRoot.OperationMqSender.SendGetOperationResults(getOperationResultsRequests);
+                });
             }, typeof(WsMessageFromMinerClientHandler));
         }
 
