@@ -3,7 +3,6 @@ using NTMiner.Core.MinerServer;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
-using System.Collections.Generic;
 
 namespace NTMiner.Core.Mq.MqMessagePaths {
     public class OperationMqMessagePath : AbstractMqMessagePath<UserSetInitedEvent, MinerSignSetInitedEvent> {
@@ -11,7 +10,6 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
         }
 
         protected override void Build(IModel channal) {
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.MinerSignSetedRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GetConsoleOutLinesRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.FastGetConsoleOutLinesRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.ConsoleOutLinesRoutingKey, arguments: null);
@@ -51,15 +49,6 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
 
         public override bool Go(BasicDeliverEventArgs ea) {
             switch (ea.RoutingKey) {
-                case MqKeyword.MinerSignSetedRoutingKey: {
-                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
-                        string appId = ea.BasicProperties.AppId;
-                        MinerSign minerSign = MinerClientMqBodyUtil.GetMinerSignMqReceiveBody(ea.Body);
-                        if (minerSign != null) {
-                            VirtualRoot.RaiseEvent(new MinerSignSetedMqEvent(appId, minerSign, timestamp));
-                        }
-                    }
-                    break;
                 case WsMqKeyword.GetConsoleOutLinesRoutingKey: {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
