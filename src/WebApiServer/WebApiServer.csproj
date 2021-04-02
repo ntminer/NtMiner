@@ -110,6 +110,7 @@
     <Compile Include="Core\Impl\GpuNameSet.cs" />
     <Compile Include="Core\Impl\KernelOutputKeywordSet.cs" />
     <Compile Include="CloudFileUrlGenerater\Impl\QiniuCloudKodoFileUrlGenerater.cs" />
+    <Compile Include="Core\Impl\MqCountSet.cs" />
     <Compile Include="Core\Impl\ServerMessageSet.cs" />
     <Compile Include="Core\Impl\WsServerNodeAddressSet.cs" />
     <Compile Include="CloudFileUrlGenerater\ICloudFileUrlGenerater.cs" />

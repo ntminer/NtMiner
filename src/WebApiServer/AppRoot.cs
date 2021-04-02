@@ -80,6 +80,7 @@ namespace NTMiner {
                         var userRedis = new UserDataRedis(redis);
                         var captchaRedis = new CaptchaDataRedis(redis);
 
+                        MqCountSet = new MqCountSet();
                         WsServerNodeRedis = new WsServerNodeRedis(redis);
                         WsServerNodeAddressSet = new WsServerNodeAddressSet(WsServerNodeRedis);
                         UserSet = new UserSet(userRedis, userMqSender);
@@ -168,6 +169,8 @@ namespace NTMiner {
         }
 
         public static ICloudFileUrlGenerater CloudFileUrlGenerater { get; private set; }
+
+        public static IMqCountSet MqCountSet { get; private set; }
 
         public static IWsServerNodeRedis WsServerNodeRedis { get; private set; }
 

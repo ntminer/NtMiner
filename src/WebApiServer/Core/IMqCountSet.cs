@@ -1,8 +1,9 @@
 ﻿using NTMiner.ServerNode;
-using System.Collections.Generic;
 
 namespace NTMiner.Core {
     public interface IMqCountSet {
-        IEnumerable<MqCountData> AsEnumerable();
+        MqCountData[] GetAll();
+        MqCountData GetByAppId(string appId);
+        void Clear();
     }
 }
