@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core.MinerServer;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System;
 
 namespace NTMiner.Core.Mq.MqMessagePaths {
     public class MinerClientMqMessagePath : AbstractMqMessagePath {
@@ -23,14 +22,13 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
 
         public override bool Go(BasicDeliverEventArgs ea) {
             if (ea.RoutingKey == _queryClientsForWsResponseRoutingKey) {
-                DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                 string appId = ea.BasicProperties.AppId;
                 string mqCorrelationId = ea.BasicProperties.CorrelationId;
                 string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
                 string sessionId = ea.BasicProperties.ReadHeaderString(MqKeyword.SessionIdHeaderName);
                 QueryClientsResponse response = MinerClientMqBodyUtil.GetQueryClientsResponseMqReceiveBody(ea.Body);
                 if (response != null) {
-                    VirtualRoot.RaiseEvent(new QueryClientsForWsResponseMqEvent(appId, mqCorrelationId, timestamp, loginName, sessionId, response));
+                    VirtualRoot.RaiseEvent(new QueryClientsForWsResponseMqEvent(appId, mqCorrelationId, ea.GetTimestamp(), loginName, sessionId, response));
                 }
                 return true;
             }

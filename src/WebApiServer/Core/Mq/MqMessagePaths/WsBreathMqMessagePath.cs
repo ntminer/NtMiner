@@ -17,20 +17,18 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
         public override bool Go(BasicDeliverEventArgs ea) {
             switch (ea.RoutingKey) {
                 case MqKeyword.MinerClientWsClosedRoutingKey: {
-                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         Guid clientId = MinerClientMqBodyUtil.GetClientIdMqReciveBody(ea.Body);
                         if (clientId != Guid.Empty) {
-                            VirtualRoot.RaiseEvent(new MinerClientWsClosedMqEvent(appId, clientId, timestamp));
+                            VirtualRoot.RaiseEvent(new MinerClientWsClosedMqEvent(appId, clientId, ea.GetTimestamp()));
                         }
                     }
                     break;
                 case MqKeyword.MinerClientsWsBreathedRoutingKey: {
-                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         Guid[] clientIds = MinerClientMqBodyUtil.GetClientIdsMqReciveBody(ea.Body);
                         if (clientIds != null && clientIds.Length != 0) {
-                            VirtualRoot.RaiseEvent(new MinerClientsWsBreathedMqEvent(appId, clientIds, timestamp));
+                            VirtualRoot.RaiseEvent(new MinerClientsWsBreathedMqEvent(appId, clientIds, ea.GetTimestamp()));
                         }
                     }
                     break;

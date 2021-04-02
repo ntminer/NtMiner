@@ -1,6 +1,5 @@
 ﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System;
 
 namespace NTMiner.Core.Mq.MqMessagePaths {
     public class ReadOnlyUserMqMessagePath : AbstractMqMessagePath<UserSetInitedEvent> {
@@ -33,51 +32,44 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
             switch (ea.RoutingKey) {
                 case MqKeyword.UserAddedRoutingKey: {
                         string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
-                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserAddedMqEvent(appId, loginName, timestamp));
+                        VirtualRoot.RaiseEvent(new UserAddedMqEvent(appId, loginName, ea.GetTimestamp()));
                     }
                     break;
                 case MqKeyword.UserUpdatedRoutingKey: {
                         string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
-                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserUpdatedMqEvent(appId, loginName, timestamp));
+                        VirtualRoot.RaiseEvent(new UserUpdatedMqEvent(appId, loginName, ea.GetTimestamp()));
                     }
                     break;
                 case MqKeyword.UserRemovedRoutingKey: {
                         string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
-                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserRemovedMqEvent(appId, loginName, timestamp));
+                        VirtualRoot.RaiseEvent(new UserRemovedMqEvent(appId, loginName, ea.GetTimestamp()));
                     }
                     break;
                 case MqKeyword.UserEnabledRoutingKey: {
                         string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
-                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserEnabledMqEvent(appId, loginName, timestamp));
+                        VirtualRoot.RaiseEvent(new UserEnabledMqEvent(appId, loginName, ea.GetTimestamp()));
                     }
                     break;
                 case MqKeyword.UserDisabledRoutingKey: {
                         string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
-                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserDisabledMqEvent(appId, loginName, timestamp));
+                        VirtualRoot.RaiseEvent(new UserDisabledMqEvent(appId, loginName, ea.GetTimestamp()));
                     }
                     break;
                 case MqKeyword.UserPasswordChangedRoutingKey: {
                         string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
-                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserPasswordChangedMqEvent(appId, loginName, timestamp));
+                        VirtualRoot.RaiseEvent(new UserPasswordChangedMqEvent(appId, loginName, ea.GetTimestamp()));
                     }
                     break;
                 case MqKeyword.UserRSAKeyUpdatedRoutingKey: {
                         string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
-                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserRSAKeyUpdatedMqEvent(appId, loginName, timestamp));
+                        VirtualRoot.RaiseEvent(new UserRSAKeyUpdatedMqEvent(appId, loginName, ea.GetTimestamp()));
                     }
                     break;
                 default:

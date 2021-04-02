@@ -16,11 +16,10 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
         public override bool Go(BasicDeliverEventArgs ea) {
             switch (ea.RoutingKey) {
                 case MqKeyword.MinerDataRemovedRoutingKey: {
-                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         string minerId = MinerClientMqBodyUtil.GetMinerIdMqReciveBody(ea.Body);
                         if (!string.IsNullOrEmpty(minerId) && ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new MinerDataRemovedMqEvent(appId, minerId, clientId, timestamp));
+                            VirtualRoot.RaiseEvent(new MinerDataRemovedMqEvent(appId, minerId, clientId, ea.GetTimestamp()));
                         }
                     }
                     break;
