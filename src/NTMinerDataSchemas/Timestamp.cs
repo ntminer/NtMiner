@@ -53,7 +53,11 @@ namespace NTMiner {
             if (timeSpan.Minutes > 2) {
                 return timeSpan.Minutes + " 分钟前";
             }
-            return (int)timeSpan.TotalSeconds + " 秒前";
+            int totalSeconds = (int)timeSpan.TotalSeconds;
+            if (totalSeconds < 0) {
+                totalSeconds = 0;
+            }
+            return totalSeconds.ToString() + " 秒前";
         }
 
         public static string GetTimeSpanAfterText(int seconds) {
@@ -70,7 +74,11 @@ namespace NTMiner {
             if (timeSpan.Minutes > 2) {
                 return timeSpan.Minutes + " 分钟后";
             }
-            return (int)timeSpan.TotalSeconds + " 秒后";
+            int totalSeconds = (int)timeSpan.TotalSeconds;
+            if (totalSeconds < 0) {
+                totalSeconds = 0;
+            }
+            return totalSeconds.ToString() + " 秒后";
         }
     }
 }
