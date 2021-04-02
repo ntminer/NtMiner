@@ -60,7 +60,8 @@ namespace NTMiner {
                             new UserMqMessagePath(durableQueue),
                             new MinerClientMqMessagePath(queue),
                             new WsBreathMqMessagePath(wsBreathQueue),
-                            new OperationMqMessagePath(queue)
+                            new OperationMqMessagePath(queue),
+                            new MqCountMqMessagePath(queue)
                         };
                         if (!MqRedis.Create(ServerAppType.WebApiServer, mqMessagePaths, out IMqRedis mqRedis)) {
                             NTMinerConsole.UserError("启动失败，无法继续，因为服务器上下文创建失败");
