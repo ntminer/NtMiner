@@ -1,360 +1,284 @@
 ﻿using NTMiner.Core.Daemon;
 using NTMiner.Core.MinerServer;
-using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
+using System.Collections.Generic;
 
 namespace NTMiner.Core.Mq.MqMessagePaths {
     public class OperationMqMessagePath : AbstractMqMessagePath<UserSetInitedEvent, MinerSignSetInitedEvent> {
         public OperationMqMessagePath(string queue) : base(queue) {
         }
 
-        protected override void Build(IModel channal) {
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.MinerSignSetedRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GetConsoleOutLinesRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.FastGetConsoleOutLinesRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.ConsoleOutLinesRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GetLocalMessagesRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.FastGetLocalMessagesRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.LocalMessagesRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GetOperationResultsRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.FastGetOperationResultsRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GetDrivesRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.DrivesRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.SetVirtualMemoryRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GetLocalIpsRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.SetLocalIpsRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.LocalIpsRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.OperationResultsRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.OperationReceivedRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GetSpeedRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.EnableRemoteDesktopRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.BlockWAURoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.SwitchRadeonGpuRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GetSelfWorkLocalJsonRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.SelfWorkLocalJsonRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.SaveSelfWorkLocalJsonRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GetGpuProfilesJsonRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GpuProfilesJsonRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.SaveGpuProfilesJsonRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.SetAutoBootStartRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.RestartWindowsRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.ShutdownWindowsRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.UpgradeNTMinerRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.StartMineRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.StartWorkMineRoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.StopMineRoutingKey, arguments: null);
-
-            NTMinerConsole.UserOk("OperationMq QueueBind成功");
-        }
-
-        public override bool Go(BasicDeliverEventArgs ea) {
-            switch (ea.RoutingKey) {
-                case MqKeyword.MinerSignSetedRoutingKey: {
-                        string appId = ea.BasicProperties.AppId;
-                        MinerSign minerSign = MinerClientMqBodyUtil.GetMinerSignMqReceiveBody(ea.Body);
-                        if (minerSign != null) {
-                            VirtualRoot.RaiseEvent(new MinerSignSetedMqEvent(appId, minerSign, ea.GetTimestamp()));
+        protected override Dictionary<string, Action<BasicDeliverEventArgs>> GetPaths() {
+            return new Dictionary<string, Action<BasicDeliverEventArgs>> {
+                [MqKeyword.MinerSignSetedRoutingKey] = ea => {
+                    string appId = ea.BasicProperties.AppId;
+                    MinerSign minerSign = MinerClientMqBodyUtil.GetMinerSignMqReceiveBody(ea.Body);
+                    if (minerSign != null) {
+                        VirtualRoot.RaiseEvent(new MinerSignSetedMqEvent(appId, minerSign, ea.GetTimestamp()));
+                    }
+                },
+                [WsMqKeyword.GetConsoleOutLinesRoutingKey] = ea => {
+                    string appId = ea.BasicProperties.AppId;
+                    AfterTimeRequest[] requests = OperationMqBodyUtil.GetAfterTimeRequestMqReceiveBody(ea.Body);
+                    if (requests != null && requests.Length != 0) {
+                        foreach (var request in requests) {
+                            VirtualRoot.RaiseEvent(new GetConsoleOutLinesMqEvent(appId, request.LoginName, ea.GetTimestamp(), request.ClientId, request.AfterTime));
                         }
                     }
-                    break;
-                case WsMqKeyword.GetConsoleOutLinesRoutingKey: {
-                        string appId = ea.BasicProperties.AppId;
-                        AfterTimeRequest[] requests = OperationMqBodyUtil.GetAfterTimeRequestMqReceiveBody(ea.Body);
-                        if (requests != null && requests.Length != 0) {
-                            foreach (var request in requests) {
-                                VirtualRoot.RaiseEvent(new GetConsoleOutLinesMqEvent(appId, request.LoginName, ea.GetTimestamp(), request.ClientId, request.AfterTime));
-                            }
+                },
+                [WsMqKeyword.FastGetConsoleOutLinesRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    long afterTimestamp = OperationMqBodyUtil.GetFastGetConsoleOutLinesMqReceiveBody(ea.Body);
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new GetConsoleOutLinesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp));
+                    }
+                },
+                [WsMqKeyword.ConsoleOutLinesRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    var data = OperationMqBodyUtil.GetConsoleOutLinesMqReceiveBody(ea.Body);
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new ConsoleOutLinesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, data));
+                    }
+                },
+                [WsMqKeyword.GetLocalMessagesRoutingKey] = ea => {
+                    string appId = ea.BasicProperties.AppId;
+                    AfterTimeRequest[] requests = OperationMqBodyUtil.GetAfterTimeRequestMqReceiveBody(ea.Body);
+                    if (requests != null && requests.Length != 0) {
+                        foreach (var request in requests) {
+                            VirtualRoot.RaiseEvent(new GetLocalMessagesMqEvent(appId, request.LoginName, ea.GetTimestamp(), request.ClientId, request.AfterTime));
                         }
                     }
-                    break;
-                case WsMqKeyword.FastGetConsoleOutLinesRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        long afterTimestamp = OperationMqBodyUtil.GetFastGetConsoleOutLinesMqReceiveBody(ea.Body);
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new GetConsoleOutLinesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp));
+                },
+                [WsMqKeyword.FastGetLocalMessagesRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    long afterTimestamp = OperationMqBodyUtil.GetFastGetLocalMessagesMqReceiveBody(ea.Body);
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new GetLocalMessagesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp));
+                    }
+                },
+                [WsMqKeyword.LocalMessagesRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    var data = OperationMqBodyUtil.GetLocalMessagesMqReceiveBody(ea.Body);
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new LocalMessagesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, data));
+                    }
+                },
+                [WsMqKeyword.GetOperationResultsRoutingKey] = ea => {
+                    string appId = ea.BasicProperties.AppId;
+                    AfterTimeRequest[] requests = OperationMqBodyUtil.GetAfterTimeRequestMqReceiveBody(ea.Body);
+                    if (requests != null && requests.Length != 0) {
+                        foreach (var request in requests) {
+                            VirtualRoot.RaiseEvent(new GetOperationResultsMqEvent(appId, request.LoginName, ea.GetTimestamp(), request.ClientId, request.AfterTime));
                         }
                     }
-                    break;
-                case WsMqKeyword.ConsoleOutLinesRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        var data = OperationMqBodyUtil.GetConsoleOutLinesMqReceiveBody(ea.Body);
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new ConsoleOutLinesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, data));
+                },
+                [WsMqKeyword.FastGetOperationResultsRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    long afterTimestamp = OperationMqBodyUtil.GetFastGetOperationResultsMqReceiveBody(ea.Body);
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new GetOperationResultsMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp));
+                    }
+                },
+                [WsMqKeyword.GetDrivesRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new GetDrivesMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
+                    }
+                },
+                [WsMqKeyword.DrivesRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    var data = OperationMqBodyUtil.GetDrivesMqReceiveBody(ea.Body);
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new DrivesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, data));
+                    }
+                },
+                [WsMqKeyword.SetVirtualMemoryRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        var data = OperationMqBodyUtil.GetSetVirtualMemoryMqReceiveBody(ea.Body);
+                        VirtualRoot.RaiseEvent(new SetVirtualMemoryMqEvent(appId, loginName, ea.GetTimestamp(), clientId, data));
+                    }
+                },
+                [WsMqKeyword.GetLocalIpsRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new GetLocalIpsMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
+                    }
+                },
+                [WsMqKeyword.SetLocalIpsRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        var data = OperationMqBodyUtil.GetSetLocalIpsMqReceiveBody(ea.Body);
+                        VirtualRoot.RaiseEvent(new SetLocalIpsMqEvent(appId, loginName, ea.GetTimestamp(), clientId, data));
+                    }
+                },
+                [WsMqKeyword.LocalIpsRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    var data = OperationMqBodyUtil.GetLocalIpsMqReceiveBody(ea.Body);
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new LocalIpsMqEvent(appId, loginName, ea.GetTimestamp(), clientId, data));
+                    }
+                },
+                [WsMqKeyword.OperationResultsRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    var data = OperationMqBodyUtil.GetOperationResultsMqReceiveBody(ea.Body);
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new OperationResultsMqEvent(appId, loginName, ea.GetTimestamp(), clientId, data));
+                    }
+                },
+                [WsMqKeyword.OperationReceivedRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new OperationReceivedMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
+                    }
+                },
+                [WsMqKeyword.GetSpeedRoutingKey] = ea => {
+                    string appId = ea.BasicProperties.AppId;
+                    UserGetSpeedRequest[] requests = OperationMqBodyUtil.GetGetSpeedMqReceiveBody(ea.Body);
+                    if (requests != null && requests.Length != 0) {
+                        VirtualRoot.RaiseEvent(new GetSpeedMqEvent(appId, ea.GetTimestamp(), requests));
+                    }
+                },
+                [WsMqKeyword.EnableRemoteDesktopRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new EnableRemoteDesktopMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
+                    }
+                },
+                [WsMqKeyword.BlockWAURoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new BlockWAUMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
+                    }
+                },
+                [WsMqKeyword.SwitchRadeonGpuRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        bool on = OperationMqBodyUtil.GetSwitchRadeonGpuMqReceiveBody(ea.Body);
+                        VirtualRoot.RaiseEvent(new SwitchRadeonGpuMqEvent(appId, loginName, ea.GetTimestamp(), clientId, on));
+                    }
+                },
+                [WsMqKeyword.GetSelfWorkLocalJsonRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new GetSelfWorkLocalJsonMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
+                    }
+                },
+                [WsMqKeyword.SelfWorkLocalJsonRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        string json = OperationMqBodyUtil.GetSelfWorkLocalJsonMqReceiveBody(ea.Body);
+                        VirtualRoot.RaiseEvent(new LocalJsonMqEvent(appId, loginName, ea.GetTimestamp(), clientId, json));
+                    }
+                },
+                [WsMqKeyword.SaveSelfWorkLocalJsonRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        WorkRequest request = OperationMqBodyUtil.GetSaveSelfWorkLocalJsonMqReceiveBody(ea.Body);
+                        VirtualRoot.RaiseEvent(new SaveSelfWorkLocalJsonMqEvent(appId, loginName, ea.GetTimestamp(), clientId, request));
+                    }
+                },
+                [WsMqKeyword.GetGpuProfilesJsonRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new GetGpuProfilesJsonMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
+                    }
+                },
+                [WsMqKeyword.GpuProfilesJsonRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        string json = OperationMqBodyUtil.GetGpuProfilesJsonMqReceiveBody(ea.Body);
+                        VirtualRoot.RaiseEvent(new GpuProfilesJsonMqEvent(appId, loginName, ea.GetTimestamp(), clientId, json));
+                    }
+                },
+                [WsMqKeyword.SaveGpuProfilesJsonRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        string json = OperationMqBodyUtil.GetSaveGpuProfilesJsonMqReceiveBody(ea.Body);
+                        VirtualRoot.RaiseEvent(new SaveGpuProfilesJsonMqEvent(appId, loginName, ea.GetTimestamp(), clientId, json));
+                    }
+                },
+                [WsMqKeyword.SetAutoBootStartRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        SetAutoBootStartRequest body = OperationMqBodyUtil.GetSetAutoBootStartMqReceiveBody(ea.Body);
+                        if (body != null) {
+                            VirtualRoot.RaiseEvent(new SetAutoBootStartMqEvent(appId, loginName, ea.GetTimestamp(), clientId, body));
                         }
                     }
-                    break;
-                case WsMqKeyword.GetLocalMessagesRoutingKey: {
-                        string appId = ea.BasicProperties.AppId;
-                        AfterTimeRequest[] requests = OperationMqBodyUtil.GetAfterTimeRequestMqReceiveBody(ea.Body);
-                        if (requests != null && requests.Length != 0) {
-                            foreach (var request in requests) {
-                                VirtualRoot.RaiseEvent(new GetLocalMessagesMqEvent(appId, request.LoginName, ea.GetTimestamp(), request.ClientId, request.AfterTime));
-                            }
+                },
+                [WsMqKeyword.RestartWindowsRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new RestartWindowsMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
+                    }
+                },
+                [WsMqKeyword.ShutdownWindowsRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new ShutdownWindowsMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
+                    }
+                },
+                [WsMqKeyword.UpgradeNTMinerRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        string ntminerFileName = OperationMqBodyUtil.GetUpgradeNTMinerMqReceiveBody(ea.Body);
+                        if (!string.IsNullOrEmpty(ntminerFileName)) {
+                            VirtualRoot.RaiseEvent(new UpgradeNTMinerMqEvent(appId, loginName, ea.GetTimestamp(), clientId, ntminerFileName));
                         }
                     }
-                    break;
-                case WsMqKeyword.FastGetLocalMessagesRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        long afterTimestamp = OperationMqBodyUtil.GetFastGetLocalMessagesMqReceiveBody(ea.Body);
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new GetLocalMessagesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp));
-                        }
+                },
+                [MqKeyword.StartMineRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        Guid workId = OperationMqBodyUtil.GetStartMineMqReceiveBody(ea.Body);
+                        VirtualRoot.RaiseEvent(new StartMineMqEvent(appId, loginName, ea.GetTimestamp(), clientId, workId));
                     }
-                    break;
-                case WsMqKeyword.LocalMessagesRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        var data = OperationMqBodyUtil.GetLocalMessagesMqReceiveBody(ea.Body);
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new LocalMessagesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, data));
-                        }
+                },
+                [MqKeyword.StartWorkMineRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        WorkRequest request = OperationMqBodyUtil.GetStartWorkMineMqReceiveBody(ea.Body);
+                        VirtualRoot.RaiseEvent(new StartWorkMineMqEvent(appId, loginName, ea.GetTimestamp(), clientId, request));
                     }
-                    break;
-                case WsMqKeyword.GetOperationResultsRoutingKey: {
-                        string appId = ea.BasicProperties.AppId;
-                        AfterTimeRequest[] requests = OperationMqBodyUtil.GetAfterTimeRequestMqReceiveBody(ea.Body);
-                        if (requests != null && requests.Length != 0) {
-                            foreach (var request in requests) {
-                                VirtualRoot.RaiseEvent(new GetOperationResultsMqEvent(appId, request.LoginName, ea.GetTimestamp(), request.ClientId, request.AfterTime));
-                            }
-                        }
+                },
+                [WsMqKeyword.StopMineRoutingKey] = ea => {
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string appId = ea.BasicProperties.AppId;
+                    if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                        VirtualRoot.RaiseEvent(new StopMineMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
                     }
-                    break;
-                case WsMqKeyword.FastGetOperationResultsRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        long afterTimestamp = OperationMqBodyUtil.GetFastGetOperationResultsMqReceiveBody(ea.Body);
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new GetOperationResultsMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.OperationResultsRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        var data = OperationMqBodyUtil.GetOperationResultsMqReceiveBody(ea.Body);
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new OperationResultsMqEvent(appId, loginName, ea.GetTimestamp(), clientId, data));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.GetDrivesRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new GetDrivesMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.DrivesRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        var data = OperationMqBodyUtil.GetDrivesMqReceiveBody(ea.Body);
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new DrivesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, data));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.GetLocalIpsRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new GetLocalIpsMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.LocalIpsRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        var data = OperationMqBodyUtil.GetLocalIpsMqReceiveBody(ea.Body);
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new LocalIpsMqEvent(appId, loginName, ea.GetTimestamp(), clientId, data));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.OperationReceivedRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new OperationReceivedMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.GetSpeedRoutingKey: {
-                        string appId = ea.BasicProperties.AppId;
-                        UserGetSpeedRequest[] requests = OperationMqBodyUtil.GetGetSpeedMqReceiveBody(ea.Body);
-                        if (requests != null && requests.Length != 0) {
-                            VirtualRoot.RaiseEvent(new GetSpeedMqEvent(appId, ea.GetTimestamp(), requests));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.EnableRemoteDesktopRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new EnableRemoteDesktopMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.BlockWAURoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new BlockWAUMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.SetVirtualMemoryRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            var data = OperationMqBodyUtil.GetSetVirtualMemoryMqReceiveBody(ea.Body);
-                            VirtualRoot.RaiseEvent(new SetVirtualMemoryMqEvent(appId, loginName, ea.GetTimestamp(), clientId, data));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.SetLocalIpsRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            var data = OperationMqBodyUtil.GetSetLocalIpsMqReceiveBody(ea.Body);
-                            VirtualRoot.RaiseEvent(new SetLocalIpsMqEvent(appId, loginName, ea.GetTimestamp(), clientId, data));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.SwitchRadeonGpuRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            bool on = OperationMqBodyUtil.GetSwitchRadeonGpuMqReceiveBody(ea.Body);
-                            VirtualRoot.RaiseEvent(new SwitchRadeonGpuMqEvent(appId, loginName, ea.GetTimestamp(), clientId, on));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.GetSelfWorkLocalJsonRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new GetSelfWorkLocalJsonMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.SelfWorkLocalJsonRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            string json = OperationMqBodyUtil.GetSelfWorkLocalJsonMqReceiveBody(ea.Body);
-                            VirtualRoot.RaiseEvent(new LocalJsonMqEvent(appId, loginName, ea.GetTimestamp(), clientId, json));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.SaveSelfWorkLocalJsonRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            WorkRequest request = OperationMqBodyUtil.GetSaveSelfWorkLocalJsonMqReceiveBody(ea.Body);
-                            VirtualRoot.RaiseEvent(new SaveSelfWorkLocalJsonMqEvent(appId, loginName, ea.GetTimestamp(), clientId, request));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.GetGpuProfilesJsonRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new GetGpuProfilesJsonMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.GpuProfilesJsonRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            string json = OperationMqBodyUtil.GetGpuProfilesJsonMqReceiveBody(ea.Body);
-                            VirtualRoot.RaiseEvent(new GpuProfilesJsonMqEvent(appId, loginName, ea.GetTimestamp(), clientId, json));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.SaveGpuProfilesJsonRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            string json = OperationMqBodyUtil.GetSaveGpuProfilesJsonMqReceiveBody(ea.Body);
-                            VirtualRoot.RaiseEvent(new SaveGpuProfilesJsonMqEvent(appId, loginName, ea.GetTimestamp(), clientId, json));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.SetAutoBootStartRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            SetAutoBootStartRequest body = OperationMqBodyUtil.GetSetAutoBootStartMqReceiveBody(ea.Body);
-                            if (body != null) {
-                                VirtualRoot.RaiseEvent(new SetAutoBootStartMqEvent(appId, loginName, ea.GetTimestamp(), clientId, body));
-                            }
-                        }
-                    }
-                    break;
-                case WsMqKeyword.RestartWindowsRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new RestartWindowsMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.ShutdownWindowsRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new ShutdownWindowsMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.UpgradeNTMinerRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            string ntminerFileName = OperationMqBodyUtil.GetUpgradeNTMinerMqReceiveBody(ea.Body);
-                            if (!string.IsNullOrEmpty(ntminerFileName)) {
-                                VirtualRoot.RaiseEvent(new UpgradeNTMinerMqEvent(appId, loginName, ea.GetTimestamp(), clientId, ntminerFileName));
-                            }
-                        }
-                    }
-                    break;
-                case MqKeyword.StartMineRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            Guid workId = OperationMqBodyUtil.GetStartMineMqReceiveBody(ea.Body);
-                            VirtualRoot.RaiseEvent(new StartMineMqEvent(appId, loginName, ea.GetTimestamp(), clientId, workId));
-                        }
-                    }
-                    break;
-                case MqKeyword.StartWorkMineRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            WorkRequest request = OperationMqBodyUtil.GetStartWorkMineMqReceiveBody(ea.Body);
-                            VirtualRoot.RaiseEvent(new StartWorkMineMqEvent(appId, loginName, ea.GetTimestamp(), clientId, request));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.StopMineRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new StopMineMqEvent(appId, loginName, ea.GetTimestamp(), clientId));
-                        }
-                    }
-                    break;
-                default:
-                    return false;
-            }
-            return true;
+                }
+            };
         }
     }
 }

@@ -88,11 +88,9 @@ namespace NTMiner {
                             bool isPass = false;
                             foreach (var mqMessagePath in mqMessagePathsByQueue) {
                                 try {
-                                    if (!isPass) {
-                                        isPass = mqMessagePath.Go(ea);
-                                    }
-                                    else {
-                                        mqMessagePath.Go(ea);
+                                    bool r = mqMessagePath.Go(ea);
+                                    if (r) {
+                                        isPass = true;
                                     }
                                 }
                                 catch (Exception e) {

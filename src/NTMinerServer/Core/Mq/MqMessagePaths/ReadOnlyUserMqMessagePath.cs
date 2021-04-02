@@ -1,82 +1,61 @@
-﻿using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
+﻿using RabbitMQ.Client.Events;
+using System;
+using System.Collections.Generic;
 
 namespace NTMiner.Core.Mq.MqMessagePaths {
     public class ReadOnlyUserMqMessagePath : AbstractMqMessagePath<UserSetInitedEvent> {
         public ReadOnlyUserMqMessagePath(string queue) : base(queue) {
         }
 
-        protected virtual void DoBuild(IModel channel) {
+        protected virtual Dictionary<string, Action<BasicDeliverEventArgs>> DoGetPaths() {
+            return null;
         }
 
-        protected internal override void Build(IModel channel) {
-            DoBuild(channel);
-            channel.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.UserAddedRoutingKey, arguments: null);
-            channel.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.UserUpdatedRoutingKey, arguments: null);
-            channel.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.UserRemovedRoutingKey, arguments: null);
-            channel.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.UserEnabledRoutingKey, arguments: null);
-            channel.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.UserDisabledRoutingKey, arguments: null);
-            channel.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.UserPasswordChangedRoutingKey, arguments: null);
-            channel.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.UserRSAKeyUpdatedRoutingKey, arguments: null);
-
-            NTMinerConsole.UserOk("UserMq QueueBind成功");
-        }
-
-        protected virtual bool DoGo(BasicDeliverEventArgs ea) {
-            return false;
-        }
-
-        public override bool Go(BasicDeliverEventArgs ea) {
-            bool baseR = DoGo(ea);
-            bool r = true;
-            switch (ea.RoutingKey) {
-                case MqKeyword.UserAddedRoutingKey: {
-                        string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
-                        string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserAddedMqEvent(appId, loginName, ea.GetTimestamp()));
-                    }
-                    break;
-                case MqKeyword.UserUpdatedRoutingKey: {
-                        string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
-                        string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserUpdatedMqEvent(appId, loginName, ea.GetTimestamp()));
-                    }
-                    break;
-                case MqKeyword.UserRemovedRoutingKey: {
-                        string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
-                        string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserRemovedMqEvent(appId, loginName, ea.GetTimestamp()));
-                    }
-                    break;
-                case MqKeyword.UserEnabledRoutingKey: {
-                        string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
-                        string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserEnabledMqEvent(appId, loginName, ea.GetTimestamp()));
-                    }
-                    break;
-                case MqKeyword.UserDisabledRoutingKey: {
-                        string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
-                        string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserDisabledMqEvent(appId, loginName, ea.GetTimestamp()));
-                    }
-                    break;
-                case MqKeyword.UserPasswordChangedRoutingKey: {
-                        string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
-                        string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserPasswordChangedMqEvent(appId, loginName, ea.GetTimestamp()));
-                    }
-                    break;
-                case MqKeyword.UserRSAKeyUpdatedRoutingKey: {
-                        string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
-                        string appId = ea.BasicProperties.AppId;
-                        VirtualRoot.RaiseEvent(new UserRSAKeyUpdatedMqEvent(appId, loginName, ea.GetTimestamp()));
-                    }
-                    break;
-                default:
-                    r = false;
-                    break;
+        protected sealed override Dictionary<string, Action<BasicDeliverEventArgs>> GetPaths() {
+            var paths = new Dictionary<string, Action<BasicDeliverEventArgs>> {
+                [MqKeyword.UserAddedRoutingKey] = ea => {
+                    string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
+                    string appId = ea.BasicProperties.AppId;
+                    VirtualRoot.RaiseEvent(new UserAddedMqEvent(appId, loginName, ea.GetTimestamp()));
+                },
+                [MqKeyword.UserUpdatedRoutingKey] = ea => {
+                    string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
+                    string appId = ea.BasicProperties.AppId;
+                    VirtualRoot.RaiseEvent(new UserUpdatedMqEvent(appId, loginName, ea.GetTimestamp()));
+                },
+                [MqKeyword.UserRemovedRoutingKey] = ea => {
+                    string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
+                    string appId = ea.BasicProperties.AppId;
+                    VirtualRoot.RaiseEvent(new UserRemovedMqEvent(appId, loginName, ea.GetTimestamp()));
+                },
+                [MqKeyword.UserEnabledRoutingKey] = ea => {
+                    string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
+                    string appId = ea.BasicProperties.AppId;
+                    VirtualRoot.RaiseEvent(new UserEnabledMqEvent(appId, loginName, ea.GetTimestamp()));
+                },
+                [MqKeyword.UserDisabledRoutingKey] = ea => {
+                    string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
+                    string appId = ea.BasicProperties.AppId;
+                    VirtualRoot.RaiseEvent(new UserDisabledMqEvent(appId, loginName, ea.GetTimestamp()));
+                },
+                [MqKeyword.UserPasswordChangedRoutingKey] = ea => {
+                    string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
+                    string appId = ea.BasicProperties.AppId;
+                    VirtualRoot.RaiseEvent(new UserPasswordChangedMqEvent(appId, loginName, ea.GetTimestamp()));
+                },
+                [MqKeyword.UserRSAKeyUpdatedRoutingKey] = ea => {
+                    string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
+                    string appId = ea.BasicProperties.AppId;
+                    VirtualRoot.RaiseEvent(new UserRSAKeyUpdatedMqEvent(appId, loginName, ea.GetTimestamp()));
+                }
+            };
+            var dic = DoGetPaths();
+            if (dic != null) {
+                foreach (var kv in dic) {
+                    paths[kv.Key] = kv.Value;
+                }
             }
-            return baseR || r;
+            return paths;
         }
     }
 }

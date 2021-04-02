@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core.MinerServer;
-using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using System;
+using System.Collections.Generic;
 
 namespace NTMiner.Core.Mq.MqMessagePaths {
     public class MinerClientMqMessagePath : AbstractMqMessagePath {
@@ -14,27 +15,19 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
             _queryClientsForWsResponseRoutingKey = string.Format(MqKeyword.QueryClientsForWsResponseRoutingKey, thisServerAddress);
         }
 
-        protected override void Build(IModel channal) {
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: _queryClientsForWsResponseRoutingKey, arguments: null);
-
-            NTMinerConsole.UserOk("MinerClientMq QueueBind成功");
-        }
-
-        public override bool Go(BasicDeliverEventArgs ea) {
-            if (ea.RoutingKey == _queryClientsForWsResponseRoutingKey) {
-                string appId = ea.BasicProperties.AppId;
-                string mqCorrelationId = ea.BasicProperties.CorrelationId;
-                string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                string sessionId = ea.BasicProperties.ReadHeaderString(MqKeyword.SessionIdHeaderName);
-                QueryClientsResponse response = MinerClientMqBodyUtil.GetQueryClientsResponseMqReceiveBody(ea.Body);
-                if (response != null) {
-                    VirtualRoot.RaiseEvent(new QueryClientsForWsResponseMqEvent(appId, mqCorrelationId, ea.GetTimestamp(), loginName, sessionId, response));
+        protected override Dictionary<string, Action<BasicDeliverEventArgs>> GetPaths() {
+            return new Dictionary<string, Action<BasicDeliverEventArgs>> {
+                [_queryClientsForWsResponseRoutingKey] = ea => {
+                    string appId = ea.BasicProperties.AppId;
+                    string mqCorrelationId = ea.BasicProperties.CorrelationId;
+                    string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                    string sessionId = ea.BasicProperties.ReadHeaderString(MqKeyword.SessionIdHeaderName);
+                    QueryClientsResponse response = MinerClientMqBodyUtil.GetQueryClientsResponseMqReceiveBody(ea.Body);
+                    if (response != null) {
+                        VirtualRoot.RaiseEvent(new QueryClientsForWsResponseMqEvent(appId, mqCorrelationId, ea.GetTimestamp(), loginName, sessionId, response));
+                    }
                 }
-                return true;
-            }
-            else {
-                return false;
-            }
+            };
         }
     }
 }
