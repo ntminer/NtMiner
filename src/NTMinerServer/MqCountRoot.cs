@@ -47,7 +47,6 @@ namespace NTMiner {
 
         public static MqCountData GetMqCount() {
             return new MqCountData {
-                AppId = ServerRoot.HostConfig.ThisServerAddress,
                 ReceivedCounts = _receivedCounts.Values.ToList(),
                 SendCounts = _sendCounts.Values.ToList()
             };

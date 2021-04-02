@@ -4,6 +4,7 @@ using NTMiner.Core.MinerServer;
 using NTMiner.Core.Mq;
 using NTMiner.Cryptography;
 using NTMiner.Hub;
+using NTMiner.ServerNode;
 using NTMiner.VirtualMemory;
 using System;
 using System.Collections.Generic;
@@ -461,5 +462,18 @@ namespace NTMiner.Core {
         public StopMineMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId)
             : base(appId, loginName, timestamp, clientId) {
         }
+    }
+
+    [MessageType(description: "收到了MqCountReceived Mq消息后")]
+    public class MqCountReceivedMqEvent : EventBase {
+        public MqCountReceivedMqEvent(string appId, MqCountData data, DateTime timestamp) {
+            this.AppId = appId;
+            this.Data = data;
+            this.Timestamp = timestamp;
+        }
+
+        public string AppId { get; private set; }
+        public MqCountData Data { get; private set; }
+        public DateTime Timestamp { get; private set; }
     }
 }

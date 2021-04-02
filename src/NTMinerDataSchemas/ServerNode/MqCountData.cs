@@ -7,7 +7,6 @@ namespace NTMiner.ServerNode {
             this.SendCounts = new List<MqSendCountData>();
         }
 
-        public string AppId { get; set; }
         public List<MqReceivedCountData> ReceivedCounts { get; set; }
         public List<MqSendCountData> SendCounts { get; set; }
     }
