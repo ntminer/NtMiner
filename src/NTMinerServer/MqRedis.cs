@@ -113,13 +113,16 @@ namespace NTMiner {
             });
         }
 
+        private readonly ConnectionMultiplexer _redisConn;
         private readonly IModel _mqChannel;
         private MqRedis(ConnectionMultiplexer redisConn, IModel channel) {
-            this.RedisConn = redisConn;
+            this._redisConn = redisConn;
             this._mqChannel = channel;
         }
 
-        public ConnectionMultiplexer RedisConn { get; private set; }
+        public IDatabase GetDatabase() {
+            return this._redisConn.GetDatabase();
+        }
 
         public IBasicProperties CreateBasicProperties() {
             IBasicProperties basicProperties = this._mqChannel.CreateBasicProperties();
@@ -129,6 +132,7 @@ namespace NTMiner {
         }
 
         public void BasicPublish(string exchange, string routingKey, IBasicProperties basicProperties, byte[] body) {
+            MqCountRoot.SendCount(routingKey);
             this._mqChannel.BasicPublish(exchange, routingKey, basicProperties, body);
         }
     }

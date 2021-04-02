@@ -9,7 +9,7 @@ namespace NTMiner.Core.Redis.Impl {
         }
 
         public Task<List<WsServerNodeState>> GetAllAsync() {
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             return db.HashGetAllAsync(_redisKeyWsServerNodeByAddress).ContinueWith(t => {
                 List<WsServerNodeState> list = new List<WsServerNodeState>();
                 foreach (var item in t.Result) {
@@ -28,7 +28,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (offlines == null || offlines.Count == 0) {
                 return TaskEx.CompletedTask;
             }
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             var list = new List<RedisValue>();
             foreach (var item in offlines) {
                 list.Add(item);

@@ -2,6 +2,6 @@
 
 namespace NTMiner {
     public interface IRedis {
-        ConnectionMultiplexer RedisConn { get; }
+        IDatabase GetDatabase();
     }
 }

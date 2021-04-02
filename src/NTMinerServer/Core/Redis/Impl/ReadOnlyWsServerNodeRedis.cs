@@ -13,7 +13,7 @@ namespace NTMiner.Core.Redis.Impl {
         }
 
         public Task<Dictionary<string, DateTime>> GetAllAddress() {
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             return db.HashGetAllAsync(_redisKeyWsServerNodeAddress).ContinueWith(t => {
                 Dictionary<string, DateTime> dic = new Dictionary<string, DateTime>();
                 foreach (var item in t.Result) {

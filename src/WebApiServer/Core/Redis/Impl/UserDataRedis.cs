@@ -10,7 +10,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (data == null || string.IsNullOrEmpty(data.LoginName)) {
                 return TaskEx.CompletedTask;
             }
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             return db.HashSetAsync(_redisKeyUserByLoginName, data.LoginName, VirtualRoot.JsonSerializer.Serialize(data));
         }
 
@@ -18,7 +18,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (data == null) {
                 return TaskEx.CompletedTask;
             }
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             return db.HashDeleteAsync(_redisKeyUserByLoginName, data.LoginName);
         }
     }

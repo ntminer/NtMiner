@@ -13,7 +13,7 @@ namespace NTMiner.Core.Redis.Impl {
         }
 
         public Task<List<MinerData>> GetAllAsync() {
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             return db.HashGetAllAsync(_redisKeyMinerById).ContinueWith(t => {
@@ -40,7 +40,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (string.IsNullOrEmpty(minerId)) {
                 return Task.FromResult<MinerData>(null);
             }
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             return db.HashGetAsync(_redisKeyMinerById, minerId).ContinueWith(t => {
                 if (t.Result.HasValue) {
                     return VirtualRoot.JsonSerializer.Deserialize<MinerData>(t.Result);

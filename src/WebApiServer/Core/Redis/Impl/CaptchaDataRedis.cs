@@ -12,7 +12,7 @@ namespace NTMiner.Core.Redis.Impl {
         }
 
         public Task<List<CaptchaData>> GetAllAsync() {
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             return db.HashGetAllAsync(_redisKeyCaptchaById).ContinueWith(t => {
                 List<CaptchaData> list = new List<CaptchaData>();
                 foreach (var item in t.Result) {
@@ -31,7 +31,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (data == null || data.Id == Guid.Empty) {
                 return TaskEx.CompletedTask;
             }
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             return db.HashSetAsync(_redisKeyCaptchaById, data.Id.ToString(), VirtualRoot.JsonSerializer.Serialize(data));
         }
 
@@ -39,7 +39,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (data == null || data.Id == Guid.Empty) {
                 return TaskEx.CompletedTask;
             }
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             return db.HashDeleteAsync(_redisKeyCaptchaById, data.Id.ToString());
         }
     }

@@ -16,7 +16,7 @@ namespace NTMiner.Core.Redis.Impl {
         }
 
         public Task<Dictionary<Guid, SpeedData>> GetAllAsync() {
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             return db.HashGetAllAsync(_redisKeySpeedDataByClientId).ContinueWith(t => {
@@ -43,7 +43,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (clientId == Guid.Empty) {
                 return Task.FromResult<SpeedData>(null);
             }
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             return db.HashGetAsync(_redisKeySpeedDataByClientId, clientId.ToString()).ContinueWith(t => {
                 if (t.Result.HasValue) {
                     return VirtualRoot.JsonSerializer.Deserialize<SpeedData>(t.Result);
@@ -58,7 +58,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (clientIds == null || clientIds.Length == 0) {
                 return Task.FromResult<SpeedData[]>(null);
             }
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             return db.HashGetAsync(_redisKeySpeedDataByClientId, clientIds.Select(a => (RedisValue)a.ToString()).ToArray()).ContinueWith(t => {
                 List<SpeedData> speedDatas = new List<SpeedData>();
                 if (t.Result != null && t.Result.Length != 0) {
@@ -74,7 +74,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (speedData == null || speedData.ClientId == Guid.Empty) {
                 return TaskEx.CompletedTask;
             }
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             return db.HashSetAsync(_redisKeySpeedDataByClientId, speedData.ClientId.ToString(), VirtualRoot.JsonSerializer.Serialize(speedData));
         }
 
@@ -82,7 +82,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (clientId == Guid.Empty) {
                 return TaskEx.CompletedTask;
             }
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             return db.HashDeleteAsync(_redisKeySpeedDataByClientId, clientId.ToString());
         }
     }

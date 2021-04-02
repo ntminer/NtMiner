@@ -13,7 +13,7 @@ namespace NTMiner.Core.Redis.Impl {
         }
 
         public Task<Dictionary<string, DateTime>> GetAllAsync() {
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             return db.HashGetAllAsync(_redisKeyClientActiveOnById).ContinueWith(t => {
@@ -41,7 +41,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (string.IsNullOrEmpty(id)) {
                 return TaskEx.CompletedTask;
             }
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             // 为了在redis-cli的易读性而存字符串
             return db.HashSetAsync(_redisKeyClientActiveOnById, id, activeOn.ToString("yyyy-MM-dd HH:mm:ss"));
         }
@@ -50,7 +50,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (string.IsNullOrEmpty(id)) {
                 return TaskEx.CompletedTask;
             }
-            var db = _redis.RedisConn.GetDatabase();
+            var db = _redis.GetDatabase();
             return db.HashDeleteAsync(_redisKeyClientActiveOnById, id);
         }
     }
