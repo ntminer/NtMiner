@@ -1,6 +1,6 @@
 ﻿namespace NTMiner.ServerNode {
-    public class MqRoutingCountData : IMqRoutingCountData {
-        public MqRoutingCountData() { }
+    public class MqReceivedCountData : IMqRoutingCountData {
+        public MqReceivedCountData() { }
 
         public string RoutingKey { get; set; }
 
