@@ -101,6 +101,7 @@
     <Compile Include="Controllers\CalcConfigBinaryController.cs" />
     <Compile Include="Controllers\ClientDataBinaryController.cs" />
     <Compile Include="Controllers\GpuNameController.cs" />
+    <Compile Include="Controllers\MqCountController.cs" />
     <Compile Include="Controllers\NTMinerFileController.cs" />
     <Compile Include="Controllers\ReportBinaryController.cs" />
     <Compile Include="Controllers\ServerMessageBinaryController.cs" />
