@@ -13,7 +13,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange, 
                 routingKey: MqKeyword.WsServerNodeAddedRoutingKey, 
                 basicProperties: CreateBasicProperties(), 
                 body: WsServerNodeMqBodyUtil.GetWsServerNodeAddressMqSendBody(wsServerNodeAddress));
@@ -25,7 +24,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange, 
                 routingKey: MqKeyword.WsServerNodeRemovedRoutingKey,
                 basicProperties: CreateBasicProperties(), 
                 body: WsServerNodeMqBodyUtil.GetWsServerNodeAddressMqSendBody(wsServerNodeAddress));

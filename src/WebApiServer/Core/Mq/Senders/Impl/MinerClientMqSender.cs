@@ -16,7 +16,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             }
             var basicProperties = CreateBasicProperties(clientId);
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerDataRemovedRoutingKey,
                 basicProperties: basicProperties,
                 body: MinerClientMqBodyUtil.GetMinerIdMqSendBody(minerId));
@@ -32,12 +31,10 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateWsBasicProperties(loginName, sessionId);
-            basicProperties.Priority = 9;
             if (!string.IsNullOrEmpty(mqCorrelationId)) {
                 basicProperties.CorrelationId = mqCorrelationId;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: string.Format(MqKeyword.QueryClientsForWsResponseRoutingKey, wsServerIp),
                 basicProperties: basicProperties,
                 body: MinerClientMqBodyUtil.GetQueryClientsResponseMqSendBody(response));

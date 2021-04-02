@@ -14,7 +14,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.UpdateUserRSAKeyRoutingKey,
                 basicProperties: CreateBasicProperties(loginName),
                 body: UserMqBodyUtil.GetUpdateUserRSAKeyMqSendBody(key));

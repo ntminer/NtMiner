@@ -131,9 +131,9 @@ namespace NTMiner {
             return basicProperties;
         }
 
-        public void BasicPublish(string exchange, string routingKey, IBasicProperties basicProperties, byte[] body) {
+        public void BasicPublish(string routingKey, IBasicProperties basicProperties, byte[] body) {
             MqCountRoot.SendCount(routingKey);
-            this._mqChannel.BasicPublish(exchange, routingKey, basicProperties, body);
+            this._mqChannel.BasicPublish(MqKeyword.NTMinerExchange, routingKey, basicProperties, body);
         }
     }
 }

@@ -15,7 +15,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.StartWorkMineRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetWorkRequestMqSendBody(request));

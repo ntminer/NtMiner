@@ -16,7 +16,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             }
             var basicProperties = CreateNonePersistentBasicProperties();
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.SpeedsRoutingKey,
                 basicProperties: basicProperties,
                 body: MinerClientMqBodyUtil.GetClientIdIpsMqSendBody(clientIdIps));
@@ -28,7 +27,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             }
             var basicProperties = CreateNonePersistentBasicProperties();
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerClientWsClosedRoutingKey,
                 basicProperties: basicProperties,
                 body: MinerClientMqBodyUtil.GetClientIdMqSendBody(clientId));
@@ -40,7 +38,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             }
             var basicProperties = CreateNonePersistentBasicProperties();
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerClientsWsBreathedRoutingKey,
                 basicProperties: basicProperties,
                 body: MinerClientMqBodyUtil.GetClientIdsMqSendBody(clientIds));
@@ -52,7 +49,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             }
             var basicProperties = CreatePersistentBasicProperties(minerSign.LoginName);
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerSignSetedRoutingKey,
                 basicProperties: basicProperties,
                 body: MinerClientMqBodyUtil.GetMinerSignMqSendBody(minerSign));
@@ -63,9 +59,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateNonePersistentWsBasicProperties(request.LoginName, sessionId);
-            basicProperties.Priority = 9;
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.QueryClientsForWsRoutingKey,
                 basicProperties: basicProperties,
                 body: MinerClientMqBodyUtil.GetQueryClientsForWsMqSendBody(request));
@@ -89,18 +83,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             basicProperties.Persistent = false;// 非持久化的
             basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
             basicProperties.Expiration = MqKeyword.Expiration36sec;
-
-            return basicProperties;
-        }
-
-        private IBasicProperties CreateNonePersistentBasicProperties(string loginName) {
-            var basicProperties = _mq.CreateBasicProperties();
-            basicProperties.Persistent = false;// 非持久化的
-            basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
-            basicProperties.Expiration = MqKeyword.Expiration36sec;
-            basicProperties.Headers = new Dictionary<string, object> {
-                [MqKeyword.LoginNameHeaderName] = loginName
-            };
 
             return basicProperties;
         }

@@ -12,7 +12,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange, 
                 routingKey: MqKeyword.UserAddedRoutingKey, 
                 basicProperties: CreateBasicProperties(), 
                 body: UserMqBodyUtil.GetLoginNameMqSendBody(loginName));
@@ -23,7 +22,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.UserRemovedRoutingKey, 
                 basicProperties: CreateBasicProperties(), 
                 body: UserMqBodyUtil.GetLoginNameMqSendBody(loginName));
@@ -34,7 +32,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange, 
                 routingKey: MqKeyword.UserUpdatedRoutingKey, 
                 basicProperties: CreateBasicProperties(), 
                 body: UserMqBodyUtil.GetLoginNameMqSendBody(loginName));
@@ -45,7 +42,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange, 
                 routingKey: MqKeyword.UserEnabledRoutingKey, 
                 basicProperties: CreateBasicProperties(), 
                 body: UserMqBodyUtil.GetLoginNameMqSendBody(loginName));
@@ -56,7 +52,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange, 
                 routingKey: MqKeyword.UserDisabledRoutingKey, 
                 basicProperties: CreateBasicProperties(), 
                 body: UserMqBodyUtil.GetLoginNameMqSendBody(loginName));
@@ -67,7 +62,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.UserPasswordChangedRoutingKey,
                 basicProperties: CreateBasicProperties(),
                 body: UserMqBodyUtil.GetLoginNameMqSendBody(loginName));
@@ -78,7 +72,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.UserRSAKeyUpdatedRoutingKey,
                 basicProperties: CreateBasicProperties(),
                 body: UserMqBodyUtil.GetLoginNameMqSendBody(loginName));

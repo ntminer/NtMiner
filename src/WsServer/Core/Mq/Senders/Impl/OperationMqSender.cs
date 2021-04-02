@@ -19,7 +19,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetConsoleOutLinesRoutingKey,
                 basicProperties: CreateBasicProperties(),
                 body: OperationMqBodyUtil.GetAfterTimeRequestMqSendBody(requests));
@@ -30,7 +29,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.FastGetConsoleOutLinesRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetFastGetConsoleOutLinesMqSendBody(afterTime));
@@ -41,7 +39,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.ConsoleOutLinesRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetConsoleOutLinesMqSendBody(datas));
@@ -52,7 +49,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetLocalMessagesRoutingKey,
                 basicProperties: CreateBasicProperties(),
                 body: OperationMqBodyUtil.GetAfterTimeRequestMqSendBody(requests));
@@ -63,7 +59,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.FastGetLocalMessagesRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetFastGetLocalMessagesMqSendBody(afterTime));
@@ -74,7 +69,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.LocalMessagesRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetLocalMessagesMqSendBody(datas));
@@ -85,7 +79,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetOperationResultsRoutingKey,
                 basicProperties: CreateBasicProperties(),
                 body: OperationMqBodyUtil.GetAfterTimeRequestMqSendBody(requests));
@@ -96,7 +89,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.FastGetOperationResultsRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetFastGetOperationResultsMqSendBody(afterTime));
@@ -107,7 +99,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.OperationResultsRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetOperationResultsMqSendBody(datas));
@@ -118,7 +109,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetDrivesRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: _emptyBody);
@@ -129,7 +119,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.DrivesRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetDrivesMqSendBody(datas));
@@ -140,7 +129,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetLocalIpsRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: _emptyBody);
@@ -151,7 +139,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.LocalIpsRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetLocalIpsMqSendBody(datas));
@@ -162,7 +149,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.OperationReceivedRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: _emptyBody);
@@ -173,7 +159,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetSpeedRoutingKey,
                 basicProperties: CreateBasicProperties(),
                 body: OperationMqBodyUtil.GetGetSpeedMqSendBody(requests));
@@ -184,7 +169,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.EnableRemoteDesktopRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: _emptyBody);
@@ -195,7 +179,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.BlockWAURoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: _emptyBody);
@@ -206,7 +189,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.SwitchRadeonGpuRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetSwitchRadeonGpuMqSendBody(on));
@@ -217,7 +199,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.SetVirtualMemoryRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetSetVirtualMemoryMqSendBody(datas));
@@ -228,7 +209,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.SetLocalIpsRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetSetLocalIpsMqSendBody(datas));
@@ -239,7 +219,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetSelfWorkLocalJsonRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: _emptyBody);
@@ -250,7 +229,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.SaveSelfWorkLocalJsonRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetSaveSelfWorkLocalJsonMqSendBody(request));
@@ -261,7 +239,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetGpuProfilesJsonRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: _emptyBody);
@@ -272,7 +249,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.SelfWorkLocalJsonRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetSelfWorkLocalJsonMqSendBody(json));
@@ -283,7 +259,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GpuProfilesJsonRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetGpuProfilesJsonMqSendBody(json));
@@ -294,7 +269,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.SaveGpuProfilesJsonRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetSaveGpuProfilesJsonMqSendBody(json));
@@ -305,7 +279,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.SetAutoBootStartRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetSetAutoBootStartMqSendBody(body));
@@ -316,7 +289,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.RestartWindowsRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: _emptyBody);
@@ -327,7 +299,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.ShutdownWindowsRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: _emptyBody);
@@ -338,7 +309,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.UpgradeNTMinerRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetUpgradeNTMinerMqSendBody(ntminerFileName));
@@ -349,7 +319,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.StartMineRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetStartMineMqSendBody(workId));
@@ -360,7 +329,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             _mq.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.StopMineRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: _emptyBody);
