@@ -21,18 +21,12 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         }
 
         private IBasicProperties CreateBasicProperties(string loginName, Guid clientId) {
-            var basicProperties = CreateBasicProperties(loginName);
-            basicProperties.Headers[MqKeyword.ClientIdHeaderName] = clientId.ToString();
-
-            return basicProperties;
-        }
-
-        private IBasicProperties CreateBasicProperties(string loginName) {
             var basicProperties = _mq.CreateBasicProperties();
             basicProperties.Persistent = false;
             basicProperties.Expiration = MqKeyword.Expiration36sec;
             basicProperties.Headers = new Dictionary<string, object> {
-                [MqKeyword.LoginNameHeaderName] = loginName
+                [MqKeyword.LoginNameHeaderName] = loginName,
+                [MqKeyword.ClientIdHeaderName] = clientId.ToString()
             };
 
             return basicProperties;

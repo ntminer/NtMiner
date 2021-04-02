@@ -47,7 +47,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (minerSign == null || string.IsNullOrEmpty(minerSign.Id)) {
                 return;
             }
-            var basicProperties = CreatePersistentBasicProperties(minerSign.LoginName);
+            var basicProperties = CreateNonePersistentBasicProperties(minerSign.LoginName);
             _mq.BasicPublish(
                 routingKey: MqKeyword.MinerSignSetedRoutingKey,
                 basicProperties: basicProperties,
@@ -65,18 +65,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: MinerClientMqBodyUtil.GetQueryClientsForWsMqSendBody(request));
         }
 
-        private IBasicProperties CreateNonePersistentWsBasicProperties(string loginName, string sessionId) {
-            var basicProperties = _mq.CreateBasicProperties();
-            basicProperties.Persistent = false;// 非持久化的
-            basicProperties.Expiration = MqKeyword.Expiration36sec;
-            basicProperties.Headers = new Dictionary<string, object> {
-                [MqKeyword.LoginNameHeaderName] = loginName,
-                [MqKeyword.SessionIdHeaderName] = sessionId
-            };
-
-            return basicProperties;
-        }
-
         private IBasicProperties CreateNonePersistentBasicProperties() {
             var basicProperties = _mq.CreateBasicProperties();
             basicProperties.Persistent = false;// 非持久化的
@@ -85,11 +73,24 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             return basicProperties;
         }
 
-        private IBasicProperties CreatePersistentBasicProperties(string loginName) {
+        private IBasicProperties CreateNonePersistentBasicProperties(string loginName) {
             var basicProperties = _mq.CreateBasicProperties();
-            basicProperties.Persistent = true;// 持久化的
+            basicProperties.Persistent = false;// 非持久化的
+            basicProperties.Expiration = MqKeyword.Expiration36sec;
             basicProperties.Headers = new Dictionary<string, object> {
                 [MqKeyword.LoginNameHeaderName] = loginName
+            };
+
+            return basicProperties;
+        }
+
+        private IBasicProperties CreateNonePersistentWsBasicProperties(string loginName, string sessionId) {
+            var basicProperties = _mq.CreateBasicProperties();
+            basicProperties.Persistent = false;// 非持久化的
+            basicProperties.Expiration = MqKeyword.Expiration36sec;
+            basicProperties.Headers = new Dictionary<string, object> {
+                [MqKeyword.LoginNameHeaderName] = loginName,
+                [MqKeyword.SessionIdHeaderName] = sessionId
             };
 
             return basicProperties;
