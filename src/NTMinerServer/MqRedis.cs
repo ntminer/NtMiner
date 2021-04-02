@@ -123,10 +123,14 @@ namespace NTMiner {
         public IModel MqChannel { get; private set; }
 
         public IBasicProperties CreateBasicProperties() {
-            IBasicProperties basicProperties = MqChannel.CreateBasicProperties();
+            IBasicProperties basicProperties = this.MqChannel.CreateBasicProperties();
             basicProperties.MessageId = VirtualRoot.IdGenerator.Generate();
             basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;
             return basicProperties;
+        }
+
+        public void BasicPublish(string exchange, string routingKey, IBasicProperties basicProperties, byte[] body) {
+            this.MqChannel.BasicPublish(exchange, routingKey, basicProperties, body);
         }
     }
 }

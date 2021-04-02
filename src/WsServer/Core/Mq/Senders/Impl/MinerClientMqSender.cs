@@ -15,7 +15,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateNonePersistentBasicProperties();
-            _mq.MqChannel.BasicPublish(
+            _mq.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.SpeedsRoutingKey,
                 basicProperties: basicProperties,
@@ -27,7 +27,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateNonePersistentBasicProperties();
-            _mq.MqChannel.BasicPublish(
+            _mq.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerClientWsClosedRoutingKey,
                 basicProperties: basicProperties,
@@ -39,7 +39,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateNonePersistentBasicProperties();
-            _mq.MqChannel.BasicPublish(
+            _mq.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerClientsWsBreathedRoutingKey,
                 basicProperties: basicProperties,
@@ -51,7 +51,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreatePersistentBasicProperties(minerSign.LoginName);
-            _mq.MqChannel.BasicPublish(
+            _mq.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerSignSetedRoutingKey,
                 basicProperties: basicProperties,
@@ -64,7 +64,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             }
             var basicProperties = CreateNonePersistentWsBasicProperties(request.LoginName, sessionId);
             basicProperties.Priority = 9;
-            _mq.MqChannel.BasicPublish(
+            _mq.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.QueryClientsForWsRoutingKey,
                 basicProperties: basicProperties,

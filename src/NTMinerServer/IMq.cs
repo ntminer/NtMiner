@@ -8,5 +8,6 @@ namespace NTMiner {
         /// </summary>
         /// <returns></returns>
         IBasicProperties CreateBasicProperties();
+        void BasicPublish(string exchange, string routingKey, IBasicProperties basicProperties, byte[] body);
     }
 }

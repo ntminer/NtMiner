@@ -12,7 +12,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(wsServerNodeAddress)) {
                 return;
             }
-            _mq.MqChannel.BasicPublish(
+            _mq.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange, 
                 routingKey: MqKeyword.WsServerNodeAddedRoutingKey, 
                 basicProperties: CreateBasicProperties(), 
@@ -24,7 +24,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(wsServerNodeAddress)) {
                 return;
             }
-            _mq.MqChannel.BasicPublish(
+            _mq.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange, 
                 routingKey: MqKeyword.WsServerNodeRemovedRoutingKey,
                 basicProperties: CreateBasicProperties(), 

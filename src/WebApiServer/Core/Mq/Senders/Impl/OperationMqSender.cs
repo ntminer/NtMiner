@@ -14,7 +14,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || request == null) {
                 return;
             }
-            _mq.MqChannel.BasicPublish(
+            _mq.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.StartWorkMineRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),

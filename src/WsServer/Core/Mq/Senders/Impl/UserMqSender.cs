@@ -13,7 +13,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || key == null) {
                 return;
             }
-            _mq.MqChannel.BasicPublish(
+            _mq.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.UpdateUserRSAKeyRoutingKey,
                 basicProperties: CreateBasicProperties(loginName),

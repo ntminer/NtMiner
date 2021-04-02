@@ -15,7 +15,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateBasicProperties(clientId);
-            _mq.MqChannel.BasicPublish(
+            _mq.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerDataRemovedRoutingKey,
                 basicProperties: basicProperties,
@@ -36,7 +36,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (!string.IsNullOrEmpty(mqCorrelationId)) {
                 basicProperties.CorrelationId = mqCorrelationId;
             }
-            _mq.MqChannel.BasicPublish(
+            _mq.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: string.Format(MqKeyword.QueryClientsForWsResponseRoutingKey, wsServerIp),
                 basicProperties: basicProperties,
