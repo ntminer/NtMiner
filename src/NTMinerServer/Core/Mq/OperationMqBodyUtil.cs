@@ -8,7 +8,6 @@ using System.Text;
 
 namespace NTMiner.Core.Mq {
     public static class OperationMqBodyUtil {
-
         public static byte[] GetAfterTimeRequestMqSendBody(AfterTimeRequest[] requests) {
             return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(requests));
         }

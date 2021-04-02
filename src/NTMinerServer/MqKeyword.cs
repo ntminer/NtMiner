@@ -15,6 +15,7 @@ namespace NTMiner {
         public const string SessionIdHeaderName = "sessionId";
         public const string MinerIpHeaderName = "minerIp";
 
+        public const string MqCountRoutingKey = "MqCount";
         public const string UserAddedRoutingKey = "UserAdded";
         public const string UserUpdatedRoutingKey = "UserUpdated";
         public const string UserRemovedRoutingKey = "UserRemoved";

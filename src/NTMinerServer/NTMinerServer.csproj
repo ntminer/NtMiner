@@ -47,6 +47,7 @@
     <Compile Include="Core\Impl\WsServerNodeAddressSetBase.cs" />
     <Compile Include="Core\IWsServerNodeAddressSet.cs" />
     <Compile Include="Core\Mq\ClientIdIp.cs" />
+    <Compile Include="Core\Mq\MqCountMqBodyUtil.cs" />
     <Compile Include="Core\Mq\Senders\IMqRoutingCountSender.cs" />
     <Compile Include="Core\Mq\Senders\IMqSender.cs" />
     <Compile Include="Core\Mq\Senders\Impl\WsServerNodeMqSender.cs" />
