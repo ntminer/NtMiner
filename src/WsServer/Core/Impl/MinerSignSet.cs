@@ -1,12 +1,12 @@
 ﻿using NTMiner.Core.MinerServer;
 using NTMiner.Core.Redis;
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 
 namespace NTMiner.Core.Impl {
     public class MinerSignSet : IMinerSignSet {
-        private readonly Dictionary<Guid, MinerSign> _dicByClientId = new Dictionary<Guid, MinerSign>();
+        private readonly ConcurrentDictionary<Guid, MinerSign> _dicByClientId = new ConcurrentDictionary<Guid, MinerSign>();
         private DateTime _initedOn = DateTime.MinValue;
         public bool IsReadied {
             get; private set;
@@ -40,11 +40,10 @@ namespace NTMiner.Core.Impl {
                     NTMinerConsole.UserOk(nameof(MinerDataRemovedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
-                if (_dicByClientId.TryGetValue(message.ClientId, out MinerSign minerSign)) {
+                if (_dicByClientId.TryRemove(message.ClientId, out MinerSign minerSign)) {
                     if (AppRoot.MinerClientSessionSet.TryGetByClientId(minerSign.ClientId, out IMinerClientSession ntminerSession)) {
                         ntminerSession.CloseAsync(WsCloseCode.Normal, "服务端移除了该矿机");
                     }
-                    _dicByClientId.Remove(minerSign.ClientId);
                 }
                 #endregion
             }, this.GetType());
