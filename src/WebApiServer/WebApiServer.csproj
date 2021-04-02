@@ -113,6 +113,7 @@
     <Compile Include="Core\Impl\ServerMessageSet.cs" />
     <Compile Include="Core\Impl\WsServerNodeAddressSet.cs" />
     <Compile Include="CloudFileUrlGenerater\ICloudFileUrlGenerater.cs" />
+    <Compile Include="Core\IMqCountSet.cs" />
     <Compile Include="Core\IServerMessageSet.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\MqCountMqMessagePath.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\OperationMqMessagePath.cs" />
