@@ -21,6 +21,7 @@
         public readonly UserMineWorkService UserMineWorkService = new UserMineWorkService();
         public readonly GpuNameService GpuNameService = new GpuNameService();
         public readonly ActionCountService ActionCountService = new ActionCountService();
+        public readonly MqCountService MqCountService = new MqCountService();
 
         internal OfficialServices() {
         }

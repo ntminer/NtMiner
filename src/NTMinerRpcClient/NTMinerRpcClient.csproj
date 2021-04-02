@@ -89,6 +89,7 @@
     <Compile Include="Core\Impl\KernelOutputKeywordSet.cs" />
     <Compile Include="Services\Official\FileUrlService.cs" />
     <Compile Include="Services\Official\GpuNameService.cs" />
+    <Compile Include="Services\Official\MqCountService.cs" />
     <Compile Include="Services\Official\NTMinerFileService.cs" />
     <Compile Include="Services\Official\NTMinerWalletService.cs" />
     <Compile Include="Services\OfficialServices.cs" />
