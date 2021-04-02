@@ -21,6 +21,17 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: MinerClientMqBodyUtil.GetMinerIdMqSendBody(minerId));
         }
 
+        public void SendMinerDatasRemoved(Guid[] clientIds) {
+            if (clientIds == null || clientIds.Length == 0) {
+                return;
+            }
+            var basicProperties = CreateBasicProperties();
+            _mq.BasicPublish(
+                routingKey: MqKeyword.MinerDatasRemovedRoutingKey,
+                basicProperties: basicProperties,
+                body: MinerClientMqBodyUtil.GetClientIdsMqSendBody(clientIds));
+        }
+
         public void SendResponseClientsForWs(
             string wsServerIp, 
             string loginName, 
@@ -52,9 +63,17 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             return basicProperties;
         }
 
+        private IBasicProperties CreateBasicProperties() {
+            var basicProperties = _mq.CreateBasicProperties();
+            basicProperties.Persistent = false;// 非持久化的
+            basicProperties.Expiration = MqKeyword.Expiration36sec;
+
+            return basicProperties;
+        }
+
         private IBasicProperties CreateBasicProperties(Guid clientId) {
             var basicProperties = _mq.CreateBasicProperties();
-            basicProperties.Persistent = true;// 持久化的
+            basicProperties.Persistent = false;// 非持久化的
             basicProperties.Expiration = MqKeyword.Expiration60sec;
             basicProperties.Headers = new Dictionary<string, object> {
                 [MqKeyword.ClientIdHeaderName] = clientId.ToString()

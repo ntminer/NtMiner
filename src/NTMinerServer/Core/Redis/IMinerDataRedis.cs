@@ -6,5 +6,6 @@ namespace NTMiner.Core.Redis {
         Task SetAsync(MinerData data);
         Task UpdateAsync(MinerSign minerSign);
         Task DeleteAsync(MinerData data);
+        Task DeleteAsync(MinerData[] datas);
     }
 }

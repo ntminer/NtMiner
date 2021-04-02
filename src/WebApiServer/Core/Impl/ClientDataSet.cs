@@ -94,12 +94,8 @@ namespace NTMiner.Core.Impl {
                     }
                 }
                 if (toRemoveIds.Count > 0) {
-                    count = 0;
-                    foreach (var id in toRemoveIds) {
-                        RemoveByObjectId(id);
-                        count++;
-                    }
-                    NTMinerConsole.DevWarn($"{count.ToString()} 条MAC地址重复的矿机记录被删除");
+                    RemoveByObjectIds(toRemoveIds);
+                    NTMinerConsole.DevWarn($"{toRemoveIds.Count.ToString()} 条MAC地址重复的矿机记录被删除");
                 }
 
                 NTMinerConsole.DevDebug($"QueryClients平均耗时 {AverageQueryClientsMilliseconds.ToString()} 毫秒");
@@ -278,6 +274,17 @@ namespace NTMiner.Core.Impl {
             });
             _clientActiveOnRedis.DeleteAsync(minerData.Id);
             _speedDataRedis.DeleteByClientIdAsync(minerData.ClientId);
+        }
+
+        protected override void DoRemoveSave(MinerData[] minerDatas) {
+            if (!IsReadied) {
+                return;
+            }
+            _minerRedis.DeleteAsync(minerDatas).ContinueWith(t => {
+                _mqSender.SendMinerDatasRemoved(minerDatas.Select(a => a.ClientId).ToArray());
+            });
+            _clientActiveOnRedis.DeleteAsync(minerDatas.Select(a => a.Id).ToArray());
+            _speedDataRedis.DeleteByClientIdAsync(minerDatas.Select(a => a.ClientId).ToArray());
         }
     }
 }

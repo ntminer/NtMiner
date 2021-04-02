@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StackExchange.Redis;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -52,6 +53,18 @@ namespace NTMiner.Core.Redis.Impl {
             }
             var db = _redis.GetDatabase();
             return db.HashDeleteAsync(_redisKeyClientActiveOnById, id);
+        }
+
+        public Task DeleteAsync(string[] ids) {
+            if (ids == null || ids.Length == 0) {
+                return TaskEx.CompletedTask;
+            }
+            var db = _redis.GetDatabase();
+            RedisValue[] hashFields = new RedisValue[ids.Length];
+            for (int i = 0; i < ids.Length; i++) {
+                hashFields[i] = ids[i];
+            }
+            return db.HashDeleteAsync(_redisKeyClientActiveOnById, hashFields);
         }
     }
 }

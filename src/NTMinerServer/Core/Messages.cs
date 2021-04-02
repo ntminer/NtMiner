@@ -240,9 +240,16 @@ namespace NTMiner.Core {
     }
 
     [MessageType(description: "收到了MinerDataRemoved Mq消息后")]
-    public class MinerDataRemovedMqEvent : MinerDataMqEvent {
-        public MinerDataRemovedMqEvent(string appId, string minerId, Guid clientId, DateTime timestamp) : base(appId, minerId, clientId, timestamp) {
+    public class MinerDataRemovedMqEvent : EventBase {
+        public MinerDataRemovedMqEvent(string appId, Guid clientId, DateTime timestamp) {
+            this.AppId = appId;
+            this.ClientId = clientId;
+            this.Timestamp = timestamp;
         }
+
+        public string AppId { get; private set; }
+        public Guid ClientId { get; private set; }
+        public DateTime Timestamp { get; private set; }
     }
 
     [MessageType(description: "收到了GetSpeed Mq消息后")]

@@ -4,6 +4,7 @@ using System;
 namespace NTMiner.Core.Mq.Senders {
     public interface IMinerClientMqSender : IMqSender {
         void SendMinerDataRemoved(string minerId, Guid clientId);
+        void SendMinerDatasRemoved(Guid[] clientIds);
         void SendResponseClientsForWs(
             string wsServerIp, 
             string loginName, 

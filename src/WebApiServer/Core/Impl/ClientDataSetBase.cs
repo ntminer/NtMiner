@@ -35,6 +35,7 @@ namespace NTMiner.Core.Impl {
         }
         protected abstract void DoUpdateSave(IEnumerable<MinerData> minerDatas);
         protected abstract void DoRemoveSave(MinerData minerData);
+        protected abstract void DoRemoveSave(MinerData[] minerDatas);
 
         private readonly bool _isPull;
         /// <summary>
@@ -278,6 +279,23 @@ namespace NTMiner.Core.Impl {
                 _dicByClientId.TryRemove(clientData.ClientId, out _);
                 DoRemoveSave(MinerData.Create(clientData));
             }
+        }
+
+        public void RemoveByObjectIds(List<string> objectIds) {
+            if (!IsReadied) {
+                return;
+            }
+            if (objectIds == null || objectIds.Count == 0) {
+                return;
+            }
+            List<MinerData> minerDatas = new List<MinerData>();
+            foreach (var objectId in objectIds) {
+                if (_dicByObjectId.TryRemove(objectId, out ClientData clientData)) {
+                    minerDatas.Add(MinerData.Create(clientData));
+                    _dicByClientId.TryRemove(clientData.ClientId, out _);
+                }
+            }
+            DoRemoveSave(minerDatas.ToArray());
         }
 
         public bool IsAnyClientInGroup(Guid groupId) {

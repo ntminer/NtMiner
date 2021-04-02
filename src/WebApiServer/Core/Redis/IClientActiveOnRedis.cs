@@ -7,5 +7,6 @@ namespace NTMiner.Core.Redis {
         Task<Dictionary<string, DateTime>> GetAllAsync();
         Task SetAsync(string id, DateTime activeOn);
         Task DeleteAsync(string id);
+        Task DeleteAsync(string[] ids);
     }
 }

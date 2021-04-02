@@ -32,6 +32,7 @@ namespace NTMiner {
         public const string MinerClientsWsBreathedRoutingKey = "MinerClientsWsBreathed";
 
         public const string MinerDataRemovedRoutingKey = "MinerDataRemoved";
+        public const string MinerDatasRemovedRoutingKey = "MinerDatasRemoved";
         public const string MinerSignSetedRoutingKey = "MinerSignSeted";
 
         public const string QueryClientsForWsRoutingKey = "QueryClientsForWs";

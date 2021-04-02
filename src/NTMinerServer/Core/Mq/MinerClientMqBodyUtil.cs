@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace NTMiner.Core.Mq {

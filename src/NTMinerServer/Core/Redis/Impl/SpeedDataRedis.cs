@@ -85,5 +85,17 @@ namespace NTMiner.Core.Redis.Impl {
             var db = _redis.GetDatabase();
             return db.HashDeleteAsync(_redisKeySpeedDataByClientId, clientId.ToString());
         }
+
+        public Task DeleteByClientIdAsync(Guid[] clientIds) {
+            if (clientIds == null || clientIds.Length == 0) {
+                return TaskEx.CompletedTask;
+            }
+            var db = _redis.GetDatabase();
+            RedisValue[] hashFields = new RedisValue[clientIds.Length];
+            for (int i = 0; i < clientIds.Length; i++) {
+                hashFields[i] = clientIds[i].ToString();
+            }
+            return db.HashDeleteAsync(_redisKeySpeedDataByClientId, hashFields);
+        }
     }
 }

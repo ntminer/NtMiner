@@ -33,9 +33,6 @@ namespace NTMiner.Core.Impl {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
-                if (string.IsNullOrEmpty(message.MinerId)) {
-                    return;
-                }
                 if (IsOldMqMessage(message.Timestamp)) {
                     NTMinerConsole.UserOk(nameof(MinerDataRemovedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;

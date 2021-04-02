@@ -45,6 +45,18 @@ namespace NTMiner.Core.Impl {
             }
         }
 
+        protected override void DoRemoveSave(MinerData[] minerDatas) {
+            if (minerDatas == null || minerDatas.Length == 0) {
+                return;
+            }
+            using (LiteDatabase db = CreateLocalDb()) {
+                var col = db.GetCollection<MinerData>();
+                foreach (var item in minerDatas) {
+                    col.Delete(item.Id);
+                }
+            }
+        }
+
         private bool _isPullSpeedInited = false;
         private void PullSpeedInit() {
             if (_isPullSpeedInited) {
