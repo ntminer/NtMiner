@@ -30,6 +30,5 @@
         /// 不会经常更新但肯定会更新，因为这个时间戳的目的是为了周期发现用不活跃的记录从而删除掉。
         /// </summary>
         public const string ClientActiveOnById = "clientActiveOnById";
-        public const string MinerIdByClientId = "minerIdByClientId";
     }
 }
