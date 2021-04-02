@@ -4,7 +4,7 @@
 2. 开源矿工永远开源；
 3. 开源矿工永远不会去破解国人开发的内核；
 
-## [下载地址1](https://github.com/ntminer/NtMiner/releases)  [挖矿软件报毒](https://zhuanlan.zhihu.com/p/349794576)
+## [下载地址1](https://github.com/ntminer/NtMiner/releases)    [挖矿软件报毒](https://zhuanlan.zhihu.com/p/349794576)
 ### 从源码编译：Visual Studio 2019
 
 ## 开源软件
