@@ -54,7 +54,7 @@ namespace NTMiner.Views {
                 }, location: this.GetType());
             AppRoot.KernelVms.PropertyChanged += Current_PropertyChanged;
             NotiCenterWindow.Bind(this);
-            if (!Vm.MinerProfile.IsMining) {
+            if (!Vm.MinerProfile.IsMining && ClientAppType.IsMinerClient) {
                 VirtualRoot.RaiseEvent(new UserActionEvent());
             }
         }

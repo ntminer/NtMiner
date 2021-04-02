@@ -9,7 +9,6 @@ using NTMiner.Cpus;
 using NTMiner.Cpus.Impl;
 using NTMiner.Gpus;
 using NTMiner.Gpus.Impl;
-using NTMiner.Impl;
 using NTMiner.Mine;
 using NTMiner.Report;
 using NTMiner.ServerNode;
@@ -32,6 +31,11 @@ namespace NTMiner {
             LocalMessageSet = new LocalMessageSet();
             if (ClientAppType.IsMinerClient) {
                 SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
+
+                VirtualRoot.BuildEventPath<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
+                    path: message => {
+                        RefreshServerJsonFile();
+                    }, location: this.GetType());
             }
             VirtualRoot.BuildEventPath<AppExitEvent>($"程序退出时的{nameof(NTMinerContext)}退出逻辑", LogEnum.None,
                 message => {
@@ -77,7 +81,10 @@ namespace NTMiner {
                                 RpcRoot.OfficialServer.AppSettingService.GetJsonFileVersionAsync(ClientAppType.AppType, HomePath.ExportServerJsonFileName, serverState => {
                                     SetServerJsonVersion(serverState.JsonFileVersion);
                                     AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
-                                    if (Math.Abs((long)Timestamp.GetTimestamp() - (long)serverState.Time) >= Timestamp.DesyncSeconds) {
+                                    if (serverState.Time == 0) {
+                                        NTMinerConsole.UserWarn("网络不通或服务器暂时不可用，请检查矿机网络");
+                                    }
+                                    else if (Math.Abs((long)Timestamp.GetTimestamp() - (long)serverState.Time) >= Timestamp.DesyncSeconds) {
                                         NTMinerConsole.UserWarn($"本机和服务器时间不同步，请调整，本地：{DateTime.Now.ToString()}，服务器：{Timestamp.FromTimestamp(serverState.Time).ToString()}。此问题不影响挖矿。");
                                     }
                                 });
@@ -92,12 +99,6 @@ namespace NTMiner {
                             }
                             DoInit(callback);
                         });
-                        #region 发生了用户活动时检查serverJson是否有新版本
-                        VirtualRoot.BuildEventPath<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
-                            path: message => {
-                                RefreshServerJsonFile();
-                            }, location: this.GetType());
-                        #endregion
                     }
                 }
                 VirtualRoot.ThisLocalInfo(nameof(NTMinerContext), $"启动{VirtualRoot.AppName}");
@@ -209,7 +210,7 @@ namespace NTMiner {
         private void Link() {
             VirtualRoot.BuildCmdPath<RegCmdHereCommand>(path: message => {
                 try {
-                    Windows.Cmd.RegCmdHere();
+                    Cmd.RegCmdHere();
                     VirtualRoot.ThisLocalInfo(nameof(NTMinerContext), "添加windows右键命令行成功");
                 }
                 catch (Exception e) {
@@ -219,7 +220,7 @@ namespace NTMiner {
             }, location: this.GetType());
             VirtualRoot.BuildCmdPath<UnRegCmdHereCommand>(path: message => {
                 try {
-                    Windows.Cmd.UnRegCmdHere();
+                    Cmd.UnRegCmdHere();
                     VirtualRoot.ThisLocalInfo(nameof(NTMinerContext), "移除windows右键命令行成功");
                 }
                 catch (Exception e) {
