@@ -84,18 +84,8 @@ namespace NTMiner.Core.Impl {
 
         public void SetMinerSign(MinerSign minerSign) {
             _dicByClientId[minerSign.ClientId] = minerSign;
-            _redis.GetByIdAsync(minerSign.Id).ContinueWith(t => {
-                MinerData minerData = t.Result;
-                if (minerData != null) {
-                    minerData.Update(minerSign);
-                }
-                else {
-                    minerData = MinerData.Create(minerSign);
-                }
-                _redis.SetAsync(minerData).ContinueWith(_ => {
-                    AppRoot.MinerClientMqSender.SendMinerSignSeted(minerSign);
-                });
-            });
+            _redis.UpdateAsync(minerSign);
+            AppRoot.MinerClientMqSender.SendMinerSignSeted(minerSign);
         }
     }
 }
