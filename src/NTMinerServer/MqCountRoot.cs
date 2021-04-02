@@ -1,8 +1,9 @@
 ﻿using NTMiner.ServerNode;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner {
-    public static class MqRoutingCountRoot {
+    public static class MqCountRoot {
         private static readonly Dictionary<string, MqReceivedCountData> _receivedCounts = new Dictionary<string, MqReceivedCountData>();
         private static readonly object _lockerForReceivedCounts = new object();
         private static readonly Dictionary<string, MqSendCountData> _sendCounts = new Dictionary<string, MqSendCountData>();
@@ -45,6 +46,14 @@ namespace NTMiner {
                     };
                 }
             }
+        }
+
+        public static MqCountData GetMqCount() {
+            return new MqCountData {
+                AppId = ServerRoot.HostConfig.ThisServerAddress,
+                ReceivedCounts = _receivedCounts.Values.ToList(),
+                SendCounts = _sendCounts.Values.ToList()
+            };
         }
     }
 }

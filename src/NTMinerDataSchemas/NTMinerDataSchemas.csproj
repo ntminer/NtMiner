@@ -87,6 +87,7 @@
     <Compile Include="Report\SpeedData.cs" />
     <Compile Include="ServerNode\ActionCountData.cs" />
     <Compile Include="ServerNode\IMqRoutingCountData.cs" />
+    <Compile Include="ServerNode\MqCountData.cs" />
     <Compile Include="ServerNode\MqReceivedCountData.cs" />
     <Compile Include="ServerNode\MqSendCountData.cs" />
     <Compile Include="ServerNode\QueryActionCountsRequest.cs" />
