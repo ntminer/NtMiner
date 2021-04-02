@@ -73,10 +73,10 @@ namespace NTMiner.Core.Impl {
                         RemoveByObjectId(clientData.Id);
                         count++;
                     }
-                    else if (activeOn <= minerSpeedExpireTime) {
+                    if (activeOn <= minerSpeedExpireTime && activeOn >= minerSpeedExpireTime.AddSeconds(-message.Seconds)) {
                         _speedDataRedis.DeleteByClientIdAsync(clientData.ClientId);
                     }
-                    else if (!string.IsNullOrEmpty(clientData.MACAddress)) {
+                    if (!string.IsNullOrEmpty(clientData.MACAddress)) {
                         if (!dicByMACAddress.TryGetValue(clientData.MACAddress, out List<ClientData> list)) {
                             list = new List<ClientData>();
                             dicByMACAddress.Add(clientData.MACAddress, list);
