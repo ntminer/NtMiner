@@ -31,7 +31,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             var basicProperties = _mq.CreateBasicProperties();
             basicProperties.Persistent = false;
             basicProperties.Expiration = MqKeyword.Expiration36sec;
-            basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
             basicProperties.Headers = new Dictionary<string, object> {
                 [MqKeyword.LoginNameHeaderName] = loginName
             };

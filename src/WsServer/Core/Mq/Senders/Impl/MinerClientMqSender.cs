@@ -68,7 +68,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         private IBasicProperties CreateNonePersistentWsBasicProperties(string loginName, string sessionId) {
             var basicProperties = _mq.CreateBasicProperties();
             basicProperties.Persistent = false;// 非持久化的
-            basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
             basicProperties.Expiration = MqKeyword.Expiration36sec;
             basicProperties.Headers = new Dictionary<string, object> {
                 [MqKeyword.LoginNameHeaderName] = loginName,
@@ -81,7 +80,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         private IBasicProperties CreateNonePersistentBasicProperties() {
             var basicProperties = _mq.CreateBasicProperties();
             basicProperties.Persistent = false;// 非持久化的
-            basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
             basicProperties.Expiration = MqKeyword.Expiration36sec;
 
             return basicProperties;
@@ -90,7 +88,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         private IBasicProperties CreatePersistentBasicProperties(string loginName) {
             var basicProperties = _mq.CreateBasicProperties();
             basicProperties.Persistent = true;// 持久化的
-            basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
             basicProperties.Headers = new Dictionary<string, object> {
                 [MqKeyword.LoginNameHeaderName] = loginName
             };

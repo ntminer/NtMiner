@@ -3,7 +3,7 @@
 namespace NTMiner {
     public interface IMq {
         /// <summary>
-        /// 返回的对象已赋值MessageId和AppId
+        /// 返回的对象已赋值MessageId和AppId和Timestamp
         /// </summary>
         /// <returns></returns>
         IBasicProperties CreateBasicProperties();

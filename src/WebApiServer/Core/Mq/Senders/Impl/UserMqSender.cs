@@ -81,7 +81,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             var basicProperties = _mq.CreateBasicProperties();
             basicProperties.Persistent = true;
             basicProperties.Expiration = MqKeyword.Expiration60sec;
-            basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
 
             return basicProperties;
         }

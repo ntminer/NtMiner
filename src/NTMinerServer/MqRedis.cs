@@ -128,6 +128,7 @@ namespace NTMiner {
             IBasicProperties basicProperties = this._mqChannel.CreateBasicProperties();
             basicProperties.MessageId = VirtualRoot.IdGenerator.Generate();
             basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;
+            basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
             return basicProperties;
         }
 
