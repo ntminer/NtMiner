@@ -8,7 +8,7 @@ namespace NTMiner {
         private static readonly object _lockerForReceivedCounts = new object();
         private static readonly Dictionary<string, MqSendCountData> _sendCounts = new Dictionary<string, MqSendCountData>();
         private static readonly object _lockerForSendCounts = new object();
-        
+
         public static void ReceivedCount(string routingKey, string queue) {
             string key = $"{routingKey}->{queue}";
             lock (_lockerForReceivedCounts) {

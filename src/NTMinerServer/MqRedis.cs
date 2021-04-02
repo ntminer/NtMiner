@@ -1,4 +1,6 @@
 ﻿using NTMiner.Core.Mq.MqMessagePaths;
+using NTMiner.Core.Mq.Senders;
+using NTMiner.Core.Mq.Senders.Impl;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using StackExchange.Redis;
@@ -15,8 +17,8 @@ namespace NTMiner {
         /// <param name="serverAppType"></param>
         /// <param name="mqMessagePaths"></param>
         /// <returns></returns>
-        public static bool Create(ServerAppType serverAppType, AbstractMqMessagePath[] mqMessagePaths, out IMqRedis serverConfig) {
-            serverConfig = null;
+        public static bool Create(ServerAppType serverAppType, AbstractMqMessagePath[] mqMessagePaths, out IMqRedis mqRedis) {
+            mqRedis = null;
             ConnectionMultiplexer redisConn;
             try {
                 redisConn = ConnectionMultiplexer.Connect(ServerRoot.HostConfig.RedisConfig);
@@ -48,7 +50,7 @@ namespace NTMiner {
 
             StartConsumer(channel, mqMessagePaths);
 
-            serverConfig = new MqRedis(redisConn, channel);
+            mqRedis = new MqRedis(redisConn, channel);
             return true;
         }
 
@@ -113,9 +115,14 @@ namespace NTMiner {
 
         private readonly ConnectionMultiplexer _redisConn;
         private readonly IModel _mqChannel;
+        private readonly IMqCountSender _mqCountSender;
         private MqRedis(ConnectionMultiplexer redisConn, IModel channel) {
             this._redisConn = redisConn;
             this._mqChannel = channel;
+            this._mqCountSender = new MqCountSender(this);
+            VirtualRoot.BuildEventPath<Per20SecondEvent>("周期将本节点的MqCountData广播到Mq上去", LogEnum.None, message => {
+                this._mqCountSender.SendMqCounts(MqCountRoot.GetMqCount());
+            }, typeof(MqCountRoot));
         }
 
         public IDatabase GetDatabase() {
