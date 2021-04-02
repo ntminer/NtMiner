@@ -113,24 +113,23 @@ namespace NTMiner {
             });
         }
 
+        private readonly IModel _mqChannel;
         private MqRedis(ConnectionMultiplexer redisConn, IModel channel) {
             this.RedisConn = redisConn;
-            this.MqChannel = channel;
+            this._mqChannel = channel;
         }
 
         public ConnectionMultiplexer RedisConn { get; private set; }
 
-        public IModel MqChannel { get; private set; }
-
         public IBasicProperties CreateBasicProperties() {
-            IBasicProperties basicProperties = this.MqChannel.CreateBasicProperties();
+            IBasicProperties basicProperties = this._mqChannel.CreateBasicProperties();
             basicProperties.MessageId = VirtualRoot.IdGenerator.Generate();
             basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;
             return basicProperties;
         }
 
         public void BasicPublish(string exchange, string routingKey, IBasicProperties basicProperties, byte[] body) {
-            this.MqChannel.BasicPublish(exchange, routingKey, basicProperties, body);
+            this._mqChannel.BasicPublish(exchange, routingKey, basicProperties, body);
         }
     }
 }
