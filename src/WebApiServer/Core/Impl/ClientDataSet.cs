@@ -25,21 +25,21 @@ namespace NTMiner.Core.Impl {
                     NTMinerConsole.UserInfo($"从redis加载了 {getMinerDatasTask.Result.Count} 条MinerData，和 {getClientActiveOnsTask.Result.Count} 条ClientActiveOn，和 {getSpeedDatasTask.Result.Count} 条SpeedData");
                     Dictionary<Guid, SpeedData> speedDataDic = getSpeedDatasTask.Result;
                     Dictionary<string, DateTime> clientActiveOnDic = getClientActiveOnsTask.Result;
-                    Dictionary<string, ClientData> clientDatas = new Dictionary<string, ClientData>();
+                    Dictionary<string, ClientData> clientDataDic = new Dictionary<string, ClientData>();
                     DateTime speedOn = DateTime.Now.AddMinutes(-3);
                     foreach (var minerData in getMinerDatasTask.Result) {
                         var clientData = ClientData.Create(minerData);
                         if (clientActiveOnDic.TryGetValue(minerData.Id, out DateTime activeOn)) {
                             clientData.MinerActiveOn = activeOn;
                         }
-                        clientDatas.Add(clientData.Id, clientData);
+                        clientDataDic.Add(clientData.Id, clientData);
                         if (speedDataDic.TryGetValue(minerData.ClientId, out SpeedData speedData) && speedData.SpeedOn > speedOn) {
                             clientData.Update(speedData, out bool _);
                         }
                     }
                     List<string> clientActiveOnToRemoves = new List<string>();
                     foreach (var minerId in clientActiveOnDic.Keys) {
-                        if (!clientDatas.ContainsKey(minerId)) {
+                        if (!clientDataDic.ContainsKey(minerId)) {
                             clientActiveOnToRemoves.Add(minerId);
                         }
                     }
@@ -50,7 +50,7 @@ namespace NTMiner.Core.Impl {
                     if (speedDataToRemoves.Length != 0) {
                         speedDataRedis.DeleteByClientIdsAsync(speedDataToRemoves);
                     }
-                    callback?.Invoke(clientDatas.Values);
+                    callback?.Invoke(clientDataDic.Values);
                 });
             }) {
             _minerRedis = minerRedis;
