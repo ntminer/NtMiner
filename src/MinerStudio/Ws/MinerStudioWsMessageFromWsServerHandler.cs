@@ -15,8 +15,8 @@ namespace NTMiner.Ws {
         private static readonly Dictionary<string, Action<Action<WsMessage>, WsMessage>> _handlers = new Dictionary<string, Action<Action<WsMessage>, WsMessage>>(StringComparer.OrdinalIgnoreCase) {
             [WsMessage.ServerTime] = (sendAsync, message) => {
                 if (message.TryGetData(out long serverTime)) {
-                    if (Math.Abs(serverTime - Timestamp.GetTimestamp()) > 20) {
-                        VirtualRoot.Out.ShowWarn("您的电脑时间与网络时间不同步，请调整。");
+                    if (Math.Abs(serverTime - Timestamp.GetTimestamp()) > 30) {
+                        VirtualRoot.Out.ShowWarn("您的电脑时间与网络时间不同步，请同步Windows的时间，不调整也不影响功能。");
                     }
                 }
             },
