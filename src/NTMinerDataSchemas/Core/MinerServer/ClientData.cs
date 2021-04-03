@@ -106,7 +106,7 @@ namespace NTMiner.Core.MinerServer {
                 IsMining = false,
                 BootOn = DateTime.MinValue,
                 MineStartedOn = DateTime.MinValue,
-                MinerActiveOn = DateTime.Now,
+                MinerActiveOn = DateTime.MinValue,
                 MainCoinCode = string.Empty,
                 MainCoinTotalShare = 0,
                 MainCoinRejectShare = 0,

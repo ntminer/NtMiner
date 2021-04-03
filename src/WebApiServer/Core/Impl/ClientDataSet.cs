@@ -18,26 +18,39 @@ namespace NTMiner.Core.Impl {
             IMinerDataRedis minerRedis, IClientActiveOnRedis clientActiveOnRedis,
             ISpeedDataRedis speedDataRedis, IMinerClientMqSender mqSender)
             : base(isPull: false, getDatas: callback => {
-                var getMinersTask = minerRedis.GetAllAsync();
+                var getMinerDatasTask = minerRedis.GetAllAsync();
                 var getClientActiveOnsTask = clientActiveOnRedis.GetAllAsync();
-                var getSpeedsTask = speedDataRedis.GetAllAsync();
-                Task.WhenAll(getMinersTask, getClientActiveOnsTask, getSpeedsTask).ContinueWith(t => {
-                    NTMinerConsole.UserInfo($"从redis加载了 {getMinersTask.Result.Count} 条MinerData，和 {getSpeedsTask.Result.Count} 条SpeedData");
-                    Dictionary<Guid, SpeedData> speedDataDic = getSpeedsTask.Result;
+                var getSpeedDatasTask = speedDataRedis.GetAllAsync();
+                Task.WhenAll(getMinerDatasTask, getClientActiveOnsTask, getSpeedDatasTask).ContinueWith(t => {
+                    NTMinerConsole.UserInfo($"从redis加载了 {getMinerDatasTask.Result.Count} 条MinerData，和 {getClientActiveOnsTask.Result.Count} 条ClientActiveOn，和 {getSpeedDatasTask.Result.Count} 条SpeedData");
+                    Dictionary<Guid, SpeedData> speedDataDic = getSpeedDatasTask.Result;
                     Dictionary<string, DateTime> clientActiveOnDic = getClientActiveOnsTask.Result;
-                    List<ClientData> clientDatas = new List<ClientData>();
+                    Dictionary<string, ClientData> clientDatas = new Dictionary<string, ClientData>();
                     DateTime speedOn = DateTime.Now.AddMinutes(-3);
-                    foreach (var minerData in getMinersTask.Result) {
+                    foreach (var minerData in getMinerDatasTask.Result) {
                         var clientData = ClientData.Create(minerData);
                         if (clientActiveOnDic.TryGetValue(minerData.Id, out DateTime activeOn)) {
                             clientData.MinerActiveOn = activeOn;
                         }
-                        clientDatas.Add(clientData);
+                        clientDatas.Add(clientData.Id, clientData);
                         if (speedDataDic.TryGetValue(minerData.ClientId, out SpeedData speedData) && speedData.SpeedOn > speedOn) {
                             clientData.Update(speedData, out bool _);
                         }
                     }
-                    callback?.Invoke(clientDatas);
+                    List<string> clientActiveOnToRemoves = new List<string>();
+                    foreach (var minerId in clientActiveOnDic.Keys) {
+                        if (!clientDatas.ContainsKey(minerId)) {
+                            clientActiveOnToRemoves.Add(minerId);
+                        }
+                    }
+                    if (clientActiveOnToRemoves.Count != 0) {
+                        clientActiveOnRedis.DeleteAsync(clientActiveOnToRemoves.ToArray());
+                    }
+                    Guid[] speedDataToRemoves = speedDataDic.Values.Where(a => a.SpeedOn < speedOn).Select(a => a.ClientId).ToArray();
+                    if (speedDataToRemoves.Length != 0) {
+                        speedDataRedis.DeleteByClientIdsAsync(speedDataToRemoves);
+                    }
+                    callback?.Invoke(clientDatas.Values);
                 });
             }) {
             _minerRedis = minerRedis;
@@ -73,7 +86,7 @@ namespace NTMiner.Core.Impl {
                         RemoveByObjectId(clientData.Id);
                         count++;
                     }
-                    if (activeOn <= minerSpeedExpireTime && activeOn >= minerSpeedExpireTime.AddSeconds(-message.Seconds)) {
+                    if (activeOn <= minerSpeedExpireTime && activeOn >= minerSpeedExpireTime.AddSeconds(-message.Seconds - 10)) {
                         _speedDataRedis.DeleteByClientIdAsync(clientData.ClientId);
                     }
                     if (!string.IsNullOrEmpty(clientData.MACAddress)) {
@@ -284,7 +297,7 @@ namespace NTMiner.Core.Impl {
                 _mqSender.SendMinerDatasRemoved(minerDatas.Select(a => a.ClientId).ToArray());
             });
             _clientActiveOnRedis.DeleteAsync(minerDatas.Select(a => a.Id).ToArray());
-            _speedDataRedis.DeleteByClientIdAsync(minerDatas.Select(a => a.ClientId).ToArray());
+            _speedDataRedis.DeleteByClientIdsAsync(minerDatas.Select(a => a.ClientId).ToArray());
         }
     }
 }

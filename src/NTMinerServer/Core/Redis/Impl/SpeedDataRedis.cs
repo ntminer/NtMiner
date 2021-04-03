@@ -86,7 +86,7 @@ namespace NTMiner.Core.Redis.Impl {
             return db.HashDeleteAsync(_redisKeySpeedDataByClientId, clientId.ToString());
         }
 
-        public Task DeleteByClientIdAsync(Guid[] clientIds) {
+        public Task DeleteByClientIdsAsync(Guid[] clientIds) {
             if (clientIds == null || clientIds.Length == 0) {
                 return TaskEx.CompletedTask;
             }
