@@ -149,6 +149,42 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
+        public GridLength ConsoleWidth {
+            get {
+                if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(nameof(ConsoleWidth), out IAppSetting appSetting) && appSetting.Value != null) {
+                    if (double.TryParse(appSetting.Value.ToString(), out double value)) {
+                        return new GridLength(value, GridUnitType.Pixel);
+                    }
+                }
+                return new GridLength(756, GridUnitType.Pixel);
+            }
+            set {
+                VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
+                    Key = nameof(ConsoleWidth),
+                    Value = value.Value.ToString()
+                }));
+                OnPropertyChanged(nameof(ConsoleWidth));
+            }
+        }
+
+        public GridLength MinerDetailsWidth {
+            get {
+                if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(nameof(MinerDetailsWidth), out IAppSetting appSetting) && appSetting.Value != null) {
+                    if (double.TryParse(appSetting.Value.ToString(), out double value)) {
+                        return new GridLength(value, GridUnitType.Star);
+                    }
+                }
+                return new GridLength(1, GridUnitType.Star);
+            }
+            set {
+                VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
+                    Key = nameof(MinerDetailsWidth),
+                    Value = value.Value.ToString()
+                }));
+                OnPropertyChanged(nameof(MinerDetailsWidth));
+            }
+        }
+
         #region QueryMinerClients
         public void QueryMinerClients(bool isAuto = false) {
             if (!isAuto) {

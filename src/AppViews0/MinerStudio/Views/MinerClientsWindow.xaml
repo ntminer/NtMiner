@@ -262,8 +262,8 @@
                         HorizontalScrollBarVisibility="Auto">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="756" MinWidth="500"></ColumnDefinition>
-                                <ColumnDefinition Width="*" MinWidth="910"></ColumnDefinition>
+                                <ColumnDefinition Width="{Binding ConsoleWidth,Mode=TwoWay}" MinWidth="500"></ColumnDefinition>
+                                <ColumnDefinition Width="{Binding MinerDetailsWidth,Mode=TwoWay}" MinWidth="910"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Rectangle 
                                 Margin="0 0 6 0" 
