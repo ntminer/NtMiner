@@ -41,6 +41,7 @@
                 controls:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock VerticalAlignment="Center" Foreground="Red">*</TextBlock>
         </WrapPanel>
+        <TextBlock TextWrapping="Wrap" FontSize="12" Padding="4 0" Foreground="Red">注意：用户名或密码忘记了无法找回，因为为了快速使用没有要求填写和验证手机或邮箱，忘记了不要紧，直接注册个新的就行了。</TextBlock>
         <WrapPanel Margin="0 3">
             <TextBlock Style="{StaticResource LblTb}">重复密码</TextBlock>
             <PasswordBox
