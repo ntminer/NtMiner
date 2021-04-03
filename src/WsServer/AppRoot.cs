@@ -55,7 +55,7 @@ namespace NTMiner {
             string durableQueue = queue + MqKeyword.DurableQueueEndsWith;
             AbstractMqMessagePath[] mqMessagePaths = new AbstractMqMessagePath[] {
                 new ReadOnlyUserMqMessagePath(durableQueue),
-                new MinerSignMqMessagePath(durableQueue),
+                new MinerSignMqMessagePath(queue),
                 new WsServerNodeMqMessagePath(queue),
                 new OperationMqMessagePath(queue),
                 new MinerClientMqMessagePath(queue, thisServerAddress)

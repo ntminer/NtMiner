@@ -11,13 +11,6 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
 
         protected override Dictionary<string, Action<BasicDeliverEventArgs>> GetPaths() {
             return new Dictionary<string, Action<BasicDeliverEventArgs>> {
-                [MqKeyword.MinerSignSetedRoutingKey] = ea => {
-                    string appId = ea.BasicProperties.AppId;
-                    MinerSign minerSign = MinerClientMqBodyUtil.GetMinerSignMqReceiveBody(ea.Body);
-                    if (minerSign != null) {
-                        VirtualRoot.RaiseEvent(new MinerSignSetedMqEvent(appId, minerSign, ea.GetTimestamp()));
-                    }
-                },
                 [WsMqKeyword.GetConsoleOutLinesRoutingKey] = ea => {
                     string appId = ea.BasicProperties.AppId;
                     AfterTimeRequest[] requests = OperationMqBodyUtil.GetAfterTimeRequestMqReceiveBody(ea.Body);
