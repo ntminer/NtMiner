@@ -19,10 +19,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     string appId = ea.BasicProperties.AppId;
                     Guid[] clientIds = MinerClientMqBodyUtil.GetClientIdsMqReciveBody(ea.Body);
                     if (clientIds != null && clientIds.Length != 0) {
-                        var timestamp = ea.GetTimestamp();
-                        foreach (var clientId in clientIds) {
-                            VirtualRoot.RaiseEvent(new MinerDataRemovedMqEvent(appId, clientId, timestamp));
-                        }
+                        VirtualRoot.RaiseEvent(new MinerDatasRemovedMqEvent(appId, clientIds, ea.GetTimestamp()));
                     }
                 }
             };

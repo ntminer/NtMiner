@@ -46,6 +46,24 @@ namespace NTMiner.Core.Impl {
                 }
                 #endregion
             }, this.GetType());
+            VirtualRoot.BuildEventPath<MinerDatasRemovedMqEvent>("收到MinerClientsRemovedMq消息后移除内存中对应的记录", LogEnum.None, path: message => {
+                #region
+                if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
+                    return;
+                }
+                if (IsOldMqMessage(message.Timestamp)) {
+                    NTMinerConsole.UserOk(nameof(MinerDataRemovedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
+                    return;
+                }
+                foreach (var clientId in message.ClientIds) {
+                    if (_dicByClientId.TryRemove(clientId, out MinerSign minerSign)) {
+                        if (AppRoot.MinerClientSessionSet.TryGetByClientId(clientId, out IMinerClientSession ntminerSession)) {
+                            ntminerSession.CloseAsync(WsCloseCode.Normal, "服务端移除了该矿机");
+                        }
+                    }
+                }
+                #endregion
+            }, this.GetType());
             VirtualRoot.BuildEventPath<Per1SecondEvent>("每秒钟将暂存的新设置的MinerSign发送到Mq", LogEnum.None, message => {
                 Task.Factory.StartNew(() => {
                     MinerSign[] minerSignsSeted;
