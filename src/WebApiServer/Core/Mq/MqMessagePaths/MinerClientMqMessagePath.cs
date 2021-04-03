@@ -15,11 +15,14 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     string appId = ea.BasicProperties.AppId;
                     VirtualRoot.RaiseEvent(new SpeedDatasMqEvent(appId, clientIdIps, ea.GetTimestamp()));
                 },
-                [MqKeyword.MinerSignSetedRoutingKey] = ea => {
+                [MqKeyword.MinerSignsSetedRoutingKey] = ea => {
                     string appId = ea.BasicProperties.AppId;
-                    MinerSign minerSign = MinerClientMqBodyUtil.GetMinerSignMqReceiveBody(ea.Body);
-                    if (minerSign != null) {
-                        VirtualRoot.RaiseEvent(new MinerSignSetedMqEvent(appId, minerSign, ea.GetTimestamp()));
+                    MinerSign[] minerSigns = MinerClientMqBodyUtil.GetMinerSignsMqReceiveBody(ea.Body);
+                    if (minerSigns != null && minerSigns.Length != 0) {
+                        var timestamp = ea.GetTimestamp();
+                        foreach (var minerSign in minerSigns) {
+                            VirtualRoot.RaiseEvent(new MinerSignSetedMqEvent(appId, minerSign, timestamp));
+                        }
                     }
                 },
                 [MqKeyword.QueryClientsForWsRoutingKey] = ea => {

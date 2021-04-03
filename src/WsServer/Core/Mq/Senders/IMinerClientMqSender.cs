@@ -6,7 +6,7 @@ namespace NTMiner.Core.Mq.Senders {
         void SendSpeeds(ClientIdIp[] clientIdIps);
         void SendMinerClientWsClosed(Guid clientId);
         void SendMinerClientsWsBreathed(Guid[] clientIds);
-        void SendMinerSignSeted(MinerSign minerSign);
+        void SendMinerSignsSeted(MinerSign[] minerSigns);
         void SendQueryClientsForWs(string sessionId, QueryClientsForWsRequest request);
     }
 }

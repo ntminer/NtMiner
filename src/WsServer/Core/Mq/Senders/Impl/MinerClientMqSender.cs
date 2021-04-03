@@ -43,15 +43,15 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: MinerClientMqBodyUtil.GetClientIdsMqSendBody(clientIds));
         }
 
-        public void SendMinerSignSeted(MinerSign minerSign) {
-            if (minerSign == null || string.IsNullOrEmpty(minerSign.Id)) {
+        public void SendMinerSignsSeted(MinerSign[] minerSigns) {
+            if (minerSigns == null || minerSigns.Length == 0) {
                 return;
             }
-            var basicProperties = CreateNonePersistentBasicProperties(minerSign.LoginName);
+            var basicProperties = CreateNonePersistentBasicProperties();
             _mq.BasicPublish(
-                routingKey: MqKeyword.MinerSignSetedRoutingKey,
+                routingKey: MqKeyword.MinerSignsSetedRoutingKey,
                 basicProperties: basicProperties,
-                body: MinerClientMqBodyUtil.GetMinerSignMqSendBody(minerSign));
+                body: MinerClientMqBodyUtil.GetMinerSignsMqSendBody(minerSigns));
         }
 
         public void SendQueryClientsForWs(string sessionId, QueryClientsForWsRequest request) {
@@ -69,17 +69,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             var basicProperties = _mq.CreateBasicProperties();
             basicProperties.Persistent = false;// 非持久化的
             basicProperties.Expiration = MqKeyword.Expiration36sec;
-
-            return basicProperties;
-        }
-
-        private IBasicProperties CreateNonePersistentBasicProperties(string loginName) {
-            var basicProperties = _mq.CreateBasicProperties();
-            basicProperties.Persistent = false;// 非持久化的
-            basicProperties.Expiration = MqKeyword.Expiration36sec;
-            basicProperties.Headers = new Dictionary<string, object> {
-                [MqKeyword.LoginNameHeaderName] = loginName
-            };
 
             return basicProperties;
         }

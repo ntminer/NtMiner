@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace NTMiner.Core.Mq {
@@ -94,14 +93,13 @@ namespace NTMiner.Core.Mq {
         }
         #endregion
 
-        #region MinerSign
-        public static byte[] GetMinerSignMqSendBody(MinerSign minerSign) {
-            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(minerSign));
+        #region MinerSigns
+        public static byte[] GetMinerSignsMqSendBody(MinerSign[] minerSigns) {
+            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(minerSigns));
         }
-
-        public static MinerSign GetMinerSignMqReceiveBody(byte[] body) {
+        public static MinerSign[] GetMinerSignsMqReceiveBody(byte[] body) {
             string json = Encoding.UTF8.GetString(body);
-            return VirtualRoot.JsonSerializer.Deserialize<MinerSign>(json);
+            return VirtualRoot.JsonSerializer.Deserialize<MinerSign[]>(json);
         }
         #endregion
 

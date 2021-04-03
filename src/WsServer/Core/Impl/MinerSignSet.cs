@@ -2,7 +2,9 @@
 using NTMiner.Core.Redis;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace NTMiner.Core.Impl {
     public class MinerSignSet : IMinerSignSet {
@@ -44,6 +46,16 @@ namespace NTMiner.Core.Impl {
                 }
                 #endregion
             }, this.GetType());
+            VirtualRoot.BuildEventPath<Per1SecondEvent>("每秒钟将暂存的新设置的MinerSign发送到Mq", LogEnum.None, message => {
+                Task.Factory.StartNew(() => {
+                    MinerSign[] minerSignsSeted;
+                    lock (_lockForMinerSignsSeted) {
+                        minerSignsSeted = _minerSignsSeted.ToArray();
+                        _minerSignsSeted.Clear();
+                    }
+                    AppRoot.MinerClientMqSender.SendMinerSignsSeted(minerSignsSeted);
+                });
+            }, this.GetType());
         }
 
         private bool IsOldMqMessage(DateTime mqMessageTimestamp) {
@@ -63,10 +75,14 @@ namespace NTMiner.Core.Impl {
             return _dicByClientId.TryGetValue(clientId, out minerSign);
         }
 
+        private readonly List<MinerSign> _minerSignsSeted = new List<MinerSign>();
+        private readonly object _lockForMinerSignsSeted = new object();
         public void SetMinerSign(MinerSign minerSign) {
             _dicByClientId[minerSign.ClientId] = minerSign;
             _redis.UpdateAsync(minerSign);
-            AppRoot.MinerClientMqSender.SendMinerSignSeted(minerSign);
+            lock (_lockForMinerSignsSeted) {
+                _minerSignsSeted.Add(minerSign);
+            }
         }
     }
 }
