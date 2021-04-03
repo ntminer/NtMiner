@@ -24,8 +24,8 @@ namespace NTMiner.Core.Redis.Impl {
             });
         }
 
-        public Task ClearAsync(List<string> offlines) {
-            if (offlines == null || offlines.Count == 0) {
+        public Task ClearAsync(string[] offlines) {
+            if (offlines == null || offlines.Length == 0) {
                 return TaskEx.CompletedTask;
             }
             var db = _redis.GetDatabase();

@@ -5,6 +5,6 @@ using System.Threading.Tasks;
 namespace NTMiner.Core.Redis {
     public interface IWsServerNodeRedis : IReadOnlyWsServerNodeRedis {
         Task<List<WsServerNodeState>> GetAllAsync();
-        Task ClearAsync(List<string> offlines);
+        Task ClearAsync(string[] offlines);
     }
 }

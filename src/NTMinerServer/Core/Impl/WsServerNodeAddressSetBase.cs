@@ -33,11 +33,17 @@ namespace NTMiner.Core.Impl {
 
         public void Init(Action callback = null) {
             _wsServerNodeRedis.GetAllAddress().ContinueWith(t => {
-                _addressList = t.Result.Keys.ToList();
+                var now = DateTime.Now;
+                _addressList = t.Result.Where(a => !IsOffline(a.Value, now)).Select(a => a.Key).ToList();
                 var data = _addressList.ToArray();
                 _consistentHash = new ShardingHasher(data);
                 callback?.Invoke();
             });
+        }
+
+        protected static bool IsOffline(DateTime activeOn, DateTime now) {
+            // 如果WsServer节点服务器的时间和WebApiServer的时间相差很多则该WsServer会被下线
+            return activeOn.AddSeconds(30) < now;
         }
 
         public WsStatus WsStatus {
