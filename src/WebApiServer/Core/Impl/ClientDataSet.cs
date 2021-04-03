@@ -162,17 +162,21 @@ namespace NTMiner.Core.Impl {
                     }
                 }
             }, this.GetType());
-            VirtualRoot.BuildEventPath<MinerSignSetedMqEvent>("更新内存中的MinerData的MinerSign部分", LogEnum.None, path: message => {
-                if (_dicByObjectId.TryGetValue(message.Data.Id, out ClientData clientData)) {
-                    clientData.Update(message.Data);
+            VirtualRoot.BuildEventPath<MinerSignsSetedMqEvent>("更新内存中的MinerData的MinerSign部分", LogEnum.None, path: message => {
+                if (message.Data != null && message.Data.Length != 0) {
+                    foreach (var minerSign in message.Data) {
+                        if (_dicByObjectId.TryGetValue(minerSign.Id, out ClientData clientData)) {
+                            clientData.Update(minerSign);
+                        }
+                        else {
+                            clientData = ClientData.Create(minerSign);
+                            Add(clientData);
+                        }
+                        clientData.NetActiveOn = DateTime.Now;
+                        clientData.IsOnline = true;
+                        clientData.IsOuterUserEnabled = true;
+                    }
                 }
-                else {
-                    clientData = ClientData.Create(message.Data);
-                    Add(clientData);
-                }
-                clientData.NetActiveOn = DateTime.Now;
-                clientData.IsOnline = true;
-                clientData.IsOuterUserEnabled = true;
             }, this.GetType());
             VirtualRoot.BuildCmdPath<QueryClientsForWsMqCommand>(path: message => {
                 QueryClientsResponse response = AppRoot.QueryClientsForWs(message.Query);

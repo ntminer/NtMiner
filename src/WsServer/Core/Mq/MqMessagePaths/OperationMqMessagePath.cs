@@ -15,8 +15,9 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     string appId = ea.BasicProperties.AppId;
                     AfterTimeRequest[] requests = OperationMqBodyUtil.GetAfterTimeRequestMqReceiveBody(ea.Body);
                     if (requests != null && requests.Length != 0) {
+                        var timestamp = ea.GetTimestamp();
                         foreach (var request in requests) {
-                            VirtualRoot.RaiseEvent(new GetConsoleOutLinesMqEvent(appId, request.LoginName, ea.GetTimestamp(), request.ClientId, request.AfterTime));
+                            VirtualRoot.RaiseEvent(new GetConsoleOutLinesMqEvent(appId, request.LoginName, timestamp, request.ClientId, request.AfterTime));
                         }
                     }
                 },
@@ -40,8 +41,9 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     string appId = ea.BasicProperties.AppId;
                     AfterTimeRequest[] requests = OperationMqBodyUtil.GetAfterTimeRequestMqReceiveBody(ea.Body);
                     if (requests != null && requests.Length != 0) {
+                        var timestamp = ea.GetTimestamp();
                         foreach (var request in requests) {
-                            VirtualRoot.RaiseEvent(new GetLocalMessagesMqEvent(appId, request.LoginName, ea.GetTimestamp(), request.ClientId, request.AfterTime));
+                            VirtualRoot.RaiseEvent(new GetLocalMessagesMqEvent(appId, request.LoginName, timestamp, request.ClientId, request.AfterTime));
                         }
                     }
                 },
@@ -65,8 +67,9 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     string appId = ea.BasicProperties.AppId;
                     AfterTimeRequest[] requests = OperationMqBodyUtil.GetAfterTimeRequestMqReceiveBody(ea.Body);
                     if (requests != null && requests.Length != 0) {
+                        var timestamp = ea.GetTimestamp();
                         foreach (var request in requests) {
-                            VirtualRoot.RaiseEvent(new GetOperationResultsMqEvent(appId, request.LoginName, ea.GetTimestamp(), request.ClientId, request.AfterTime));
+                            VirtualRoot.RaiseEvent(new GetOperationResultsMqEvent(appId, request.LoginName, timestamp, request.ClientId, request.AfterTime));
                         }
                     }
                 },
