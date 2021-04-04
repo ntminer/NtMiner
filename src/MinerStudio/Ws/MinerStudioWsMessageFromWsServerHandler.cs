@@ -35,6 +35,11 @@ namespace NTMiner.Ws {
                     VirtualRoot.RaiseEvent(new ClientLocalMessagesEvent(wrapperClientIdData.ClientId, data));
                 }
             },
+            [WsMessage.OperationResults] = (sendAsync, message) => {
+                if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out List<OperationResultData> data)) {
+                    VirtualRoot.RaiseEvent(new ClientOperationResultsEvent(wrapperClientIdData.ClientId, data));
+                }
+            },
             [WsMessage.Drives] = (sendAsync, message) => {
                 if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out List<DriveDto> data)) {
                     VirtualRoot.RaiseEvent(new GetDrivesResponsedEvent(wrapperClientIdData.ClientId, data));
@@ -43,11 +48,6 @@ namespace NTMiner.Ws {
             [WsMessage.LocalIps] = (sendAsync, message) => {
                 if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out List<LocalIpDto> data)) {
                     VirtualRoot.RaiseEvent(new GetLocalIpsResponsedEvent(wrapperClientIdData.ClientId, data));
-                }
-            },
-            [WsMessage.OperationResults] = (sendAsync, message) => {
-                if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out List<OperationResultData> data)) {
-                    VirtualRoot.RaiseEvent(new ClientOperationResultsEvent(wrapperClientIdData.ClientId, data));
                 }
             },
             [WsMessage.OperationReceived] = (sendAsync, message) => {

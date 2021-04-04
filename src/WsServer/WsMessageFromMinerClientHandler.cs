@@ -24,6 +24,11 @@ namespace NTMiner {
                         AppRoot.OperationMqSender.SendLocalMessages(session.LoginName, clientId, datas);
                     }
                 },
+                [WsMessage.OperationResults] = (session, clientId, message) => {
+                    if (message.TryGetData(out List<OperationResultData> datas)) {
+                        AppRoot.OperationMqSender.SendOperationResults(session.LoginName, clientId, datas);
+                    }
+                },
                 [WsMessage.Drives] = (session, clientId, message) => {
                     if (message.TryGetData(out List<DriveDto> datas)) {
                         AppRoot.OperationMqSender.SendDrives(session.LoginName, clientId, datas);
@@ -32,11 +37,6 @@ namespace NTMiner {
                 [WsMessage.LocalIps] = (session, clientId, message) => {
                     if (message.TryGetData(out List<LocalIpDto> datas)) {
                         AppRoot.OperationMqSender.SendLocalIps(session.LoginName, clientId, datas);
-                    }
-                },
-                [WsMessage.OperationResults] = (session, clientId, message) => {
-                    if (message.TryGetData(out List<OperationResultData> datas)) {
-                        AppRoot.OperationMqSender.SendOperationResults(session.LoginName, clientId, datas);
                     }
                 },
                 [WsMessage.OperationReceived] = (session, clientId, message) => {
