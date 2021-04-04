@@ -1,7 +1,6 @@
 ﻿namespace NTMiner.ServerNode {
-    public interface IMqRoutingCountData {
+    public interface IMqSendCount {
         string RoutingKey { get; }
-        string Queue { get; }
         long Count { get; }
     }
 }
