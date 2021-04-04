@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using NTMiner.ServerNode;
 using NTMiner.Ws;
 using System;
 using System.Collections.Generic;
@@ -92,6 +93,16 @@ namespace NTMiner {
             };
             var json = VirtualRoot.JsonSerializer.Serialize(minerIds);
             Assert.AreEqual("[\"aaaaaaa\",\"bbbbbbb\",\"ccccccc\"]", json);
+        }
+
+        [TestMethod]
+        public void ArrayTest() {
+            MqCountData[] data = new MqCountData[] {
+                new MqCountData(),
+                new MqCountData()
+            };
+            string json = VirtualRoot.JsonSerializer.Serialize(data);
+            Console.WriteLine(json);
         }
 
         [TestMethod]
