@@ -26,7 +26,8 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     string appId = ea.BasicProperties.AppId;
                     long afterTimestamp = OperationMqBodyUtil.GetFastGetConsoleOutLinesMqReceiveBody(ea.Body);
                     if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                        VirtualRoot.RaiseEvent(new GetConsoleOutLinesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp));
+                        var mqEvent = new GetConsoleOutLinesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp);
+                        VirtualRoot.RaiseEvent(mqEvent);
                     }
                 },
                 [WsMqKeyword.ConsoleOutLinesRoutingKey] = ea => {
@@ -52,7 +53,8 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     string appId = ea.BasicProperties.AppId;
                     long afterTimestamp = OperationMqBodyUtil.GetFastGetLocalMessagesMqReceiveBody(ea.Body);
                     if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                        VirtualRoot.RaiseEvent(new GetLocalMessagesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp));
+                        var mqEvent = new GetLocalMessagesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp);
+                        VirtualRoot.RaiseEvent(mqEvent);
                     }
                 },
                 [WsMqKeyword.LocalMessagesRoutingKey] = ea => {
@@ -78,7 +80,8 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     string appId = ea.BasicProperties.AppId;
                     long afterTimestamp = OperationMqBodyUtil.GetFastGetOperationResultsMqReceiveBody(ea.Body);
                     if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                        VirtualRoot.RaiseEvent(new GetOperationResultsMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp));
+                        var mqEvent = new GetOperationResultsMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp);
+                        VirtualRoot.RaiseEvent(mqEvent);
                     }
                 },
                 [WsMqKeyword.GetDrivesRoutingKey] = ea => {
