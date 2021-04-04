@@ -15,7 +15,7 @@ namespace NTMiner.Core {
             this.Id = LiteDB.ObjectId.NewObjectId();
         }
 
-        [LiteDB.BsonId]
+        [BsonId]
         public ObjectId Id { get; set; }
     }
 }
