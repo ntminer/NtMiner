@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,6 +38,17 @@ namespace NTMiner {
             // 与指定的键相关联的值。 如果指定键未找到，则 Get 操作引发 System.Collections.Generic.KeyNotFoundException，而
             // Set 操作创建一个带指定键的新元素。
             var v = dic["test1"];
+        }
+
+        [TestMethod]
+        public void TryRemoveTest() {
+            Guid guid = Guid.NewGuid();
+            ConcurrentDictionary<Guid, DateTime> dic = new ConcurrentDictionary<Guid, DateTime> {
+                [guid] = DateTime.Now
+            };
+            // 移除不存在的键应返回false
+            Assert.IsFalse(dic.TryRemove(Guid.NewGuid(), out _));
+            Assert.IsTrue(dic.TryRemove(guid, out _));
         }
 
         [TestMethod]
