@@ -98,11 +98,17 @@ namespace NTMiner {
         [TestMethod]
         public void ArrayTest() {
             MqCountData[] data = new MqCountData[] {
-                new MqCountData(),
+                new MqCountData{
+                    ReceivedCounts = new List<MqReceivedCountData> {
+                        new MqReceivedCountData()
+                    }
+                },
                 new MqCountData()
             };
             string json = VirtualRoot.JsonSerializer.Serialize(data);
             Console.WriteLine(json);
+            data = VirtualRoot.JsonSerializer.Deserialize<MqCountData[]>(json);
+            Assert.IsTrue(data[0].ReceivedCounts.Count == 1);
         }
 
         [TestMethod]
