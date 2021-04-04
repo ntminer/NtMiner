@@ -114,6 +114,8 @@
     <Compile Include="MinerStudio\Impl\ServerMinerStudioService.cs" />
     <Compile Include="MinerStudio\IServerMinerStudioService.cs" />
     <Compile Include="MinerStudio\Vms\LocalIpConfigViewModel.cs" />
+    <Compile Include="MinerStudio\Vms\MqReceivedCountViewModel.cs" />
+    <Compile Include="MinerStudio\Vms\MqSendCountViewModel.cs" />
     <Compile Include="MinerStudio\Vms\NTMinerFileSelectViewModel.cs" />
     <Compile Include="MinerStudio\Vms\NTMinerFileViewModel.cs" />
     <Compile Include="MinerStudio\Vms\QQGroupQrCodeViewModel.cs" />
