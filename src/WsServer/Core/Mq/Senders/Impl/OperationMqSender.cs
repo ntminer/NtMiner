@@ -44,6 +44,16 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetConsoleOutLinesMqSendBody(datas));
         }
 
+        public void SendConsoleOutLineses(ConsoleOutLines[] datas) {
+            if (datas == null || datas.Length == 0) {
+                return;
+            }
+            _mq.BasicPublish(
+                routingKey: WsMqKeyword.ConsoleOutLinesesRoutingKey,
+                basicProperties: CreateBasicProperties(),
+                body: OperationMqBodyUtil.GetConsoleOutLinesesMqSendBody(datas));
+        }
+
         public void SendGetLocalMessages(AfterTimeRequest[] requests) {
             if (requests == null || requests.Length == 0) {
                 return;
@@ -74,6 +84,16 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetLocalMessagesMqSendBody(datas));
         }
 
+        public void SendLocalMessageses(LocalMessages[] datas) {
+            if (datas == null || datas.Length == 0) {
+                return;
+            }
+            _mq.BasicPublish(
+                routingKey: WsMqKeyword.LocalMessagesesRoutingKey,
+                basicProperties: CreateBasicProperties(),
+                body: OperationMqBodyUtil.GetLocalMessagesesMqSendBody(datas));
+        }
+
         public void SendGetOperationResults(AfterTimeRequest[] requests) {
             if (requests == null || requests.Length == 0) {
                 return;
@@ -102,6 +122,16 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 routingKey: WsMqKeyword.OperationResultsRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: OperationMqBodyUtil.GetOperationResultsMqSendBody(datas));
+        }
+
+        public void SendOperationResultses(OperationResults[] datas) {
+            if (datas == null || datas.Length == 0) {
+                return;
+            }
+            _mq.BasicPublish(
+                routingKey: WsMqKeyword.OperationResultsesRoutingKey,
+                basicProperties: CreateBasicProperties(),
+                body: OperationMqBodyUtil.GetOperationResultsesMqSendBody(datas));
         }
 
         public void SendGetDrives(string loginName, Guid clientId) {

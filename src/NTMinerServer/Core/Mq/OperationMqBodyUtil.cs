@@ -51,6 +51,20 @@ namespace NTMiner.Core.Mq {
             }
             return result;
         }
+        public static byte[] GetConsoleOutLinesesMqSendBody(ConsoleOutLines[] datas) {
+            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(datas));
+        }
+        public static ConsoleOutLines[] GetConsoleOutLinesesMqReceiveBody(byte[] body) {
+            string json = Encoding.UTF8.GetString(body);
+            if (string.IsNullOrEmpty(json)) {
+                return new ConsoleOutLines[0];
+            }
+            var result = VirtualRoot.JsonSerializer.Deserialize<ConsoleOutLines[]>(json);
+            if (result == null) {
+                result = new ConsoleOutLines[0];
+            }
+            return result;
+        }
         #endregion
 
         #region GetLocalMessages
@@ -78,6 +92,21 @@ namespace NTMiner.Core.Mq {
             var result = VirtualRoot.JsonSerializer.Deserialize<List<LocalMessageDto>>(json);
             if (result == null) {
                 result = new List<LocalMessageDto>();
+            }
+            return result;
+        }
+
+        public static byte[] GetLocalMessagesesMqSendBody(LocalMessages[] datas) {
+            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(datas));
+        }
+        public static LocalMessages[] GetLocalMessagesesMqReceiveBody(byte[] body) {
+            string json = Encoding.UTF8.GetString(body);
+            if (string.IsNullOrEmpty(json)) {
+                return new LocalMessages[0];
+            }
+            var result = VirtualRoot.JsonSerializer.Deserialize<LocalMessages[]>(json);
+            if (result == null) {
+                result = new LocalMessages[0];
             }
             return result;
         }
@@ -142,6 +171,20 @@ namespace NTMiner.Core.Mq {
             var result = VirtualRoot.JsonSerializer.Deserialize<List<OperationResultData>>(json);
             if (result == null) {
                 result = new List<OperationResultData>();
+            }
+            return result;
+        }
+        public static byte[] GetOperationResultsesMqSendBody(OperationResults[] datas) {
+            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(datas));
+        }
+        public static OperationResults[] GetOperationResultsesMqReceiveBody(byte[] body) {
+            string json = Encoding.UTF8.GetString(body);
+            if (string.IsNullOrEmpty(json)) {
+                return new OperationResults[0];
+            }
+            var result = VirtualRoot.JsonSerializer.Deserialize< OperationResults[] > (json);
+            if (result == null) {
+                result = new OperationResults[0];
             }
             return result;
         }

@@ -86,7 +86,7 @@ namespace NTMiner {
                         consoleOutLineses = _consoleOutLineses.ToArray();
                         _consoleOutLineses.Clear();
                     }
-                    // TODO:send mq
+                    AppRoot.OperationMqSender.SendConsoleOutLineses(consoleOutLineses);
                 });
                 Task.Factory.StartNew(() => {
                     LocalMessages[] localMessageses;
@@ -94,7 +94,7 @@ namespace NTMiner {
                         localMessageses = _localMessageses.ToArray();
                         _localMessageses.Clear();
                     }
-                    // TODO:send mq
+                    AppRoot.OperationMqSender.SendLocalMessageses(localMessageses);
                 });
                 Task.Factory.StartNew(() => {
                     OperationResults[] operationResultses;
@@ -102,7 +102,7 @@ namespace NTMiner {
                         operationResultses = _operationResultses.ToArray();
                         _operationResultses.Clear();
                     }
-                    // TODO:send mq
+                    AppRoot.OperationMqSender.SendOperationResultses(operationResultses);
                 });
             }, typeof(MqBufferRoot));
             VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期清理内存中过期的fastId", LogEnum.None, message => {

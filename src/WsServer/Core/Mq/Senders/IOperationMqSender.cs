@@ -10,15 +10,18 @@ namespace NTMiner.Core.Mq.Senders {
     public interface IOperationMqSender : IMqSender {
         void SendGetConsoleOutLines(AfterTimeRequest[] requests);
         void SendConsoleOutLines(string loginName, Guid clientId, List<ConsoleOutLine> datas);
+        void SendConsoleOutLineses(ConsoleOutLines[] datas);
         void SendFastGetConsoleOutLines(string loginName, Guid clientId, long afterTime);
 
         void SendGetLocalMessages(AfterTimeRequest[] requests);
         void SendFastGetLocalMessages(string loginName, Guid clientId, long afterTime);
         void SendLocalMessages(string loginName, Guid clientId, List<LocalMessageDto> datas);
+        void SendLocalMessageses(LocalMessages[] datas);
 
         void SendGetOperationResults(AfterTimeRequest[] requests);
         void SendFastGetOperationResults(string loginName, Guid clientId, long afterTime);
         void SendOperationResults(string loginName, Guid clientId, List<OperationResultData> datas);
+        void SendOperationResultses(OperationResults[] datas);
 
         void SendGetDrives(string loginName, Guid clientId);
         void SendDrives(string loginName, Guid clientId, List<DriveDto> datas);
