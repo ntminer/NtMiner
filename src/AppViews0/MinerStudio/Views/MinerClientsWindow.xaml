@@ -316,7 +316,7 @@
                                             Foreground="White"
                                             ToolTip="距离挖矿端产生最后一条输出的时长"
                                             HorizontalAlignment="Right" 
-                                            VerticalAlignment="Top" 
+                                            VerticalAlignment="Bottom" 
                                             Text="{Binding MinerClientConsoleVm.LatestTimeSpanText}"></TextBlock>
                                     </Grid>
                                 </TabItem>

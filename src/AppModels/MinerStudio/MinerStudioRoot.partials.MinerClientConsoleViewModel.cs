@@ -26,7 +26,7 @@ namespace NTMiner.MinerStudio {
             public string LatestTimeSpanText {
                 get {
                     if (LatestTimestamp == Timestamp.UnixBaseTime) {
-                        return "未知";
+                        return string.Empty;
                     }
                     return Timestamp.GetTimeSpanBeforeText(LatestTimestamp);
                 }
