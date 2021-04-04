@@ -25,9 +25,9 @@ namespace NTMiner {
                     }
                 },
                 [WsMessage.LocalMessages] = (session, clientId, message) => {
-                    if (message.TryGetData(out List<LocalMessageDto> datas)) {
+                    if (message.TryGetData(out List<LocalMessageDto> localMessages)) {
                         if (MqBufferRoot.TryRemoveFastId(message.Id)) {
-                            AppRoot.OperationMqSender.SendLocalMessages(session.LoginName, clientId, datas);
+                            AppRoot.OperationMqSender.SendLocalMessages(session.LoginName, clientId, localMessages);
                         }
                         else {
                             // TODO:
@@ -35,9 +35,9 @@ namespace NTMiner {
                     }
                 },
                 [WsMessage.OperationResults] = (session, clientId, message) => {
-                    if (message.TryGetData(out List<OperationResultData> datas)) {
+                    if (message.TryGetData(out List<OperationResultData> operationResults)) {
                         if (MqBufferRoot.TryRemoveFastId(message.Id)) {
-                            AppRoot.OperationMqSender.SendOperationResults(session.LoginName, clientId, datas);
+                            AppRoot.OperationMqSender.SendOperationResults(session.LoginName, clientId, operationResults);
                         }
                         else {
                             // TODO:
@@ -45,13 +45,13 @@ namespace NTMiner {
                     }
                 },
                 [WsMessage.Drives] = (session, clientId, message) => {
-                    if (message.TryGetData(out List<DriveDto> datas)) {
-                        AppRoot.OperationMqSender.SendDrives(session.LoginName, clientId, datas);
+                    if (message.TryGetData(out List<DriveDto> drives)) {
+                        AppRoot.OperationMqSender.SendDrives(session.LoginName, clientId, drives);
                     }
                 },
                 [WsMessage.LocalIps] = (session, clientId, message) => {
-                    if (message.TryGetData(out List<LocalIpDto> datas)) {
-                        AppRoot.OperationMqSender.SendLocalIps(session.LoginName, clientId, datas);
+                    if (message.TryGetData(out List<LocalIpDto> localIps)) {
+                        AppRoot.OperationMqSender.SendLocalIps(session.LoginName, clientId, localIps);
                     }
                 },
                 [WsMessage.OperationReceived] = (session, clientId, message) => {
