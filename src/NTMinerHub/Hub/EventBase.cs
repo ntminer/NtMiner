@@ -8,12 +8,6 @@ namespace NTMiner.Hub {
             this.TargetPathId = PathId.Empty;
         }
 
-        protected EventBase(Guid messageId) {
-            this.MessageId = messageId;
-            this.BornOn = DateTime.Now;
-            this.TargetPathId = PathId.Empty;
-        }
-
         protected EventBase(PathId targetPathId) : this() {
             this.TargetPathId = targetPathId;
         }
