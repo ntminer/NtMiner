@@ -93,6 +93,7 @@
     <Compile Include="Core\Mq\Senders\IUserMqSender.cs" />
     <Compile Include="Core\Redis\Impl\WsServerNodeRedis.cs" />
     <Compile Include="Core\Redis\IWsServerNodeRedis.cs" />
+    <Compile Include="MqBufferRoot.cs" />
     <Compile Include="WsSharp\SharpWsServerAdapter.cs" />
     <Compile Include="WsSharp\SharpWsSessionsAdapter.cs" />
     <Compile Include="WsSharp\WsCloseCodeExtensions.cs" />

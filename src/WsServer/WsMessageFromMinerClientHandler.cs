@@ -6,24 +6,10 @@ using NTMiner.VirtualMemory;
 using NTMiner.Ws;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace NTMiner {
     public static class WsMessageFromMinerClientHandler {
-        private static readonly List<ClientIdIp> _clientIdIps = new List<ClientIdIp>();
-        private static readonly object _lockerForClientIdIps = new object();
         static WsMessageFromMinerClientHandler() {
-            // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
-            VirtualRoot.BuildEventPath<Per1SecondEvent>("每1秒钟将WsServer暂存的来自挖矿端的SpeedData通过Mq发送给WebApiServer", LogEnum.None, message => {
-                Task.Factory.StartNew(() => {
-                    ClientIdIp[] clientIdIps;
-                    lock (_lockerForClientIdIps) {
-                        clientIdIps = _clientIdIps.ToArray();
-                        _clientIdIps.Clear();
-                    }
-                    AppRoot.MinerClientMqSender.SendSpeeds(clientIdIps);
-                });
-            }, typeof(WsMessageFromMinerClientHandler));
         }
 
         private static readonly Dictionary<string, Action<IMinerClientSession, Guid, WsMessage>>
@@ -59,9 +45,7 @@ namespace NTMiner {
                 [WsMessage.Speed] = (session, clientId, message) => {
                     if (message.TryGetData(out SpeedDto speedDto)) {
                         AppRoot.SpeedDataRedis.SetAsync(new SpeedData(speedDto, DateTime.Now)).ContinueWith(t => {
-                            lock (_lockerForClientIdIps) {
-                                _clientIdIps.Add(new ClientIdIp(speedDto.ClientId, session.RemoteEndPoint.ToString()));
-                            }
+                            MqBufferRoot.AddClientIdIp(new ClientIdIp(speedDto.ClientId, session.RemoteEndPoint.ToString()));
                         });
                     }
                 },

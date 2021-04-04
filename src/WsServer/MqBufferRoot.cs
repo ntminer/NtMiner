@@ -1,0 +1,30 @@
+﻿using NTMiner.Core.Mq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace NTMiner {
+    public static class MqBufferRoot {
+        private static readonly List<ClientIdIp> _speedClientIdIps = new List<ClientIdIp>();
+        private static readonly object _lockerForSpeedClientIdIps = new object();
+
+        static MqBufferRoot() {
+            // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
+            VirtualRoot.BuildEventPath<Per1SecondEvent>("每1秒钟将WsServer暂存的来自挖矿端的SpeedData通过Mq发送给WebApiServer", LogEnum.None, message => {
+                Task.Factory.StartNew(() => {
+                    ClientIdIp[] clientIdIps;
+                    lock (_lockerForSpeedClientIdIps) {
+                        clientIdIps = _speedClientIdIps.ToArray();
+                        _speedClientIdIps.Clear();
+                    }
+                    AppRoot.MinerClientMqSender.SendSpeeds(clientIdIps);
+                });
+            }, typeof(WsMessageFromMinerClientHandler));
+        }
+
+        public static void AddClientIdIp(ClientIdIp clientIdIp) {
+            lock (_lockerForSpeedClientIdIps) {
+                _speedClientIdIps.Add(clientIdIp);
+            }
+        }
+    }
+}
