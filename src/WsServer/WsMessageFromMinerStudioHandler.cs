@@ -5,70 +5,21 @@ using NTMiner.Core.MinerServer;
 using NTMiner.Ws;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace NTMiner {
     public static class WsMessageFromMinerStudioHandler {
-        private static readonly List<UserGetSpeedRequest> _userGetSpeedRequests = new List<UserGetSpeedRequest>();
-        private static readonly object _lockerForUserGetSpeedRequests = new object();
-        private static readonly List<AfterTimeRequest> _getConsoleOutLinesRequests = new List<AfterTimeRequest>();
-        private static readonly object _lockerForGetConsoleOutLinesRequests = new object();
-        private static readonly List<AfterTimeRequest> _getLocalMessagesRequests = new List<AfterTimeRequest>();
-        private static readonly object _lockerForGetLocalMessagesRequests = new object();
-        private static readonly List<AfterTimeRequest> _getOperationResultsRequests = new List<AfterTimeRequest>();
-        private static readonly object _lockerForGetOperationResultsRequests = new object();
         static WsMessageFromMinerStudioHandler() {
-            // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
-            VirtualRoot.BuildEventPath<Per1SecondEvent>("每1秒钟将WsServer暂存的来自群控客户端的消息广播到Mq", LogEnum.None, message => {
-                Task.Factory.StartNew(() => {
-                    UserGetSpeedRequest[] userGetSpeedRequests;
-                    lock (_lockerForUserGetSpeedRequests) {
-                        userGetSpeedRequests = _userGetSpeedRequests.ToArray();
-                        _userGetSpeedRequests.Clear();
-                    }
-                    AppRoot.OperationMqSender.SendGetSpeed(userGetSpeedRequests);
-                });
-
-                Task.Factory.StartNew(() => {
-                    AfterTimeRequest[] getConsoleOutLinesRequests;
-                    lock (_lockerForGetConsoleOutLinesRequests) {
-                        getConsoleOutLinesRequests = _getConsoleOutLinesRequests.ToArray();
-                        _getConsoleOutLinesRequests.Clear();
-                    }
-                    AppRoot.OperationMqSender.SendGetConsoleOutLines(getConsoleOutLinesRequests);
-                });
-
-                Task.Factory.StartNew(() => {
-                    AfterTimeRequest[] getLocalMessagesRequests;
-                    lock (_lockerForGetLocalMessagesRequests) {
-                        getLocalMessagesRequests = _getLocalMessagesRequests.ToArray();
-                        _getLocalMessagesRequests.Clear();
-                    }
-                    AppRoot.OperationMqSender.SendGetLocalMessages(getLocalMessagesRequests);
-                });
-
-                Task.Factory.StartNew(() => {
-                    AfterTimeRequest[] getOperationResultsRequests;
-                    lock (_lockerForGetOperationResultsRequests) {
-                        getOperationResultsRequests = _getOperationResultsRequests.ToArray();
-                        _getOperationResultsRequests.Clear();
-                    }
-                    AppRoot.OperationMqSender.SendGetOperationResults(getOperationResultsRequests);
-                });
-            }, typeof(WsMessageFromMinerStudioHandler));
         }
 
         private static readonly Dictionary<string, Action<IMinerStudioSession, WsMessage>>
             _handlers = new Dictionary<string, Action<IMinerStudioSession, WsMessage>>(StringComparer.OrdinalIgnoreCase) {
                 [WsMessage.GetConsoleOutLines] = (session, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
-                        lock (_lockerForGetConsoleOutLinesRequests) {
-                            _getConsoleOutLinesRequests.Add(new AfterTimeRequest {
-                                AfterTime = afterTime,
-                                ClientId = wrapperClientIdData.ClientId,
-                                LoginName = session.LoginName
-                            });
-                        }
+                        MqBufferRoot.GetConsoleOutLines(new AfterTimeRequest {
+                            AfterTime = afterTime,
+                            ClientId = wrapperClientIdData.ClientId,
+                            LoginName = session.LoginName
+                        });
                     }
                 },
                 [WsMessage.FastGetConsoleOutLines] = (session, message) => {
@@ -78,13 +29,11 @@ namespace NTMiner {
                 },
                 [WsMessage.GetLocalMessages] = (session, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
-                        lock (_lockerForGetLocalMessagesRequests) {
-                            _getLocalMessagesRequests.Add(new AfterTimeRequest {
-                                AfterTime = afterTime,
-                                ClientId = wrapperClientIdData.ClientId,
-                                LoginName = session.LoginName
-                            });
-                        }
+                        MqBufferRoot.GetLocalMessages(new AfterTimeRequest {
+                            AfterTime = afterTime,
+                            ClientId = wrapperClientIdData.ClientId,
+                            LoginName = session.LoginName
+                        });
                     }
                 },
                 [WsMessage.FastGetLocalMessages] = (session, message) => {
@@ -94,13 +43,11 @@ namespace NTMiner {
                 },
                 [WsMessage.GetOperationResults] = (session, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
-                        lock (_lockerForGetOperationResultsRequests) {
-                            _getOperationResultsRequests.Add(new AfterTimeRequest {
-                                AfterTime = afterTime,
-                                ClientId = wrapperClientIdData.ClientId,
-                                LoginName = session.LoginName
-                            });
-                        }
+                        MqBufferRoot.GetOperationResults(new AfterTimeRequest {
+                            AfterTime = afterTime,
+                            ClientId = wrapperClientIdData.ClientId,
+                            LoginName = session.LoginName
+                        });
                     }
                 },
                 [WsMessage.FastGetOperationResults] = (session, message) => {
@@ -120,12 +67,10 @@ namespace NTMiner {
                 },
                 [WsMessage.GetSpeed] = (session, message) => {
                     if (message.TryGetData(out List<Guid> clientIds)) {
-                        lock (_lockerForUserGetSpeedRequests) {
-                            _userGetSpeedRequests.Add(new UserGetSpeedRequest {
-                                LoginName = session.LoginName,
-                                ClientIds = clientIds
-                            });
-                        }
+                        MqBufferRoot.UserGetSpeed(new UserGetSpeedRequest {
+                            LoginName = session.LoginName,
+                            ClientIds = clientIds
+                        });
                     }
                 },
                 [WsMessage.EnableRemoteDesktop] = (session, message) => {

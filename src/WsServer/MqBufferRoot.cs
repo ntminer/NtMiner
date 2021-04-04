@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.Mq;
+﻿using NTMiner.Core;
+using NTMiner.Core.Mq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,6 +10,14 @@ namespace NTMiner {
         private static readonly object _lockerForToBreathClientIds = new object();
         private static readonly List<ClientIdIp> _speedClientIdIps = new List<ClientIdIp>();
         private static readonly object _lockerForSpeedClientIdIps = new object();
+        private static readonly List<UserGetSpeedRequest> _userGetSpeedRequests = new List<UserGetSpeedRequest>();
+        private static readonly object _lockerForUserGetSpeedRequests = new object();
+        private static readonly List<AfterTimeRequest> _getConsoleOutLinesRequests = new List<AfterTimeRequest>();
+        private static readonly object _lockerForGetConsoleOutLinesRequests = new object();
+        private static readonly List<AfterTimeRequest> _getLocalMessagesRequests = new List<AfterTimeRequest>();
+        private static readonly object _lockerForGetLocalMessagesRequests = new object();
+        private static readonly List<AfterTimeRequest> _getOperationResultsRequests = new List<AfterTimeRequest>();
+        private static readonly object _lockerForGetOperationResultsRequests = new object();
 
         static MqBufferRoot() {
             // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
@@ -29,7 +38,42 @@ namespace NTMiner {
                     }
                     AppRoot.MinerClientMqSender.SendSpeeds(clientIdIps);
                 });
-            }, typeof(WsMessageFromMinerClientHandler));
+                Task.Factory.StartNew(() => {
+                    UserGetSpeedRequest[] userGetSpeedRequests;
+                    lock (_lockerForUserGetSpeedRequests) {
+                        userGetSpeedRequests = _userGetSpeedRequests.ToArray();
+                        _userGetSpeedRequests.Clear();
+                    }
+                    AppRoot.OperationMqSender.SendGetSpeed(userGetSpeedRequests);
+                });
+
+                Task.Factory.StartNew(() => {
+                    AfterTimeRequest[] getConsoleOutLinesRequests;
+                    lock (_lockerForGetConsoleOutLinesRequests) {
+                        getConsoleOutLinesRequests = _getConsoleOutLinesRequests.ToArray();
+                        _getConsoleOutLinesRequests.Clear();
+                    }
+                    AppRoot.OperationMqSender.SendGetConsoleOutLines(getConsoleOutLinesRequests);
+                });
+
+                Task.Factory.StartNew(() => {
+                    AfterTimeRequest[] getLocalMessagesRequests;
+                    lock (_lockerForGetLocalMessagesRequests) {
+                        getLocalMessagesRequests = _getLocalMessagesRequests.ToArray();
+                        _getLocalMessagesRequests.Clear();
+                    }
+                    AppRoot.OperationMqSender.SendGetLocalMessages(getLocalMessagesRequests);
+                });
+
+                Task.Factory.StartNew(() => {
+                    AfterTimeRequest[] getOperationResultsRequests;
+                    lock (_lockerForGetOperationResultsRequests) {
+                        getOperationResultsRequests = _getOperationResultsRequests.ToArray();
+                        _getOperationResultsRequests.Clear();
+                    }
+                    AppRoot.OperationMqSender.SendGetOperationResults(getOperationResultsRequests);
+                });
+            }, typeof(MqBufferRoot));
         }
 
         public static void Breath(Guid clientId) {
@@ -38,9 +82,34 @@ namespace NTMiner {
             }
         }
 
-        public static void AddClientIdIp(ClientIdIp clientIdIp) {
+        // SpeedData已存入redis，这里只发送clientId和clientIp
+        public static void SendSpeed(ClientIdIp clientIdIp) {
             lock (_lockerForSpeedClientIdIps) {
                 _speedClientIdIps.Add(clientIdIp);
+            }
+        }
+
+        public static void GetConsoleOutLines(AfterTimeRequest request) {
+            lock (_lockerForGetConsoleOutLinesRequests) {
+                _getConsoleOutLinesRequests.Add(request);
+            }
+        }
+
+        public static void GetLocalMessages(AfterTimeRequest request) {
+            lock (_lockerForGetLocalMessagesRequests) {
+                _getLocalMessagesRequests.Add(request);
+            }
+        }
+
+        public static void GetOperationResults(AfterTimeRequest request) {
+            lock (_lockerForGetOperationResultsRequests) {
+                _getOperationResultsRequests.Add(request);
+            }
+        }
+
+        public static void UserGetSpeed(UserGetSpeedRequest request) {
+            lock (_lockerForUserGetSpeedRequests) {
+                _userGetSpeedRequests.Add(request);
             }
         }
     }
