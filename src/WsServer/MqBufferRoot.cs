@@ -21,6 +21,7 @@ namespace NTMiner {
 
         static MqBufferRoot() {
             // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
+            // 还可以继续消减，将这每秒钟6个Mq消息消减到1个，但是感觉没有什么必要了。
             VirtualRoot.BuildEventPath<Per1SecondEvent>("每1秒钟将暂存的数据发送到Mq", LogEnum.None, message => {
                 Task.Factory.StartNew(() => {
                     Guid[] clientIds;
