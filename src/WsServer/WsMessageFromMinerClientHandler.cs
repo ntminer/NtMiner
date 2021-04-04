@@ -16,17 +16,32 @@ namespace NTMiner {
             _handlers = new Dictionary<string, Action<IMinerClientSession, Guid, WsMessage>>(StringComparer.OrdinalIgnoreCase) {
                 [WsMessage.ConsoleOutLines] = (session, clientId, message) => {
                     if (message.TryGetData(out List<ConsoleOutLine> consoleOutLines)) {
-                        AppRoot.OperationMqSender.SendConsoleOutLines(session.LoginName, clientId, consoleOutLines);
+                        if (MqBufferRoot.TryRemoveFastId(message.Id)) {
+                            AppRoot.OperationMqSender.SendConsoleOutLines(session.LoginName, clientId, consoleOutLines);
+                        }
+                        else {
+                            // TODO:
+                        }
                     }
                 },
                 [WsMessage.LocalMessages] = (session, clientId, message) => {
                     if (message.TryGetData(out List<LocalMessageDto> datas)) {
-                        AppRoot.OperationMqSender.SendLocalMessages(session.LoginName, clientId, datas);
+                        if (MqBufferRoot.TryRemoveFastId(message.Id)) {
+                            AppRoot.OperationMqSender.SendLocalMessages(session.LoginName, clientId, datas);
+                        }
+                        else {
+                            // TODO:
+                        }
                     }
                 },
                 [WsMessage.OperationResults] = (session, clientId, message) => {
                     if (message.TryGetData(out List<OperationResultData> datas)) {
-                        AppRoot.OperationMqSender.SendOperationResults(session.LoginName, clientId, datas);
+                        if (MqBufferRoot.TryRemoveFastId(message.Id)) {
+                            AppRoot.OperationMqSender.SendOperationResults(session.LoginName, clientId, datas);
+                        }
+                        else {
+                            // TODO:
+                        }
                     }
                 },
                 [WsMessage.Drives] = (session, clientId, message) => {
