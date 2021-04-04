@@ -1,4 +1,4 @@
-﻿namespace NTMiner {
+﻿namespace NTMiner.Core {
     public class ConsoleOutLine : IConsoleOutLine {
         public ConsoleOutLine() { }
 

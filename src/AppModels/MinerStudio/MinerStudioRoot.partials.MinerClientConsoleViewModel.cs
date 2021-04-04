@@ -1,4 +1,5 @@
-﻿using NTMiner.MinerStudio.Vms;
+﻿using NTMiner.Core;
+using NTMiner.MinerStudio.Vms;
 using NTMiner.Vms;
 using System;
 using System.Collections.Generic;

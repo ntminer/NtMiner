@@ -1,4 +1,5 @@
-﻿using NTMiner.Impl;
+﻿using NTMiner.Core;
+using NTMiner.Impl;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -113,7 +114,7 @@ namespace NTMiner {
             }
         }
 
-        private static List<Tuple<string, ConsoleColor>> _lineBeforeMainUiOk = new List<Tuple<string, ConsoleColor>>();
+        private static readonly List<Tuple<string, ConsoleColor>> _lineBeforeMainUiOk = new List<Tuple<string, ConsoleColor>>();
         private static readonly object _lockForUserLine = new object();
         public static void MainUiOk() {
             _isMainUiOk = true;

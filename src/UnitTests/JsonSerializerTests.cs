@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using NTMiner.Core;
 using NTMiner.ServerNode;
 using NTMiner.Ws;
 using System;

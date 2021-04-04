@@ -7,7 +7,7 @@ using System.Linq;
 namespace NTMiner.MinerStudio {
     public static partial class MinerStudioRoot {
         public class MinerClientOperationResultsViewModel : ViewModelBase {
-            private ObservableCollection<OperationResultViewModel> _vms = new ObservableCollection<OperationResultViewModel>();
+            private readonly ObservableCollection<OperationResultViewModel> _vms = new ObservableCollection<OperationResultViewModel>();
             private readonly object _locker = new object();
             private MinerClientViewModel _minerClientVm;
             private const string NO_RECORD_TEXT = "没有群控操作记录";

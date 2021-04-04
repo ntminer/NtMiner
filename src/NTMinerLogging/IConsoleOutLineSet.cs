@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NTMiner.Core;
+using System.Collections.Generic;
 
 namespace NTMiner {
     /// <summary>
