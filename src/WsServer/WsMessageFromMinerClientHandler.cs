@@ -20,7 +20,11 @@ namespace NTMiner {
                             AppRoot.OperationMqSender.SendConsoleOutLines(session.LoginName, clientId, consoleOutLines);
                         }
                         else {
-                            // TODO:
+                            MqBufferRoot.ConsoleOutLines(new ConsoleOutLines {
+                                LoginName = session.LoginName,
+                                ClientId = clientId,
+                                Data = consoleOutLines
+                            });
                         }
                     }
                 },
@@ -30,7 +34,11 @@ namespace NTMiner {
                             AppRoot.OperationMqSender.SendLocalMessages(session.LoginName, clientId, localMessages);
                         }
                         else {
-                            // TODO:
+                            MqBufferRoot.LocalMessages(new LocalMessages {
+                                LoginName = session.LoginName,
+                                ClientId = clientId,
+                                Data = localMessages
+                            });
                         }
                     }
                 },
@@ -40,7 +48,11 @@ namespace NTMiner {
                             AppRoot.OperationMqSender.SendOperationResults(session.LoginName, clientId, operationResults);
                         }
                         else {
-                            // TODO:
+                            MqBufferRoot.OperationResults(new OperationResults {
+                                LoginName = session.LoginName,
+                                ClientId = clientId,
+                                Data = operationResults
+                            });
                         }
                     }
                 },

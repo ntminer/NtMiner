@@ -21,6 +21,12 @@ namespace NTMiner {
         private static readonly object _lockerForGetLocalMessagesRequests = new object();
         private static readonly List<AfterTimeRequest> _getOperationResultsRequests = new List<AfterTimeRequest>();
         private static readonly object _lockerForGetOperationResultsRequests = new object();
+        private static readonly List<ConsoleOutLines> _consoleOutLineses = new List<ConsoleOutLines>();
+        private static readonly object _lockForConsoleOutLineses = new object();
+        private static readonly List<LocalMessages> _localMessageses = new List<LocalMessages>();
+        private static readonly object _lockForLocalMessageses = new object();
+        private static readonly List<OperationResults> _operationResultses = new List<OperationResults>();
+        private static readonly object _lockForOperationResultses = new object();
 
         static MqBufferRoot() {
             // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
@@ -50,7 +56,6 @@ namespace NTMiner {
                     }
                     AppRoot.OperationMqSender.SendGetSpeed(userGetSpeedRequests);
                 });
-
                 Task.Factory.StartNew(() => {
                     AfterTimeRequest[] getConsoleOutLinesRequests;
                     lock (_lockerForGetConsoleOutLinesRequests) {
@@ -59,7 +64,6 @@ namespace NTMiner {
                     }
                     AppRoot.OperationMqSender.SendGetConsoleOutLines(getConsoleOutLinesRequests);
                 });
-
                 Task.Factory.StartNew(() => {
                     AfterTimeRequest[] getLocalMessagesRequests;
                     lock (_lockerForGetLocalMessagesRequests) {
@@ -68,7 +72,6 @@ namespace NTMiner {
                     }
                     AppRoot.OperationMqSender.SendGetLocalMessages(getLocalMessagesRequests);
                 });
-
                 Task.Factory.StartNew(() => {
                     AfterTimeRequest[] getOperationResultsRequests;
                     lock (_lockerForGetOperationResultsRequests) {
@@ -76,6 +79,30 @@ namespace NTMiner {
                         _getOperationResultsRequests.Clear();
                     }
                     AppRoot.OperationMqSender.SendGetOperationResults(getOperationResultsRequests);
+                });
+                Task.Factory.StartNew(() => {
+                    ConsoleOutLines[] consoleOutLineses;
+                    lock (_lockForConsoleOutLineses) {
+                        consoleOutLineses = _consoleOutLineses.ToArray();
+                        _consoleOutLineses.Clear();
+                    }
+                    // TODO:send mq
+                });
+                Task.Factory.StartNew(() => {
+                    LocalMessages[] localMessageses;
+                    lock (_lockForLocalMessageses) {
+                        localMessageses = _localMessageses.ToArray();
+                        _localMessageses.Clear();
+                    }
+                    // TODO:send mq
+                });
+                Task.Factory.StartNew(() => {
+                    OperationResults[] operationResultses;
+                    lock (_lockForOperationResultses) {
+                        operationResultses = _operationResultses.ToArray();
+                        _operationResultses.Clear();
+                    }
+                    // TODO:send mq
                 });
             }, typeof(MqBufferRoot));
             VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期清理内存中过期的fastId", LogEnum.None, message => {
@@ -134,6 +161,24 @@ namespace NTMiner {
         public static void UserGetSpeed(UserGetSpeedRequest request) {
             lock (_lockerForUserGetSpeedRequests) {
                 _userGetSpeedRequests.Add(request);
+            }
+        }
+
+        public static void ConsoleOutLines(ConsoleOutLines consoleOutLines) {
+            lock (_lockForConsoleOutLineses) {
+                _consoleOutLineses.Add(consoleOutLines);
+            }
+        }
+
+        public static void LocalMessages(LocalMessages localMessages) {
+            lock (_lockForLocalMessageses) {
+                _localMessageses.Add(localMessages);
+            }
+        }
+
+        public static void OperationResults(OperationResults operationResults) {
+            lock (_lockForOperationResultses) {
+                _operationResultses.Add(operationResults);
             }
         }
     }
