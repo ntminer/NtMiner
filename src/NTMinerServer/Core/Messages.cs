@@ -286,10 +286,18 @@ namespace NTMiner.Core {
     }
 
     [MessageType(description: "收到了ConsoleOutLines Mq消息后")]
-    public class ConsoleOutLinesMqEvent : OperationMqEvent<List<ConsoleOutLine>> {
-        public ConsoleOutLinesMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, List<ConsoleOutLine> data)
-            : base(appId, loginName, timestamp, clientId, data) {
+    public class ConsoleOutLinesMqEvent : EventBase {
+        public ConsoleOutLinesMqEvent(string loginName, DateTime timestamp, Guid clientId, List<ConsoleOutLine> data) {
+            this.LoginName = loginName;
+            this.Timestamp = timestamp;
+            this.ClientId = clientId;
+            this.Data = data;
         }
+
+        public string LoginName { get; private set; }
+        public DateTime Timestamp { get; private set; }
+        public Guid ClientId { get; private set; }
+        public List<ConsoleOutLine> Data { get; private set; }
     }
 
     [MessageType(description: "收到了GetLocalMessages Mq消息后")]
@@ -300,10 +308,18 @@ namespace NTMiner.Core {
     }
 
     [MessageType(description: "收到了LocalMessages Mq消息后")]
-    public class LocalMessagesMqEvent : OperationMqEvent<List<LocalMessageDto>> {
-        public LocalMessagesMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, List<LocalMessageDto> data)
-            : base(appId, loginName, timestamp, clientId, data) {
+    public class LocalMessagesMqEvent : EventBase {
+        public LocalMessagesMqEvent(string loginName, DateTime timestamp, Guid clientId, List<LocalMessageDto> data) {
+            this.LoginName = loginName;
+            this.Timestamp = timestamp;
+            this.ClientId = clientId;
+            this.Data = data;
         }
+
+        public string LoginName { get; private set; }
+        public DateTime Timestamp { get; private set; }
+        public Guid ClientId { get; private set; }
+        public List<LocalMessageDto> Data { get; private set; }
     }
 
     [MessageType(description: "收到了GetDrives Mq消息后")]
@@ -342,10 +358,18 @@ namespace NTMiner.Core {
     }
 
     [MessageType(description: "收到了OperationResults Mq消息后")]
-    public class OperationResultsMqEvent : OperationMqEvent<List<OperationResultData>> {
-        public OperationResultsMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, List<OperationResultData> data)
-            : base(appId, loginName, timestamp, clientId, data) {
+    public class OperationResultsMqEvent : EventBase {
+        public OperationResultsMqEvent(string loginName, DateTime timestamp, Guid clientId, List<OperationResultData> data) {
+            this.LoginName = loginName;
+            this.Timestamp = timestamp;
+            this.ClientId = clientId;
+            this.Data = data;
         }
+
+        public string LoginName { get; private set; }
+        public DateTime Timestamp { get; private set; }
+        public Guid ClientId { get; private set; }
+        public List<OperationResultData> Data { get; private set; }
     }
 
     [MessageType(description: "收到了OperationReceived Mq消息后")]
