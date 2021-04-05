@@ -16,17 +16,44 @@ namespace NTMiner {
             _handlers = new Dictionary<string, Action<IMinerClientSession, Guid, WsMessage>>(StringComparer.OrdinalIgnoreCase) {
                 [WsMessage.ConsoleOutLines] = (session, clientId, message) => {
                     if (message.TryGetData(out List<ConsoleOutLine> consoleOutLines)) {
-                        AppRoot.OperationMqSender.SendConsoleOutLines(session.LoginName, clientId, consoleOutLines);
+                        if (MqBufferRoot.TryRemoveFastId(message.Id)) {
+                            AppRoot.OperationMqSender.SendConsoleOutLines(session.LoginName, clientId, consoleOutLines);
+                        }
+                        else {
+                            MqBufferRoot.ConsoleOutLines(new ConsoleOutLines {
+                                LoginName = session.LoginName,
+                                ClientId = clientId,
+                                Data = consoleOutLines
+                            });
+                        }
                     }
                 },
                 [WsMessage.LocalMessages] = (session, clientId, message) => {
                     if (message.TryGetData(out List<LocalMessageDto> localMessages)) {
-                        AppRoot.OperationMqSender.SendLocalMessages(session.LoginName, clientId, localMessages);
+                        if (MqBufferRoot.TryRemoveFastId(message.Id)) {
+                            AppRoot.OperationMqSender.SendLocalMessages(session.LoginName, clientId, localMessages);
+                        }
+                        else {
+                            MqBufferRoot.LocalMessages(new LocalMessages {
+                                LoginName = session.LoginName,
+                                ClientId = clientId,
+                                Data = localMessages
+                            });
+                        }
                     }
                 },
                 [WsMessage.OperationResults] = (session, clientId, message) => {
                     if (message.TryGetData(out List<OperationResultData> operationResults)) {
-                        AppRoot.OperationMqSender.SendOperationResults(session.LoginName, clientId, operationResults);
+                        if (MqBufferRoot.TryRemoveFastId(message.Id)) {
+                            AppRoot.OperationMqSender.SendOperationResults(session.LoginName, clientId, operationResults);
+                        }
+                        else {
+                            MqBufferRoot.OperationResults(new OperationResults {
+                                LoginName = session.LoginName,
+                                ClientId = clientId,
+                                Data = operationResults
+                            });
+                        }
                     }
                 },
                 [WsMessage.Drives] = (session, clientId, message) => {

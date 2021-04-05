@@ -2,10 +2,13 @@
 using NTMiner.Core.Mq;
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace NTMiner {
     public static class MqBufferRoot {
+        private static readonly ConcurrentDictionary<Guid, DateTime> _fastIdDic = new ConcurrentDictionary<Guid, DateTime>();
         private static readonly List<Guid> _toBreathClientIds = new List<Guid>();
         private static readonly object _lockerForToBreathClientIds = new object();
         private static readonly List<ClientIdIp> _speedClientIdIps = new List<ClientIdIp>();
@@ -18,6 +21,12 @@ namespace NTMiner {
         private static readonly object _lockerForGetLocalMessagesRequests = new object();
         private static readonly List<AfterTimeRequest> _getOperationResultsRequests = new List<AfterTimeRequest>();
         private static readonly object _lockerForGetOperationResultsRequests = new object();
+        private static readonly List<ConsoleOutLines> _consoleOutLineses = new List<ConsoleOutLines>();
+        private static readonly object _lockForConsoleOutLineses = new object();
+        private static readonly List<LocalMessages> _localMessageses = new List<LocalMessages>();
+        private static readonly object _lockForLocalMessageses = new object();
+        private static readonly List<OperationResults> _operationResultses = new List<OperationResults>();
+        private static readonly object _lockForOperationResultses = new object();
 
         static MqBufferRoot() {
             // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
@@ -71,7 +80,51 @@ namespace NTMiner {
                     }
                     AppRoot.OperationMqSender.SendGetOperationResults(getOperationResultsRequests);
                 });
+                Task.Factory.StartNew(() => {
+                    ConsoleOutLines[] consoleOutLineses;
+                    lock (_lockForConsoleOutLineses) {
+                        consoleOutLineses = _consoleOutLineses.ToArray();
+                        _consoleOutLineses.Clear();
+                    }
+                    AppRoot.OperationMqSender.SendConsoleOutLineses(consoleOutLineses);
+                });
+                Task.Factory.StartNew(() => {
+                    LocalMessages[] localMessageses;
+                    lock (_lockForLocalMessageses) {
+                        localMessageses = _localMessageses.ToArray();
+                        _localMessageses.Clear();
+                    }
+                    AppRoot.OperationMqSender.SendLocalMessageses(localMessageses);
+                });
+                Task.Factory.StartNew(() => {
+                    OperationResults[] operationResultses;
+                    lock (_lockForOperationResultses) {
+                        operationResultses = _operationResultses.ToArray();
+                        _operationResultses.Clear();
+                    }
+                    AppRoot.OperationMqSender.SendOperationResultses(operationResultses);
+                });
             }, typeof(MqBufferRoot));
+            VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期清理内存中过期的fastId", LogEnum.None, message => {
+                DateTime dt = message.BornOn.AddMinutes(-1);
+                var keys = _fastIdDic.Where(a => a.Value <= dt).Select(a => a.Key).ToArray();
+                foreach (var key in keys) {
+                    _fastIdDic.TryRemove(key, out _);
+                }
+            }, typeof(MqBufferRoot));
+        }
+
+        public static void AddFastId(Guid messageId) {
+            _fastIdDic.TryAdd(messageId, DateTime.Now);
+        }
+
+        /// <summary>
+        /// 如果给定的messageId是FastId则返回true，否则返回false。
+        /// </summary>
+        /// <param name="messageId">给定的messageId</param>
+        /// <returns></returns>
+        public static bool TryRemoveFastId(Guid messageId) {
+            return _fastIdDic.TryRemove(messageId, out _);
         }
 
         public static void Breath(Guid clientId) {
@@ -108,6 +161,24 @@ namespace NTMiner {
         public static void UserGetSpeed(UserGetSpeedRequest request) {
             lock (_lockerForUserGetSpeedRequests) {
                 _userGetSpeedRequests.Add(request);
+            }
+        }
+
+        public static void ConsoleOutLines(ConsoleOutLines consoleOutLines) {
+            lock (_lockForConsoleOutLineses) {
+                _consoleOutLineses.Add(consoleOutLines);
+            }
+        }
+
+        public static void LocalMessages(LocalMessages localMessages) {
+            lock (_lockForLocalMessageses) {
+                _localMessageses.Add(localMessages);
+            }
+        }
+
+        public static void OperationResults(OperationResults operationResults) {
+            lock (_lockForOperationResultses) {
+                _operationResultses.Add(operationResults);
             }
         }
     }

@@ -26,7 +26,9 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     string appId = ea.BasicProperties.AppId;
                     long afterTimestamp = OperationMqBodyUtil.GetFastGetConsoleOutLinesMqReceiveBody(ea.Body);
                     if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                        VirtualRoot.RaiseEvent(new GetConsoleOutLinesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp));
+                        var mqEvent = new GetConsoleOutLinesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp);
+                        MqBufferRoot.AddFastId(mqEvent.MessageId);
+                        VirtualRoot.RaiseEvent(mqEvent);
                     }
                 },
                 [WsMqKeyword.ConsoleOutLinesRoutingKey] = ea => {
@@ -35,6 +37,16 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     var data = OperationMqBodyUtil.GetConsoleOutLinesMqReceiveBody(ea.Body);
                     if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                         VirtualRoot.RaiseEvent(new ConsoleOutLinesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, data));
+                    }
+                },
+                [WsMqKeyword.ConsoleOutLinesesRoutingKey] = ea => {
+                    string appId = ea.BasicProperties.AppId;
+                    var data = OperationMqBodyUtil.GetConsoleOutLinesesMqReceiveBody(ea.Body);
+                    if (data != null && data.Length != 0) {
+                        var timestamp = ea.GetTimestamp();
+                        foreach (var item in data) {
+                            VirtualRoot.RaiseEvent(new ConsoleOutLinesMqEvent(appId, item.LoginName, timestamp, item.ClientId, item.Data));
+                        }
                     }
                 },
                 [WsMqKeyword.GetLocalMessagesRoutingKey] = ea => {
@@ -52,7 +64,9 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     string appId = ea.BasicProperties.AppId;
                     long afterTimestamp = OperationMqBodyUtil.GetFastGetLocalMessagesMqReceiveBody(ea.Body);
                     if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                        VirtualRoot.RaiseEvent(new GetLocalMessagesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp));
+                        var mqEvent = new GetLocalMessagesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp);
+                        MqBufferRoot.AddFastId(mqEvent.MessageId);
+                        VirtualRoot.RaiseEvent(mqEvent);
                     }
                 },
                 [WsMqKeyword.LocalMessagesRoutingKey] = ea => {
@@ -61,6 +75,16 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     var data = OperationMqBodyUtil.GetLocalMessagesMqReceiveBody(ea.Body);
                     if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                         VirtualRoot.RaiseEvent(new LocalMessagesMqEvent(appId, loginName, ea.GetTimestamp(), clientId, data));
+                    }
+                },
+                [WsMqKeyword.LocalMessagesesRoutingKey] = ea => {
+                    string appId = ea.BasicProperties.AppId;
+                    var data = OperationMqBodyUtil.GetLocalMessagesesMqReceiveBody(ea.Body);
+                    if (data != null && data.Length != 0) {
+                        var timestamp = ea.GetTimestamp();
+                        foreach (var item in data) {
+                            VirtualRoot.RaiseEvent(new LocalMessagesMqEvent(appId, item.LoginName, timestamp, item.ClientId, item.Data));
+                        }
                     }
                 },
                 [WsMqKeyword.GetOperationResultsRoutingKey] = ea => {
@@ -78,7 +102,9 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     string appId = ea.BasicProperties.AppId;
                     long afterTimestamp = OperationMqBodyUtil.GetFastGetOperationResultsMqReceiveBody(ea.Body);
                     if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                        VirtualRoot.RaiseEvent(new GetOperationResultsMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp));
+                        var mqEvent = new GetOperationResultsMqEvent(appId, loginName, ea.GetTimestamp(), clientId, afterTimestamp);
+                        MqBufferRoot.AddFastId(mqEvent.MessageId);
+                        VirtualRoot.RaiseEvent(mqEvent);
                     }
                 },
                 [WsMqKeyword.OperationResultsRoutingKey] = ea => {
@@ -87,6 +113,16 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     var data = OperationMqBodyUtil.GetOperationResultsMqReceiveBody(ea.Body);
                     if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                         VirtualRoot.RaiseEvent(new OperationResultsMqEvent(appId, loginName, ea.GetTimestamp(), clientId, data));
+                    }
+                },
+                [WsMqKeyword.OperationResultsesRoutingKey] = ea => {
+                    string appId = ea.BasicProperties.AppId;
+                    var data = OperationMqBodyUtil.GetOperationResultsesMqReceiveBody(ea.Body);
+                    if (data != null && data.Length != 0) {
+                        var timestamp = ea.GetTimestamp();
+                        foreach (var item in data) {
+                            VirtualRoot.RaiseEvent(new OperationResultsMqEvent(appId, item.LoginName, timestamp, item.ClientId, item.Data));
+                        }
                     }
                 },
                 [WsMqKeyword.GetDrivesRoutingKey] = ea => {
