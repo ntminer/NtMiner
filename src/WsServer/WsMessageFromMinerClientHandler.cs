@@ -15,7 +15,7 @@ namespace NTMiner {
         private static readonly Dictionary<string, Action<IMinerClientSession, Guid, WsMessage>>
             _handlers = new Dictionary<string, Action<IMinerClientSession, Guid, WsMessage>>(StringComparer.OrdinalIgnoreCase) {
                 [WsMessage.ConsoleOutLines] = (session, clientId, message) => {
-                    if (message.TryGetData(out List<ConsoleOutLine> consoleOutLines)) {
+                    if (message.TryGetData(out List<ConsoleOutLine> consoleOutLines) && consoleOutLines != null && consoleOutLines.Count != 0) {
                         if (MqBufferRoot.TryRemoveFastId(message.Id)) {
                             AppRoot.OperationMqSender.SendConsoleOutLines(session.LoginName, clientId, consoleOutLines);
                         }
@@ -29,7 +29,7 @@ namespace NTMiner {
                     }
                 },
                 [WsMessage.LocalMessages] = (session, clientId, message) => {
-                    if (message.TryGetData(out List<LocalMessageDto> localMessages)) {
+                    if (message.TryGetData(out List<LocalMessageDto> localMessages) && localMessages != null && localMessages.Count != 0) {
                         if (MqBufferRoot.TryRemoveFastId(message.Id)) {
                             AppRoot.OperationMqSender.SendLocalMessages(session.LoginName, clientId, localMessages);
                         }
@@ -43,7 +43,7 @@ namespace NTMiner {
                     }
                 },
                 [WsMessage.OperationResults] = (session, clientId, message) => {
-                    if (message.TryGetData(out List<OperationResultData> operationResults)) {
+                    if (message.TryGetData(out List<OperationResultData> operationResults) && operationResults != null && operationResults.Count != 0) {
                         if (MqBufferRoot.TryRemoveFastId(message.Id)) {
                             AppRoot.OperationMqSender.SendOperationResults(session.LoginName, clientId, operationResults);
                         }
