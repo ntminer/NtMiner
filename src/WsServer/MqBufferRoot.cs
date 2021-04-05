@@ -63,16 +63,14 @@ namespace NTMiner {
                         _getConsoleOutLinesRequests.Clear();
                     }
                     AppRoot.OperationMqSender.SendGetConsoleOutLines(getConsoleOutLinesRequests);
-                });
-                Task.Factory.StartNew(() => {
+
                     AfterTimeRequest[] getLocalMessagesRequests;
                     lock (_lockerForGetLocalMessagesRequests) {
                         getLocalMessagesRequests = _getLocalMessagesRequests.ToArray();
                         _getLocalMessagesRequests.Clear();
                     }
                     AppRoot.OperationMqSender.SendGetLocalMessages(getLocalMessagesRequests);
-                });
-                Task.Factory.StartNew(() => {
+
                     AfterTimeRequest[] getOperationResultsRequests;
                     lock (_lockerForGetOperationResultsRequests) {
                         getOperationResultsRequests = _getOperationResultsRequests.ToArray();
@@ -87,16 +85,14 @@ namespace NTMiner {
                         _consoleOutLineses.Clear();
                     }
                     AppRoot.OperationMqSender.SendConsoleOutLineses(consoleOutLineses);
-                });
-                Task.Factory.StartNew(() => {
+
                     LocalMessages[] localMessageses;
                     lock (_lockForLocalMessageses) {
                         localMessageses = _localMessageses.ToArray();
                         _localMessageses.Clear();
                     }
                     AppRoot.OperationMqSender.SendLocalMessageses(localMessageses);
-                });
-                Task.Factory.StartNew(() => {
+
                     OperationResults[] operationResultses;
                     lock (_lockForOperationResultses) {
                         operationResultses = _operationResultses.ToArray();
