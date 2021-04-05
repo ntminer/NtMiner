@@ -5,15 +5,12 @@ namespace NTMiner {
         public const string GetConsoleOutLinesRoutingKey = WsMessage.GetConsoleOutLines;
         public const string FastGetConsoleOutLinesRoutingKey = WsMessage.FastGetConsoleOutLines;
         public const string ConsoleOutLinesRoutingKey = WsMessage.ConsoleOutLines;
-        public const string ConsoleOutLinesesRoutingKey = WsMessage.ConsoleOutLines + "es";
         public const string GetLocalMessagesRoutingKey = WsMessage.GetLocalMessages;
         public const string FastGetLocalMessagesRoutingKey = WsMessage.FastGetLocalMessages;
         public const string LocalMessagesRoutingKey = WsMessage.LocalMessages;
-        public const string LocalMessagesesRoutingKey = WsMessage.LocalMessages + "es";
         public const string GetOperationResultsRoutingKey = WsMessage.GetOperationResults;
         public const string FastGetOperationResultsRoutingKey = WsMessage.FastGetOperationResults;
         public const string OperationResultsRoutingKey = WsMessage.OperationResults;
-        public const string OperationResultsesRoutingKey = WsMessage.OperationResults + "es";
         public const string GetDrivesRoutingKey = WsMessage.GetDrives;
         public const string DrivesRoutingKey = WsMessage.Drives;
         public const string GetLocalIpsRoutingKey = WsMessage.GetLocalIps;
