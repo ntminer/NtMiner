@@ -56,7 +56,8 @@ namespace NTMiner {
                 new MinerSignMqMessagePath(queue),
                 new WsServerNodeMqMessagePath(queue),
                 new OperationMqMessagePath(queue),
-                new MinerClientMqMessagePath(queue, thisServerAddress)
+                new MinerClientMqMessagePath(queue, thisServerAddress),
+                new ClientTestIdMqMessagePath(queue)
             };
             if (!MqRedis.Create(ServerAppType.WsServer, mqMessagePaths, out IMqRedis mqRedis)) {
                 NTMinerConsole.UserError("启动失败，无法继续，因为服务器上下文创建失败");
@@ -247,9 +248,9 @@ namespace NTMiner {
                 session.CloseAsync(WsCloseCode.Normal, "意外，签名验证失败，请重新连接");
                 return;
             }
-            if (WsMessageFromMinerStudioHandler.TryGetHandler(message.Type, out Action<IMinerStudioSession, WsMessage> handler)) {
+            if (WsMessageFromMinerStudioHandler.TryGetHandler(message.Type, out Action<IMinerStudioSession, Guid, WsMessage> handler)) {
                 try {
-                    handler.Invoke(minerSession, message);
+                    handler.Invoke(minerSession, minerSession.ClientId, message);
                 }
                 catch (Exception ex) {
                     Logger.ErrorDebugLine(ex);

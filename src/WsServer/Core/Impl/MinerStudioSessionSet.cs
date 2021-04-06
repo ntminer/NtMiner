@@ -14,8 +14,11 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
             VirtualRoot.BuildEventPath<ConsoleOutLinesMqEvent>("收到ConsoleOutLinesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
-                if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
+                if (IsTooOld(message.Timestamp)) {
                     return;
+                }
+                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
+                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(ConsoleOutLinesMqEvent)}");
                 }
                 SendToMinerStudioAsync(message.LoginName, new WsMessage(message.MessageId, WsMessage.ConsoleOutLines) {
                     Data = new WrapperClientIdData {
@@ -27,8 +30,11 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
             VirtualRoot.BuildEventPath<LocalMessagesMqEvent>("收到LocalMessagesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
-                if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
+                if (IsTooOld(message.Timestamp)) {
                     return;
+                }
+                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
+                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(LocalMessagesMqEvent)}");
                 }
                 SendToMinerStudioAsync(message.LoginName, new WsMessage(message.MessageId, WsMessage.LocalMessages) {
                     Data = new WrapperClientIdData {
@@ -40,8 +46,11 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
             VirtualRoot.BuildEventPath<DrivesMqEvent>("收到DrivesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
-                if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
+                if (IsTooOld(message.Timestamp)) {
                     return;
+                }
+                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
+                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(DrivesMqEvent)}");
                 }
                 SendToMinerStudioAsync(message.LoginName, new WsMessage(message.MessageId, WsMessage.Drives) {
                     Data = new WrapperClientIdData {
@@ -53,8 +62,11 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
             VirtualRoot.BuildEventPath<LocalIpsMqEvent>("收到LocalIpsMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
-                if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
+                if (IsTooOld(message.Timestamp)) {
                     return;
+                }
+                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
+                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(LocalIpsMqEvent)}");
                 }
                 SendToMinerStudioAsync(message.LoginName, new WsMessage(message.MessageId, WsMessage.LocalIps) {
                     Data = new WrapperClientIdData {
@@ -66,8 +78,11 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
             VirtualRoot.BuildEventPath<OperationResultsMqEvent>("收到OperationResultsMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
-                if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
+                if (IsTooOld(message.Timestamp)) {
                     return;
+                }
+                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
+                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(OperationResultsMqEvent)}");
                 }
                 SendToMinerStudioAsync(message.LoginName, new WsMessage(message.MessageId, WsMessage.OperationResults) {
                     Data = new WrapperClientIdData {
@@ -79,8 +94,11 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
             VirtualRoot.BuildEventPath<OperationReceivedMqEvent>("收到OperationReceivedMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
-                if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
+                if (IsTooOld(message.Timestamp)) {
                     return;
+                }
+                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
+                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(OperationReceivedMqEvent)}");
                 }
                 SendToMinerStudioAsync(message.LoginName, new WsMessage(message.MessageId, WsMessage.OperationReceived) {
                     Data = new WrapperClientId {
@@ -91,8 +109,11 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
             VirtualRoot.BuildEventPath<LocalJsonMqEvent>("收到LocalJsonMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
-                if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
+                if (IsTooOld(message.Timestamp)) {
                     return;
+                }
+                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
+                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(LocalJsonMqEvent)}");
                 }
                 SendToMinerStudioAsync(message.LoginName, new WsMessage(message.MessageId, WsMessage.SelfWorkLocalJson) {
                     Data = new WrapperClientIdData {
@@ -104,8 +125,11 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
             VirtualRoot.BuildEventPath<GpuProfilesJsonMqEvent>("收到GpuProfilesJsonMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
-                if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
+                if (IsTooOld(message.Timestamp)) {
                     return;
+                }
+                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
+                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(GpuProfilesJsonMqEvent)}");
                 }
                 SendToMinerStudioAsync(message.LoginName, new WsMessage(message.MessageId, WsMessage.GpuProfilesJson) {
                     Data = new WrapperClientIdData {
@@ -119,6 +143,9 @@ namespace NTMiner.Core.Impl {
                 #region
                 if (IsTooOld(message.Timestamp)) {
                     return;
+                }
+                if (ServerRoot.IsMinerClientTestId(message.StudioId)) {
+                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.StudioId.ToString()} {nameof(QueryClientsForWsResponseMqEvent)}");
                 }
                 var userData = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(message.LoginName));
                 if (userData != null && wsSessions.TryGetSession(message.SessionId, out IWsSessionAdapter session)) {
@@ -170,6 +197,9 @@ namespace NTMiner.Core.Impl {
             var userData = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(loginName));
             if (userData != null) {
                 foreach (var minerStudioSession in minerStudioSessions) {
+                    if (ServerRoot.IsStudioClientTestId(minerStudioSession.ClientId)) {
+                        Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {minerStudioSession.ClientId.ToString()} {nameof(WsMessage)}.{message.Type}");
+                    }
                     minerStudioSession.SendAsync(message, userData.Password);
                 }
             }

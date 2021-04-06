@@ -11,52 +11,52 @@ namespace NTMiner.Core.Mq.Senders {
         void SendGetConsoleOutLines(AfterTimeRequest[] requests);
         void SendConsoleOutLines(string loginName, Guid clientId, List<ConsoleOutLine> datas);
         void SendConsoleOutLineses(ConsoleOutLines[] datas);
-        void SendFastGetConsoleOutLines(string loginName, Guid clientId, long afterTime);
+        void SendFastGetConsoleOutLines(string loginName, Guid clientId, Guid studioId, long afterTime);
 
         void SendGetLocalMessages(AfterTimeRequest[] requests);
-        void SendFastGetLocalMessages(string loginName, Guid clientId, long afterTime);
+        void SendFastGetLocalMessages(string loginName, Guid clientId, Guid studioId, long afterTime);
         void SendLocalMessages(string loginName, Guid clientId, List<LocalMessageDto> datas);
         void SendLocalMessageses(LocalMessages[] datas);
 
         void SendGetOperationResults(AfterTimeRequest[] requests);
-        void SendFastGetOperationResults(string loginName, Guid clientId, long afterTime);
+        void SendFastGetOperationResults(string loginName, Guid clientId, Guid studioId, long afterTime);
         void SendOperationResults(string loginName, Guid clientId, List<OperationResultData> datas);
         void SendOperationResultses(OperationResults[] datas);
 
-        void SendGetDrives(string loginName, Guid clientId);
+        void SendGetDrives(string loginName, Guid clientId, Guid studioId);
         void SendDrives(string loginName, Guid clientId, List<DriveDto> datas);
 
-        void SendGetLocalIps(string loginName, Guid clientId);
+        void SendGetLocalIps(string loginName, Guid clientId, Guid studioId);
         void SendLocalIps(string loginName, Guid clientId, List<LocalIpDto> datas);
 
         void SendOperationReceived(string loginName, Guid clientId);
 
         void SendGetSpeed(UserGetSpeedRequest[] requests);
 
-        void SendEnableRemoteDesktop(string loginName, Guid clientId);
-        void SendBlockWAU(string loginName, Guid clientId);
-        void SendSwitchRadeonGpu(string loginName, Guid clientId, bool on);
-        void SendSetVirtualMemory(string loginName, Guid clientId, Dictionary<string, int> datas);
-        void SendSetLocalIps(string loginName, Guid clientId, List<LocalIpInput> datas);
+        void SendEnableRemoteDesktop(string loginName, Guid clientId, Guid studioId);
+        void SendBlockWAU(string loginName, Guid clientId, Guid studioId);
+        void SendSwitchRadeonGpu(string loginName, Guid clientId, Guid studioId, bool on);
+        void SendSetVirtualMemory(string loginName, Guid clientId, Guid studioId, Dictionary<string, int> datas);
+        void SendSetLocalIps(string loginName, Guid clientId, Guid studioId, List<LocalIpInput> datas);
 
-        void SendGetSelfWorkLocalJson(string loginName, Guid clientId);
-        void SendSaveSelfWorkLocalJson(string loginName, Guid clientId, WorkRequest request);
-        void SendGetGpuProfilesJson(string loginName, Guid clientId);
+        void SendGetSelfWorkLocalJson(string loginName, Guid clientId, Guid studioId);
+        void SendSaveSelfWorkLocalJson(string loginName, Guid clientId, Guid studioId, WorkRequest request);
+        void SendGetGpuProfilesJson(string loginName, Guid clientId, Guid studioId);
         void SendSelfWorkLocalJson(string loginName, Guid clientId, string json);
         void SendGpuProfilesJson(string loginName, Guid clientId, string json);
 
-        void SendSaveGpuProfilesJson(string loginName, Guid clientId, string json);
+        void SendSaveGpuProfilesJson(string loginName, Guid clientId, Guid studioId, string json);
 
-        void SendSetAutoBootStart(string loginName, Guid clientId, SetAutoBootStartRequest body);
+        void SendSetAutoBootStart(string loginName, Guid clientId, Guid studioId, SetAutoBootStartRequest body);
 
-        void SendRestartWindows(string loginName, Guid clientId);
+        void SendRestartWindows(string loginName, Guid clientId, Guid studioId);
 
-        void SendShutdownWindows(string loginName, Guid clientId);
+        void SendShutdownWindows(string loginName, Guid clientId, Guid studioId);
 
-        void SendUpgradeNTMiner(string loginName, Guid clientId, string ntminerFileName);
+        void SendUpgradeNTMiner(string loginName, Guid clientId, Guid studioId, string ntminerFileName);
 
-        void SendStartMine(string loginName, Guid clientId, Guid workId);
+        void SendStartMine(string loginName, Guid clientId, Guid studioId, Guid workId);
 
-        void SendStopMine(string loginName, Guid clientId);
+        void SendStopMine(string loginName, Guid clientId, Guid studioId);
     }
 }

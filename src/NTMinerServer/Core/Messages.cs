@@ -73,6 +73,24 @@ namespace NTMiner.Core {
         public Guid ClientId { get; private set; }
     }
 
+    public abstract class StudioOPerationMqEvent : OperationMqEvent {
+        public StudioOPerationMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId)
+            : base(appId, loginName, timestamp, clientId) {
+            this.StudioId = studioId;
+        }
+
+        public Guid StudioId { get; private set; }
+    }
+
+    public abstract class StudioOPerationMqEvent<T> : StudioOPerationMqEvent {
+        public StudioOPerationMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId, T data)
+            : base(appId, loginName, timestamp, clientId, studioId) {
+            this.Data = data;
+        }
+
+        public T Data { get; private set; }
+    }
+
     public abstract class OperationMqEvent<T> : OperationMqEvent {
         public OperationMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, T data)
             : base(appId, loginName, timestamp, clientId) {
@@ -108,6 +126,15 @@ namespace NTMiner.Core {
         public string LoginName { get; private set; }
         public DateTime Timestamp { get; private set; }
         public RSAKey Key { get; private set; }
+    }
+
+    [MessageType(description: "收到了RefreshMinerTestId Mq消息后，注意该消息是命令")]
+    public class RefreshMinerTestIdMqCommand : Cmd {
+        public RefreshMinerTestIdMqCommand(DateTime timestamp) {
+            this.Timestamp = timestamp;
+        }
+
+        public DateTime Timestamp { get; private set; }
     }
 
     [MessageType(description: "收到了UserRSAKeyUpdated Mq消息后")]
@@ -201,11 +228,12 @@ namespace NTMiner.Core {
     public class QueryClientsForWsMqCommand : Cmd {
         public QueryClientsForWsMqCommand(
             string appId, string mqMessageId, DateTime timestamp, string loginName,
-            string sessionId, QueryClientsForWsRequest query) {
+            Guid studioId, string sessionId, QueryClientsForWsRequest query) {
             this.AppId = appId;
             this.MqMessageId = mqMessageId;
             this.Timestamp = timestamp;
             this.LoginName = loginName;
+            this.StudioId = studioId;
             this.SessionId = sessionId;
             this.Query = query;
         }
@@ -214,6 +242,7 @@ namespace NTMiner.Core {
         public string MqMessageId { get; private set; }
         public DateTime Timestamp { get; private set; }
         public string LoginName { get; private set; }
+        public Guid StudioId { get; private set; }
         public string SessionId { get; private set; }
         public QueryClientsForWsRequest Query { get; private set; }
     }
@@ -222,11 +251,12 @@ namespace NTMiner.Core {
     public class QueryClientsForWsResponseMqEvent : EventBase {
         public QueryClientsForWsResponseMqEvent(
             string appId, string mqCorrelationId, DateTime timestamp, string loginName,
-            string sessionId, QueryClientsResponse response) {
+            Guid studioId, string sessionId, QueryClientsResponse response) {
             this.AppId = appId;
             this.MqCorrelationId = mqCorrelationId;
             this.Timestamp = timestamp;
             this.LoginName = loginName;
+            this.StudioId = studioId;
             this.SessionId = sessionId;
             this.Response = response;
         }
@@ -235,6 +265,7 @@ namespace NTMiner.Core {
         public string MqCorrelationId { get; private set; }
         public DateTime Timestamp { get; private set; }
         public string LoginName { get; private set; }
+        public Guid StudioId { get; private set; }
         public string SessionId { get; private set; }
         public QueryClientsResponse Response { get; private set; }
     }
@@ -279,9 +310,9 @@ namespace NTMiner.Core {
     }
 
     [MessageType(description: "收到了GetConsoleOutLines Mq消息后")]
-    public class GetConsoleOutLinesMqEvent : OperationMqEvent<long> {
-        public GetConsoleOutLinesMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, long afterTime)
-            : base(appId, loginName, timestamp, clientId, afterTime) {
+    public class GetConsoleOutLinesMqEvent : StudioOPerationMqEvent<long> {
+        public GetConsoleOutLinesMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId, long afterTime)
+            : base(appId, loginName, timestamp, clientId, studioId, afterTime) {
         }
     }
 
@@ -293,9 +324,9 @@ namespace NTMiner.Core {
     }
 
     [MessageType(description: "收到了GetLocalMessages Mq消息后")]
-    public class GetLocalMessagesMqEvent : OperationMqEvent<long> {
-        public GetLocalMessagesMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, long afterTime)
-            : base(appId, loginName, timestamp, clientId, afterTime) {
+    public class GetLocalMessagesMqEvent : StudioOPerationMqEvent<long> {
+        public GetLocalMessagesMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId, long afterTime)
+            : base(appId, loginName, timestamp, clientId, studioId, afterTime) {
         }
     }
 
@@ -307,9 +338,9 @@ namespace NTMiner.Core {
     }
 
     [MessageType(description: "收到了GetDrives Mq消息后")]
-    public class GetDrivesMqEvent : OperationMqEvent {
-        public GetDrivesMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId)
-            : base(appId, loginName, timestamp, clientId) {
+    public class GetDrivesMqEvent : StudioOPerationMqEvent {
+        public GetDrivesMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId)
+            : base(appId, loginName, timestamp, clientId, studioId) {
         }
     }
 
@@ -321,9 +352,9 @@ namespace NTMiner.Core {
     }
 
     [MessageType(description: "收到了GetLocalIps Mq消息后")]
-    public class GetLocalIpsMqEvent : OperationMqEvent {
-        public GetLocalIpsMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId)
-            : base(appId, loginName, timestamp, clientId) {
+    public class GetLocalIpsMqEvent : StudioOPerationMqEvent {
+        public GetLocalIpsMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId)
+            : base(appId, loginName, timestamp, clientId, studioId) {
         }
     }
 
@@ -335,9 +366,9 @@ namespace NTMiner.Core {
     }
 
     [MessageType(description: "收到了OperationResults Mq消息后")]
-    public class GetOperationResultsMqEvent : OperationMqEvent<long> {
-        public GetOperationResultsMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, long afterTime)
-            : base(appId, loginName, timestamp, clientId, afterTime) {
+    public class GetOperationResultsMqEvent : StudioOPerationMqEvent<long> {
+        public GetOperationResultsMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId, long afterTime)
+            : base(appId, loginName, timestamp, clientId, studioId, afterTime) {
         }
     }
 
@@ -356,37 +387,37 @@ namespace NTMiner.Core {
     }
 
     [MessageType(description: "收到了EnableRemoteDesktop Mq消息后")]
-    public class EnableRemoteDesktopMqEvent : OperationMqEvent {
-        public EnableRemoteDesktopMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId)
-            : base(appId, loginName, timestamp, clientId) {
+    public class EnableRemoteDesktopMqEvent : StudioOPerationMqEvent {
+        public EnableRemoteDesktopMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId)
+            : base(appId, loginName, timestamp, clientId, studioId) {
         }
     }
 
     [MessageType(description: "收到了BlockWAU Mq消息后")]
-    public class BlockWAUMqEvent : OperationMqEvent {
-        public BlockWAUMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId)
-            : base(appId, loginName, timestamp, clientId) {
+    public class BlockWAUMqEvent : StudioOPerationMqEvent {
+        public BlockWAUMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId)
+            : base(appId, loginName, timestamp, clientId, studioId) {
         }
     }
 
     [MessageType(description: "收到了SetVirtualMemory Mq消息后")]
-    public class SetVirtualMemoryMqEvent : OperationMqEvent<Dictionary<string, int>> {
-        public SetVirtualMemoryMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Dictionary<string, int> data)
-            : base(appId, loginName, timestamp, clientId, data) {
+    public class SetVirtualMemoryMqEvent : StudioOPerationMqEvent<Dictionary<string, int>> {
+        public SetVirtualMemoryMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId, Dictionary<string, int> data)
+            : base(appId, loginName, timestamp, clientId, studioId, data) {
         }
     }
 
     [MessageType(description: "收到了SetLocalIps Mq消息后")]
-    public class SetLocalIpsMqEvent : OperationMqEvent<List<LocalIpInput>> {
-        public SetLocalIpsMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, List<LocalIpInput> data)
-            : base(appId, loginName, timestamp, clientId, data) {
+    public class SetLocalIpsMqEvent : StudioOPerationMqEvent<List<LocalIpInput>> {
+        public SetLocalIpsMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId, List<LocalIpInput> data)
+            : base(appId, loginName, timestamp, clientId, studioId, data) {
         }
     }
 
     [MessageType(description: "收到了SwitchRadeonGpu Mq消息后")]
-    public class SwitchRadeonGpuMqEvent : OperationMqEvent {
-        public SwitchRadeonGpuMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, bool on)
-            : base(appId, loginName, timestamp, clientId) {
+    public class SwitchRadeonGpuMqEvent : StudioOPerationMqEvent {
+        public SwitchRadeonGpuMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId, bool on)
+            : base(appId, loginName, timestamp, clientId, studioId) {
             this.On = on;
         }
 
@@ -394,9 +425,9 @@ namespace NTMiner.Core {
     }
 
     [MessageType(description: "收到了GetSelfWorkLocalJson Mq消息后")]
-    public class GetSelfWorkLocalJsonMqEvent : OperationMqEvent {
-        public GetSelfWorkLocalJsonMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId)
-            : base(appId, loginName, timestamp, clientId) {
+    public class GetSelfWorkLocalJsonMqEvent : StudioOPerationMqEvent {
+        public GetSelfWorkLocalJsonMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId)
+            : base(appId, loginName, timestamp, clientId, studioId) {
         }
     }
 
@@ -408,16 +439,16 @@ namespace NTMiner.Core {
     }
 
     [MessageType(description: "收到了GetGpuProfilesJson Mq消息后")]
-    public class GetGpuProfilesJsonMqEvent : OperationMqEvent {
-        public GetGpuProfilesJsonMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId)
-            : base(appId, loginName, timestamp, clientId) {
+    public class GetGpuProfilesJsonMqEvent : StudioOPerationMqEvent {
+        public GetGpuProfilesJsonMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId)
+            : base(appId, loginName, timestamp, clientId, studioId) {
         }
     }
 
     [MessageType(description: "收到了SaveSelfWorkLocalJson Mq消息后")]
-    public class SaveSelfWorkLocalJsonMqEvent : OperationMqEvent<WorkRequest> {
-        public SaveSelfWorkLocalJsonMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, WorkRequest request)
-            : base(appId, loginName, timestamp, clientId, request) {
+    public class SaveSelfWorkLocalJsonMqEvent : StudioOPerationMqEvent<WorkRequest> {
+        public SaveSelfWorkLocalJsonMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId, WorkRequest request)
+            : base(appId, loginName, timestamp, clientId, studioId, request) {
         }
     }
 
@@ -429,58 +460,58 @@ namespace NTMiner.Core {
     }
 
     [MessageType(description: "收到了SaveGpuProfilesJson Mq消息后")]
-    public class SaveGpuProfilesJsonMqEvent : OperationMqEvent<string> {
-        public SaveGpuProfilesJsonMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, string json)
-            : base(appId, loginName, timestamp, clientId, json) {
+    public class SaveGpuProfilesJsonMqEvent : StudioOPerationMqEvent<string> {
+        public SaveGpuProfilesJsonMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId, string json)
+            : base(appId, loginName, timestamp, clientId, studioId, json) {
         }
     }
 
     [MessageType(description: "收到了SetAutoBootStart Mq消息后")]
-    public class SetAutoBootStartMqEvent : OperationMqEvent<SetAutoBootStartRequest> {
-        public SetAutoBootStartMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, SetAutoBootStartRequest body)
-            : base(appId, loginName, timestamp, clientId, body) {
+    public class SetAutoBootStartMqEvent : StudioOPerationMqEvent<SetAutoBootStartRequest> {
+        public SetAutoBootStartMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId, SetAutoBootStartRequest body)
+            : base(appId, loginName, timestamp, clientId, studioId, body) {
         }
     }
 
     [MessageType(description: "收到了RestartWindows Mq消息后")]
-    public class RestartWindowsMqEvent : OperationMqEvent {
-        public RestartWindowsMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId)
-            : base(appId, loginName, timestamp, clientId) {
+    public class RestartWindowsMqEvent : StudioOPerationMqEvent {
+        public RestartWindowsMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId)
+            : base(appId, loginName, timestamp, clientId, studioId) {
         }
     }
 
     [MessageType(description: "收到了ShutdownWindows Mq消息后")]
-    public class ShutdownWindowsMqEvent : OperationMqEvent {
-        public ShutdownWindowsMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId)
-            : base(appId, loginName, timestamp, clientId) {
+    public class ShutdownWindowsMqEvent : StudioOPerationMqEvent {
+        public ShutdownWindowsMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId)
+            : base(appId, loginName, timestamp, clientId, studioId) {
         }
     }
 
     [MessageType(description: "收到了UpgradeNTMiner Mq消息后")]
-    public class UpgradeNTMinerMqEvent : OperationMqEvent<string> {
-        public UpgradeNTMinerMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, string ntminerFileName)
-            : base(appId, loginName, timestamp, clientId, ntminerFileName) {
+    public class UpgradeNTMinerMqEvent : StudioOPerationMqEvent<string> {
+        public UpgradeNTMinerMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId, string ntminerFileName)
+            : base(appId, loginName, timestamp, clientId, studioId, ntminerFileName) {
         }
     }
 
     [MessageType(description: "收到了StartMine Mq消息后")]
-    public class StartMineMqEvent : OperationMqEvent<Guid> {
-        public StartMineMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid workId)
-            : base(appId, loginName, timestamp, clientId, workId) {
+    public class StartMineMqEvent : StudioOPerationMqEvent<Guid> {
+        public StartMineMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId, Guid workId)
+            : base(appId, loginName, timestamp, clientId, studioId, workId) {
         }
     }
 
     [MessageType(description: "收到了StartWorkMine Mq消息后")]
-    public class StartWorkMineMqEvent : OperationMqEvent<WorkRequest> {
-        public StartWorkMineMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, WorkRequest workRequest)
-            : base(appId, loginName, timestamp, clientId, workRequest) {
+    public class StartWorkMineMqEvent : StudioOPerationMqEvent<WorkRequest> {
+        public StartWorkMineMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId, WorkRequest workRequest)
+            : base(appId, loginName, timestamp, clientId, studioId, workRequest) {
         }
     }
 
     [MessageType(description: "收到了StopMine Mq消息后")]
-    public class StopMineMqEvent : OperationMqEvent {
-        public StopMineMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId)
-            : base(appId, loginName, timestamp, clientId) {
+    public class StopMineMqEvent : StudioOPerationMqEvent {
+        public StopMineMqEvent(string appId, string loginName, DateTime timestamp, Guid clientId, Guid studioId)
+            : base(appId, loginName, timestamp, clientId, studioId) {
         }
     }
 

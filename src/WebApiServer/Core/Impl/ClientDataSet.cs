@@ -179,8 +179,11 @@ namespace NTMiner.Core.Impl {
                 }
             }, this.GetType());
             VirtualRoot.BuildCmdPath<QueryClientsForWsMqCommand>(path: message => {
+                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
+                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(QueryClientsForWsMqCommand)}");
+                }
                 QueryClientsResponse response = AppRoot.QueryClientsForWs(message.Query);
-                _mqSender.SendResponseClientsForWs(message.AppId, message.LoginName, message.SessionId, message.MqMessageId, response);
+                _mqSender.SendResponseClientsForWs(message.AppId, message.LoginName, message.StudioId, message.SessionId, message.MqMessageId, response);
             }, this.GetType(), LogEnum.None);
         }
 

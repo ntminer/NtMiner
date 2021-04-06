@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="ControllerUtil.cs" />
     <Compile Include="IActionCountController.cs" />
+    <Compile Include="IAdminController.cs" />
     <Compile Include="ICalcConfigBinaryController`1.cs" />
     <Compile Include="ICaptchaController`1.cs" />
     <Compile Include="IClientDataBinaryController`1.cs" />

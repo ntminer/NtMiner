@@ -12,6 +12,7 @@ namespace NTMiner {
 
         public const string ClientIdHeaderName = "clientId";
         public const string LoginNameHeaderName = "loginName";
+        public const string StudioIdHeaderName = "studioId";
         public const string SessionIdHeaderName = "sessionId";
         public const string MinerIpHeaderName = "minerIp";
 
@@ -41,5 +42,7 @@ namespace NTMiner {
 
         public const string StartMineRoutingKey = WsMessage.StartMine;
         public const string StartWorkMineRoutingKey = WsMessage.StartWorkMine;
+
+        public const string RefreshMinerTestIdRoutingKey = "RefreshMinerTestId";
     }
 }

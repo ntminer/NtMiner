@@ -11,10 +11,13 @@ namespace NTMiner {
         static WsMessageFromMinerStudioHandler() {
         }
 
-        private static readonly Dictionary<string, Action<IMinerStudioSession, WsMessage>>
-            _handlers = new Dictionary<string, Action<IMinerStudioSession, WsMessage>>(StringComparer.OrdinalIgnoreCase) {
-                [WsMessage.GetConsoleOutLines] = (session, message) => {
+        private static readonly Dictionary<string, Action<IMinerStudioSession, Guid, WsMessage>>
+            _handlers = new Dictionary<string, Action<IMinerStudioSession, Guid, WsMessage>>(StringComparer.OrdinalIgnoreCase) {
+                [WsMessage.GetConsoleOutLines] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.GetConsoleOutLines)}");
+                        }
                         MqBufferRoot.GetConsoleOutLines(new AfterTimeRequest {
                             AfterTime = afterTime,
                             ClientId = wrapperClientIdData.ClientId,
@@ -22,13 +25,19 @@ namespace NTMiner {
                         });
                     }
                 },
-                [WsMessage.FastGetConsoleOutLines] = (session, message) => {
+                [WsMessage.FastGetConsoleOutLines] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
-                        AppRoot.OperationMqSender.SendFastGetConsoleOutLines(session.LoginName, wrapperClientIdData.ClientId, afterTime);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.FastGetConsoleOutLines)}");
+                        }
+                        AppRoot.OperationMqSender.SendFastGetConsoleOutLines(session.LoginName, wrapperClientIdData.ClientId, studioId, afterTime);
                     }
                 },
-                [WsMessage.GetLocalMessages] = (session, message) => {
+                [WsMessage.GetLocalMessages] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.GetLocalMessages)}");
+                        }
                         MqBufferRoot.GetLocalMessages(new AfterTimeRequest {
                             AfterTime = afterTime,
                             ClientId = wrapperClientIdData.ClientId,
@@ -36,13 +45,19 @@ namespace NTMiner {
                         });
                     }
                 },
-                [WsMessage.FastGetLocalMessages] = (session, message) => {
+                [WsMessage.FastGetLocalMessages] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
-                        AppRoot.OperationMqSender.SendFastGetLocalMessages(session.LoginName, wrapperClientIdData.ClientId, afterTime);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.FastGetLocalMessages)}");
+                        }
+                        AppRoot.OperationMqSender.SendFastGetLocalMessages(session.LoginName, wrapperClientIdData.ClientId, studioId, afterTime);
                     }
                 },
-                [WsMessage.GetOperationResults] = (session, message) => {
+                [WsMessage.GetOperationResults] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.GetOperationResults)}");
+                        }
                         MqBufferRoot.GetOperationResults(new AfterTimeRequest {
                             AfterTime = afterTime,
                             ClientId = wrapperClientIdData.ClientId,
@@ -50,112 +65,173 @@ namespace NTMiner {
                         });
                     }
                 },
-                [WsMessage.FastGetOperationResults] = (session, message) => {
+                [WsMessage.FastGetOperationResults] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out long afterTime)) {
-                        AppRoot.OperationMqSender.SendFastGetOperationResults(session.LoginName, wrapperClientIdData.ClientId, afterTime);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.FastGetOperationResults)}");
+                        }
+                        AppRoot.OperationMqSender.SendFastGetOperationResults(session.LoginName, wrapperClientIdData.ClientId, studioId, afterTime);
                     }
                 },
-                [WsMessage.GetDrives] = (session, message) => {
+                [WsMessage.GetDrives] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientId wrapperClientId)) {
-                        AppRoot.OperationMqSender.SendGetDrives(session.LoginName, wrapperClientId.ClientId);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.GetDrives)}");
+                        }
+                        AppRoot.OperationMqSender.SendGetDrives(session.LoginName, wrapperClientId.ClientId, studioId);
                     }
                 },
-                [WsMessage.GetLocalIps] = (session, message) => {
+                [WsMessage.GetLocalIps] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientId wrapperClientId)) {
-                        AppRoot.OperationMqSender.SendGetLocalIps(session.LoginName, wrapperClientId.ClientId);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.GetLocalIps)}");
+                        }
+                        AppRoot.OperationMqSender.SendGetLocalIps(session.LoginName, wrapperClientId.ClientId, studioId);
                     }
                 },
-                [WsMessage.GetSpeed] = (session, message) => {
+                [WsMessage.GetSpeed] = (session, studioId, message) => {
                     if (message.TryGetData(out List<Guid> clientIds)) {
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.GetSpeed)}");
+                        }
                         MqBufferRoot.UserGetSpeed(new UserGetSpeedRequest {
+                            StudioId = studioId,
                             LoginName = session.LoginName,
                             ClientIds = clientIds
                         });
                     }
                 },
-                [WsMessage.EnableRemoteDesktop] = (session, message) => {
+                [WsMessage.EnableRemoteDesktop] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientId wrapperClientId)) {
-                        AppRoot.OperationMqSender.SendEnableRemoteDesktop(session.LoginName, wrapperClientId.ClientId);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.EnableRemoteDesktop)}");
+                        }
+                        AppRoot.OperationMqSender.SendEnableRemoteDesktop(session.LoginName, wrapperClientId.ClientId, studioId);
                     }
                 },
-                [WsMessage.BlockWAU] = (session, message) => {
+                [WsMessage.BlockWAU] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientId wrapperClientId)) {
-                        AppRoot.OperationMqSender.SendBlockWAU(session.LoginName, wrapperClientId.ClientId);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.BlockWAU)}");
+                        }
+                        AppRoot.OperationMqSender.SendBlockWAU(session.LoginName, wrapperClientId.ClientId, studioId);
                     }
                 },
-                [WsMessage.SetVirtualMemory] = (session, message) => {
+                [WsMessage.SetVirtualMemory] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out Dictionary<string, int> data)) {
-                        AppRoot.OperationMqSender.SendSetVirtualMemory(session.LoginName, wrapperClientIdData.ClientId, data);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.SetVirtualMemory)}");
+                        }
+                        AppRoot.OperationMqSender.SendSetVirtualMemory(session.LoginName, wrapperClientIdData.ClientId, studioId, data);
                     }
                 },
-                [WsMessage.SetLocalIps] = (session, message) => {
+                [WsMessage.SetLocalIps] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out List<LocalIpInput> data)) {
-                        AppRoot.OperationMqSender.SendSetLocalIps(session.LoginName, wrapperClientIdData.ClientId, data);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.SetLocalIps)}");
+                        }
+                        AppRoot.OperationMqSender.SendSetLocalIps(session.LoginName, wrapperClientIdData.ClientId, studioId, data);
                     }
                 },
-                [WsMessage.SwitchRadeonGpu] = (session, message) => {
+                [WsMessage.SwitchRadeonGpu] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out bool on)) {
-                        AppRoot.OperationMqSender.SendSwitchRadeonGpu(session.LoginName, wrapperClientIdData.ClientId, on);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.SwitchRadeonGpu)}");
+                        }
+                        AppRoot.OperationMqSender.SendSwitchRadeonGpu(session.LoginName, wrapperClientIdData.ClientId, studioId, on);
                     }
                 },
-                [WsMessage.GetSelfWorkLocalJson] = (session, message) => {
+                [WsMessage.GetSelfWorkLocalJson] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientId wrapperClientId)) {
-                        AppRoot.OperationMqSender.SendGetSelfWorkLocalJson(session.LoginName, wrapperClientId.ClientId);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.GetSelfWorkLocalJson)}");
+                        }
+                        AppRoot.OperationMqSender.SendGetSelfWorkLocalJson(session.LoginName, wrapperClientId.ClientId, studioId);
                     }
                 },
-                [WsMessage.SaveSelfWorkLocalJson] = (session, message) => {
+                [WsMessage.SaveSelfWorkLocalJson] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientData) && wrapperClientData.TryGetData(out WorkRequest workRequest)) {
-                        AppRoot.OperationMqSender.SendSaveSelfWorkLocalJson(session.LoginName, wrapperClientData.ClientId, workRequest);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.SaveSelfWorkLocalJson)}");
+                        }
+                        AppRoot.OperationMqSender.SendSaveSelfWorkLocalJson(session.LoginName, wrapperClientData.ClientId, studioId, workRequest);
                     }
                 },
-                [WsMessage.GetGpuProfilesJson] = (session, message) => {
+                [WsMessage.GetGpuProfilesJson] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientId wrapperClientId)) {
-                        AppRoot.OperationMqSender.SendGetGpuProfilesJson(session.LoginName, wrapperClientId.ClientId);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.GetGpuProfilesJson)}");
+                        }
+                        AppRoot.OperationMqSender.SendGetGpuProfilesJson(session.LoginName, wrapperClientId.ClientId, studioId);
                     }
                 },
-                [WsMessage.SaveGpuProfilesJson] = (session, message) => {
+                [WsMessage.SaveGpuProfilesJson] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientData) && wrapperClientData.TryGetData(out string json)) {
-                        AppRoot.OperationMqSender.SendSaveGpuProfilesJson(session.LoginName, wrapperClientData.ClientId, json);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.SaveGpuProfilesJson)}");
+                        }
+                        AppRoot.OperationMqSender.SendSaveGpuProfilesJson(session.LoginName, wrapperClientData.ClientId, studioId, json);
                     }
                 },
-                [WsMessage.SetAutoBootStart] = (session, message) => {
+                [WsMessage.SetAutoBootStart] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientData) && wrapperClientData.TryGetData(out SetAutoBootStartRequest body)) {
-                        AppRoot.OperationMqSender.SendSetAutoBootStart(session.LoginName, wrapperClientData.ClientId, body);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.SetAutoBootStart)}");
+                        }
+                        AppRoot.OperationMqSender.SendSetAutoBootStart(session.LoginName, wrapperClientData.ClientId, studioId, body);
                     }
                 },
-                [WsMessage.RestartWindows] = (session, message) => {
+                [WsMessage.RestartWindows] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientId wrapperClientId)) {
-                        AppRoot.OperationMqSender.SendRestartWindows(session.LoginName, wrapperClientId.ClientId);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.RestartWindows)}");
+                        }
+                        AppRoot.OperationMqSender.SendRestartWindows(session.LoginName, wrapperClientId.ClientId, studioId);
                     }
                 },
-                [WsMessage.ShutdownWindows] = (session, message) => {
+                [WsMessage.ShutdownWindows] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientId wrapperClientId)) {
-                        AppRoot.OperationMqSender.SendShutdownWindows(session.LoginName, wrapperClientId.ClientId);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.ShutdownWindows)}");
+                        }
+                        AppRoot.OperationMqSender.SendShutdownWindows(session.LoginName, wrapperClientId.ClientId, studioId);
                     }
                 },
-                [WsMessage.UpgradeNTMiner] = (session, message) => {
+                [WsMessage.UpgradeNTMiner] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientData) && wrapperClientData.TryGetData(out string ntminerFileName)) {
-                        AppRoot.OperationMqSender.SendUpgradeNTMiner(session.LoginName, wrapperClientData.ClientId, ntminerFileName);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.UpgradeNTMiner)}");
+                        }
+                        AppRoot.OperationMqSender.SendUpgradeNTMiner(session.LoginName, wrapperClientData.ClientId, studioId, ntminerFileName);
                     }
                 },
-                [WsMessage.StartMine] = (session, message) => {
+                [WsMessage.StartMine] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientData) && wrapperClientData.TryGetData(out Guid workId)) {
-                        AppRoot.OperationMqSender.SendStartMine(session.LoginName, wrapperClientData.ClientId, workId);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.StartMine)}");
+                        }
+                        AppRoot.OperationMqSender.SendStartMine(session.LoginName, wrapperClientData.ClientId, studioId, workId);
                     }
                 },
-                [WsMessage.StopMine] = (session, message) => {
+                [WsMessage.StopMine] = (session, studioId, message) => {
                     if (message.TryGetData(out WrapperClientId wrapperClientId)) {
-                        AppRoot.OperationMqSender.SendStopMine(session.LoginName, wrapperClientId.ClientId);
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.StopMine)}");
+                        }
+                        AppRoot.OperationMqSender.SendStopMine(session.LoginName, wrapperClientId.ClientId, studioId);
                     }
                 },
-                [WsMessage.QueryClientDatas] = (session, message) => {
+                [WsMessage.QueryClientDatas] = (session, studioId, message) => {
                     if (message.TryGetData(out QueryClientsRequest query)) {
-                        AppRoot.MinerClientMqSender.SendQueryClientsForWs(session.WsSessionId, QueryClientsForWsRequest.Create(query, session.LoginName));
+                        if (ServerRoot.IsStudioClientTestId(studioId)) {
+                            Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {nameof(WsMessage)}.{nameof(WsMessage.QueryClientDatas)}");
+                        }
+                        AppRoot.MinerClientMqSender.SendQueryClientsForWs(studioId, session.WsSessionId, QueryClientsForWsRequest.Create(query, session.LoginName));
                     }
                 }
             };
 
-        public static bool TryGetHandler(string wsMessageType, out Action<IMinerStudioSession, WsMessage> handler) {
+        public static bool TryGetHandler(string wsMessageType, out Action<IMinerStudioSession, Guid, WsMessage> handler) {
             return _handlers.TryGetValue(wsMessageType, out handler);
         }
     }

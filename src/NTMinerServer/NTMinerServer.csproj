@@ -44,11 +44,14 @@
     <Reference Include="System.IO.Compression" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\IHostConfig.cs" />
+    <Compile Include="Core\Impl\HostConfigData.cs" />
     <Compile Include="Core\Impl\WsServerNodeAddressSetBase.cs" />
     <Compile Include="Core\IWsServerNodeAddressSet.cs" />
     <Compile Include="Core\Mq\ClientIdIp.cs" />
     <Compile Include="Core\Mq\MqCountMqBodyUtil.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\BasicDeliverEventArgsExtensions.cs" />
+    <Compile Include="Core\Mq\MqMessagePaths\ClientTestIdMqMessagePath.cs" />
     <Compile Include="Core\Mq\Senders\Impl\MqCountSender.cs" />
     <Compile Include="Core\Mq\Senders\IMqCountSender.cs" />
     <Compile Include="Core\Mq\Senders\IMqSender.cs" />
@@ -58,14 +61,16 @@
     <Compile Include="Core\Mq\MqMessagePaths\AbstractMqMessagePath`3.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\AbstractMqMessagePath`2.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\ReadOnlyUserMqMessagePath.cs" />
+    <Compile Include="Core\Redis\IClientTestIdDataRedis.cs" />
     <Compile Include="Core\Redis\IMinerDataRedis.cs" />
+    <Compile Include="Core\Redis\Impl\ClientTestIdDataRedis.cs" />
     <Compile Include="Core\Redis\Impl\MinerDataRedis.cs" />
     <Compile Include="Core\Redis\Impl\ReadOnlyWsServerNodeRedis.cs" />
     <Compile Include="Core\Redis\Impl\SpeedDataRedis.cs" />
     <Compile Include="Core\Redis\IReadOnlyWsServerNodeRedis.cs" />
     <Compile Include="Core\Redis\ISpeedDataRedis.cs" />
-    <Compile Include="IMq.cs" />
-    <Compile Include="IRedis.cs" />
+    <Compile Include="Core\IMq.cs" />
+    <Compile Include="Core\IRedis.cs" />
     <Compile Include="MqCountRoot.cs" />
     <Compile Include="RedisKeyword.cs" />
     <Compile Include="ServerAppType.cs" />
@@ -80,13 +85,14 @@
     <Compile Include="Core\Redis\Impl\ReadOnlyMinerDataRedis.cs" />
     <Compile Include="Core\Redis\IReadOnlyMinerDataRedis.cs" />
     <Compile Include="Core\Redis\Impl\ReadOnlyUserDataRedis.cs" />
-    <Compile Include="IMqRedis.cs" />
+    <Compile Include="Core\IMqRedis.cs" />
     <Compile Include="MqKeyword.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\IMqMessagePath.cs" />
     <Compile Include="Core\Messages.cs" />
     <Compile Include="Core\Redis\IReadOnlyUserDataRedis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MqRedis.cs" />
+    <Compile Include="ServerRoot.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMinerDataSchemas\NTMinerDataSchemas.csproj">

@@ -24,13 +24,13 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetAfterTimeRequestMqSendBody(requests));
         }
 
-        public void SendFastGetConsoleOutLines(string loginName, Guid clientId, long afterTime) {
+        public void SendFastGetConsoleOutLines(string loginName, Guid clientId, Guid studioId, long afterTime) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.FastGetConsoleOutLinesRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: OperationMqBodyUtil.GetFastGetConsoleOutLinesMqSendBody(afterTime));
         }
 
@@ -64,13 +64,13 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetAfterTimeRequestMqSendBody(requests));
         }
 
-        public void SendFastGetLocalMessages(string loginName, Guid clientId, long afterTime) {
+        public void SendFastGetLocalMessages(string loginName, Guid clientId, Guid studioId, long afterTime) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.FastGetLocalMessagesRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: OperationMqBodyUtil.GetFastGetLocalMessagesMqSendBody(afterTime));
         }
 
@@ -104,13 +104,13 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetAfterTimeRequestMqSendBody(requests));
         }
 
-        public void SendFastGetOperationResults(string loginName, Guid clientId, long afterTime) {
+        public void SendFastGetOperationResults(string loginName, Guid clientId, Guid studioId, long afterTime) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.FastGetOperationResultsRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: OperationMqBodyUtil.GetFastGetOperationResultsMqSendBody(afterTime));
         }
 
@@ -134,13 +134,13 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetOperationResultsesMqSendBody(datas));
         }
 
-        public void SendGetDrives(string loginName, Guid clientId) {
+        public void SendGetDrives(string loginName, Guid clientId, Guid studioId) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.GetDrivesRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: _emptyBody);
         }
 
@@ -154,13 +154,13 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetDrivesMqSendBody(datas));
         }
 
-        public void SendGetLocalIps(string loginName, Guid clientId) {
+        public void SendGetLocalIps(string loginName, Guid clientId, Guid studioId) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.GetLocalIpsRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: _emptyBody);
         }
 
@@ -194,83 +194,83 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetGetSpeedMqSendBody(requests));
         }
 
-        public void SendEnableRemoteDesktop(string loginName, Guid clientId) {
+        public void SendEnableRemoteDesktop(string loginName, Guid clientId, Guid studioId) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.EnableRemoteDesktopRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: _emptyBody);
         }
 
-        public void SendBlockWAU(string loginName, Guid clientId) {
+        public void SendBlockWAU(string loginName, Guid clientId, Guid studioId) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.BlockWAURoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: _emptyBody);
         }
 
-        public void SendSwitchRadeonGpu(string loginName, Guid clientId, bool on) {
+        public void SendSwitchRadeonGpu(string loginName, Guid clientId, Guid studioId, bool on) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.SwitchRadeonGpuRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: OperationMqBodyUtil.GetSwitchRadeonGpuMqSendBody(on));
         }
 
-        public void SendSetVirtualMemory(string loginName, Guid clientId, Dictionary<string, int> datas) {
+        public void SendSetVirtualMemory(string loginName, Guid clientId, Guid studioId, Dictionary<string, int> datas) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.SetVirtualMemoryRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: OperationMqBodyUtil.GetSetVirtualMemoryMqSendBody(datas));
         }
 
-        public void SendSetLocalIps(string loginName, Guid clientId, List<LocalIpInput> datas) {
+        public void SendSetLocalIps(string loginName, Guid clientId, Guid studioId, List<LocalIpInput> datas) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.SetLocalIpsRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: OperationMqBodyUtil.GetSetLocalIpsMqSendBody(datas));
         }
 
-        public void SendGetSelfWorkLocalJson(string loginName, Guid clientId) {
+        public void SendGetSelfWorkLocalJson(string loginName, Guid clientId, Guid studioId) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.GetSelfWorkLocalJsonRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: _emptyBody);
         }
 
-        public void SendSaveSelfWorkLocalJson(string loginName, Guid clientId, WorkRequest request) {
+        public void SendSaveSelfWorkLocalJson(string loginName, Guid clientId, Guid studioId, WorkRequest request) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || request == null) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.SaveSelfWorkLocalJsonRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: OperationMqBodyUtil.GetSaveSelfWorkLocalJsonMqSendBody(request));
         }
 
-        public void SendGetGpuProfilesJson(string loginName, Guid clientId) {
+        public void SendGetGpuProfilesJson(string loginName, Guid clientId, Guid studioId) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.GetGpuProfilesJsonRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: _emptyBody);
         }
 
@@ -294,73 +294,73 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetGpuProfilesJsonMqSendBody(json));
         }
 
-        public void SendSaveGpuProfilesJson(string loginName, Guid clientId, string json) {
+        public void SendSaveGpuProfilesJson(string loginName, Guid clientId, Guid studioId, string json) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || string.IsNullOrEmpty(json)) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.SaveGpuProfilesJsonRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: OperationMqBodyUtil.GetSaveGpuProfilesJsonMqSendBody(json));
         }
 
-        public void SendSetAutoBootStart(string loginName, Guid clientId, SetAutoBootStartRequest body) {
+        public void SendSetAutoBootStart(string loginName, Guid clientId, Guid studioId, SetAutoBootStartRequest body) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.SetAutoBootStartRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: OperationMqBodyUtil.GetSetAutoBootStartMqSendBody(body));
         }
 
-        public void SendRestartWindows(string loginName, Guid clientId) {
+        public void SendRestartWindows(string loginName, Guid clientId, Guid studioId) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.RestartWindowsRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: _emptyBody);
         }
 
-        public void SendShutdownWindows(string loginName, Guid clientId) {
+        public void SendShutdownWindows(string loginName, Guid clientId, Guid studioId) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.ShutdownWindowsRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: _emptyBody);
         }
 
-        public void SendUpgradeNTMiner(string loginName, Guid clientId, string ntminerFileName) {
+        public void SendUpgradeNTMiner(string loginName, Guid clientId, Guid studioId, string ntminerFileName) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || string.IsNullOrEmpty(ntminerFileName)) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.UpgradeNTMinerRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: OperationMqBodyUtil.GetUpgradeNTMinerMqSendBody(ntminerFileName));
         }
 
-        public void SendStartMine(string loginName, Guid clientId, Guid workId) {
+        public void SendStartMine(string loginName, Guid clientId, Guid studioId, Guid workId) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: MqKeyword.StartMineRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: OperationMqBodyUtil.GetStartMineMqSendBody(workId));
         }
 
-        public void SendStopMine(string loginName, Guid clientId) {
+        public void SendStopMine(string loginName, Guid clientId, Guid studioId) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mq.BasicPublish(
                 routingKey: WsMqKeyword.StopMineRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
+                basicProperties: CreateBasicProperties(loginName, clientId, studioId),
                 body: _emptyBody);
         }
 
@@ -370,6 +370,19 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             basicProperties.Expiration = MqKeyword.Expiration36sec;
             basicProperties.Headers = new Dictionary<string, object> {
                 [MqKeyword.LoginNameHeaderName] = loginName,
+                [MqKeyword.ClientIdHeaderName] = clientId.ToString()
+            };
+
+            return basicProperties;
+        }
+
+        private IBasicProperties CreateBasicProperties(string loginName, Guid clientId, Guid studioId) {
+            var basicProperties = _mq.CreateBasicProperties();
+            basicProperties.Persistent = false;
+            basicProperties.Expiration = MqKeyword.Expiration36sec;
+            basicProperties.Headers = new Dictionary<string, object> {
+                [MqKeyword.LoginNameHeaderName] = loginName,
+                [MqKeyword.StudioIdHeaderName] = studioId.ToString(),
                 [MqKeyword.ClientIdHeaderName] = clientId.ToString()
             };
 

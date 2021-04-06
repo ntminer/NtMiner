@@ -8,6 +8,7 @@ namespace NTMiner.Core.Mq.Senders {
         void SendResponseClientsForWs(
             string wsServerIp, 
             string loginName, 
+            Guid studioId,
             string sessionId, 
             string mqCorrelationId, 
             QueryClientsResponse response);

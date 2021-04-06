@@ -39,8 +39,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\ICaptchaSet.cs" />
-    <Compile Include="Core\IHostConfig.cs" />
-    <Compile Include="Core\Impl\HostConfigData.cs" />
     <Compile Include="Core\IUserAppSettingSet.cs" />
     <Compile Include="Core\IUserMinerGroupSet.cs" />
     <Compile Include="Core\IUserMineWorkSet.cs" />
@@ -51,7 +49,6 @@
     <Compile Include="Core\IReadonlyUserSet.cs" />
     <Compile Include="MinerSignExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServerRoot.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMinerDataSchemas\NTMinerDataSchemas.csproj">

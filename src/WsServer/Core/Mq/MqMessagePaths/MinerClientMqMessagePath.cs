@@ -22,9 +22,10 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     string mqCorrelationId = ea.BasicProperties.CorrelationId;
                     string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
                     string sessionId = ea.BasicProperties.ReadHeaderString(MqKeyword.SessionIdHeaderName);
+                    ea.BasicProperties.ReadHeaderGuid(MqKeyword.StudioIdHeaderName, out Guid studioId);
                     QueryClientsResponse response = MinerClientMqBodyUtil.GetQueryClientsResponseMqReceiveBody(ea.Body);
                     if (response != null) {
-                        VirtualRoot.RaiseEvent(new QueryClientsForWsResponseMqEvent(appId, mqCorrelationId, ea.GetTimestamp(), loginName, sessionId, response));
+                        VirtualRoot.RaiseEvent(new QueryClientsForWsResponseMqEvent(appId, mqCorrelationId, ea.GetTimestamp(), loginName, studioId, sessionId, response));
                     }
                 }
             };

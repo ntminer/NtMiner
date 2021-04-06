@@ -8,6 +8,7 @@ namespace NTMiner.Core {
         }
 
         public string LoginName { get; set; }
+        public Guid StudioId { get; set; }
         public List<Guid> ClientIds { get; set; }
     }
 }

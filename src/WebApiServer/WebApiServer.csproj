@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="ActionCountRoot.cs" />
     <Compile Include="Controllers\ActionCountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CalcConfigBinaryController.cs" />
     <Compile Include="Controllers\ClientDataBinaryController.cs" />
     <Compile Include="Controllers\GpuNameController.cs" />
@@ -120,6 +121,8 @@
     <Compile Include="Core\Mq\MqMessagePaths\MqCountMqMessagePath.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\OperationMqMessagePath.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\WsBreathMqMessagePath.cs" />
+    <Compile Include="Core\Mq\Senders\IAdminMqSender.cs" />
+    <Compile Include="Core\Mq\Senders\Impl\AdminMqSender.cs" />
     <Compile Include="Core\Mq\Senders\Impl\OperationMqSender.cs" />
     <Compile Include="Core\Mq\Senders\IOperationMqSender.cs" />
     <Compile Include="Core\Redis\IClientActiveOnRedis.cs" />

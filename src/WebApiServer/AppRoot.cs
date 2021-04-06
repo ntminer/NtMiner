@@ -6,6 +6,7 @@ using NTMiner.Core;
 using NTMiner.Core.Impl;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.Mq.MqMessagePaths;
+using NTMiner.Core.Mq.Senders;
 using NTMiner.Core.Mq.Senders.Impl;
 using NTMiner.Core.Redis;
 using NTMiner.Core.Redis.Impl;
@@ -61,7 +62,8 @@ namespace NTMiner {
                             new MinerClientMqMessagePath(queue),
                             new WsBreathMqMessagePath(wsBreathQueue),
                             new OperationMqMessagePath(queue),
-                            new MqCountMqMessagePath(queue)
+                            new MqCountMqMessagePath(queue),
+                            new ClientTestIdMqMessagePath(queue)
                         };
                         if (!MqRedis.Create(ServerAppType.WebApiServer, mqMessagePaths, out IMqRedis mqRedis)) {
                             NTMinerConsole.UserError("启动失败，无法继续，因为服务器上下文创建失败");
@@ -72,6 +74,8 @@ namespace NTMiner {
                         CloudFileUrlGenerater = new AliCloudOSSFileUrlGenerater();
                         IRedis redis = mqRedis;
                         IMq mq = mqRedis;
+                        AdminMqSender = new AdminMqSender(mq);
+                        ClientTestIdDataRedis = new ClientTestIdDataRedis(redis);
                         var minerClientMqSender = new MinerClientMqSender(mq);
                         var userMqSender = new UserMqSender(mq);
 
@@ -168,6 +172,9 @@ namespace NTMiner {
 
         static AppRoot() {
         }
+
+        public static IAdminMqSender AdminMqSender { get; private set; }
+        public static IClientTestIdDataRedis ClientTestIdDataRedis { get; private set; }
 
         public static ICloudFileUrlGenerater CloudFileUrlGenerater { get; private set; }
 

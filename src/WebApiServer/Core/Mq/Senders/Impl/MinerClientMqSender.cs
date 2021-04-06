@@ -35,13 +35,14 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         public void SendResponseClientsForWs(
             string wsServerIp, 
             string loginName, 
+            Guid studioId,
             string sessionId, 
             string mqCorrelationId, 
             QueryClientsResponse response) {
             if (response == null) {
                 return;
             }
-            var basicProperties = CreateWsBasicProperties(loginName, sessionId);
+            var basicProperties = CreateWsBasicProperties(loginName, studioId, sessionId);
             if (!string.IsNullOrEmpty(mqCorrelationId)) {
                 basicProperties.CorrelationId = mqCorrelationId;
             }
@@ -51,12 +52,13 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: MinerClientMqBodyUtil.GetQueryClientsResponseMqSendBody(response));
         }
 
-        private IBasicProperties CreateWsBasicProperties(string loginName, string sessionId) {
+        private IBasicProperties CreateWsBasicProperties(string loginName, Guid studioId, string sessionId) {
             var basicProperties = _mq.CreateBasicProperties();
             basicProperties.Persistent = false;// 非持久化的
             basicProperties.Expiration = MqKeyword.Expiration36sec;
             basicProperties.Headers = new Dictionary<string, object> {
                 [MqKeyword.LoginNameHeaderName] = loginName,
+                [MqKeyword.StudioIdHeaderName] = studioId.ToString(),
                 [MqKeyword.SessionIdHeaderName] = sessionId
             };
 

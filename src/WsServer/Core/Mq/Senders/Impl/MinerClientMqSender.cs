@@ -54,11 +54,14 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: MinerClientMqBodyUtil.GetMinerSignsMqSendBody(minerSigns));
         }
 
-        public void SendQueryClientsForWs(string sessionId, QueryClientsForWsRequest request) {
+        public void SendQueryClientsForWs(
+            Guid studioId, 
+            string sessionId, 
+            QueryClientsForWsRequest request) {
             if (string.IsNullOrEmpty(sessionId) || request == null || string.IsNullOrEmpty(request.LoginName)) {
                 return;
             }
-            var basicProperties = CreateNonePersistentWsBasicProperties(request.LoginName, sessionId);
+            var basicProperties = CreateNonePersistentWsBasicProperties(request.LoginName, studioId, sessionId);
             _mq.BasicPublish(
                 routingKey: MqKeyword.QueryClientsForWsRoutingKey,
                 basicProperties: basicProperties,
@@ -73,12 +76,13 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             return basicProperties;
         }
 
-        private IBasicProperties CreateNonePersistentWsBasicProperties(string loginName, string sessionId) {
+        private IBasicProperties CreateNonePersistentWsBasicProperties(string loginName, Guid studioId, string sessionId) {
             var basicProperties = _mq.CreateBasicProperties();
             basicProperties.Persistent = false;// 非持久化的
             basicProperties.Expiration = MqKeyword.Expiration36sec;
             basicProperties.Headers = new Dictionary<string, object> {
                 [MqKeyword.LoginNameHeaderName] = loginName,
+                [MqKeyword.StudioIdHeaderName] = studioId.ToString(),
                 [MqKeyword.SessionIdHeaderName] = sessionId
             };
 

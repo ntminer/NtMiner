@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace NTMiner.Core.Impl {
     public abstract class AbstractSessionSet<TSession> : ISessionSet<TSession> where TSession : ISession {
-        protected static bool IsValid(Guid clientId, DateTime timestamp, string loginName) {
+        protected static bool IsOwnerBy(Guid clientId, string loginName, DateTime timestamp) {
             if (clientId == Guid.Empty) {
                 return false;
             }

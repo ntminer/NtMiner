@@ -18,9 +18,10 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                 [MqKeyword.StartMineRoutingKey] = ea => {
                     string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
                     string appId = ea.BasicProperties.AppId;
+                    ea.BasicProperties.ReadHeaderGuid(MqKeyword.StudioIdHeaderName, out Guid studioId);
                     if (ea.BasicProperties.ReadHeaderGuid(MqKeyword.ClientIdHeaderName, out Guid clientId)) {
                         Guid workId = OperationMqBodyUtil.GetStartMineMqReceiveBody(ea.Body);
-                        VirtualRoot.RaiseEvent(new StartMineMqEvent(appId, loginName, ea.GetTimestamp(), clientId, workId));
+                        VirtualRoot.RaiseEvent(new StartMineMqEvent(appId, loginName, ea.GetTimestamp(), clientId, studioId, workId));
                     }
                 }
             };

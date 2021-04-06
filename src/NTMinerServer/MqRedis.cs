@@ -1,6 +1,8 @@
-﻿using NTMiner.Core.Mq.MqMessagePaths;
+﻿using NTMiner.Core;
+using NTMiner.Core.Mq.MqMessagePaths;
 using NTMiner.Core.Mq.Senders;
 using NTMiner.Core.Mq.Senders.Impl;
+using NTMiner.Core.Redis.Impl;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using StackExchange.Redis;
@@ -123,6 +125,16 @@ namespace NTMiner {
             VirtualRoot.BuildEventPath<Per20SecondEvent>("周期将本节点的MqCountData广播到Mq上去", LogEnum.None, message => {
                 this._mqCountSender.SendMqCounts(MqCountRoot.GetMqCount());
             }, typeof(MqCountRoot));
+            VirtualRoot.BuildCmdPath<RefreshMinerTestIdMqCommand>(message => {
+                RefreshClientTestId();
+            }, this.GetType());
+            RefreshClientTestId();
+        }
+
+        private void RefreshClientTestId() {
+            new ClientTestIdDataRedis(this).GetAsync().ContinueWith(t => {
+                ServerRoot.SetClientTestId(t.Result);
+            });
         }
 
         public IDatabase GetDatabase() {
