@@ -168,16 +168,8 @@ namespace NTMiner.Core.Impl {
                         if (_dicByObjectId.TryGetValue(minerSign.Id, out ClientData clientData)) {
                             string oldLoginName = clientData.LoginName;
                             string newLoginName = minerSign.LoginName;
-                            bool isLoginNameChanged = oldLoginName != newLoginName;
                             clientData.Update(minerSign);
-                            if (isLoginNameChanged) {
-                                if (!string.IsNullOrEmpty(oldLoginName) && base.TryGetClientDatas(oldLoginName, out ClientDatas clientDatas)) {
-                                    clientDatas.Remove(clientData);
-                                }
-                                if (!string.IsNullOrEmpty(newLoginName) && base.TryGetClientDatas(newLoginName, out clientDatas)) {
-                                    clientDatas.Add(clientData);
-                                }
-                            }
+                            UpdateClientDatasCache(oldLoginName, newLoginName, clientData);
                         }
                         else {
                             clientData = ClientData.Create(minerSign);
@@ -194,6 +186,18 @@ namespace NTMiner.Core.Impl {
                 QueryClientsResponse response = AppRoot.QueryClientsForWs(message.Query);
                 _mqSender.SendResponseClientsForWs(message.AppId, message.LoginName, message.StudioId, message.SessionId, message.MqMessageId, response);
             }, this.GetType(), LogEnum.None);
+        }
+
+        private void UpdateClientDatasCache(string oldLoginName, string newLoginName, ClientData clientData) {
+            bool isLoginNameChanged = oldLoginName != newLoginName;
+            if (isLoginNameChanged) {
+                if (!string.IsNullOrEmpty(oldLoginName) && base.TryGetClientDatas(oldLoginName, out ClientDatas clientDatas)) {
+                    clientDatas.Remove(clientData);
+                }
+                if (!string.IsNullOrEmpty(newLoginName) && base.TryGetClientDatas(newLoginName, out clientDatas)) {
+                    clientDatas.Add(clientData);
+                }
+            }
         }
 
         private bool IsOldMqMessage(DateTime mqMessageTimestamp) {
@@ -231,6 +235,7 @@ namespace NTMiner.Core.Impl {
             }
             else {
                 bool isLoginNameChanged = false;
+                string oldLoginName = clientData.LoginName;
                 if (speedDto.IsOuterUserEnabled &&
                     !string.IsNullOrEmpty(speedDto.ReportOuterUserId)
                     && (string.IsNullOrEmpty(clientData.LoginName) || clientData.OuterUserId != speedDto.ReportOuterUserId)) {
@@ -238,6 +243,7 @@ namespace NTMiner.Core.Impl {
                     if (userData != null) {
                         isLoginNameChanged = true;
                         clientData.LoginName = userData.LoginName;
+                        UpdateClientDatasCache(oldLoginName, userData.LoginName, clientData);
                     }
                 }
                 clientData.Update(speedDto, minerIp, out bool isMinerDataChanged);
