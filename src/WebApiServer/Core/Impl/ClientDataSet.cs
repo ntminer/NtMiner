@@ -166,7 +166,18 @@ namespace NTMiner.Core.Impl {
                 if (message.Data != null && message.Data.Length != 0) {
                     foreach (var minerSign in message.Data) {
                         if (_dicByObjectId.TryGetValue(minerSign.Id, out ClientData clientData)) {
+                            string oldLoginName = clientData.LoginName;
+                            string newLoginName = minerSign.LoginName;
+                            bool isLoginNameChanged = oldLoginName != newLoginName;
                             clientData.Update(minerSign);
+                            if (isLoginNameChanged) {
+                                if (!string.IsNullOrEmpty(oldLoginName) && base.TryGetClientDatas(oldLoginName, out ClientDatas clientDatas)) {
+                                    clientDatas.Remove(clientData);
+                                }
+                                if (!string.IsNullOrEmpty(newLoginName) && base.TryGetClientDatas(newLoginName, out clientDatas)) {
+                                    clientDatas.Add(clientData);
+                                }
+                            }
                         }
                         else {
                             clientData = ClientData.Create(minerSign);
@@ -272,6 +283,9 @@ namespace NTMiner.Core.Impl {
             }
             if (_dicByClientId.TryAdd(clientData.ClientId, clientData)) {
                 _dicByObjectId.TryAdd(clientData.Id, clientData);
+                if (!string.IsNullOrEmpty(clientData.LoginName) && base.TryGetClientDatas(clientData.LoginName, out ClientDatas clientDatas)) {
+                    clientDatas.Add(clientData);
+                }
             }
         }
 

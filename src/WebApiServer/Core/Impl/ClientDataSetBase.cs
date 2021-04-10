@@ -14,9 +14,43 @@ namespace NTMiner.Core.Impl {
     /// 外网群控运行在服务端，内网群控子类的数据源是litedb，内网群控运行在用户的电脑上。
     /// </summary>
     public abstract class ClientDataSetBase {
+        protected class ClientDatas {
+            private readonly string _loginName;
+            private readonly List<ClientData> _datas;
+            private DateTime _lastAccessOn;
+            public ClientDatas(string loginName, List<ClientData> datas) {
+                this._loginName = loginName;
+                this._datas = datas;
+                this._lastAccessOn = DateTime.Now;
+            }
+
+            public string LoginName {
+                get { return _loginName; }
+            }
+            public DateTime LastAccessOn {
+                get { return _lastAccessOn; }
+            }
+            public ClientData[] Datas {
+                get {
+                    this._lastAccessOn = DateTime.Now;
+                    return _datas.ToArray();
+                }
+            }
+
+            public void Add(ClientData data) {
+                if (!this._datas.Contains(data)) {
+                    this._datas.Add(data);
+                }
+            }
+
+            public void Remove(ClientData data) {
+                this._datas.Remove(data);
+            }
+        }
+
         protected readonly ConcurrentDictionary<string, ClientData> _dicByObjectId = new ConcurrentDictionary<string, ClientData>();
         protected readonly ConcurrentDictionary<Guid, ClientData> _dicByClientId = new ConcurrentDictionary<Guid, ClientData>();
-        // TODO:建立基于LoginName的字典以消减CPU使用率
+        private readonly ConcurrentDictionary<string, ClientDatas> _clientDatasByLoginName = new ConcurrentDictionary<string, ClientDatas>();
         private readonly Queue<long> _queryClientsMilliseconds = new Queue<long>();
 
         public long AverageQueryClientsMilliseconds {
@@ -61,6 +95,19 @@ namespace NTMiner.Core.Impl {
                 NTMinerConsole.UserLine($"矿机集就绪，耗时 {stopwatch.GetElapsedSeconds().ToString("f2")} 秒", isPull ? MessageType.Debug : MessageType.Ok);
                 VirtualRoot.RaiseEvent(new ClientSetInitedEvent());
             });
+            if (!isPull) {
+                VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期清理不活跃的缓存数据", LogEnum.None, message => {
+                    DateTime time = message.BornOn.AddMinutes(-10);
+                    string[] loginNameToRemoves = _clientDatasByLoginName.Where(a => a.Value.LastAccessOn <= time).Select(a => a.Key).ToArray();
+                    foreach (var loginName in loginNameToRemoves) {
+                        _clientDatasByLoginName.TryRemove(loginName, out _);
+                    }
+                }, typeof(ClientDataSetBase));
+            }
+        }
+
+        protected bool TryGetClientDatas(string loginName, out ClientDatas clientDatas) {
+            return _clientDatasByLoginName.TryRemove(loginName, out clientDatas);
         }
 
         /// <summary>
@@ -91,9 +138,26 @@ namespace NTMiner.Core.Impl {
                 return new List<ClientData>();
             }
             List<ClientData> list = new List<ClientData>();
-            var data = _dicByObjectId.Values.ToArray();
+            ClientData[] data = null;
             bool isIntranet = user == null;
-            bool isFilterByUser = !isIntranet && !string.IsNullOrEmpty(user.LoginName) && !user.IsAdmin();
+            if (isIntranet) {
+                data = _dicByObjectId.Values.ToArray();
+            }
+            else if (user.IsAdmin()) {
+                data = _dicByObjectId.Values.ToArray();
+            }
+            else {
+                string loginName = user.LoginName;
+                if (string.IsNullOrEmpty(loginName)) {
+                    total = 0;
+                    return new List<ClientData>();
+                }
+                if (!_clientDatasByLoginName.TryGetValue(loginName, out ClientDatas clientDatas)) {
+                    clientDatas = new ClientDatas(loginName, _dicByObjectId.Values.Where(a => a.LoginName == loginName).ToList());
+                    _clientDatasByLoginName[loginName] = clientDatas;
+                }
+                data = clientDatas.Datas;
+            }
             bool isFilterByGroup = query.GroupId.HasValue && query.GroupId.Value != Guid.Empty;
             bool isFilterByMinerIp = !string.IsNullOrEmpty(query.MinerIp);
             bool isFilterByMinerName = !string.IsNullOrEmpty(query.MinerName);
@@ -109,9 +173,6 @@ namespace NTMiner.Core.Impl {
             for (int i = 0; i < data.Length; i++) {
                 var item = data[i];
                 bool isInclude = true;
-                if (isInclude && isFilterByUser) {
-                    isInclude = user.LoginName.Equals(item.LoginName);
-                }
                 if (isInclude && isFilterByGroup) {
                     isInclude = item.GroupId == query.GroupId.Value;
                 }
@@ -187,8 +248,7 @@ namespace NTMiner.Core.Impl {
             }
             total = list.Count();
             list.Sort(new ClientDataComparer(query.SortDirection, query.SortField));
-            ClientData[] items = (isIntranet || user.IsAdmin()) ? data : data.Where(a => a.LoginName == user.LoginName).ToArray();
-            coinSnapshots = VirtualRoot.CreateCoinSnapshots(_isPull, DateTime.Now, items, out onlineCount, out miningCount).ToArray();
+            coinSnapshots = VirtualRoot.CreateCoinSnapshots(_isPull, DateTime.Now, data, out onlineCount, out miningCount).ToArray();
             var results = list.Take(query).ToList();
             DateTime time = DateTime.Now.AddSeconds(_isPull ? -20 : -180);
             // 一定时间未上报算力视为0算力
@@ -278,6 +338,9 @@ namespace NTMiner.Core.Impl {
             if (_dicByObjectId.TryRemove(objectId, out ClientData clientData) && clientData != null) {
                 _dicByClientId.TryRemove(clientData.ClientId, out _);
                 DoRemoveSave(clientData);
+                foreach (var item in _clientDatasByLoginName) {
+                    item.Value.Remove(clientData);
+                }
             }
         }
 
@@ -296,6 +359,11 @@ namespace NTMiner.Core.Impl {
                 }
             }
             DoRemoveSave(removedMinerDatas.ToArray());
+            foreach (var clientData in removedMinerDatas) {
+                foreach (var item in _clientDatasByLoginName) {
+                    item.Value.Remove(clientData);
+                }
+            }
         }
 
         public bool IsAnyClientInGroup(Guid groupId) {
