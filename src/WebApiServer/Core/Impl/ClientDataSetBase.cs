@@ -16,6 +16,7 @@ namespace NTMiner.Core.Impl {
     public abstract class ClientDataSetBase {
         protected readonly ConcurrentDictionary<string, ClientData> _dicByObjectId = new ConcurrentDictionary<string, ClientData>();
         protected readonly ConcurrentDictionary<Guid, ClientData> _dicByClientId = new ConcurrentDictionary<Guid, ClientData>();
+        // TODO:建立基于LoginName的字典以消减CPU使用率
         private readonly Queue<long> _queryClientsMilliseconds = new Queue<long>();
 
         public long AverageQueryClientsMilliseconds {
@@ -34,8 +35,8 @@ namespace NTMiner.Core.Impl {
             DoUpdateSave(new MinerData[] { minerData });
         }
         protected abstract void DoUpdateSave(IEnumerable<MinerData> minerDatas);
-        protected abstract void DoRemoveSave(MinerData minerData);
-        protected abstract void DoRemoveSave(MinerData[] minerDatas);
+        protected abstract void DoRemoveSave(IMinerData minerData);
+        protected abstract void DoRemoveSave(IEnumerable<IMinerData> minerDatas);
 
         private readonly bool _isPull;
         /// <summary>
@@ -274,10 +275,9 @@ namespace NTMiner.Core.Impl {
             if (objectId == null) {
                 return;
             }
-            _dicByObjectId.TryRemove(objectId, out ClientData clientData);
-            if (clientData != null) {
+            if (_dicByObjectId.TryRemove(objectId, out ClientData clientData) && clientData != null) {
                 _dicByClientId.TryRemove(clientData.ClientId, out _);
-                DoRemoveSave(MinerData.Create(clientData));
+                DoRemoveSave(clientData);
             }
         }
 
@@ -288,14 +288,14 @@ namespace NTMiner.Core.Impl {
             if (objectIds == null || objectIds.Count == 0) {
                 return;
             }
-            List<MinerData> minerDatas = new List<MinerData>();
+            List<ClientData> removedMinerDatas = new List<ClientData>();
             foreach (var objectId in objectIds) {
                 if (_dicByObjectId.TryRemove(objectId, out ClientData clientData)) {
-                    minerDatas.Add(MinerData.Create(clientData));
+                    removedMinerDatas.Add(clientData);
                     _dicByClientId.TryRemove(clientData.ClientId, out _);
                 }
             }
-            DoRemoveSave(minerDatas.ToArray());
+            DoRemoveSave(removedMinerDatas.ToArray());
         }
 
         public bool IsAnyClientInGroup(Guid groupId) {

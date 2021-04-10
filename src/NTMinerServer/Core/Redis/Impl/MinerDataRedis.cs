@@ -1,6 +1,6 @@
 ﻿using NTMiner.Core.MinerServer;
 using StackExchange.Redis;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace NTMiner.Core.Redis.Impl {
@@ -36,7 +36,7 @@ namespace NTMiner.Core.Redis.Impl {
             });
         }
 
-        public Task DeleteAsync(MinerData data) {
+        public Task DeleteAsync(IMinerData data) {
             if (data == null || string.IsNullOrEmpty(data.Id)) {
                 return TaskEx.CompletedTask;
             }
@@ -44,16 +44,16 @@ namespace NTMiner.Core.Redis.Impl {
             return db.HashDeleteAsync(_redisKeyMinerById, data.Id);
         }
 
-        public Task DeleteAsync(MinerData[] datas) {
-            if (datas == null || datas.Length == 0) {
+        public Task DeleteAsync(IEnumerable<IMinerData> datas) {
+            if (datas == null) {
                 return TaskEx.CompletedTask;
             }
             var db = _redis.GetDatabase();
-            RedisValue[] ids = new RedisValue[datas.Length];
-            for (int i = 0; i < datas.Length; i++) {
-                ids[i] = datas[i].Id;
+            List<RedisValue> ids = new List<RedisValue>();
+            foreach (var item in datas) {
+                ids.Add(item.Id);
             }
-            return db.HashDeleteAsync(_redisKeyMinerById, ids);
+            return db.HashDeleteAsync(_redisKeyMinerById, ids.ToArray());
         }
     }
 }

@@ -11,12 +11,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(GetConsoleOutLinesMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(GetConsoleOutLinesMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(GetConsoleOutLinesMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(GetConsoleOutLinesMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.GetConsoleOutLines) {
                     Data = message.Data
                 });
@@ -27,12 +23,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(GetLocalMessagesMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(GetLocalMessagesMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(GetLocalMessagesMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(GetLocalMessagesMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.GetLocalMessages) {
                     Data = message.Data
                 });
@@ -43,12 +35,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(GetOperationResultsMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(GetOperationResultsMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(GetOperationResultsMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(GetOperationResultsMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.GetOperationResults) {
                     Data = message.Data
                 });
@@ -59,12 +47,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(GetDrivesMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(GetDrivesMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(GetDrivesMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(GetDrivesMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.GetDrives));
                 #endregion
             }, this.GetType());
@@ -73,12 +57,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(GetLocalIpsMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(GetLocalIpsMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(GetLocalIpsMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(GetLocalIpsMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.GetLocalIps));
                 #endregion
             }, this.GetType());
@@ -91,16 +71,12 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 foreach (var request in message.Requests) {
-                    if (ServerRoot.IsStudioClientTestId(request.StudioId)) {
-                        Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {request.StudioId.ToString()} {nameof(GetSpeedMqEvent)}");
-                    }
+                    ServerRoot.IfStudioClientTestIdLogElseNothing(request.StudioId, nameof(GetSpeedMqEvent));
                     foreach (var clientId in request.ClientIds.Where(a => TryGetByClientId(a, out _))) {
                         if (!IsOwnerBy(clientId, request.LoginName, message.Timestamp)) {
                             continue;
                         }
-                        if (ServerRoot.IsMinerClientTestId(clientId)) {
-                            Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {clientId.ToString()} {nameof(GetSpeedMqEvent)}");
-                        }
+                        ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, nameof(GetSpeedMqEvent));
                         SendToMinerClientAsync(clientId, new WsMessage(message.MessageId, WsMessage.GetSpeed));
                     }
                 }
@@ -111,12 +87,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(EnableRemoteDesktopMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(EnableRemoteDesktopMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(EnableRemoteDesktopMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(EnableRemoteDesktopMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.EnableRemoteDesktop));
                 #endregion
             }, this.GetType());
@@ -125,12 +97,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(BlockWAUMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(BlockWAUMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(BlockWAUMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(BlockWAUMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.BlockWAU));
                 #endregion
             }, this.GetType());
@@ -139,12 +107,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(SetVirtualMemoryMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(SetVirtualMemoryMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(SetVirtualMemoryMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(SetVirtualMemoryMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.SetVirtualMemory) {
                     Data = message.Data
                 });
@@ -155,12 +119,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(SetLocalIpsMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(SetLocalIpsMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(SetLocalIpsMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(SetLocalIpsMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.SetLocalIps) {
                     Data = message.Data
                 });
@@ -171,12 +131,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(SwitchRadeonGpuMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(SwitchRadeonGpuMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(SwitchRadeonGpuMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(SwitchRadeonGpuMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.SwitchRadeonGpu) {
                     Data = message.On
                 });
@@ -187,12 +143,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(GetSelfWorkLocalJsonMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(GetSelfWorkLocalJsonMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(GetSelfWorkLocalJsonMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(GetSelfWorkLocalJsonMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.GetSelfWorkLocalJson));
                 #endregion
             }, this.GetType());
@@ -201,12 +153,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(SaveSelfWorkLocalJsonMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(SaveSelfWorkLocalJsonMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(SaveSelfWorkLocalJsonMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(SaveSelfWorkLocalJsonMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.SaveSelfWorkLocalJson) {
                     Data = message.Data
                 });
@@ -217,12 +165,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(GetGpuProfilesJsonMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(GetGpuProfilesJsonMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(GetGpuProfilesJsonMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(GetGpuProfilesJsonMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.GetGpuProfilesJson));
                 #endregion
             }, this.GetType());
@@ -231,12 +175,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(SaveGpuProfilesJsonMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(SaveGpuProfilesJsonMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(SaveGpuProfilesJsonMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(SaveGpuProfilesJsonMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.SaveGpuProfilesJson) {
                     Data = message.Data
                 });
@@ -247,12 +187,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(SetAutoBootStartMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(SetAutoBootStartMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(SetAutoBootStartMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(SetAutoBootStartMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.SetAutoBootStart) {
                     Data = message.Data
                 });
@@ -263,12 +199,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(RestartWindowsMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(RestartWindowsMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(RestartWindowsMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(RestartWindowsMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.RestartWindows));
                 #endregion
             }, this.GetType());
@@ -277,12 +209,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(ShutdownWindowsMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(ShutdownWindowsMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(ShutdownWindowsMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(ShutdownWindowsMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.ShutdownWindows));
                 #endregion
             }, this.GetType());
@@ -291,12 +219,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(UpgradeNTMinerMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(UpgradeNTMinerMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(UpgradeNTMinerMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(UpgradeNTMinerMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.UpgradeNTMiner) {
                     Data = message.Data
                 });
@@ -308,12 +232,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(StartMineMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(StartMineMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(StartMineMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(StartMineMqEvent));
                 Guid workId = message.Data;
                 // 只处理非作业的
                 if (workId == Guid.Empty) {
@@ -334,12 +254,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(StartWorkMineMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(StartWorkMineMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(StartWorkMineMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(StartWorkMineMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.StartMine) {
                     Data = message.Data
                 });
@@ -350,12 +266,8 @@ namespace NTMiner.Core.Impl {
                 if (!IsOwnerBy(message.ClientId, message.LoginName, message.Timestamp)) {
                     return;
                 }
-                if (ServerRoot.IsMinerClientTestId(message.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {message.ClientId.ToString()} {nameof(StopMineMqEvent)}");
-                }
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(StopMineMqEvent)}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(message.ClientId, nameof(StopMineMqEvent));
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(StopMineMqEvent));
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.StopMine));
                 #endregion
             }, this.GetType());
@@ -363,9 +275,7 @@ namespace NTMiner.Core.Impl {
 
         public void SendToMinerClientAsync(Guid clientId, WsMessage message) {
             if (TryGetByClientId(clientId, out IMinerClientSession minerClientSession)) {
-                if (ServerRoot.IsMinerClientTestId(minerClientSession.ClientId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {minerClientSession.ClientId.ToString()} {nameof(WsMessage)}.{message.Type}");
-                }
+                ServerRoot.IfMinerClientTestIdLogElseNothing(minerClientSession.ClientId, $"{nameof(WsMessage)}.{message.Type}");
                 string password = minerClientSession.GetSignPassword();
                 minerClientSession.SendAsync(message, password);
             }

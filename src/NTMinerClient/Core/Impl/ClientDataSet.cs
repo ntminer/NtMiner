@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Core.Impl {
     public class ClientDataSet : ClientDataSetBase, IClientDataSet {
-        private DateTime _getSpeedOn = DateTime.MinValue;
         public ClientDataSet() : base(isPull: true, getDatas: callback => {
             Task.Factory.StartNew(() => {
                 using (LiteDatabase db = CreateLocalDb()) {
@@ -31,22 +30,20 @@ namespace NTMiner.Core.Impl {
                 return;
             }
             var clientData = ClientData.Create(minerIp, out MinerData minerData);
-            if (!_dicByObjectId.ContainsKey(clientData.Id)) {
-                _dicByObjectId.TryAdd(clientData.Id, clientData);
-            }
+            _dicByObjectId.TryAdd(clientData.Id, clientData);
             // 因为ClientId是服务端随机生成的，所以需要等待获取挖矿端的ClientId
             DoUpdateSave(minerData);
         }
 
-        protected override void DoRemoveSave(MinerData minerData) {
+        protected override void DoRemoveSave(IMinerData minerData) {
             using (LiteDatabase db = CreateLocalDb()) {
                 var col = db.GetCollection<MinerData>();
                 col.Delete(minerData.Id);
             }
         }
 
-        protected override void DoRemoveSave(MinerData[] minerDatas) {
-            if (minerDatas == null || minerDatas.Length == 0) {
+        protected override void DoRemoveSave(IEnumerable<IMinerData> minerDatas) {
+            if (minerDatas == null) {
                 return;
             }
             using (LiteDatabase db = CreateLocalDb()) {
@@ -120,11 +117,8 @@ namespace NTMiner.Core.Impl {
                             if (_dicByClientId.TryGetValue(clientData.ClientId, out ClientData value)) {
                                 _dicByClientId.TryRemove(clientData.ClientId, out _);
                             }
-                            if (!_dicByClientId.ContainsKey(speedData.ClientId)) {
-                                _dicByClientId.TryAdd(speedData.ClientId, clientData);
-                                if (!_dicByObjectId.ContainsKey(clientData.Id)) {
-                                    _dicByObjectId.TryAdd(clientData.Id, clientData);
-                                }
+                            if (_dicByClientId.TryAdd(speedData.ClientId, clientData)) {
+                                _dicByObjectId.TryAdd(clientData.Id, clientData);
                             }
                         }
                         clientData.NetActiveOn = DateTime.Now;

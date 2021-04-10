@@ -1,19 +1,19 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Management.Automation;
 
 namespace NTMiner.Windows {
     public static class Defender {
-        public static void DisableAntiSpyware(string homePath, string tempPath) {
+        public static void DisableAntiSpyware() {
             try {
-                if (!TryGetIsPathExcluded(homePath))
-                {
-                    AddAntiVirusExclusion(homePath);
-                }
-                if (!TryGetIsPathExcluded(tempPath))
-                {
-                    AddAntiVirusExclusion(tempPath);
+                string[] excludedPaths = new string[] {
+                    HomePath.HomeDirFullName,
+                    TempPath.TempDirFullName
+                };
+                foreach (var path in excludedPaths) {
+                    if (!TryGetIsPathExcluded(path)) {
+                        AddAntiVirusExclusion(path);
+                    }
                 }
                 Logger.OkDebugLine("Windows Defender禁用成功");
             }
@@ -22,27 +22,20 @@ namespace NTMiner.Windows {
             }
         }
 
-        public static void AddAntiVirusExclusion(string path)
-        {
-            using (PowerShell PowerShellInst = PowerShell.Create())
-            {
+        private static void AddAntiVirusExclusion(string path) {
+            using (PowerShell PowerShellInst = PowerShell.Create()) {
                 PowerShellInst.AddScript(@"Add-MpPreference -ExclusionPath '" + path + "'");
                 PowerShellInst.Invoke();
             }
         }
 
-        public static bool TryGetIsPathExcluded(string path)
-        {
-            using (PowerShell PowerShellInst = PowerShell.Create())
-            {
+        private static bool TryGetIsPathExcluded(string path) {
+            using (PowerShell PowerShellInst = PowerShell.Create()) {
                 PowerShellInst.AddScript(@"(Get-MpPreference).ExclusionPath");
                 Collection<PSObject> PSOutput = PowerShellInst.Invoke();
-                foreach (PSObject outputItem in PSOutput)
-                {
-                    if (outputItem != null)
-                    {
-                        if (outputItem.BaseObject.ToString().Trim().Equals(path, StringComparison.OrdinalIgnoreCase))
-                        {
+                foreach (PSObject outputItem in PSOutput) {
+                    if (outputItem != null) {
+                        if (outputItem.BaseObject.ToString().Trim().Equals(path, StringComparison.OrdinalIgnoreCase)) {
                             return true;
                         }
                     }

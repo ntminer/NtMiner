@@ -179,9 +179,7 @@ namespace NTMiner.Core.Impl {
                 }
             }, this.GetType());
             VirtualRoot.BuildCmdPath<QueryClientsForWsMqCommand>(path: message => {
-                if (ServerRoot.IsStudioClientTestId(message.StudioId)) {
-                    Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {message.StudioId.ToString()} {nameof(QueryClientsForWsMqCommand)}");
-                }
+                ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(QueryClientsForWsMqCommand));
                 QueryClientsResponse response = AppRoot.QueryClientsForWs(message.Query);
                 _mqSender.SendResponseClientsForWs(message.AppId, message.LoginName, message.StudioId, message.SessionId, message.MqMessageId, response);
             }, this.GetType(), LogEnum.None);
@@ -272,8 +270,9 @@ namespace NTMiner.Core.Impl {
             if (clientData.ClientId == Guid.Empty) {
                 return;
             }
-            _dicByClientId.TryAdd(clientData.ClientId, clientData);
-            _dicByObjectId.TryAdd(clientData.Id, clientData);
+            if (_dicByClientId.TryAdd(clientData.ClientId, clientData)) {
+                _dicByObjectId.TryAdd(clientData.Id, clientData);
+            }
         }
 
         protected override void DoUpdateSave(IEnumerable<MinerData> minerDatas) {
@@ -285,7 +284,7 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        protected override void DoRemoveSave(MinerData minerData) {
+        protected override void DoRemoveSave(IMinerData minerData) {
             if (!IsReadied) {
                 return;
             }
@@ -296,7 +295,7 @@ namespace NTMiner.Core.Impl {
             _speedDataRedis.DeleteByClientIdAsync(minerData.ClientId);
         }
 
-        protected override void DoRemoveSave(MinerData[] minerDatas) {
+        protected override void DoRemoveSave(IEnumerable<IMinerData> minerDatas) {
             if (!IsReadied) {
                 return;
             }

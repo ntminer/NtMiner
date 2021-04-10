@@ -136,7 +136,7 @@ namespace NTMiner {
                             NTMiner.Windows.WAU.DisableWAUAsync();
                         }
                         if (minerProfile.IsDisableAntiSpyware) {
-                            NTMiner.Windows.Defender.DisableAntiSpyware(HomePath.HomeDirFullName, TempPath.TempDirFullName);
+                            NTMiner.Windows.Defender.DisableAntiSpyware();
                         }
                         NTMiner.Windows.Crash.SetAutoReboot(minerProfile.IsAutoReboot);
                         if (!Firewall.IsMinerClientRuleExists()) {

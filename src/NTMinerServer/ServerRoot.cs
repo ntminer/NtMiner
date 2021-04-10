@@ -27,12 +27,16 @@ namespace NTMiner {
             System.Net.ServicePointManager.DefaultConnectionLimit = 512;
         }
 
-        public static bool IsMinerClientTestId(Guid clientId) {
-            return _clientTestId != null && _clientTestId.MinerClientTestId != Guid.Empty && _clientTestId.MinerClientTestId == clientId;
+        public static void IfMinerClientTestIdLogElseNothing(Guid clientId, string msg) {
+            if (_clientTestId != null && _clientTestId.MinerClientTestId != Guid.Empty && _clientTestId.MinerClientTestId == clientId) {
+                Logger.Debug($"{nameof(NTMinerAppType.MinerClient)} {clientId.ToString()} {msg}");
+            }
         }
 
-        public static bool IsStudioClientTestId(Guid clientId) {
-            return _clientTestId != null && _clientTestId.StudioClientTestId != Guid.Empty && _clientTestId.StudioClientTestId == clientId;
+        public static void IfStudioClientTestIdLogElseNothing(Guid studioId, string msg) {
+            if (_clientTestId != null && _clientTestId.StudioClientTestId != Guid.Empty && _clientTestId.StudioClientTestId == studioId) {
+                Logger.Debug($"{nameof(NTMinerAppType.MinerStudio)} {studioId.ToString()} {msg}");
+            }
         }
 
         private static IHostConfig _hostConfig;
