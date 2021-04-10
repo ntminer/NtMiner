@@ -107,7 +107,7 @@ namespace NTMiner.Core.Impl {
         }
 
         protected bool TryGetClientDatas(string loginName, out ClientDatas clientDatas) {
-            return _clientDatasByLoginName.TryRemove(loginName, out clientDatas);
+            return _clientDatasByLoginName.TryGetValue(loginName, out clientDatas);
         }
 
         /// <summary>
