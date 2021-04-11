@@ -11,11 +11,11 @@ namespace NTMiner.Core.Profiles {
         private class CoinKernelProfileSet {
             private readonly Dictionary<Guid, CoinKernelProfile> _dicById = new Dictionary<Guid, CoinKernelProfile>();
 
-            private readonly INTMinerContext _root;
+            private readonly INTMinerContext _ntminerContext;
             private readonly object _locker = new object();
 
-            public CoinKernelProfileSet(INTMinerContext root) {
-                _root = root;
+            public CoinKernelProfileSet(INTMinerContext ntminerContext) {
+                _ntminerContext = ntminerContext;
             }
 
             public void Refresh() {
@@ -30,7 +30,7 @@ namespace NTMiner.Core.Profiles {
                     if (_dicById.ContainsKey(coinKernelId)) {
                         return _dicById[coinKernelId];
                     }
-                    CoinKernelProfile coinKernelProfile = CoinKernelProfile.Create(_root, coinKernelId);
+                    CoinKernelProfile coinKernelProfile = CoinKernelProfile.Create(_ntminerContext, coinKernelId);
                     _dicById.Add(coinKernelId, coinKernelProfile);
 
                     return coinKernelProfile;
@@ -48,16 +48,16 @@ namespace NTMiner.Core.Profiles {
 
             private class CoinKernelProfile : ICoinKernelProfile {
                 private static readonly CoinKernelProfile Empty = new CoinKernelProfile(new CoinKernelProfileData());
-                public static CoinKernelProfile Create(INTMinerContext root, Guid coinKernelId) {
-                    if (root.ServerContext.CoinKernelSet.TryGetCoinKernel(coinKernelId, out ICoinKernel coinKernel)) {
-                        var repository = root.ServerContext.CreateLocalRepository<CoinKernelProfileData>();
+                public static CoinKernelProfile Create(INTMinerContext ntminerContext, Guid coinKernelId) {
+                    if (ntminerContext.ServerContext.CoinKernelSet.TryGetCoinKernel(coinKernelId, out ICoinKernel coinKernel)) {
+                        var repository = ntminerContext.ServerContext.CreateLocalRepository<CoinKernelProfileData>();
                         CoinKernelProfileData data = repository.GetByKey(coinKernelId);
                         if (data == null) {
-                            double dualCoinWeight = GetDualCoinWeight(root, coinKernel.KernelId);
+                            double dualCoinWeight = GetDualCoinWeight(ntminerContext, coinKernel.KernelId);
                             data = CoinKernelProfileData.CreateDefaultData(coinKernel.GetId(), dualCoinWeight);
                         }
-                        if (root.ServerContext.GroupSet.TryGetGroup(coinKernel.DualCoinGroupId, out IGroup group)) {
-                            var coinIds = root.ServerContext.CoinGroupSet.GetGroupCoinIds(coinKernel.DualCoinGroupId);
+                        if (ntminerContext.ServerContext.GroupSet.TryGetGroup(coinKernel.DualCoinGroupId, out IGroup group)) {
+                            var coinIds = ntminerContext.ServerContext.CoinGroupSet.GetGroupCoinIds(coinKernel.DualCoinGroupId);
                             if (!coinIds.Contains(data.DualCoinId)) {
                                 data.DualCoinId = coinIds.FirstOrDefault();
                             }
@@ -101,10 +101,10 @@ namespace NTMiner.Core.Profiles {
                 }
 
                 // 获取默认双挖权重
-                private static double GetDualCoinWeight(INTMinerContext root, Guid kernelId) {
+                private static double GetDualCoinWeight(INTMinerContext ntminerContext, Guid kernelId) {
                     double dualCoinWeight = 0;
-                    if (root.ServerContext.KernelSet.TryGetKernel(kernelId, out IKernel kernel)) {
-                        if (root.ServerContext.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput)) {
+                    if (ntminerContext.ServerContext.KernelSet.TryGetKernel(kernelId, out IKernel kernel)) {
+                        if (ntminerContext.ServerContext.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput)) {
                             dualCoinWeight = (kernelInput.DualWeightMin + kernelInput.DualWeightMax) / 2;
                         }
                     }

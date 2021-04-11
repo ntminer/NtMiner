@@ -28,7 +28,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.OpenLogFile = new DelegateCommand<string>((fileFullName) => {
-                OpenLogFileByNpp(fileFullName);
+                OpenLogFileByEveredit(fileFullName);
             });
         }
 
@@ -86,23 +86,41 @@ namespace NTMiner.Vms {
         }
 
         public void OpenLogFileByNpp(string fileFullName) {
-            string nppDir = Path.Combine(MinerClientTempPath.ToolsDirFullName, "Npp");
-            string nppFileFullName = Path.Combine(nppDir, "notepad++.exe");
-            if (!Directory.Exists(nppDir)) {
-                Directory.CreateDirectory(nppDir);
+            OpenLogFileBy(
+                downloadFileUrl: AppRoot.NppPackageUrl,
+                toolSubDirName: "Npp",
+                exeFileName: "notepad++.exe",
+                downloadTitle: "Notepad++",
+                args: $"-nosession -ro {fileFullName}");
+        }
+
+        public void OpenLogFileByEveredit(string fileFullName) {
+            OpenLogFileBy(
+                downloadFileUrl: AppRoot.EvereditPackageUrl,
+                toolSubDirName: "everedit",
+                exeFileName: "EverEdit.exe",
+                downloadTitle: "EverEdit",
+                args: fileFullName);
+        }
+
+        private static void OpenLogFileBy(string downloadFileUrl, string toolSubDirName, string exeFileName, string downloadTitle, string args) {
+            string dir = Path.Combine(MinerClientTempPath.ToolsDirFullName, toolSubDirName);
+            string exeFileFullName = Path.Combine(dir, exeFileName);
+            if (!Directory.Exists(dir)) {
+                Directory.CreateDirectory(dir);
             }
-            if (!File.Exists(nppFileFullName)) {
-                VirtualRoot.Execute(new ShowFileDownloaderCommand(AppRoot.NppPackageUrl, "Notepad++", (window, isSuccess, message, saveFileFullName) => {
+            if (!File.Exists(exeFileFullName)) {
+                VirtualRoot.Execute(new ShowFileDownloaderCommand(downloadFileUrl, downloadTitle, (window, isSuccess, message, saveFileFullName) => {
                     if (isSuccess) {
-                        ZipUtil.DecompressZipFile(saveFileFullName, nppDir);
+                        ZipUtil.DecompressZipFile(saveFileFullName, dir);
                         File.Delete(saveFileFullName);
                         window?.Close();
-                        Windows.Cmd.RunClose(nppFileFullName, $"-nosession -ro {fileFullName}");
+                        Windows.Cmd.RunClose(exeFileFullName, args);
                     }
                 }));
             }
             else {
-                Windows.Cmd.RunClose(nppFileFullName, $"-nosession -ro {fileFullName}");
+                Windows.Cmd.RunClose(exeFileFullName, args);
             }
         }
     }

@@ -24,28 +24,28 @@ namespace NTMiner.JsonDb {
             this.TimeStamp = Timestamp.GetTimestamp();
         }
 
-        public ServerJsonDb(INTMinerContext root) {
-            Coins = root.ServerContext.CoinSet.AsEnumerable().Cast<CoinData>().ToArray();
+        public ServerJsonDb(INTMinerContext ntminerContext) {
+            Coins = ntminerContext.ServerContext.CoinSet.AsEnumerable().Cast<CoinData>().ToArray();
             // json向后兼容
             foreach (var coin in Coins) {
-                if (root.ServerContext.SysDicItemSet.TryGetDicItem(coin.AlgoId, out ISysDicItem dicItem)) {
+                if (ntminerContext.ServerContext.SysDicItemSet.TryGetDicItem(coin.AlgoId, out ISysDicItem dicItem)) {
                     coin.Algo = dicItem.Value;
                 }
             }
-            Groups = root.ServerContext.GroupSet.AsEnumerable().Cast<GroupData>().ToArray();
-            CoinGroups = root.ServerContext.CoinGroupSet.AsEnumerable().Cast<CoinGroupData>().ToArray();
-            KernelInputs = root.ServerContext.KernelInputSet.AsEnumerable().Cast<KernelInputData>().ToArray();
-            KernelOutputs = root.ServerContext.KernelOutputSet.AsEnumerable().Cast<KernelOutputData>().ToArray();
-            KernelOutputTranslaters = root.ServerContext.KernelOutputTranslaterSet.AsEnumerable().Cast<KernelOutputTranslaterData>().ToArray();
-            Kernels = root.ServerContext.KernelSet.AsEnumerable().Cast<KernelData>().ToList();
-            Packages = root.ServerContext.PackageSet.AsEnumerable().Cast<PackageData>().ToList();
-            CoinKernels = root.ServerContext.CoinKernelSet.AsEnumerable().Cast<CoinKernelData>().ToList();
-            FileWriters = root.ServerContext.FileWriterSet.AsEnumerable().Cast<FileWriterData>().ToList();
-            FragmentWriters = root.ServerContext.FragmentWriterSet.AsEnumerable().Cast<FragmentWriterData>().ToList();
-            PoolKernels = root.ServerContext.PoolKernelSet.AsEnumerable().Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToList();
-            Pools = root.ServerContext.PoolSet.AsEnumerable().Cast<PoolData>().ToList();
-            SysDicItems = root.ServerContext.SysDicItemSet.AsEnumerable().Cast<SysDicItemData>().ToArray();
-            SysDics = root.ServerContext.SysDicSet.AsEnumerable().Cast<SysDicData>().ToArray();
+            Groups = ntminerContext.ServerContext.GroupSet.AsEnumerable().Cast<GroupData>().ToArray();
+            CoinGroups = ntminerContext.ServerContext.CoinGroupSet.AsEnumerable().Cast<CoinGroupData>().ToArray();
+            KernelInputs = ntminerContext.ServerContext.KernelInputSet.AsEnumerable().Cast<KernelInputData>().ToArray();
+            KernelOutputs = ntminerContext.ServerContext.KernelOutputSet.AsEnumerable().Cast<KernelOutputData>().ToArray();
+            KernelOutputTranslaters = ntminerContext.ServerContext.KernelOutputTranslaterSet.AsEnumerable().Cast<KernelOutputTranslaterData>().ToArray();
+            Kernels = ntminerContext.ServerContext.KernelSet.AsEnumerable().Cast<KernelData>().ToList();
+            Packages = ntminerContext.ServerContext.PackageSet.AsEnumerable().Cast<PackageData>().ToList();
+            CoinKernels = ntminerContext.ServerContext.CoinKernelSet.AsEnumerable().Cast<CoinKernelData>().ToList();
+            FileWriters = ntminerContext.ServerContext.FileWriterSet.AsEnumerable().Cast<FileWriterData>().ToList();
+            FragmentWriters = ntminerContext.ServerContext.FragmentWriterSet.AsEnumerable().Cast<FragmentWriterData>().ToList();
+            PoolKernels = ntminerContext.ServerContext.PoolKernelSet.AsEnumerable().Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToList();
+            Pools = ntminerContext.ServerContext.PoolSet.AsEnumerable().Cast<PoolData>().ToList();
+            SysDicItems = ntminerContext.ServerContext.SysDicItemSet.AsEnumerable().Cast<SysDicItemData>().ToArray();
+            SysDics = ntminerContext.ServerContext.SysDicSet.AsEnumerable().Cast<SysDicData>().ToArray();
             this.TimeStamp = Timestamp.GetTimestamp();
         }
 
@@ -86,42 +86,42 @@ namespace NTMiner.JsonDb {
             }
         }
 
-        public ServerJsonDb(INTMinerContext root, LocalJsonDb localJsonObj) : this() {
-            var minerProfile = root.MinerProfile;
+        public ServerJsonDb(INTMinerContext ntminerContext, LocalJsonDb localJsonObj) : this() {
+            var minerProfile = ntminerContext.MinerProfile;
             var mainCoinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
-            root.ServerContext.CoinKernelSet.TryGetCoinKernel(mainCoinProfile.CoinKernelId, out ICoinKernel coinKernel);
+            ntminerContext.ServerContext.CoinKernelSet.TryGetCoinKernel(mainCoinProfile.CoinKernelId, out ICoinKernel coinKernel);
             if (coinKernel == null) {
                 return;
             }
-            root.ServerContext.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel);
+            ntminerContext.ServerContext.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel);
             if (kernel == null) {
                 return;
             }
-            var coins = root.ServerContext.CoinSet.AsEnumerable().Cast<CoinData>().Where(a => localJsonObj.CoinProfiles.Any(b => b.CoinId == a.Id)).ToArray();
-            var coinGroups = root.ServerContext.CoinGroupSet.AsEnumerable().Cast<CoinGroupData>().Where(a => coins.Any(b => b.Id == a.CoinId)).ToArray();
-            var pools = root.ServerContext.PoolSet.AsEnumerable().Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToList();
+            var coins = ntminerContext.ServerContext.CoinSet.AsEnumerable().Cast<CoinData>().Where(a => localJsonObj.CoinProfiles.Any(b => b.CoinId == a.Id)).ToArray();
+            var coinGroups = ntminerContext.ServerContext.CoinGroupSet.AsEnumerable().Cast<CoinGroupData>().Where(a => coins.Any(b => b.Id == a.CoinId)).ToArray();
+            var pools = ntminerContext.ServerContext.PoolSet.AsEnumerable().Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToList();
 
             Coins = coins;
             // json向后兼容
             foreach (var coin in Coins) {
-                if (root.ServerContext.SysDicItemSet.TryGetDicItem(coin.AlgoId, out ISysDicItem dicItem)) {
+                if (ntminerContext.ServerContext.SysDicItemSet.TryGetDicItem(coin.AlgoId, out ISysDicItem dicItem)) {
                     coin.Algo = dicItem.Value;
                 }
             }
             CoinGroups = coinGroups;
             Pools = pools;
-            Groups = root.ServerContext.GroupSet.AsEnumerable().Cast<GroupData>().Where(a => coinGroups.Any(b => b.GroupId == a.Id)).ToArray();
-            KernelInputs = root.ServerContext.KernelInputSet.AsEnumerable().Cast<KernelInputData>().Where(a => a.Id == kernel.KernelInputId).ToArray();
-            KernelOutputs = root.ServerContext.KernelOutputSet.AsEnumerable().Cast<KernelOutputData>().Where(a => a.Id == kernel.KernelOutputId).ToArray();
-            KernelOutputTranslaters = root.ServerContext.KernelOutputTranslaterSet.AsEnumerable().Cast<KernelOutputTranslaterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray();
+            Groups = ntminerContext.ServerContext.GroupSet.AsEnumerable().Cast<GroupData>().Where(a => coinGroups.Any(b => b.GroupId == a.Id)).ToArray();
+            KernelInputs = ntminerContext.ServerContext.KernelInputSet.AsEnumerable().Cast<KernelInputData>().Where(a => a.Id == kernel.KernelInputId).ToArray();
+            KernelOutputs = ntminerContext.ServerContext.KernelOutputSet.AsEnumerable().Cast<KernelOutputData>().Where(a => a.Id == kernel.KernelOutputId).ToArray();
+            KernelOutputTranslaters = ntminerContext.ServerContext.KernelOutputTranslaterSet.AsEnumerable().Cast<KernelOutputTranslaterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray();
             Kernels = new List<KernelData> { (KernelData)kernel };
-            Packages = root.ServerContext.PackageSet.AsEnumerable().Cast<PackageData>().Where(a => a.Name == kernel.Package).ToList();
-            CoinKernels = root.ServerContext.CoinKernelSet.AsEnumerable().Cast<CoinKernelData>().Where(a => localJsonObj.CoinKernelProfiles.Any(b => b.CoinKernelId == a.Id)).ToList();
-            FileWriters = root.ServerContext.FileWriterSet.AsEnumerable().Cast<FileWriterData>().ToList();// 这个数据没几条就不精简了
-            FragmentWriters = root.ServerContext.FragmentWriterSet.AsEnumerable().Cast<FragmentWriterData>().ToList();// 这个数据没几条就不精简了
-            PoolKernels = root.ServerContext.PoolKernelSet.AsEnumerable().Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args) && pools.Any(b => b.Id == a.PoolId)).ToList();
-            SysDicItems = root.ServerContext.SysDicItemSet.AsEnumerable().Cast<SysDicItemData>().ToArray();
-            SysDics = root.ServerContext.SysDicSet.AsEnumerable().Cast<SysDicData>().ToArray();
+            Packages = ntminerContext.ServerContext.PackageSet.AsEnumerable().Cast<PackageData>().Where(a => a.Name == kernel.Package).ToList();
+            CoinKernels = ntminerContext.ServerContext.CoinKernelSet.AsEnumerable().Cast<CoinKernelData>().Where(a => localJsonObj.CoinKernelProfiles.Any(b => b.CoinKernelId == a.Id)).ToList();
+            FileWriters = ntminerContext.ServerContext.FileWriterSet.AsEnumerable().Cast<FileWriterData>().ToList();// 这个数据没几条就不精简了
+            FragmentWriters = ntminerContext.ServerContext.FragmentWriterSet.AsEnumerable().Cast<FragmentWriterData>().ToList();// 这个数据没几条就不精简了
+            PoolKernels = ntminerContext.ServerContext.PoolKernelSet.AsEnumerable().Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args) && pools.Any(b => b.Id == a.PoolId)).ToList();
+            SysDicItems = ntminerContext.ServerContext.SysDicItemSet.AsEnumerable().Cast<SysDicItemData>().ToArray();
+            SysDics = ntminerContext.ServerContext.SysDicSet.AsEnumerable().Cast<SysDicData>().ToArray();
             TimeStamp = NTMinerContext.ServerJsonDb.TimeStamp;
         }
 

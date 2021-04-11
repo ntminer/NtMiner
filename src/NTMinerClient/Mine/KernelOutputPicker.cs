@@ -27,31 +27,31 @@ namespace NTMiner.Mine {
                     coin = dualMineContext.DualCoin;
                     poolId = dualMineContext.DualCoinPool.GetId();
                 }
-                INTMinerContext context = NTMinerContext.Instance;
+                INTMinerContext ntminerContext = NTMinerContext.Instance;
                 // 这些方法输出的是事件消息
                 #region 总
-                PickTotalSpeed(context, line, mineContext.KernelOutput, isDual);
-                PickTotalShare(context, line, mineContext.KernelOutput, coin, isDual);
-                PickAcceptShare(context, line, mineContext.KernelOutput, coin, isDual);
-                PickRejectShare(context, line, mineContext.KernelOutput, coin, isDual);
-                PickRejectPercent(context, line, mineContext.KernelOutput, coin, isDual);
+                PickTotalSpeed(ntminerContext, line, mineContext.KernelOutput, isDual);
+                PickTotalShare(ntminerContext, line, mineContext.KernelOutput, coin, isDual);
+                PickAcceptShare(ntminerContext, line, mineContext.KernelOutput, coin, isDual);
+                PickRejectShare(ntminerContext, line, mineContext.KernelOutput, coin, isDual);
+                PickRejectPercent(ntminerContext, line, mineContext.KernelOutput, coin, isDual);
                 #endregion
 
                 #region 一个
                 if (!isDual) {
                     // 决定不支持双挖的单卡份额统计
-                    PicFoundOneShare(context, mineContext, line, _preline, mineContext.KernelOutput);
-                    PicGotOneIncorrectShare(context, mineContext, line, _preline, mineContext.KernelOutput);
+                    PicFoundOneShare(ntminerContext, mineContext, line, _preline, mineContext.KernelOutput);
+                    PicGotOneIncorrectShare(ntminerContext, mineContext, line, _preline, mineContext.KernelOutput);
                 }
-                PickAcceptOneShare(context, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
-                PickRejectOneShare(context, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
+                PickAcceptOneShare(ntminerContext, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
+                PickRejectOneShare(ntminerContext, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
                 #endregion
 
                 #region 单卡
-                PickGpuSpeed(context, mineContext, line, mineContext.KernelOutput, isDual);
-                PicGpuAcceptShare(context, mineContext, line, mineContext.KernelOutput, isDual);
-                PicGpuRejectShare(context, mineContext, line, mineContext.KernelOutput, isDual);
-                PicGpuIncorrectShare(context, mineContext, line, mineContext.KernelOutput, isDual);
+                PickGpuSpeed(ntminerContext, mineContext, line, mineContext.KernelOutput, isDual);
+                PicGpuAcceptShare(ntminerContext, mineContext, line, mineContext.KernelOutput, isDual);
+                PicGpuRejectShare(ntminerContext, mineContext, line, mineContext.KernelOutput, isDual);
+                PicGpuIncorrectShare(ntminerContext, mineContext, line, mineContext.KernelOutput, isDual);
                 #endregion
                 PickPoolDelay(line, mineContext.KernelOutput, isDual, poolId);
                 // 如果是像BMiner那样的主币和双挖币的输出在同一行那样的模式则一行输出既要视为主币又要视为双挖币
@@ -59,23 +59,23 @@ namespace NTMiner.Mine {
                     coin = mineContext.MainCoin;
                     isDual = false;
                     #region 总
-                    PickTotalSpeed(context, line, mineContext.KernelOutput, isDual);
-                    PickTotalShare(context, line, mineContext.KernelOutput, coin, isDual);
-                    PickAcceptShare(context, line, mineContext.KernelOutput, coin, isDual);
-                    PickRejectShare(context, line, mineContext.KernelOutput, coin, isDual);
-                    PickRejectPercent(context, line, mineContext.KernelOutput, coin, isDual);
+                    PickTotalSpeed(ntminerContext, line, mineContext.KernelOutput, isDual);
+                    PickTotalShare(ntminerContext, line, mineContext.KernelOutput, coin, isDual);
+                    PickAcceptShare(ntminerContext, line, mineContext.KernelOutput, coin, isDual);
+                    PickRejectShare(ntminerContext, line, mineContext.KernelOutput, coin, isDual);
+                    PickRejectPercent(ntminerContext, line, mineContext.KernelOutput, coin, isDual);
                     #endregion
 
                     #region 一个
-                    PickAcceptOneShare(context, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
-                    PickRejectOneShare(context, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
+                    PickAcceptOneShare(ntminerContext, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
+                    PickRejectOneShare(ntminerContext, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
                     #endregion
 
                     #region 单卡
-                    PickGpuSpeed(context, mineContext, line, mineContext.KernelOutput, isDual);
-                    PicGpuAcceptShare(context, mineContext, line, mineContext.KernelOutput, isDual);
-                    PicGpuRejectShare(context, mineContext, line, mineContext.KernelOutput, isDual);
-                    PicGpuIncorrectShare(context, mineContext, line, mineContext.KernelOutput, isDual);
+                    PickGpuSpeed(ntminerContext, mineContext, line, mineContext.KernelOutput, isDual);
+                    PicGpuAcceptShare(ntminerContext, mineContext, line, mineContext.KernelOutput, isDual);
+                    PicGpuRejectShare(ntminerContext, mineContext, line, mineContext.KernelOutput, isDual);
+                    PicGpuIncorrectShare(ntminerContext, mineContext, line, mineContext.KernelOutput, isDual);
                     #endregion
                     PickPoolDelay(line, mineContext.KernelOutput, isDual, poolId);
                 }
@@ -89,7 +89,7 @@ namespace NTMiner.Mine {
         #region private static methods
         #region 总
         #region PickTotalSpeed
-        private static void PickTotalSpeed(INTMinerContext context, string line, IKernelOutput kernelOutput, bool isDual) {
+        private static void PickTotalSpeed(INTMinerContext ntminerContext, string line, IKernelOutput kernelOutput, bool isDual) {
             string totalSpeedPattern = kernelOutput.TotalSpeedPattern;
             if (isDual) {
                 totalSpeedPattern = kernelOutput.DualTotalSpeedPattern;
@@ -120,8 +120,8 @@ namespace NTMiner.Mine {
                         gpuSpeedPattern = kernelOutput.DualGpuSpeedPattern;
                     }
                     // 如果没有单卡算力正则则平分总算力作为单卡算力正则
-                    if ((string.IsNullOrEmpty(gpuSpeedPattern) || context.GpuSet.Count == 1) && context.GpuSet.Count != 0) {
-                        double gpuSpeed = totalSpeed / context.GpuSet.Count;
+                    if ((string.IsNullOrEmpty(gpuSpeedPattern) || ntminerContext.GpuSet.Count == 1) && ntminerContext.GpuSet.Count != 0) {
+                        double gpuSpeed = totalSpeed / ntminerContext.GpuSet.Count;
                         foreach (var item in gpuSpeeds.AsEnumerable()) {
                             if (item.Gpu.Index != NTMinerContext.GpuAllId) {
                                 gpuSpeeds.SetCurrentSpeed(item.Gpu.Index, gpuSpeed, isDual, now);

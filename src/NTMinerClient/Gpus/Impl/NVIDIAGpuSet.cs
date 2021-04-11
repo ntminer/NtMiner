@@ -19,7 +19,7 @@ namespace NTMiner.Gpus.Impl {
 
         private readonly NvapiHelper _nvapiHelper = new NvapiHelper();
         private readonly NvmlHelper _nvmlHelper = new NvmlHelper();
-        public NVIDIAGpuSet(INTMinerContext root) {
+        public NVIDIAGpuSet(INTMinerContext ntminerContext) {
             this.OverClock = new GpuOverClock(_nvapiHelper);
             this.Properties = new List<GpuSetProperty>();
             var gpus = _nvmlHelper.GetGpus();
@@ -33,7 +33,7 @@ namespace NTMiner.Gpus.Impl {
                 Version.TryParse(_driverVersionRaw, out _driverVersion);
                 this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", _driverVersion));
                 try {
-                    var item = root.ServerContext.SysDicItemSet.GetSysDicItems(NTKeyword.CudaVersionSysDicCode)
+                    var item = ntminerContext.ServerContext.SysDicItemSet.GetSysDicItems(NTKeyword.CudaVersionSysDicCode)
                         .Select(a => new { Version = double.Parse(a.Value), a })
                         .OrderByDescending(a => a.Version)
                         .FirstOrDefault(a => _driverVersion.Major >= a.Version);

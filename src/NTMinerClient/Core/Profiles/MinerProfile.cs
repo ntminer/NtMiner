@@ -9,7 +9,7 @@ using System.Text;
 
 namespace NTMiner.Core.Profiles {
     internal partial class MinerProfile : IWorkProfile {
-        private readonly INTMinerContext _root;
+        private readonly INTMinerContext _ntminerContext;
 
         private MinerProfileData _data = null;
         private CoinKernelProfileSet _coinKernelProfileSet;
@@ -17,11 +17,11 @@ namespace NTMiner.Core.Profiles {
         private PoolProfileSet _poolProfileSet;
         private WalletSet _walletSet;
 
-        public MinerProfile(INTMinerContext root) {
-            _root = root;
+        public MinerProfile(INTMinerContext ntminerContext) {
+            _ntminerContext = ntminerContext;
             VirtualRoot.BuildCmdPath<RefreshAutoBootStartCommand>(
                 path: message => {
-                    var minerProfileRepository = root.ServerContext.CreateLocalRepository<MinerProfileData>();
+                    var minerProfileRepository = ntminerContext.ServerContext.CreateLocalRepository<MinerProfileData>();
                     var data = minerProfileRepository.GetAll().FirstOrDefault();
                     if (data != null && _data != null) {
                         _data.IsAutoBoot = data.IsAutoBoot;
@@ -29,11 +29,11 @@ namespace NTMiner.Core.Profiles {
                         VirtualRoot.RaiseEvent(new AutoBootStartRefreshedEvent());
                     }
                 }, location: this.GetType());
-            Init(root);
+            Init(ntminerContext);
         }
 
-        public void ReInit(INTMinerContext root) {
-            Init(root);
+        public void ReInit(INTMinerContext ntminerContext) {
+            Init(ntminerContext);
             // 本地数据集已刷新，此时刷新本地数据集的视图模型集
             VirtualRoot.RaiseEvent(new LocalContextReInitedEvent());
             // 本地数据集的视图模型已刷新，此时刷新本地数据集的视图界面
@@ -41,14 +41,14 @@ namespace NTMiner.Core.Profiles {
         }
 
         #region Init
-        private void Init(INTMinerContext root) {
-            var minerProfileRepository = root.ServerContext.CreateLocalRepository<MinerProfileData>();
+        private void Init(INTMinerContext ntminerContext) {
+            var minerProfileRepository = ntminerContext.ServerContext.CreateLocalRepository<MinerProfileData>();
             _data = minerProfileRepository.GetAll().FirstOrDefault();
-            var mineWorkRepository = root.ServerContext.CreateLocalRepository<MineWorkData>();
+            var mineWorkRepository = ntminerContext.ServerContext.CreateLocalRepository<MineWorkData>();
             MineWork = mineWorkRepository.GetAll().FirstOrDefault();
             if (_data == null) {
                 Guid coinId = Guid.Empty;
-                ICoin coin = root.ServerContext.CoinSet.AsEnumerable().OrderBy(a => a.Code).FirstOrDefault();
+                ICoin coin = ntminerContext.ServerContext.CoinSet.AsEnumerable().OrderBy(a => a.Code).FirstOrDefault();
                 if (coin != null) {
                     coinId = coin.GetId();
                 }
@@ -66,25 +66,25 @@ namespace NTMiner.Core.Profiles {
                 minerProfileRepository.Update(_data);
             }
             if (_coinProfileSet == null) {
-                _coinProfileSet = new CoinProfileSet(root);
+                _coinProfileSet = new CoinProfileSet(ntminerContext);
             }
             else {
                 _coinProfileSet.Refresh();
             }
             if (_coinKernelProfileSet == null) {
-                _coinKernelProfileSet = new CoinKernelProfileSet(root);
+                _coinKernelProfileSet = new CoinKernelProfileSet(ntminerContext);
             }
             else {
                 _coinKernelProfileSet.Refresh();
             }
             if (_poolProfileSet == null) {
-                _poolProfileSet = new PoolProfileSet(root);
+                _poolProfileSet = new PoolProfileSet(ntminerContext);
             }
             else {
                 _poolProfileSet.Refresh();
             }
             if (_walletSet == null) {
-                _walletSet = new WalletSet(root);
+                _walletSet = new WalletSet(ntminerContext);
             }
             else {
                 _walletSet.Refresh();
@@ -98,7 +98,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         public void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value) {
-            if (_root.ServerContext.CoinKernelSet.TryGetCoinKernel(coinKernelId, out _)) {
+            if (_ntminerContext.ServerContext.CoinKernelSet.TryGetCoinKernel(coinKernelId, out _)) {
                 _coinKernelProfileSet.SetCoinKernelProfileProperty(coinKernelId, propertyName, value);
             }
         }
@@ -108,7 +108,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         public void SetCoinProfileProperty(Guid coinId, string propertyName, object value) {
-            if (_root.ServerContext.CoinSet.TryGetCoin(coinId, out ICoin _)) {
+            if (_ntminerContext.ServerContext.CoinSet.TryGetCoin(coinId, out ICoin _)) {
                 _coinProfileSet.SetCoinProfileProperty(coinId, propertyName, value);
             }
         }
@@ -118,7 +118,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         public void SetPoolProfileProperty(Guid poolId, string propertyName, object value) {
-            if (_root.ServerContext.PoolSet.TryGetPool(poolId, out _)) {
+            if (_ntminerContext.ServerContext.PoolSet.TryGetPool(poolId, out _)) {
                 _poolProfileSet.SetPoolProfileProperty(poolId, propertyName, value);
             }
         }
@@ -140,7 +140,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         public List<IPool> GetPools() {
-            return _root.ServerContext.PoolSet.AsEnumerable().ToList();
+            return _ntminerContext.ServerContext.PoolSet.AsEnumerable().ToList();
         }
 
         public List<IPoolProfile> GetPoolProfiles() {
@@ -642,7 +642,7 @@ namespace NTMiner.Core.Profiles {
                     object oldValue = propertyInfo.GetValue(this, null);
                     if (oldValue != value) {
                         propertyInfo.SetValue(this, value, null);
-                        var repository = _root.ServerContext.CreateLocalRepository<MinerProfileData>();
+                        var repository = _ntminerContext.ServerContext.CreateLocalRepository<MinerProfileData>();
                         repository.Update(_data);
                         VirtualRoot.RaiseEvent(new MinerProfilePropertyChangedEvent(propertyName));
                     }

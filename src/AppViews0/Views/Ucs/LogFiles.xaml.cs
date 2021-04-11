@@ -22,7 +22,7 @@ namespace NTMiner.Views.Ucs {
                 VirtualRoot.Out.ShowWarn("没有日志", autoHideSeconds: 2);
                 return;
             }
-            Vm.OpenLogFileByNpp(fileFullName);
+            Vm.OpenLogFileByEveredit(fileFullName);
         }
 
         private void ButtonLogFiles_Click(object sender, RoutedEventArgs e) {
@@ -32,7 +32,7 @@ namespace NTMiner.Views.Ucs {
 
         private void LogFilesDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             WpfUtil.DataGrid_MouseDoubleClick<LogFilesViewModel.LogFile>(sender, e, t => {
-                Vm.OpenLogFileByNpp(t.FileFullName);
+                Vm.OpenLogFileByEveredit(t.FileFullName);
             });
         }
     }

@@ -5,14 +5,14 @@ namespace NTMiner.Core.Impl {
     public class CoinShareSet : ICoinShareSet {
         private readonly Dictionary<Guid, CoinShare> _dicByCoinId = new Dictionary<Guid, CoinShare>();
         private readonly object _locker = new object();
-        private readonly INTMinerContext _root;
+        private readonly INTMinerContext _ntminerContext;
 
-        public CoinShareSet(INTMinerContext root) {
-            _root = root;
+        public CoinShareSet(INTMinerContext ntminerContext) {
+            _ntminerContext = ntminerContext;
         }
 
         public ICoinShare GetOrCreate(Guid coinId) {
-            if (!_root.ServerContext.CoinSet.Contains(coinId)) {
+            if (!_ntminerContext.ServerContext.CoinSet.Contains(coinId)) {
                 return new CoinShare() {
                     CoinId = coinId,
                     RejectShareCount = 0,

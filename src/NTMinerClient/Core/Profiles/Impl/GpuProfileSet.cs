@@ -10,7 +10,7 @@ namespace NTMiner.Core.Profiles.Impl {
     public class GpuProfileSet : SetBase, IGpuProfileSet {
         private GpuProfilesJsonDb _data = new GpuProfilesJsonDb();
 
-        public GpuProfileSet(INTMinerContext root) {
+        public GpuProfileSet(INTMinerContext ntminerContext) {
             VirtualRoot.BuildCmdPath<AddOrUpdateGpuProfileCommand>(path: message => {
                 GpuProfileData data = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == message.Input.CoinId && a.Index == message.Input.Index);
                 if (data != null) {
@@ -28,7 +28,7 @@ namespace NTMiner.Core.Profiles.Impl {
             // 在这个BUG，BUG具体表现是当没有点击过挖矿端主界面上的算力Tab页时通过群控超频无效。感谢矿友发现问题，已经修复。
             VirtualRoot.BuildCmdPath<CoinOverClockCommand>(path: message => {
                 Task.Factory.StartNew(() => {
-                    CoinOverClock(root, message.CoinId);
+                    CoinOverClock(ntminerContext, message.CoinId);
                     VirtualRoot.RaiseEvent(new CoinOverClockDoneEvent(targetPathId: message.MessageId));
                 });
             }, location: this.GetType());
@@ -164,18 +164,18 @@ namespace NTMiner.Core.Profiles.Impl {
             return false;
         }
 
-        private void CoinOverClock(INTMinerContext root, Guid coinId) {
+        private void CoinOverClock(INTMinerContext ntminerContext, Guid coinId) {
             try {
                 if (IsOverClockGpuAll(coinId)) {
                     GpuProfileData overClockData = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == coinId && a.Index == NTMinerContext.GpuAllId);
                     if (overClockData != null) {
-                        OverClock(root, overClockData);
+                        OverClock(ntminerContext, overClockData);
                     }
                 }
                 else {
                     foreach (var overClockData in _data.GpuProfiles.Where(a => a.CoinId == coinId)) {
                         if (overClockData.Index != NTMinerContext.GpuAllId) {
-                            OverClock(root, overClockData);
+                            OverClock(ntminerContext, overClockData);
                         }
                     }
                 }
@@ -185,12 +185,12 @@ namespace NTMiner.Core.Profiles.Impl {
             }
         }
 
-        private void OverClock(INTMinerContext root, IGpuProfile data) {
+        private void OverClock(INTMinerContext ntminerContext, IGpuProfile data) {
 #if DEBUG
             NTStopwatch.Start();
 #endif
-            if (root.GpuSet.TryGetGpu(data.Index, out IGpu gpu)) {
-                root.GpuSet.OverClock.OverClock(gpuIndex: data.Index, OverClockValue.Create(data));
+            if (ntminerContext.GpuSet.TryGetGpu(data.Index, out IGpu gpu)) {
+                ntminerContext.GpuSet.OverClock.OverClock(gpuIndex: data.Index, OverClockValue.Create(data));
                 if (data.Index == NTMinerContext.GpuAllId) {
                     NTMinerConsole.UserOk($"统一超频：{data.ToOverClockString()}");
                 }
@@ -198,7 +198,7 @@ namespace NTMiner.Core.Profiles.Impl {
                     NTMinerConsole.UserOk($"GPU{gpu.Index}超频：{data.ToOverClockString()}");
                 }
                 2.SecondsDelay().ContinueWith(t => {
-                    root.GpuSet.OverClock.RefreshGpuState(data.Index);
+                    ntminerContext.GpuSet.OverClock.RefreshGpuState(data.Index);
                 });
             }
 #if DEBUG

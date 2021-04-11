@@ -88,7 +88,6 @@ namespace NTMiner {
         #endregion
 
         #region 字典项
-
         public static string NppPackageUrl {
             get {
                 string url = $"https://minerjson.{NTKeyword.CloudFileDomain}/npp.zip";
@@ -96,6 +95,16 @@ namespace NTMiner {
                     return url;
                 }
                 return NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue("Tool", "npp", defaultValue: url);
+            }
+        }
+
+        public static string EvereditPackageUrl {
+            get {
+                string url = $"https://minerjson.{NTKeyword.CloudFileDomain}/everedit.zip";
+                if (WpfUtil.IsInDesignMode) {
+                    return url;
+                }
+                return NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue("Tool", "everedit", defaultValue: url);
             }
         }
         #endregion

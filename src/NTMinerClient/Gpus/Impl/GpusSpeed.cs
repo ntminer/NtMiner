@@ -11,9 +11,9 @@ namespace NTMiner.Gpus.Impl {
         private readonly Dictionary<int, List<IGpuSpeed>> _gpuSpeedHistory = new Dictionary<int, List<IGpuSpeed>>();
         private readonly Dictionary<int, AverageSpeedWithHistory> _averageGpuSpeed = new Dictionary<int, AverageSpeedWithHistory>();
 
-        private readonly INTMinerContext _root;
-        public GpusSpeed(INTMinerContext root) {
-            _root = root;
+        private readonly INTMinerContext _ntminerContext;
+        public GpusSpeed(INTMinerContext ntminerContext) {
+            _ntminerContext = ntminerContext;
             VirtualRoot.BuildEventPath<Per10MinuteEvent>("周期清除过期的历史算力", LogEnum.DevConsole,
                 path: message => {
                     ClearOutOfDateHistory();
@@ -22,7 +22,7 @@ namespace NTMiner.Gpus.Impl {
             VirtualRoot.BuildEventPath<MineStopedEvent>("停止挖矿后产生一次0算力", LogEnum.DevConsole,
                 path: message => {
                     var now = DateTime.Now;
-                    foreach (var gpu in _root.GpuSet.AsEnumerable()) {
+                    foreach (var gpu in _ntminerContext.GpuSet.AsEnumerable()) {
                         SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: false, now: now);
                         if (message.MineContext is IDualMineContext dualMineContext) {
                             SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: true, now: now);
@@ -33,14 +33,14 @@ namespace NTMiner.Gpus.Impl {
             VirtualRoot.BuildEventPath<MineStartedEvent>("挖矿开始时产生一次0算力0份额", LogEnum.DevConsole,
                 path: message => {
                     var now = DateTime.Now;
-                    _root.CoinShareSet.UpdateShare(message.MineContext.MainCoin.GetId(), 0, 0, now);
-                    _root.GpusSpeed.ResetShare();
-                    foreach (var gpu in _root.GpuSet.AsEnumerable()) {
+                    _ntminerContext.CoinShareSet.UpdateShare(message.MineContext.MainCoin.GetId(), 0, 0, now);
+                    _ntminerContext.GpusSpeed.ResetShare();
+                    foreach (var gpu in _ntminerContext.GpuSet.AsEnumerable()) {
                         SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: false, now: now);
                     }
                     if (message.MineContext is IDualMineContext dualMineContext) {
-                        _root.CoinShareSet.UpdateShare(dualMineContext.DualCoin.GetId(), 0, 0, now);
-                        foreach (var gpu in _root.GpuSet.AsEnumerable()) {
+                        _ntminerContext.CoinShareSet.UpdateShare(dualMineContext.DualCoin.GetId(), 0, 0, now);
+                        foreach (var gpu in _ntminerContext.GpuSet.AsEnumerable()) {
                             SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: true, now: now);
                         }
                     }
@@ -48,7 +48,7 @@ namespace NTMiner.Gpus.Impl {
         }
 
         protected override void Init() {
-            foreach (var gpu in _root.GpuSet.AsEnumerable()) {
+            foreach (var gpu in _ntminerContext.GpuSet.AsEnumerable()) {
                 _currentGpuSpeed.Add(gpu.Index, new GpuSpeed(gpu, mainCoinSpeed: new Speed(), dualCoinSpeed: new Speed()));
                 _gpuSpeedHistory.Add(gpu.Index, new List<IGpuSpeed>());
                 _averageGpuSpeed.Add(gpu.Index, new AverageSpeedWithHistory());
@@ -180,7 +180,7 @@ namespace NTMiner.Gpus.Impl {
 
         private Guid _mainCoinId;
         private void CheckReset() {
-            Guid mainCoinId = _root.MinerProfile.CoinId;
+            Guid mainCoinId = _ntminerContext.MinerProfile.CoinId;
             if (this._mainCoinId != mainCoinId) {
                 this._mainCoinId = mainCoinId;
                 // 切换币种了，清空历史算力

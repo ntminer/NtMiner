@@ -7,10 +7,10 @@ using System.Linq;
 namespace NTMiner.Core.Impl {
     public class OverClockDataSet : SetBase, IOverClockDataSet {
         private readonly Dictionary<Guid, OverClockData> _dicById = new Dictionary<Guid, OverClockData>();
-        private readonly INTMinerContext _root;
+        private readonly INTMinerContext _ntminerContext;
 
-        public OverClockDataSet(INTMinerContext root) {
-            _root = root;
+        public OverClockDataSet(INTMinerContext ntminerContext) {
+            _ntminerContext = ntminerContext;
             VirtualRoot.BuildCmdPath<AddOverClockDataCommand>(path: (message) => {
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -77,11 +77,11 @@ namespace NTMiner.Core.Impl {
             RpcRoot.OfficialServer.OverClockDataService.GetOverClockDatasAsync((response, e) => {
                 if (response.IsSuccess()) {
                     IEnumerable<OverClockData> query;
-                    if (_root.GpuSet.GpuType == GpuType.Empty) {
+                    if (_ntminerContext.GpuSet.GpuType == GpuType.Empty) {
                         query = response.Data;
                     }
                     else {
-                        query = response.Data.Where(a => a.GpuType == _root.GpuSet.GpuType);
+                        query = response.Data.Where(a => a.GpuType == _ntminerContext.GpuSet.GpuType);
                     }
                     foreach (var item in query) {
                         if (!_dicById.ContainsKey(item.GetId())) {

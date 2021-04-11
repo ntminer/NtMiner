@@ -6,10 +6,10 @@ using System.Linq;
 namespace NTMiner.Core.Impl {
     public class CalcConfigSet : ICalcConfigSet {
         private Dictionary<string, CalcConfigData> _dicByCoinCode = new Dictionary<string, CalcConfigData>(StringComparer.OrdinalIgnoreCase);
-        private readonly INTMinerContext _root;
+        private readonly INTMinerContext _ntminerContext;
 
-        public CalcConfigSet(INTMinerContext root) {
-            _root = root;
+        public CalcConfigSet(INTMinerContext ntminerContext) {
+            _ntminerContext = ntminerContext;
             if (ClientAppType.IsMinerClient) {
                 VirtualRoot.BuildOnecePath<HasBoot20SecondEvent>("初始化收益计算器", LogEnum.DevConsole,
                     path: message => {
@@ -38,7 +38,7 @@ namespace NTMiner.Core.Impl {
             if (data == null || data.Count == 0) {
                 return;
             }
-            var list = _root.ServerContext.CoinSet.AsEnumerable().OrderBy(a => a.Code).Select(a => new CalcConfigData {
+            var list = _ntminerContext.ServerContext.CoinSet.AsEnumerable().OrderBy(a => a.Code).Select(a => new CalcConfigData {
                 CoinCode = a.Code,
                 CreatedOn = DateTime.Now,
                 IncomePerDay = 0,

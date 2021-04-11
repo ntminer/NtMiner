@@ -5,15 +5,15 @@ namespace NTMiner.Core.Profiles.Impl {
     public class WalletSet : SetBase {
         private readonly Dictionary<Guid, WalletData> _dicById = new Dictionary<Guid, WalletData>();
 
-        private readonly INTMinerContext _root;
-        public WalletSet(INTMinerContext root) {
-            _root = root;
+        private readonly INTMinerContext _ntminerContext;
+        public WalletSet(INTMinerContext ntminerContext) {
+            _ntminerContext = ntminerContext;
             VirtualRoot.BuildCmdPath<AddWalletCommand>(path: message => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
                 }
-                if (!root.ServerContext.CoinSet.Contains(message.Input.CoinId)) {
+                if (!ntminerContext.ServerContext.CoinSet.Contains(message.Input.CoinId)) {
                     throw new ValidationException("there is not coin with id " + message.Input.CoinId);
                 }
                 if (string.IsNullOrEmpty(message.Input.Address)) {
@@ -24,7 +24,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 }
                 WalletData entity = new WalletData().Update(message.Input);
                 _dicById.Add(entity.Id, entity);
-                var repository = root.ServerContext.CreateLocalRepository<WalletData>();
+                var repository = ntminerContext.ServerContext.CreateLocalRepository<WalletData>();
                 repository.Add(entity);
 
                 VirtualRoot.RaiseEvent(new WalletAddedEvent(message.MessageId, entity));
@@ -34,7 +34,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
                 }
-                if (!root.ServerContext.CoinSet.Contains(message.Input.CoinId)) {
+                if (!ntminerContext.ServerContext.CoinSet.Contains(message.Input.CoinId)) {
                     throw new ValidationException("there is not coin with id " + message.Input.CoinId);
                 }
                 if (string.IsNullOrEmpty(message.Input.Address)) {
@@ -47,7 +47,7 @@ namespace NTMiner.Core.Profiles.Impl {
                     return;
                 }
                 entity.Update(message.Input);
-                var repository = root.ServerContext.CreateLocalRepository<WalletData>();
+                var repository = ntminerContext.ServerContext.CreateLocalRepository<WalletData>();
                 repository.Update(entity);
 
                 VirtualRoot.RaiseEvent(new WalletUpdatedEvent(message.MessageId, entity));
@@ -62,7 +62,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 }
                 WalletData entity = _dicById[message.EntityId];
                 _dicById.Remove(entity.Id);
-                var repository = root.ServerContext.CreateLocalRepository<WalletData>();
+                var repository = ntminerContext.ServerContext.CreateLocalRepository<WalletData>();
                 repository.Remove(entity.Id);
 
                 VirtualRoot.RaiseEvent(new WalletRemovedEvent(message.MessageId, entity));
@@ -75,7 +75,7 @@ namespace NTMiner.Core.Profiles.Impl {
         }
 
         protected override void Init() {
-            var repository = _root.ServerContext.CreateLocalRepository<WalletData>();
+            var repository = _ntminerContext.ServerContext.CreateLocalRepository<WalletData>();
             foreach (var item in repository.GetAll()) {
                 if (!_dicById.ContainsKey(item.Id)) {
                     _dicById.Add(item.Id, item);

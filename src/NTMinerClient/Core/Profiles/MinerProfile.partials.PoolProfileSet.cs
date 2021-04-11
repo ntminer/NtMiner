@@ -7,11 +7,11 @@ namespace NTMiner.Core.Profiles {
     internal partial class MinerProfile {
         private class PoolProfileSet {
             private readonly Dictionary<Guid, PoolProfile> _dicById = new Dictionary<Guid, PoolProfile>();
-            private readonly INTMinerContext _root;
+            private readonly INTMinerContext _ntminerContext;
             private readonly object _locker = new object();
 
-            public PoolProfileSet(INTMinerContext root) {
-                _root = root;
+            public PoolProfileSet(INTMinerContext ntminerContext) {
+                _ntminerContext = ntminerContext;
             }
 
             public void Refresh() {
@@ -26,7 +26,7 @@ namespace NTMiner.Core.Profiles {
                     if (_dicById.ContainsKey(poolId)) {
                         return _dicById[poolId];
                     }
-                    PoolProfile coinProfile = PoolProfile.Create(_root, poolId);
+                    PoolProfile coinProfile = PoolProfile.Create(_ntminerContext, poolId);
                     _dicById.Add(poolId, coinProfile);
                     return coinProfile;
                 }
@@ -44,9 +44,9 @@ namespace NTMiner.Core.Profiles {
             public class PoolProfile : IPoolProfile {
                 private static readonly PoolProfile Empty = new PoolProfile(new PoolProfileData());
 
-                public static PoolProfile Create(INTMinerContext root, Guid poolIdId) {
-                    if (root.ServerContext.PoolSet.TryGetPool(poolIdId, out IPool pool)) {
-                        var data = GetPoolProfileData(root, pool.GetId());
+                public static PoolProfile Create(INTMinerContext ntminerContext, Guid poolIdId) {
+                    if (ntminerContext.ServerContext.PoolSet.TryGetPool(poolIdId, out IPool pool)) {
+                        var data = GetPoolProfileData(ntminerContext, pool.GetId());
                         if (data == null) {
                             data = PoolProfileData.CreateDefaultData(pool);
                         }
@@ -61,11 +61,11 @@ namespace NTMiner.Core.Profiles {
 
                 private readonly PoolProfileData _data;
 
-                private static PoolProfileData GetPoolProfileData(INTMinerContext root, Guid poolId) {
-                    var repository = root.ServerContext.CreateLocalRepository<PoolProfileData>();
+                private static PoolProfileData GetPoolProfileData(INTMinerContext ntminerContext, Guid poolId) {
+                    var repository = ntminerContext.ServerContext.CreateLocalRepository<PoolProfileData>();
                     var result = repository.GetByKey(poolId);
                     if (result == null) {
-                        if (root.ServerContext.PoolSet.TryGetPool(poolId, out IPool pool)) {
+                        if (ntminerContext.ServerContext.PoolSet.TryGetPool(poolId, out IPool pool)) {
                             // 如果本地未设置用户名密码则使用默认的测试用户名密码
                             result = PoolProfileData.CreateDefaultData(pool);
                         }

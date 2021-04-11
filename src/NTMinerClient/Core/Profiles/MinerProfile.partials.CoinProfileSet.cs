@@ -9,10 +9,10 @@ namespace NTMiner.Core.Profiles {
     internal partial class MinerProfile {
         private class CoinProfileSet {
             private readonly Dictionary<Guid, CoinProfile> _dicById = new Dictionary<Guid, CoinProfile>();
-            private readonly INTMinerContext _root;
+            private readonly INTMinerContext _ntminerContext;
             private readonly object _locker = new object();
-            public CoinProfileSet(INTMinerContext root) {
-                _root = root;
+            public CoinProfileSet(INTMinerContext ntminerContext) {
+                _ntminerContext = ntminerContext;
             }
 
             public void Refresh() {
@@ -27,7 +27,7 @@ namespace NTMiner.Core.Profiles {
                     if (_dicById.ContainsKey(coinId)) {
                         return _dicById[coinId];
                     }
-                    CoinProfile coinProfile = CoinProfile.Create(_root, coinId);
+                    CoinProfile coinProfile = CoinProfile.Create(_ntminerContext, coinId);
                     _dicById.Add(coinId, coinProfile);
                     return coinProfile;
                 }
@@ -45,12 +45,12 @@ namespace NTMiner.Core.Profiles {
             private class CoinProfile : ICoinProfile {
                 private static readonly CoinProfile Empty = new CoinProfile(new CoinProfileData());
 
-                public static CoinProfile Create(INTMinerContext root, Guid coinId) {
-                    if (root.ServerContext.CoinSet.TryGetCoin(coinId, out ICoin coin)) {
+                public static CoinProfile Create(INTMinerContext ntminerContext, Guid coinId) {
+                    if (ntminerContext.ServerContext.CoinSet.TryGetCoin(coinId, out ICoin coin)) {
                         var data = GetCoinProfileData(coin.GetId());
                         if (data == null) {
                             Guid poolId = Guid.Empty;
-                            IPool pool = root.ServerContext.PoolSet.AsEnumerable().OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId);
+                            IPool pool = ntminerContext.ServerContext.PoolSet.AsEnumerable().OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId);
                             if (pool != null) {
                                 poolId = pool.GetId();
                             }
@@ -59,7 +59,7 @@ namespace NTMiner.Core.Profiles {
                             data = CoinProfileData.CreateDefaultData(coinId, poolId, wallet, coinKernelId);
                         }
                         else {
-                            if (!root.ServerContext.CoinKernelSet.TryGetCoinKernel(data.CoinKernelId, out ICoinKernel coinKernel)) {
+                            if (!ntminerContext.ServerContext.CoinKernelSet.TryGetCoinKernel(data.CoinKernelId, out ICoinKernel coinKernel)) {
                                 data.CoinKernelId = GetDefaultCoinKernelId(coin);
                             }
                         }

@@ -45,12 +45,12 @@ namespace NTMiner.Report {
         private ICoin _sLastSpeedMainCoin;
         private ICoin _sLastSpeedDualCoin;
         public SpeedDto CreateSpeedDto() {
-            INTMinerContext root = NTMinerContext.Instance;
-            IWorkProfile workProfile = root.MinerProfile;
+            INTMinerContext ntminerContext = NTMinerContext.Instance;
+            IWorkProfile workProfile = ntminerContext.MinerProfile;
             string localIps = VirtualRoot.FormatLocalIps(out string macAddress);
             Guid mineContextId = Guid.Empty;
-            if (root.CurrentMineContext != null) {
-                mineContextId = root.CurrentMineContext.Id;
+            if (ntminerContext.CurrentMineContext != null) {
+                mineContextId = ntminerContext.CurrentMineContext.Id;
             }
             SpeedDto speedDto = new SpeedDto {
                 MineContextId = mineContextId,
@@ -69,13 +69,13 @@ namespace NTMiner.Report {
                 IsAutoStart = workProfile.IsAutoStart,
                 AutoStartDelaySeconds = workProfile.AutoStartDelaySeconds,
                 Version = EntryAssemblyInfo.CurrentVersionStr,
-                BootOn = root.CreatedOn,
+                BootOn = ntminerContext.CreatedOn,
                 MineStartedOn = null,
-                IsMining = root.IsMining,
+                IsMining = ntminerContext.IsMining,
                 MineWorkId = Guid.Empty,
                 MineWorkName = string.Empty,
                 MinerName = workProfile.MinerName,
-                GpuInfo = root.GpuSetInfo,
+                GpuInfo = ntminerContext.GpuSetInfo,
                 ClientId = NTMinerContext.Id,
                 MACAddress = macAddress,
                 LocalIp = localIps,
@@ -94,8 +94,8 @@ namespace NTMiner.Report {
                 Kernel = string.Empty,
                 MainCoinPool = string.Empty,
                 OSName = Windows.OS.Instance.WindowsEdition,
-                GpuDriver = root.GpuSet.DriverVersion,
-                GpuType = root.GpuSet.GpuType,
+                GpuDriver = ntminerContext.GpuSet.DriverVersion,
+                GpuType = ntminerContext.GpuSet.GpuType,
                 OSVirtualMemoryMb = VirtualRoot.DriveSet.OSVirtualMemoryMb,
                 TotalPhysicalMemoryMb = (int)(Windows.Ram.Instance.TotalPhysicalMemory / NTKeyword.IntM),
                 KernelCommandLine = string.Empty,
@@ -124,8 +124,8 @@ namespace NTMiner.Report {
                 IsFoundOneGpuShare = false,
                 IsGotOneIncorrectGpuShare = false,
                 IsRejectOneGpuShare = false,
-                CpuPerformance = root.CpuPackage.Performance,
-                CpuTemperature = root.CpuPackage.Temperature,
+                CpuPerformance = ntminerContext.CpuPackage.Performance,
+                CpuTemperature = ntminerContext.CpuPackage.Temperature,
                 IsRaiseHighCpuEvent = workProfile.IsRaiseHighCpuEvent,
                 HighCpuPercent = workProfile.HighCpuBaseline,
                 HighCpuSeconds = workProfile.HighCpuSeconds,
@@ -137,14 +137,14 @@ namespace NTMiner.Report {
                 IsLowSpeedReOverClock = false,
                 LowSpeedReOverClockMinutes = 0,
                 OverClockLowSpeed = 0,
-                GpuTable = root.GpusSpeed.AsEnumerable().Where(a => a.Gpu.Index != NTMinerContext.GpuAllId).Select(a => a.ToGpuSpeedData()).ToArray()
+                GpuTable = ntminerContext.GpusSpeed.AsEnumerable().Where(a => a.Gpu.Index != NTMinerContext.GpuAllId).Select(a => a.ToGpuSpeedData()).ToArray()
             };
             if (workProfile.MineWork != null) {
                 speedDto.MineWorkId = workProfile.MineWork.GetId();
                 speedDto.MineWorkName = workProfile.MineWork.Name;
             }
             #region 当前选中的币种是什么
-            if (root.ServerContext.CoinSet.TryGetCoin(workProfile.CoinId, out ICoin mainCoin)) {
+            if (ntminerContext.ServerContext.CoinSet.TryGetCoin(workProfile.CoinId, out ICoin mainCoin)) {
                 speedDto.MainCoinCode = mainCoin.Code;
                 ICoinProfile coinProfile = workProfile.GetCoinProfile(mainCoin.GetId());
                 speedDto.MainCoinWallet = coinProfile.Wallet;
@@ -154,10 +154,10 @@ namespace NTMiner.Report {
                 speedDto.IsLowSpeedReOverClock = coinProfile.IsLowSpeedReOverClock;
                 speedDto.LowSpeedReOverClockMinutes = coinProfile.LowSpeedReOverClockMinutes;
                 speedDto.OverClockLowSpeed = coinProfile.OverClockLowSpeed;
-                if (root.ServerContext.PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
+                if (ntminerContext.ServerContext.PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
                     speedDto.MainCoinPool = mainCoinPool.Server;
-                    if (root.IsMining) {
-                        speedDto.MainCoinPoolDelay = root.ServerContext.PoolSet.GetPoolDelayText(mainCoinPool.GetId(), isDual: false);
+                    if (ntminerContext.IsMining) {
+                        speedDto.MainCoinPoolDelay = ntminerContext.ServerContext.PoolSet.GetPoolDelayText(mainCoinPool.GetId(), isDual: false);
                     }
                     if (mainCoinPool.IsUserMode) {
                         IPoolProfile mainCoinPoolProfile = workProfile.GetPoolProfile(coinProfile.PoolId);
@@ -167,10 +167,10 @@ namespace NTMiner.Report {
                 else {
                     speedDto.MainCoinPool = string.Empty;
                 }
-                if (root.ServerContext.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out ICoinKernel coinKernel)) {
-                    if (root.ServerContext.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
+                if (ntminerContext.ServerContext.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out ICoinKernel coinKernel)) {
+                    if (ntminerContext.ServerContext.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
                         speedDto.Kernel = kernel.GetFullName();
-                        if (root.ServerContext.KernelOutputSet.TryGetKernelOutput(kernel.KernelOutputId, out IKernelOutput kernelOutput)) {
+                        if (ntminerContext.ServerContext.KernelOutputSet.TryGetKernelOutput(kernel.KernelOutputId, out IKernelOutput kernelOutput)) {
                             speedDto.IsFoundOneGpuShare = !string.IsNullOrEmpty(kernelOutput.FoundOneShare);
                             speedDto.IsGotOneIncorrectGpuShare = !string.IsNullOrEmpty(kernelOutput.GpuGotOneIncorrectShare);
                             speedDto.IsRejectOneGpuShare = !string.IsNullOrEmpty(kernelOutput.RejectOneShare);
@@ -178,14 +178,14 @@ namespace NTMiner.Report {
                         ICoinKernelProfile coinKernelProfile = workProfile.GetCoinKernelProfile(coinProfile.CoinKernelId);
                         speedDto.IsDualCoinEnabled = coinKernelProfile.IsDualCoinEnabled;
                         if (coinKernelProfile.IsDualCoinEnabled) {
-                            if (root.ServerContext.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out ICoin dualCoin)) {
+                            if (ntminerContext.ServerContext.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out ICoin dualCoin)) {
                                 speedDto.DualCoinCode = dualCoin.Code;
                                 ICoinProfile dualCoinProfile = workProfile.GetCoinProfile(dualCoin.GetId());
                                 speedDto.DualCoinWallet = dualCoinProfile.DualCoinWallet;
-                                if (root.ServerContext.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out IPool dualCoinPool)) {
+                                if (ntminerContext.ServerContext.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out IPool dualCoinPool)) {
                                     speedDto.DualCoinPool = dualCoinPool.Server;
-                                    if (root.IsMining) {
-                                        speedDto.DualCoinPoolDelay = root.ServerContext.PoolSet.GetPoolDelayText(dualCoinPool.GetId(), isDual: true);
+                                    if (ntminerContext.IsMining) {
+                                        speedDto.DualCoinPoolDelay = ntminerContext.ServerContext.PoolSet.GetPoolDelayText(dualCoinPool.GetId(), isDual: true);
                                     }
                                     if (dualCoinPool.IsUserMode) {
                                         IPoolProfile dualCoinPoolProfile = workProfile.GetPoolProfile(dualCoinProfile.DualCoinPoolId);
@@ -202,8 +202,8 @@ namespace NTMiner.Report {
             }
             #endregion
 
-            if (root.IsMining) {
-                var mineContext = root.LockedMineContext;
+            if (ntminerContext.IsMining) {
+                var mineContext = ntminerContext.LockedMineContext;
                 if (mineContext != null) {
                     speedDto.KernelSelfRestartCount = mineContext.KernelSelfRestartCount;
                     if (mineContext.MineStartedOn != DateTime.MinValue) {
@@ -212,30 +212,30 @@ namespace NTMiner.Report {
                     speedDto.KernelCommandLine = mineContext.CommandLine;
                 }
                 // 判断上次报告的算力币种和本次报告的是否相同，否则说明刚刚切换了币种默认第一次报告0算力
-                if (_sLastSpeedMainCoin == null || _sLastSpeedMainCoin == root.LockedMineContext.MainCoin) {
-                    _sLastSpeedMainCoin = root.LockedMineContext.MainCoin;
-                    Guid coinId = root.LockedMineContext.MainCoin.GetId();
-                    IGpusSpeed gpuSpeeds = root.GpusSpeed;
+                if (_sLastSpeedMainCoin == null || _sLastSpeedMainCoin == ntminerContext.LockedMineContext.MainCoin) {
+                    _sLastSpeedMainCoin = ntminerContext.LockedMineContext.MainCoin;
+                    Guid coinId = ntminerContext.LockedMineContext.MainCoin.GetId();
+                    IGpusSpeed gpuSpeeds = ntminerContext.GpusSpeed;
                     IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerContext.GpuAllId);
                     speedDto.MainCoinSpeed = totalSpeed.MainCoinSpeed.Value;
                     speedDto.MainCoinSpeedOn = totalSpeed.MainCoinSpeed.SpeedOn;
-                    ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
+                    ICoinShare share = ntminerContext.CoinShareSet.GetOrCreate(coinId);
                     speedDto.MainCoinTotalShare = share.TotalShareCount;
                     speedDto.MainCoinRejectShare = share.RejectShareCount;
                 }
                 else {
-                    _sLastSpeedMainCoin = root.LockedMineContext.MainCoin;
+                    _sLastSpeedMainCoin = ntminerContext.LockedMineContext.MainCoin;
                 }
-                if (root.LockedMineContext is IDualMineContext dualMineContext) {
+                if (ntminerContext.LockedMineContext is IDualMineContext dualMineContext) {
                     // 判断上次报告的算力币种和本次报告的是否相同，否则说明刚刚切换了币种默认第一次报告0算力
                     if (_sLastSpeedDualCoin == null || _sLastSpeedDualCoin == dualMineContext.DualCoin) {
                         _sLastSpeedDualCoin = dualMineContext.DualCoin;
                         Guid coinId = dualMineContext.DualCoin.GetId();
-                        IGpusSpeed gpuSpeeds = root.GpusSpeed;
+                        IGpusSpeed gpuSpeeds = ntminerContext.GpusSpeed;
                         IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerContext.GpuAllId);
                         speedDto.DualCoinSpeed = totalSpeed.DualCoinSpeed.Value;
                         speedDto.DualCoinSpeedOn = totalSpeed.DualCoinSpeed.SpeedOn;
-                        ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
+                        ICoinShare share = ntminerContext.CoinShareSet.GetOrCreate(coinId);
                         speedDto.DualCoinTotalShare = share.TotalShareCount;
                         speedDto.DualCoinRejectShare = share.RejectShareCount;
                     }

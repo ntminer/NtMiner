@@ -719,12 +719,6 @@ namespace NTMiner {
             AppRoot.OpenLiteDb(HomePath.ServerDbFileFullName);
         });
 
-        public static string NppPackageUrl {
-            get {
-                return AppRoot.NppPackageUrl;
-            }
-        }
-
         public static ICommand ShowCalc { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
             VirtualRoot.Execute(new ShowCalcCommand(coinVm));
         });
