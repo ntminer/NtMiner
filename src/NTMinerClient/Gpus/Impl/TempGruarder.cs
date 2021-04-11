@@ -61,7 +61,7 @@ namespace NTMiner.Gpus.Impl {
                         int distanceToGuard = _guardTemp - gpu.Temperature;
                         double delta = _kp * (distanceToGuard - _preDistanceToGuard1[gpu.Index]) + ki * distanceToGuard + kd * (distanceToGuard - 2 * _preDistanceToGuard1[gpu.Index] + _preDistanceToGuard2[gpu.Index]);
                         double output = _lastOutputCool[gpu.Index] - delta;
-                        if ((int)_lastOutputCool[gpu.Index] == (int)output) {
+                        if ((int)_lastOutputCool[gpu.Index] == (int)output && gpu.Temperature == _guardTemp) {
                             continue;
                         }
                         _preDistanceToGuard2[gpu.Index] = _preDistanceToGuard1[gpu.Index];
