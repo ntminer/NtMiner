@@ -77,7 +77,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <controls:KbLinkButton 
-                                            ToolTip="用Notepad++打开，无惧大文件"
+                                            ToolTip="用EverEdit打开，无惧大文件"
 						                    KbDisplayLine="False"
                                             Background="Transparent"
                                             Content="{Binding FileName}" 
