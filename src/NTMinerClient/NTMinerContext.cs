@@ -298,6 +298,7 @@ namespace NTMiner {
                                 }
                                 VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), $"{coinCode}总算力持续{coinProfile.LowSpeedReOverClockMinutes}分钟低于{coinProfile.OverClockLowSpeed}重新应用超频", toConsole: true);
                                 VirtualRoot.Execute(new CoinOverClockCommand(MinerProfile.CoinId));
+                                overClockHighSpeedOn = message.BornOn;
                             }
                         }
                         else {
