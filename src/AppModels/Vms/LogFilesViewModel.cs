@@ -94,6 +94,8 @@ namespace NTMiner.Vms {
                 args: $"-nosession -ro {fileFullName}");
         }
 
+        // 用户查看挖矿日志的时候会下载使用一个文本编辑器，因为日志文件可能很大直接使用windows自带
+        // 的记事本打开会很耗资源，不要使用notepad++，EverEdit是一个很好的替代，而且是国人开发的。
         public void OpenLogFileByEveredit(string fileFullName) {
             OpenLogFileBy(
                 downloadFileUrl: AppRoot.EvereditPackageUrl,
