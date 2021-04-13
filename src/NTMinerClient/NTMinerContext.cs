@@ -66,18 +66,30 @@ namespace NTMiner {
                     // 如果是Debug模式且不是群控客户端则使用本地数据库初始化
                     bool useLocalDb = DevMode.IsDevMode && !ClientAppType.IsMinerStudio;
                     if (useLocalDb) {
-                        DoInit(callback);
+                        if (!File.Exists(HomePath.ServerDbFileFullName)) {
+                            Logger.InfoDebugLine(nameof(RpcRoot.OSSService.AliyunOSSService.GetAliyunServerLitedb));
+                            RpcRoot.OSSService.AliyunOSSService.GetAliyunServerLitedb(data => {
+                                if (data != null && data.Length != 0) {
+                                    Logger.InfoDebugLine($"{nameof(RpcRoot.OSSService.AliyunOSSService.GetAliyunServerLitedb)} ok");
+                                    HomePath.WriteServerLitedbFile(data);
+                                }
+                                else {
+                                    VirtualRoot.ThisLocalError(nameof(NTMinerContext), "server.litedb文件下载失败，这是第一次debug模式运行开源矿工，server.litedb文件至少需要成功下载一次，请检查网络是否可用", OutEnum.Warn);
+                                }
+                                DoInit(callback);
+                            });
+                        }
+                        else {
+                            DoInit(callback);
+                        }
                     }
                     else {
                         Logger.InfoDebugLine(nameof(RpcRoot.OSSService.AliyunOSSService.GetAliyunServerJson));
-                        RpcRoot.OSSService.AliyunOSSService.GetAliyunServerJson((data) => {
+                        RpcRoot.OSSService.AliyunOSSService.GetAliyunServerJson(serverJson => {
                             // 如果server.json未下载成功则不覆写本地server.json
-                            if (data != null && data.Length != 0) {
+                            if (!string.IsNullOrEmpty(serverJson)) {
                                 Logger.InfoDebugLine($"{nameof(RpcRoot.OSSService.AliyunOSSService.GetAliyunServerJson)} ok");
-                                var serverJson = Encoding.UTF8.GetString(data);
-                                if (!string.IsNullOrEmpty(serverJson)) {
-                                    HomePath.WriteServerJsonFile(serverJson);
-                                }
+                                HomePath.WriteServerJsonFile(serverJson);
                                 RpcRoot.OfficialServer.AppSettingService.GetJsonFileVersionAsync(ClientAppType.AppType, HomePath.ExportServerJsonFileName, serverState => {
                                     SetServerJsonVersion(serverState.JsonFileVersion);
                                     AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
@@ -159,12 +171,11 @@ namespace NTMiner {
                 AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
                 string localServerJsonFileVersion = GetServerJsonVersion();
                 if (!string.IsNullOrEmpty(serverState.JsonFileVersion) && localServerJsonFileVersion != serverState.JsonFileVersion) {
-                    RpcRoot.OSSService.AliyunOSSService.GetAliyunServerJson((data) => {
-                        if (data == null || data.Length == 0) {
+                    RpcRoot.OSSService.AliyunOSSService.GetAliyunServerJson((serverJson) => {
+                        if (string.IsNullOrEmpty(serverJson)) {
                             return;
                         }
-                        string rawJson = Encoding.UTF8.GetString(data);
-                        HomePath.WriteServerJsonFile(rawJson);
+                        HomePath.WriteServerJsonFile(serverJson);
                         SetServerJsonVersion(serverState.JsonFileVersion);
                         ContextReInit();
                         VirtualRoot.ThisLocalInfo(nameof(NTMinerContext), $"刷新server.json配置", toConsole: true);

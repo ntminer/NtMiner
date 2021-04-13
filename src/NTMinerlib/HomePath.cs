@@ -204,6 +204,10 @@ namespace NTMiner {
             return string.Empty;
         }
 
+        public static void WriteServerLitedbFile(byte[] data) {
+            File.WriteAllBytes(ServerDbFileFullName, data);
+        }
+
         public static void WriteServerJsonFile(string json) {
             File.WriteAllText(ServerJsonFileFullName, json);
         }
