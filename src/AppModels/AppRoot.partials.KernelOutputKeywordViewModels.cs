@@ -37,6 +37,7 @@ namespace NTMiner {
                                 _dicByKernelOutputId[item.KernelOutputId].Add(vm);
                             }
                         }
+                        // TODO:给事件处理程序引入执行顺序改变，引入几个典型的顺序后可以避免很多为了顺序而构建的事件类型
                         if (NTMinerContext.Instance.CurrentMineContext != null) {
                             if (KernelOutputVms.TryGetKernelOutputVm(NTMinerContext.Instance.CurrentMineContext.KernelOutput.GetId(), out KernelOutputViewModel kernelOutputVm)) {
                                 kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputKeywords));
@@ -89,7 +90,7 @@ namespace NTMiner {
                 }
             }
 
-            public IEnumerable<KernelOutputKeywordViewModel> GetListByKernelId(Guid kernelOutputId) {
+            public IEnumerable<KernelOutputKeywordViewModel> GetListByKernelOutputId(Guid kernelOutputId) {
                 if (_dicByKernelOutputId.ContainsKey(kernelOutputId)) {
                     return _dicByKernelOutputId[kernelOutputId];
                 }

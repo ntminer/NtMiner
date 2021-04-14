@@ -19,7 +19,10 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
+        public PoolKernelViewModel Vm { get; private set; }
+
         public PoolKernelEdit(PoolKernelViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

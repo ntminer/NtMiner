@@ -1,6 +1,7 @@
 ﻿using LiteDB;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.Core.Impl {
     public class KernelOutputKeywordSet : SetBase, IKernelOutputKeywordSet {
@@ -51,12 +52,25 @@ namespace NTMiner.Core.Impl {
                 _dicById.Remove(entity.GetId());
                 if (_dicByKernelOutputId.TryGetValue(entity.KernelOutputId, out List<IKernelOutputKeyword> list)) {
                     list.Remove(entity);
+                    if (list.Count == 0) {
+                        _dicByKernelOutputId.Remove(entity.KernelOutputId);
+                    }
                 }
                 using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                     var col = db.GetCollection<KernelOutputKeywordData>();
                     col.Delete(message.EntityId);
                 }
             }, location: this.GetType());
+            VirtualRoot.BuildCmdPath<ClearKernelOutputKeywordsCommand>(message => {
+                InitOnece();
+                if (message == null || message.ExceptedOutputIds == null || message.ExceptedOutputIds.Length == 0) {
+                    return;
+                }
+                var toRemoves = _dicById.Where(a => !message.ExceptedOutputIds.Contains(a.Value.KernelOutputId)).Select(a => a.Key).ToArray();
+                foreach (var item in toRemoves) {
+                    VirtualRoot.Execute(new RemoveKernelOutputKeywordCommand(item));
+                }
+            }, this.GetType());
         }
 
         protected override void Init() {

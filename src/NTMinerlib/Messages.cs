@@ -148,6 +148,15 @@ namespace NTMiner {
         public IKernelOutputKeyword Input { get; private set; }
     }
 
+    [MessageType(description: "清空给定输出标识之外的记录")]
+    public class ClearKernelOutputKeywordsCommand : Cmd {
+        public ClearKernelOutputKeywordsCommand(Guid[] exceptedOutputIds) {
+            this.ExceptedOutputIds = exceptedOutputIds;
+        }
+
+        public Guid[] ExceptedOutputIds { get; private set; }
+    }
+
     [MessageType(description: "添加了用户自定义内核输出关键字后")]
     public class UserKernelOutputKeywordAddedEvent : SourcedEvent<IKernelOutputKeyword> {
         public UserKernelOutputKeywordAddedEvent(PathId targetPathId, IKernelOutputKeyword source) : base(targetPathId, source) {

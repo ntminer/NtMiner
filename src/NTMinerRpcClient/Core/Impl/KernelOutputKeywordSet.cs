@@ -1,5 +1,4 @@
 ﻿using LiteDB;
-using NTMiner.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -56,7 +55,7 @@ namespace NTMiner.Core.Impl {
             }, location: this.GetType());
             VirtualRoot.BuildCmdPath<AddOrUpdateKernelOutputKeywordCommand>(path: (message) => {
                 InitOnece();
-                if (!DevMode.IsDevMode) {
+                if (ClientAppType.IsMinerClient) {
                     DataLevel dataLevel = DataLevel.Profile;
                     if (_dicById.TryGetValue(message.Input.GetId(), out KernelOutputKeywordData exist)) {
                         exist.Update(message.Input);
@@ -83,7 +82,7 @@ namespace NTMiner.Core.Impl {
                         VirtualRoot.RaiseEvent(new UserKernelOutputKeywordAddedEvent(message.MessageId, entity));
                     }
                 }
-                else {
+                else if (ClientAppType.IsMinerStudio) {
                     message.Input.SetDataLevel(DataLevel.Global);
                     RpcRoot.OfficialServer.KernelOutputKeywordService.AddOrUpdateKernelOutputKeywordAsync(KernelOutputKeywordData.Create(message.Input), (response, e) => {
                         if (response.IsSuccess()) {
@@ -97,7 +96,7 @@ namespace NTMiner.Core.Impl {
             }, location: this.GetType());
             VirtualRoot.BuildCmdPath<RemoveKernelOutputKeywordCommand>(path: (message) => {
                 InitOnece();
-                if (!DevMode.IsDevMode) {
+                if (ClientAppType.IsMinerClient) {
                     if (message == null || message.EntityId == Guid.Empty) {
                         return;
                     }
@@ -115,7 +114,7 @@ namespace NTMiner.Core.Impl {
                     }
                     VirtualRoot.RaiseEvent(new UserKernelOutputKeywordRemovedEvent(message.MessageId, entity));
                 }
-                else {
+                else if (ClientAppType.IsMinerStudio) {
                     RpcRoot.OfficialServer.KernelOutputKeywordService.RemoveKernelOutputKeyword(message.EntityId, (response, e) => {
                         if (response.IsSuccess()) {
                             VirtualRoot.Execute(new LoadKernelOutputKeywordCommand());
@@ -174,7 +173,7 @@ namespace NTMiner.Core.Impl {
                     list.Add(item);
                 }
             }
-            if (!DevMode.IsDevMode) {
+            if (ClientAppType.IsMinerClient) {
                 using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                     var col = db.GetCollection<KernelOutputKeywordData>();
                     foreach (var item in col.FindAll()) {

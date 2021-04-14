@@ -506,7 +506,13 @@ namespace NTMiner.Mine {
                                                     if (!string.IsNullOrEmpty(keyword.Description)) {
                                                         content = $" 大意：{keyword.Description} 详情：" + content;
                                                     }
-                                                    VirtualRoot.LocalMessage(LocalMessageChannel.Kernel, this.GetType().Name, messageType, content, OutEnum.None, toConsole: false);
+                                                    VirtualRoot.LocalMessage(
+                                                        LocalMessageChannel.Kernel, 
+                                                        this.GetType().Name, 
+                                                        messageType, 
+                                                        consoleLine: keyword.Description, 
+                                                        content, 
+                                                        OutEnum.None);
                                                 }
                                             }
                                         }

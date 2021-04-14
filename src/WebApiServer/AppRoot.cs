@@ -54,7 +54,7 @@ namespace NTMiner {
                 if (mutexCreated) {
                     try {
                         // 用本节点的地址作为队列名，消费消息时根据路由键区分消息类型
-                        string queue = $"{ServerAppType.WebApiServer.GetName()}.{ServerRoot.HostConfig.ThisServerAddress}";
+                        string queue = $"{nameof(ServerAppType.WebApiServer)}.{ServerRoot.HostConfig.ThisServerAddress}";
                         string durableQueue = queue + MqKeyword.DurableQueueEndsWith;
                         string wsBreathQueue = queue + MqKeyword.WsBreathQueueEndsWith;
                         AbstractMqMessagePath[] mqMessagePaths = new AbstractMqMessagePath[] {
@@ -69,7 +69,7 @@ namespace NTMiner {
                             NTMinerConsole.UserError("启动失败，无法继续，因为服务器上下文创建失败");
                             return;
                         }
-                        Console.Title = $"{ServerAppType.WebApiServer.GetName()}_{ServerRoot.HostConfig.ThisServerAddress}";
+                        Console.Title = $"{nameof(ServerAppType.WebApiServer)}_{ServerRoot.HostConfig.ThisServerAddress}";
                         // 阿里云OSS坑爹比七牛Kodo贵一半
                         CloudFileUrlGenerater = new AliCloudOSSFileUrlGenerater();
                         IRedis redis = mqRedis;

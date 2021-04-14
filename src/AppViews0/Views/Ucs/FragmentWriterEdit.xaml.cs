@@ -19,7 +19,10 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
+        public FragmentWriterViewModel Vm { get; private set; }
+
         public FragmentWriterEdit(FragmentWriterViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

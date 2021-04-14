@@ -44,10 +44,24 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (request.Data.GetDataLevel() != DataLevel.Global) {
-                    return ResponseBase.InvalidInput("添加到服务器的内核输出关键字记录的DataLevel属性必须赋值为Global");
-                }
                 VirtualRoot.Execute(new AddOrUpdateKernelOutputKeywordCommand(request.Data));
+                AppRoot.UpdateKernelOutputKeywordTimestamp(DateTime.Now);
+                return ResponseBase.Ok();
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return ResponseBase.ServerError(e.Message);
+            }
+        }
+
+        [Role.Admin]
+        [HttpPost]
+        public ResponseBase ClearByExceptedOutputIds(DataRequest<Guid[]> request) {
+            if (request == null || request.Data == null || request.Data.Length == 0) {
+                return ResponseBase.InvalidInput("参数错误");
+            }
+            try {
+                VirtualRoot.Execute(new ClearKernelOutputKeywordsCommand(request.Data));
                 AppRoot.UpdateKernelOutputKeywordTimestamp(DateTime.Now);
                 return ResponseBase.Ok();
             }

@@ -14,7 +14,6 @@ namespace NTMiner.Vms {
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
-        public ICommand ToServer { get; private set; }
         public ICommand Save { get; private set; }
 
         [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
@@ -25,32 +24,32 @@ namespace NTMiner.Vms {
         }
 
         private LocalMessageType _messageTypeEnum;
-        public KernelOutputKeywordViewModel(IKernelOutputKeyword data) : this(data.GetId()) {
-            this._dataLevel = data.GetDataLevel();
-            _kernelOutputId = data.KernelOutputId;
-            _messageType = data.MessageType;
-            data.MessageType.TryParse(out _messageTypeEnum);
+        public KernelOutputKeywordViewModel(IKernelOutputKeyword data) : this(data.GetId(), data.KernelOutputId, data.MessageType, data.GetDataLevel()) {
             _keyword = data.Keyword;
             _description = data.Description;
         }
 
-        public KernelOutputKeywordViewModel(Guid id) {
+        public KernelOutputKeywordViewModel(Guid id, Guid kernelOutputId, string messageType, DataLevel dataLevel) {
             _id = id;
+            _kernelOutputId = kernelOutputId;
+            _messageType = messageType;
+            _dataLevel = dataLevel;
+            messageType.TryParse(out _messageTypeEnum);
             this.Save = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.Keyword)) {
                     VirtualRoot.Out.ShowError("关键字不能为空", autoHideSeconds: 4);
                     return;
                 }
-                if (AppRoot.KernelOutputKeywordVms.GetListByKernelId(this.KernelOutputId).Any(a => a.Id != this.Id && a.Keyword == this.Keyword)) {
+                if (AppRoot.KernelOutputKeywordVms.GetListByKernelOutputId(this.KernelOutputId).Any(a => a.Id != this.Id && a.Keyword == this.Keyword)) {
                     throw new ValidationException($"关键字 {this.Keyword} 已经存在");
                 }
-                if (DevMode.IsDevMode) {
+                if (ClientAppType.IsMinerStudio) {
                     MinerStudio.MinerStudioRoot.Login(() => {
                         VirtualRoot.Execute(new AddOrUpdateKernelOutputKeywordCommand(this));
                         VirtualRoot.Execute(new CloseWindowCommand(this.Id));
                     });
                 }
-                else {
+                else if (ClientAppType.IsMinerClient) {
                     VirtualRoot.Execute(new AddOrUpdateKernelOutputKeywordCommand(this));
                     VirtualRoot.Execute(new CloseWindowCommand(this.Id));
                 }
@@ -78,10 +77,6 @@ namespace NTMiner.Vms {
                         VirtualRoot.Execute(new RemoveKernelOutputKeywordCommand(this.Id));
                     }
                 }));
-            });
-            this.ToServer = new DelegateCommand(() => {
-                // 发送给服务器并删除本地
-                // TODO:这是在测试完了后在挖矿端将本条自定义的内核输出关键字发送到服务端变成供所有人使用的公共的内核输出关键字的地方
             });
         }
 
@@ -123,7 +118,15 @@ namespace NTMiner.Vms {
 
         public bool IsReadOnly {
             get {
-                return !DevMode.IsDevMode && _dataLevel == DataLevel.Global;
+                if (ClientAppType.IsMinerClient) {
+                    return _dataLevel == DataLevel.Global;
+                }
+                else if (ClientAppType.IsMinerStudio) {
+                    return !MainMenuViewModel.Instance.IsMinerStudioOuterAdmin;
+                }
+                else {
+                    return true;
+                }
             }
         }
 

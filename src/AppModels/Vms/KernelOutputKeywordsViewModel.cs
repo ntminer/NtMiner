@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.MinerClient;
 using System;
 using System.Windows.Input;
 
@@ -21,16 +20,8 @@ namespace NTMiner.Vms {
                 if (kernelOutputVm == null) {
                     return;
                 }
-                var data = new KernelOutputKeywordData {
-                    Id = Guid.NewGuid(),
-                    MessageType = LocalMessageType.Info.GetName(),
-                    Keyword = string.Empty,
-                    Description = string.Empty,
-                    KernelOutputId = kernelOutputVm.Id
-                };
                 // 新建的内核输出关键字时的工作流：默认为Profile级，测试没问题后，然后在界面上提供个按钮转化为Global级提交到服务器
-                data.SetDataLevel(DataLevel.Profile);
-                new KernelOutputKeywordViewModel(data).Edit.Execute(FormType.Add);
+                new KernelOutputKeywordViewModel(Guid.NewGuid(), kernelOutputVm.Id, nameof(LocalMessageType.Info), DataLevel.Profile).Edit.Execute(FormType.Add);
             });
         }
 

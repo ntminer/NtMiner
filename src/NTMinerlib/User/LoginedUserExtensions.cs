@@ -7,7 +7,7 @@ namespace NTMiner.User {
             if (user == null || string.IsNullOrEmpty(user.Roles)) {
                 return false;
             }
-            return user.Roles.Split(',').Contains(Role.RoleEnum.Admin.GetName(), StringComparer.OrdinalIgnoreCase);
+            return user.Roles.Split(',').Contains(nameof(Role.RoleEnum.Admin), StringComparer.OrdinalIgnoreCase);
         }
     }
 }

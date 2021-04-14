@@ -47,9 +47,9 @@ namespace NTMiner {
             Windows.ConsoleHandler.Register(Exit);
 
             string thisServerAddress = ServerRoot.HostConfig.ThisServerAddress;
-            Console.Title = $"{ServerAppType.WsServer.GetName()}_{thisServerAddress}";
+            Console.Title = $"{nameof(ServerAppType.WsServer)}_{thisServerAddress}";
             // 用本节点的地址作为队列名，消费消息时根据路由键区分消息类型
-            string queue = $"{ServerAppType.WsServer.GetName()}.{thisServerAddress}";
+            string queue = $"{nameof(ServerAppType.WsServer)}.{thisServerAddress}";
             string durableQueue = queue + MqKeyword.DurableQueueEndsWith;
             AbstractMqMessagePath[] mqMessagePaths = new AbstractMqMessagePath[] {
                 new ReadOnlyUserMqMessagePath(durableQueue),

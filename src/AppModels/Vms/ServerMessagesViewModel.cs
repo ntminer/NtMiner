@@ -29,7 +29,7 @@ namespace NTMiner.Vms {
             this.Add = new DelegateCommand(() => {
                 new ServerMessageViewModel(new ServerMessageData {
                     Id = Guid.NewGuid(),
-                    MessageType = ServerMessageType.Info.GetName(),
+                    MessageType = nameof(ServerMessageType.Info),
                     Provider = "admin",
                     Content = string.Empty,
                     Timestamp = DateTime.MinValue

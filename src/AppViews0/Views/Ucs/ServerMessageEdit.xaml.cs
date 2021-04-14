@@ -19,7 +19,10 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
+        public ServerMessageViewModel Vm { get; private set; }
+
         public ServerMessageEdit(ServerMessageViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

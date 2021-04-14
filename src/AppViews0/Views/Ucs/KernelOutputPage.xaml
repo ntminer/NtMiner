@@ -107,9 +107,10 @@
 				Margin="0 2 0 0"
 				Padding="0"
 				BorderThickness="1"
+                SelectionChanged="TabControl_SelectionChanged"
 				BorderBrush="{StaticResource LightLineColor}"
 				Background="Transparent">
-				<!--start翻译-->
+                <!--翻译start-->
 				<TabItem>
 					<TabItem.Header>
 						<TextBlock Padding="10 0" Text="翻译"></TextBlock>
@@ -283,7 +284,134 @@
                         </controls:KbButton>
                     </Grid>
 				</TabItem>
-				<!--end翻译-->
+                <!--翻译end-->
+                <!--订阅start-->
+                <TabItem x:Name="TabItemOutputKeywords">
+                    <TabItem.Header>
+                        <TextBlock Padding="10 0" Text="订阅"></TextBlock>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="28"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Border Background="{StaticResource ToolbarBackground}">
+                            <WrapPanel VerticalAlignment="Center">
+                                <Path
+									Width="12"
+									Height="12"
+									Fill="{StaticResource BtnBackground}"
+									Stretch="Fill"
+									Data="{StaticResource Icon_Search}"></Path>
+                                <TextBlock VerticalAlignment="Center" Text="搜索" Margin="0 0 2 0"></TextBlock>
+                                <controls:KbTextBox 
+									x:Name="TbOutputKeyword" 
+									Width="134" 
+									Height="24"
+									Text="{Binding CurrentKernelOutputVm.OutputKeyword, UpdateSourceTrigger=PropertyChanged}" 
+									VerticalContentAlignment="Center"
+									Hint="请输入关键字"
+									BorderBrush="{StaticResource LightLineColor}"
+									BorderThickness="1"
+									Background="White"
+									SelectedColor="#409EFF" />
+                                <controls:KbButton 
+									Background="Transparent" BorderThickness="0"
+									Height="20"
+									Command="{Binding CurrentKernelOutputVm.ClearOutputKeyword}"
+									Visibility="{Binding ElementName=TbOutputKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+									Margin="-14 0 0 0" HorizontalAlignment="Left">
+                                    <Path
+										Width="8"
+										Height="8"
+										Data="{StaticResource Icon_Close}"
+										Fill="{StaticResource BtnBackground}"
+										Stretch="Fill" />
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </Border>
+                        <DataGrid
+							Grid.Row="1"
+							ItemsSource="{Binding CurrentKernelOutputVm.KernelOutputKeywords}" 
+							BorderThickness="1 1 0 0"
+							MouseDoubleClick="KernelOutputKeywordDataGrid_MouseDoubleClick">
+                            <DataGrid.Resources>
+                                <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn MinWidth="100" IsReadOnly="True">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
+                                                <controls:KbButton 
+													IsEnabled="{Binding IsReadOnly,Converter={StaticResource BoolInvertConverter}}"
+													Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
+													Margin="2 0"
+													CornerRadius="2" ToolTip="编辑">
+                                                    <WrapPanel>
+                                                        <Path
+															Width="18"
+															Height="18"
+															Data="{StaticResource Icon_Edit}"
+															Fill="{StaticResource BtnBackground}"
+															Stretch="Fill" />
+                                                    </WrapPanel>
+                                                </controls:KbButton>
+                                                <controls:KbButton 
+													IsEnabled="{Binding IsReadOnly,Converter={StaticResource BoolInvertConverter}}"
+													Command="{Binding Remove}" Background="Transparent" BorderThickness="0"
+													Margin="2 0"
+													CornerRadius="2" ToolTip="删除">
+                                                    <WrapPanel>
+                                                        <Path
+															Width="18"
+															Height="18"
+															Data="{StaticResource Icon_Delete}"
+															Fill="{StaticResource BtnBackground}"
+															Stretch="Fill" />
+                                                    </WrapPanel>
+                                                </controls:KbButton>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn MinWidth="20" Width="20" IsReadOnly="True">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Path
+												Width="14"
+												Height="14"
+												Data="{Binding MessageTypeIcon}"
+												Fill="{Binding IconFill}"
+												Stretch="Fill" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="关键字" Width="160" Binding="{Binding Keyword}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="大意" Width="*" Binding="{Binding Description}"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <TextBlock Grid.Row="1" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentKernelOutputVm.KernelOutputKeywords, Converter={StaticResource NoRecordVisibilityConverter}}" Grid.Column="1" Text="沒有记录"></TextBlock>
+                        <controls:KbButton 
+                            Grid.Row="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+							Command="{Binding CurrentKernelOutputVm.AddKernelOutputKeyword}" 
+							Background="Transparent" BorderThickness="0"
+							Margin="10 4"
+							CornerRadius="2" ToolTip="添加">
+                            <WrapPanel>
+                                <Path
+									Width="18"
+									Height="18"
+									Data="{StaticResource Icon_Add}"
+									Fill="{StaticResource BtnBackground}"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </Grid>
+                </TabItem>
+                <!--订阅end-->
 			</TabControl>
 		</Grid>
 	</Grid>

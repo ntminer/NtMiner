@@ -27,27 +27,27 @@ namespace NTMiner.Vms {
             }
         }
 
-        public KernelOutputTranslaterViewModel(IKernelOutputTranslater data) : this(data.GetId()) {
-            _kernelOutputId = data.KernelOutputId;
+        public KernelOutputTranslaterViewModel(IKernelOutputTranslater data) : this(data.GetId(), data.KernelOutputId, data.SortNumber) {
             _regexPattern = data.RegexPattern;
             _id = data.GetId();
             _replacement = data.Replacement;
-            _sortNumber = data.SortNumber;
             _isPre = data.IsPre;
         }
 
-        public KernelOutputTranslaterViewModel(Guid id) {
+        public KernelOutputTranslaterViewModel(Guid id, Guid kernelOutputId, int sortNumber) {
             _id = id;
+            _kernelOutputId = kernelOutputId;
+            _sortNumber = sortNumber;
             _isPre = true;// 在UI上将IsPre属性视为只读的选中状态的复选框
             this.Save = new DelegateCommand(() => {
-                int sortNumber = this.SortNumber;
+                int oldSortNumber = this.SortNumber;
                 if (NTMinerContext.Instance.ServerContext.KernelOutputTranslaterSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(this));
                 }
                 else {
                     VirtualRoot.Execute(new AddKernelOutputTranslaterCommand(this));
                 }
-                if (sortNumber != this.SortNumber) {
+                if (oldSortNumber != this.SortNumber) {
                     if (AppRoot.KernelOutputVms.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                         kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                     }
@@ -66,12 +66,12 @@ namespace NTMiner.Vms {
                 }));
             });
             this.SortUp = new DelegateCommand(() => {
-                KernelOutputTranslaterViewModel upOne = AppRoot.KernelOutputTranslaterVms.GetListByKernelId(this.KernelOutputId).GetUpOne(this.SortNumber);
+                KernelOutputTranslaterViewModel upOne = AppRoot.KernelOutputTranslaterVms.GetListByKernelOutputId(this.KernelOutputId).GetUpOne(this.SortNumber);
                 if (upOne != null) {
-                    int sortNumber = upOne.SortNumber;
+                    int oldSortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(upOne));
-                    this.SortNumber = sortNumber;
+                    this.SortNumber = oldSortNumber;
                     VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(this));
                     AppRoot.KernelOutputTranslaterVms.OnPropertyChanged(nameof(AppRoot.KernelOutputTranslaterViewModels.AllKernelOutputTranslaterVms));
                     if (AppRoot.KernelOutputVms.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
@@ -80,12 +80,12 @@ namespace NTMiner.Vms {
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                KernelOutputTranslaterViewModel nextOne = AppRoot.KernelOutputTranslaterVms.GetListByKernelId(this.KernelOutputId).GetNextOne(this.SortNumber);
+                KernelOutputTranslaterViewModel nextOne = AppRoot.KernelOutputTranslaterVms.GetListByKernelOutputId(this.KernelOutputId).GetNextOne(this.SortNumber);
                 if (nextOne != null) {
-                    int sortNumber = nextOne.SortNumber;
+                    int oldSortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(nextOne));
-                    this.SortNumber = sortNumber;
+                    this.SortNumber = oldSortNumber;
                     VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(this));
                     AppRoot.KernelOutputTranslaterVms.OnPropertyChanged(nameof(AppRoot.KernelOutputTranslaterViewModels.AllKernelOutputTranslaterVms));
                     if (AppRoot.KernelOutputVms.TryGetKernelOutputVm(this.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {

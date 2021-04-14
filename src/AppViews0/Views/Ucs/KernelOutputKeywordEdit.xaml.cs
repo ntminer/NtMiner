@@ -18,7 +18,10 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
+        public KernelOutputKeywordViewModel Vm { get; private set; }
+
         public KernelOutputKeywordEdit(KernelOutputKeywordViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

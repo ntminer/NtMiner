@@ -19,7 +19,10 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
+        public GroupViewModel Vm { get; private set; }
+
         public GroupEdit(GroupViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

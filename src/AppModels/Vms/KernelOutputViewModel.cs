@@ -38,6 +38,7 @@ namespace NTMiner.Vms {
         private string _dualRejectPercentPattern;
 
         private string _translaterKeyword;
+        private string _outputKeyword;
         private string _poolDelayPattern;
         private string _dualPoolDelayPattern;
         private string _speedUnit;
@@ -50,8 +51,10 @@ namespace NTMiner.Vms {
         public ICommand Save { get; private set; }
 
         public ICommand AddKernelOutputTranslater { get; private set; }
-
         public ICommand ClearTranslaterKeyword { get; private set; }
+
+        public ICommand AddKernelOutputKeyword { get; private set; }
+        public ICommand ClearOutputKeyword { get; private set; }
 
         [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public KernelOutputViewModel() {
@@ -123,20 +126,24 @@ namespace NTMiner.Vms {
             });
             this.AddKernelOutputTranslater = new DelegateCommand(() => {
                 int sortNumber = this.KernelOutputTranslaters.Count == 0 ? 1 : this.KernelOutputTranslaters.Count + 1;
-                new KernelOutputTranslaterViewModel(Guid.NewGuid()) {
-                    KernelOutputId = this.Id,
-                    SortNumber = sortNumber
-                }.Edit.Execute(FormType.Add);
+                new KernelOutputTranslaterViewModel(Guid.NewGuid(), this.Id, sortNumber).Edit.Execute(FormType.Add);
             });
             this.ClearTranslaterKeyword = new DelegateCommand(() => {
                 this.TranslaterKeyword = string.Empty;
             });
-        }
-
-        public List<KernelOutputKeywordViewModel> KernelOutputKeywords {
-            get {
-                return new List<KernelOutputKeywordViewModel>(AppRoot.KernelOutputKeywordVms.GetListByKernelId(this.Id).OrderBy(a => a.Keyword));
-            }
+            this.AddKernelOutputKeyword = new DelegateCommand(() => {
+                DataLevel dataLevel = DataLevel.UnDefined;
+                if (ClientAppType.IsMinerClient) {
+                    dataLevel = DataLevel.Profile;
+                }
+                else if (ClientAppType.IsMinerStudio) {
+                    dataLevel = DataLevel.Global;
+                }
+                new KernelOutputKeywordViewModel(Guid.NewGuid(), this.Id, nameof(LocalMessageType.Error), dataLevel).Edit.Execute(FormType.Add);
+            });
+            this.ClearOutputKeyword = new DelegateCommand(() => {
+                this.OutputKeyword = string.Empty;
+            });
         }
 
         public string TranslaterKeyword {
@@ -150,14 +157,36 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string OutputKeyword {
+            get { return _outputKeyword; }
+            set {
+                if (_outputKeyword != value) {
+                    _outputKeyword = value;
+                    OnPropertyChanged(nameof(OutputKeyword));
+                    OnPropertyChanged(nameof(KernelOutputKeywords));
+                }
+            }
+        }
+
         public List<KernelOutputTranslaterViewModel> KernelOutputTranslaters {
             get {
-                var query = AppRoot.KernelOutputTranslaterVms.GetListByKernelId(this.Id).AsQueryable();
+                var query = AppRoot.KernelOutputTranslaterVms.GetListByKernelOutputId(this.Id).AsQueryable();
                 if (!string.IsNullOrEmpty(TranslaterKeyword)) {
                     query = query.Where(a => (a.RegexPattern != null && a.RegexPattern.IgnoreCaseContains(TranslaterKeyword))
                         || (a.Replacement != null && a.Replacement.IgnoreCaseContains(TranslaterKeyword)));
                 }
                 return query.OrderBy(a => a.SortNumber).ToList();
+            }
+        }
+
+        public List<KernelOutputKeywordViewModel> KernelOutputKeywords {
+            get {
+                var query = AppRoot.KernelOutputKeywordVms.GetListByKernelOutputId(this.Id).AsQueryable();
+                if (!string.IsNullOrEmpty(OutputKeyword)) {
+                    query = query.Where(a => (a.Keyword != null && a.Keyword.IgnoreCaseContains(OutputKeyword))
+                        || (a.Description != null && a.Description.IgnoreCaseContains(OutputKeyword)));
+                }
+                return query.OrderBy(a => a.Keyword).ToList();
             }
         }
 

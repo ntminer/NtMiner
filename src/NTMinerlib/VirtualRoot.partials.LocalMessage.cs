@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using NTMiner.Hub;
 using System;
+using System.Collections.Generic;
 
 namespace NTMiner {
     public enum OutEnum {
@@ -114,23 +115,23 @@ namespace NTMiner {
             LocalMessage(LocalMessageChannel.This, provider, LocalMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
         }
 
+        private static readonly Dictionary<LocalMessageType, Action<string>> _consoleAction = new Dictionary<LocalMessageType, Action<string>> {
+            [LocalMessageType.Info] = NTMinerConsole.UserInfo,
+            [LocalMessageType.Warn] = NTMinerConsole.UserWarn,
+            [LocalMessageType.Error] = NTMinerConsole.UserError
+        };
+        public static void LocalMessage(LocalMessageChannel channel, string provider, LocalMessageType messageType, string consoleLine, string content, OutEnum outEnum) {
+            if (_consoleAction.TryGetValue(messageType, out Action<string> action)) {
+                action(consoleLine);
+            }
+            LocalMessage(channel, provider, messageType, content, outEnum, toConsole: false);
+        }
+
         public static void LocalMessage(LocalMessageChannel channel, string provider, LocalMessageType messageType, string content, OutEnum outEnum, bool toConsole) {
             switch (outEnum) {
                 case OutEnum.None:
-                    if (toConsole) {
-                        switch (messageType) {
-                            case LocalMessageType.Info:
-                                NTMinerConsole.UserInfo(content);
-                                break;
-                            case LocalMessageType.Warn:
-                                NTMinerConsole.UserWarn(content);
-                                break;
-                            case LocalMessageType.Error:
-                                NTMinerConsole.UserError(content);
-                                break;
-                            default:
-                                break;
-                        }
+                    if (toConsole && _consoleAction.TryGetValue(messageType, out Action<string> action)) {
+                        action(content);
                     }
                     break;
                 case OutEnum.Info:

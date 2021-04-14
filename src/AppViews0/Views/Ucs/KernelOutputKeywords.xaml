@@ -11,12 +11,47 @@
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
     d:DataContext="{d:DesignData Source=../Design/KernelOutputKeywordsViewModel.xaml}"
-	mc:Ignorable="d" d:DesignHeight="320" d:DesignWidth="520">
+	mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="800">
 	<Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="28"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
+        <Border Background="{StaticResource ToolbarBackground}">
+            <WrapPanel VerticalAlignment="Center">
+                <Path
+					Width="12"
+					Height="12"
+					Fill="{StaticResource BtnBackground}"
+					Stretch="Fill"
+					Data="{StaticResource Icon_Search}"></Path>
+                <TextBlock VerticalAlignment="Center" Text="搜索" Margin="0 0 2 0"></TextBlock>
+                <controls:KbTextBox 
+					x:Name="TbOutputKeyword" 
+					Width="134" 
+					Height="24"
+					Text="{Binding KernelOutputVm.OutputKeyword, UpdateSourceTrigger=PropertyChanged}" 
+					VerticalContentAlignment="Center"
+					Hint="请输入关键字"
+					BorderBrush="{StaticResource LightLineColor}"
+					BorderThickness="1"
+					Background="White"
+					SelectedColor="#409EFF" />
+                <controls:KbButton 
+					Background="Transparent" BorderThickness="0"
+					Height="20"
+					Command="{Binding KernelOutputVm.ClearOutputKeyword}"
+					Visibility="{Binding ElementName=TbOutputKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+					Margin="-14 0 0 0" HorizontalAlignment="Left">
+                    <Path
+						Width="8"
+						Height="8"
+						Data="{StaticResource Icon_Close}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </controls:KbButton>
+            </WrapPanel>
+        </Border>
         <DataGrid 
             Grid.Row="1" 
             ItemsSource="{Binding KernelOutputVm.KernelOutputKeywords}"
@@ -36,21 +71,6 @@
 											Width="18"
 											Height="18"
 											Data="{StaticResource Icon_Edit}"
-											Fill="{StaticResource BtnBackground}"
-											Stretch="Fill" />
-                                    </WrapPanel>
-                                </controls:KbButton>
-                                <controls:KbButton 
-                                    Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
-                                    IsEnabled="{Binding IsReadOnly,Converter={StaticResource BoolInvertConverter}}"
-									Margin="2 0"
-									Command="{Binding ToServer}" Background="Transparent" BorderThickness="0"
-									CornerRadius="2" ToolTip="Profile->Global：发送给服务器并删除本地">
-                                    <WrapPanel>
-                                        <Path
-											Width="18"
-											Height="18"
-											Data="{StaticResource Icon_Update}"
 											Fill="{StaticResource BtnBackground}"
 											Stretch="Fill" />
                                     </WrapPanel>

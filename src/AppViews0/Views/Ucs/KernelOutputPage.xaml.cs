@@ -37,5 +37,19 @@ namespace NTMiner.Views.Ucs {
         private void KernelOutputTranslaterDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             WpfUtil.DataGrid_EditRow<KernelOutputTranslaterViewModel>(sender, e);
         }
+
+        private void KernelOutputKeywordDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            WpfUtil.DataGrid_EditRow<KernelOutputKeywordViewModel>(sender, e);
+        }
+
+        private bool _isFirstSelectedOutputKeywords = true;
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (((TabControl)sender).SelectedItem == TabItemOutputKeywords) {
+                if (_isFirstSelectedOutputKeywords) {
+                    VirtualRoot.Execute(new LoadKernelOutputKeywordCommand());
+                }
+                _isFirstSelectedOutputKeywords = false;
+            }
+        }
     }
 }
