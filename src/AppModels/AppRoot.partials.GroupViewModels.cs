@@ -19,24 +19,24 @@ namespace NTMiner {
                         SortNumber = Count + 1
                     }.Edit.Execute(FormType.Add);
                 });
-                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         _dicById.Clear();
                         Init();
-                    }, location: this.GetType());
-                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole,
+                    });
+                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         OnPropertyChangeds();
-                    }, location: this.GetType());
-                BuildEventPath<GroupAddedEvent>("调整VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<GroupAddedEvent>("调整VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             GroupViewModel groupVm = new GroupViewModel(message.Source);
                             _dicById.Add(message.Source.GetId(), groupVm);
                             OnPropertyChangeds();
                         }
-                    }, location: this.GetType());
-                BuildEventPath<GroupUpdatedEvent>("调整VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<GroupUpdatedEvent>("调整VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out GroupViewModel vm)) {
                             int sortNumber = vm.SortNumber;
@@ -46,12 +46,12 @@ namespace NTMiner {
                                 OnPropertyChanged(nameof(SelectionOptions));
                             }
                         }
-                    }, location: this.GetType());
-                BuildEventPath<GroupRemovedEvent>("调整VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<GroupRemovedEvent>("调整VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();
-                    }, location: this.GetType());
+                    });
                 Init();
             }
 

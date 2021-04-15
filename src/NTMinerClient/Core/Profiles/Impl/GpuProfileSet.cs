@@ -11,7 +11,7 @@ namespace NTMiner.Core.Profiles.Impl {
         private GpuProfilesJsonDb _data = new GpuProfilesJsonDb();
 
         public GpuProfileSet(INTMinerContext ntminerContext) {
-            VirtualRoot.BuildCmdPath<AddOrUpdateGpuProfileCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<AddOrUpdateGpuProfileCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 GpuProfileData data = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == message.Input.CoinId && a.Index == message.Input.Index);
                 if (data != null) {
                     data.Update(message.Input);
@@ -23,15 +23,15 @@ namespace NTMiner.Core.Profiles.Impl {
                     Save();
                 }
                 VirtualRoot.RaiseEvent(new GpuProfileAddedOrUpdatedEvent(message.MessageId, data));
-            }, location: this.GetType());
+            });
             // 注意：这个命令处理程序不能放在展示层注册。修复通过群控超频不生效的BUG：这是一个难以发现的老BUG，以前的版本也存
             // 在这个BUG，BUG具体表现是当没有点击过挖矿端主界面上的算力Tab页时通过群控超频无效。感谢矿友发现问题，已经修复。
-            VirtualRoot.BuildCmdPath<CoinOverClockCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<CoinOverClockCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 Task.Factory.StartNew(() => {
                     CoinOverClock(ntminerContext, message.CoinId);
                     VirtualRoot.RaiseEvent(new CoinOverClockDoneEvent(targetPathId: message.MessageId));
                 });
-            }, location: this.GetType());
+            });
         }
 
         protected override void Init() {

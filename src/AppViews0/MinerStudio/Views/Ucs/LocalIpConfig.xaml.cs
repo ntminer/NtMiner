@@ -23,12 +23,12 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                         window.DragMove();
                     }
                 };
-                window.BuildEventPath<GetLocalIpsResponsedEvent>("收到了获取挖矿端Ip的响应", LogEnum.DevConsole, path: message => {
+                window.BuildEventPath<GetLocalIpsResponsedEvent>("收到了获取挖矿端Ip的响应", LogEnum.DevConsole, typeof(LocalIpConfig), PathPriority.Normal, path: message => {
                     if (message.ClientId != vm.MinerClientVm.ClientId) {
                         return;
                     }
                     vm.LocalIpVms = message.Data.Select(a => new NTMiner.Vms.LocalIpViewModel(a)).ToList();
-                }, typeof(LocalIpConfig));
+                });
                 MinerStudioRoot.MinerStudioService.GetLocalIpsAsync(vm.MinerClientVm);
                 return uc;
             }, fixedSize: true);

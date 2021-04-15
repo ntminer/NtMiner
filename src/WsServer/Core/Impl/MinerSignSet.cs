@@ -30,7 +30,7 @@ namespace NTMiner.Core.Impl {
                 VirtualRoot.RaiseEvent(new MinerSignSetInitedEvent());
             });
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在MinerSignSetInitedEvent事件之后才会创建
-            VirtualRoot.BuildEventPath<MinerDataRemovedMqEvent>("收到MinerClientRemovedMq消息后移除内存中对应的记录", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<MinerDataRemovedMqEvent>("收到MinerClientRemovedMq消息后移除内存中对应的记录", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 #region
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
@@ -45,8 +45,8 @@ namespace NTMiner.Core.Impl {
                     }
                 }
                 #endregion
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<MinerDatasRemovedMqEvent>("收到MinerClientsRemovedMq消息后移除内存中对应的记录", LogEnum.None, path: message => {
+            });
+            VirtualRoot.BuildEventPath<MinerDatasRemovedMqEvent>("收到MinerClientsRemovedMq消息后移除内存中对应的记录", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 #region
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
@@ -63,8 +63,8 @@ namespace NTMiner.Core.Impl {
                     }
                 }
                 #endregion
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<Per1SecondEvent>("每秒钟将暂存的新设置的MinerSign发送到Mq", LogEnum.None, message => {
+            });
+            VirtualRoot.BuildEventPath<Per1SecondEvent>("每秒钟将暂存的新设置的MinerSign发送到Mq", LogEnum.None, this.GetType(), PathPriority.Normal, message => {
                 Task.Factory.StartNew(() => {
                     MinerSign[] minerSignsSeted;
                     lock (_lockForMinerSignsSeted) {
@@ -73,7 +73,7 @@ namespace NTMiner.Core.Impl {
                     }
                     AppRoot.MinerClientMqSender.SendMinerSignsSeted(minerSignsSeted);
                 });
-            }, this.GetType());
+            });
         }
 
         private bool IsOldMqMessage(DateTime mqMessageTimestamp) {

@@ -21,12 +21,12 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => {
                 MinerStudioRoot.MinerStudioService.GetDrivesAsync(vm.MinerClientVm);
-                window.BuildEventPath<GetDrivesResponsedEvent>("收到了GetDrives的响应时绑定到界面", LogEnum.DevConsole, path: message => {
+                window.BuildEventPath<GetDrivesResponsedEvent>("收到了GetDrives的响应时绑定到界面", LogEnum.DevConsole, typeof(VirtualMemory), PathPriority.Normal, path: message => {
                     if (message.ClientId != vm.MinerClientVm.ClientId) {
                         return;
                     }
                     vm.Drives = message.Data.Select(a => new DriveViewModel(a)).ToList();
-                }, typeof(VirtualMemory));
+                });
                 return new VirtualMemory(vm);
             }, fixedSize: false);
         }

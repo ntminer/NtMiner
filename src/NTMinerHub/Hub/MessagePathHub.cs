@@ -92,11 +92,11 @@
             }
         }
 
-        public IMessagePathId AddPath<TMessage>(Type location, string description, LogEnum logType, Action<TMessage> action, PathId pathId, int viaTimesLimit = -1) {
+        public IMessagePathId AddPath<TMessage>(Type location, string description, LogEnum logType, PathId pathId, PathPriority priority, Action<TMessage> action, int viaTimesLimit = -1) {
             if (action == null) {
                 throw new ArgumentNullException(nameof(action));
             }
-            MessagePath<TMessage> path = new MessagePath<TMessage>(location, description, logType, action, pathId, viaTimesLimit);
+            MessagePath<TMessage> path = new MessagePath<TMessage>(location, description, logType, action, pathId, priority, viaTimesLimit);
             PathSetSet.GetMessagePathSet<TMessage>().AddMessagePath(path);
             PathAdded?.Invoke(path);
             return path;
@@ -138,6 +138,12 @@
                 return _messagePaths.ToArray();
             }
 
+            private void Sort() {
+                _messagePaths.Sort((left, right) => {
+                    return right.Priority - left.Priority;
+                });
+            }
+
             public void AddMessagePath(MessagePath<TMessage> messagePath) {
                 lock (_locker) {
                     if (typeof(ICmd).IsAssignableFrom(typeof(TMessage))) {
@@ -157,6 +163,7 @@
                         }
                     }
                     _messagePaths.Add(messagePath);
+                    Sort();
                 }
             }
 
@@ -165,6 +172,7 @@
                     var item = _messagePaths.FirstOrDefault(a => ReferenceEquals(a, messagePathId));
                     if (item != null) {
                         _messagePaths.Remove(item);
+                        Sort();
                         NTMinerConsole.DevDebug(() => "拆除路径" + messagePathId.Path + messagePathId.Description);
                     }
                 }
@@ -212,26 +220,29 @@
         }
 
         private class MessagePath<TMessage> : IMessagePathId, INotifyPropertyChanged {
-            private readonly Action<TMessage> _path;
+            private readonly Action<TMessage> _action;
             private bool _isEnabled;
             private int _viaTimesLimit;
 
             public event PropertyChangedEventHandler PropertyChanged;
 
-            internal MessagePath(Type location, string description, LogEnum logType, Action<TMessage> action, PathId pathId, int viaTimesLimit) {
+            internal MessagePath(Type location, string description, LogEnum logType, Action<TMessage> action, PathId pathId, PathPriority priority, int viaTimesLimit) {
                 if (viaTimesLimit == 0) {
                     throw new InvalidProgramException("消息路径的viaTimesLimit不能为0，可以为负数表示不限制通过次数或为正数表示限定通过次数，但不能为0");
                 }
-                _path = action;
+                _action = action;
                 _isEnabled = true;
                 _viaTimesLimit = viaTimesLimit;
+                var messageType = typeof(TMessage);
+                string path = $"{location.FullName}[{messageType.FullName}]";
 
-                MessageType = typeof(TMessage);
+                MessageType = messageType;
                 Location = location;
-                Path = $"{location.FullName}[{MessageType.FullName}]";
+                Path = path;
                 Description = description;
                 LogType = logType;
                 PathId = pathId;
+                Priority = priority;
                 CreatedOn = DateTime.Now;
             }
 
@@ -253,6 +264,7 @@
             }
 
             public PathId PathId { get; private set; }
+            public PathPriority Priority { get; private set; }
             public DateTime CreatedOn { get; private set; }
             public Type MessageType { get; private set; }
             public MessageTypeAttribute MessageTypeAttribute {
@@ -276,7 +288,7 @@
 
             public void Go(TMessage message) {
                 try {
-                    _path?.Invoke(message);
+                    _action?.Invoke(message);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(Path + ":" + e.Message, e);

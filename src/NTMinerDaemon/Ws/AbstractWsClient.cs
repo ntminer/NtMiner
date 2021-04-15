@@ -76,12 +76,12 @@ namespace NTMiner.Ws {
         public AbstractWsClient(NTMinerAppType appType) {
             _appType = appType;
             _clientId = NTMinerRegistry.GetClientId(appType);
-            VirtualRoot.BuildEventPath<Per1SecondEvent>("重试Ws连接的秒表倒计时", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<Per1SecondEvent>("重试Ws连接的秒表倒计时", LogEnum.None, typeof(VirtualRoot), PathPriority.Normal, path: message => {
                 if (_nextTrySecondsDelay > 0) {
                     _nextTrySecondsDelay--;
                 }
-            }, typeof(VirtualRoot));
-            VirtualRoot.BuildEventPath<Per10SecondEvent>("周期检查Ws连接", LogEnum.None,
+            });
+            VirtualRoot.BuildEventPath<Per10SecondEvent>("周期检查Ws连接", LogEnum.None, typeof(VirtualRoot), PathPriority.Normal,
                 path: message => {
                     if (_ws == null || _ws.ReadyState != WebSocketState.Open) {
                         if (_continueCount >= _failConnCount) {
@@ -92,9 +92,9 @@ namespace NTMiner.Ws {
                             _continueCount++;
                         }
                     }
-                }, typeof(VirtualRoot));
+                });
             // 20秒是个不错的值，即不太频繁，也不太少
-            VirtualRoot.BuildEventPath<Per20SecondEvent>("周期Ws Ping", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<Per20SecondEvent>("周期Ws Ping", LogEnum.None, typeof(VirtualRoot), PathPriority.Normal, path: message => {
                 if (_ws != null && _ws.ReadyState == WebSocketState.Open) {
                     // 或者_ws.IsAlive，因为_ws.IsAlive内部也是一个Ping，所以用Ping从而显式化这里有个网络请求
                     Task.Factory.StartNew(() => {
@@ -103,10 +103,10 @@ namespace NTMiner.Ws {
                         }
                     });
                 }
-            }, typeof(VirtualRoot));
-            VirtualRoot.BuildEventPath<AppExitEvent>("退出程序时关闭Ws连接", LogEnum.DevConsole, path: message => {
+            });
+            VirtualRoot.BuildEventPath<AppExitEvent>("退出程序时关闭Ws连接", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                 _ws?.CloseAsync(CloseStatusCode.Normal, "客户端程序退出");
-            }, this.GetType());
+            });
             /// 1，进程启动后第一次连接时；
             NeedReWebSocket();
             OpenOrCloseWs();

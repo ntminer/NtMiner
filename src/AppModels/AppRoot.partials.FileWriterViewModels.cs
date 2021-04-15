@@ -17,34 +17,34 @@ namespace NTMiner {
                 this.Add = new DelegateCommand(() => {
                     new FileWriterViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
                 });
-                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         _dicById.Clear();
                         Init();
-                    }, location: this.GetType());
-                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole,
+                    });
+                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         OnPropertyChangeds();
-                    }, location: this.GetType());
-                BuildEventPath<FileWriterAddedEvent>("调整VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<FileWriterAddedEvent>("调整VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             FileWriterViewModel groupVm = new FileWriterViewModel(message.Source);
                             _dicById.Add(message.Source.GetId(), groupVm);
                             OnPropertyChangeds();
                         }
-                    }, location: this.GetType());
-                BuildEventPath<FileWriterUpdatedEvent>("调整VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<FileWriterUpdatedEvent>("调整VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out FileWriterViewModel vm)) {
                             vm.Update(message.Source);
                         }
-                    }, location: this.GetType());
-                BuildEventPath<FileWriterRemovedEvent>("调整VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<FileWriterRemovedEvent>("调整VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();
-                    }, location: this.GetType());
+                    });
                 Init();
             }
 

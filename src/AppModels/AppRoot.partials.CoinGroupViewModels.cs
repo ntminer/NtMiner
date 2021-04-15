@@ -14,17 +14,17 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         _dicById.Clear();
                         _listByGroupId.Clear();
                         Init();
-                    }, location: this.GetType());
-                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole,
+                    });
+                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         // 什么也不做，因为该集合没有什么属性
-                    }, location: this.GetType());
-                BuildEventPath<CoinGroupAddedEvent>("调整VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<CoinGroupAddedEvent>("调整VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(message.Source);
@@ -35,8 +35,8 @@ namespace NTMiner {
                             _listByGroupId[coinGroupVm.GroupId].Add(coinGroupVm);
                             OnGroupPropertyChanged(coinGroupVm.GroupId);
                         }
-                    }, location: this.GetType());
-                BuildEventPath<CoinGroupRemovedEvent>("调整VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<CoinGroupRemovedEvent>("调整VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             var entity = _dicById[message.Source.GetId()];
@@ -46,7 +46,7 @@ namespace NTMiner {
                             }
                             OnGroupPropertyChanged(entity.GroupId);
                         }
-                    }, location: this.GetType());
+                    });
                 Init();
             }
 

@@ -48,13 +48,13 @@ namespace NTMiner.Views {
                     string noText = Vm.NoText;
                     int n = 4;
                     Vm.NoText = $"请再点一次({n.ToString()})";
-                    this.BuildViaTimesLimitPath<Per1SecondEvent>("倒计时'请再点一次'", LogEnum.None, message => {
+                    this.BuildViaTimesLimitPath<Per1SecondEvent>("倒计时'请再点一次'", LogEnum.None, viaTimesLimit: n, this.GetType(), PathPriority.Normal, message => {
                         n--;
                         Vm.NoText = $"请再点一次({n.ToString()})";
                         if (n == 0) {
                             Vm.NoText = noText;
                         }
-                    }, viaTimesLimit: n, this.GetType());
+                    });
                 }
                 else if (Vm.OnNo.Invoke()) {
                     this.Close();

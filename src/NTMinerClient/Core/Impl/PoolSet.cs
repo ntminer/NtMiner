@@ -99,7 +99,7 @@ namespace NTMiner.Core.Impl {
                         VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
                     }
                 }, location: this.GetType());
-            context.AddEventPath<PoolDelayPickedEvent>("提取了矿池延时后记录进内存", LogEnum.DevConsole,
+            context.AddEventPath<PoolDelayPickedEvent>("提取了矿池延时后记录进内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                 action: message => {
                     if (message.IsDual) {
                         if (_poolDelayById.TryGetValue(message.PoolId, out PoolDelay poolDelay)) {
@@ -123,7 +123,7 @@ namespace NTMiner.Core.Impl {
                             });
                         }
                     }
-                }, location: this.GetType());
+                });
         }
 
         protected override void Init() {

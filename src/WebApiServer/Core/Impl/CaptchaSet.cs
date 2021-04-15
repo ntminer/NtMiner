@@ -29,7 +29,7 @@ namespace NTMiner.Core.Impl {
                 }
                 IsReadied = true;
             });
-            VirtualRoot.BuildEventPath<Per1MinuteEvent>("清理过期的验证码", LogEnum.DevConsole, path: message => {
+            VirtualRoot.BuildEventPath<Per1MinuteEvent>("清理过期的验证码", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                 // 验证码在内存中留存10分钟
                 DateTime time = message.BornOn.AddMinutes(-10);
                 CaptchaData[] toRemoves;
@@ -40,7 +40,7 @@ namespace NTMiner.Core.Impl {
                     _dicById.Remove(item.Id);
                     _redis.DeleteAsync(item);
                 }
-            }, this.GetType());
+            });
         }
 
         public bool SetCaptcha(CaptchaData data) {

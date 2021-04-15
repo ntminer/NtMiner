@@ -8,7 +8,7 @@ namespace NTMiner.Core.Profiles.Impl {
         private readonly INTMinerContext _ntminerContext;
         public WalletSet(INTMinerContext ntminerContext) {
             _ntminerContext = ntminerContext;
-            VirtualRoot.BuildCmdPath<AddWalletCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<AddWalletCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -28,8 +28,8 @@ namespace NTMiner.Core.Profiles.Impl {
                 repository.Add(entity);
 
                 VirtualRoot.RaiseEvent(new WalletAddedEvent(message.MessageId, entity));
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<UpdateWalletCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<UpdateWalletCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -51,8 +51,8 @@ namespace NTMiner.Core.Profiles.Impl {
                 repository.Update(entity);
 
                 VirtualRoot.RaiseEvent(new WalletUpdatedEvent(message.MessageId, entity));
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<RemoveWalletCommand>(path: (message) => {
+            });
+            VirtualRoot.BuildCmdPath<RemoveWalletCommand>(location: this.GetType(), LogEnum.DevConsole, path: (message) => {
                 InitOnece();
                 if (message == null || message.EntityId == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -66,7 +66,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 repository.Remove(entity.Id);
 
                 VirtualRoot.RaiseEvent(new WalletRemovedEvent(message.MessageId, entity));
-            }, location: this.GetType());
+            });
         }
 
         public void Refresh() {

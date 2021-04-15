@@ -4,7 +4,7 @@ using System;
 namespace NTMiner.Ws {
     public class DaemonWsClient : AbstractWsClient {
         public DaemonWsClient() : base(NTMinerAppType.MinerClient) {
-            VirtualRoot.BuildEventPath<Per2MinuteEvent>("每2分钟通过Ws通道上报一次算力", LogEnum.DevConsole, path: message => {
+            VirtualRoot.BuildEventPath<Per2MinuteEvent>("每2分钟通过Ws通道上报一次算力", LogEnum.DevConsole, typeof(VirtualRoot), PathPriority.Normal, path: message => {
                 if (!IsOpen) {
                     return;
                 }
@@ -20,7 +20,7 @@ namespace NTMiner.Ws {
                         Data = data
                     });
                 });
-            }, typeof(VirtualRoot));
+            });
         }
 
         protected override bool TryGetHandler(string messageType, out Action<Action<WsMessage>, WsMessage> handler) {

@@ -167,21 +167,21 @@ namespace NTMiner.Views {
             this.LocationChanged += (sender, e) => {
                 MoveConsoleWindow();
             };
-            VirtualRoot.BuildCmdPath<TopmostCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<TopmostCommand>(this.GetType(), LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     if (!this.Topmost) {
                         this.Topmost = true;
                     }
                 });
-            }, this.GetType());
-            VirtualRoot.BuildCmdPath<UnTopmostCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<UnTopmostCommand>(this.GetType(), LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     if (this.Topmost) {
                         this.Topmost = false;
                     }
                 });
-            }, this.GetType());
-            VirtualRoot.BuildCmdPath<CloseMainWindowCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<CloseMainWindowCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     if (message.IsAutoNoUi) {
                         SwitchToNoUi();
@@ -190,8 +190,8 @@ namespace NTMiner.Views {
                         this.Close();
                     }
                 });
-            }, location: this.GetType());
-            this.BuildEventPath<Per1MinuteEvent>("挖矿中时自动切换为无界面模式", LogEnum.DevConsole,
+            });
+            this.BuildEventPath<Per1MinuteEvent>("挖矿中时自动切换为无界面模式", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     if (NTMinerContext.IsUiVisible && NTMinerContext.Instance.MinerProfile.IsAutoNoUi && NTMinerContext.Instance.IsMining) {
                         if (NTMinerContext.MainWindowRendedOn.AddMinutes(NTMinerContext.Instance.MinerProfile.AutoNoUiMinutes) < message.BornOn) {
@@ -199,7 +199,7 @@ namespace NTMiner.Views {
                             VirtualRoot.Execute(new CloseMainWindowCommand(isAutoNoUi: true));
                         }
                     }
-                }, location: this.GetType());
+                });
 #if DEBUG
             var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {

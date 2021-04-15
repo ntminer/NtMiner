@@ -110,6 +110,7 @@
     <Compile Include="NTMinerDataSchemasTests.cs" />
     <Compile Include="NTStopwatchTests.cs" />
     <Compile Include="OSSTests.cs" />
+    <Compile Include="PathPriorityTests.cs" />
     <Compile Include="PerformanceCounterTests.cs" />
     <Compile Include="PInvokeTests.cs" />
     <Compile Include="RamTests.cs" />

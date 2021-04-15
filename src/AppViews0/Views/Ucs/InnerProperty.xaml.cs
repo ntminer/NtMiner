@@ -13,11 +13,11 @@ namespace NTMiner.Views.Ucs {
             this.DataContext = this.Vm;
             InitializeComponent();
             this.OnLoaded(window => {
-                window.BuildEventPath<ServerJsonVersionChangedEvent>("刷新展示的ServerJsonVersion", LogEnum.DevConsole, path: message => {
+                window.BuildEventPath<ServerJsonVersionChangedEvent>("刷新展示的ServerJsonVersion", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal, path: message => {
                     if (message.IsChagned) {
                         Vm.ServerJsonVersion = message.NewVersion;
                     }
-                }, location: this.GetType());
+                });
             });
         }
 

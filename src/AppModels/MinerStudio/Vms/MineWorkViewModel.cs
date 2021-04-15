@@ -104,12 +104,12 @@ namespace NTMiner.MinerStudio.Vms {
                             VirtualRoot.Out.ShowError("无法操作，因为选中的矿机未开启外网群控。", autoHideSeconds: 6);
                             return;
                         }
-                        VirtualRoot.BuildOnecePath<GetSelfWorkLocalJsonResponsedEvent>("填充Vm内存", LogEnum.DevConsole, path: message => {
+                        VirtualRoot.BuildOnecePath<GetSelfWorkLocalJsonResponsedEvent>("填充Vm内存", LogEnum.DevConsole, PathId.Empty, typeof(MineWorkViewModel), PathPriority.Normal, path: message => {
                             if (message.ClientId == _minerClientVm.ClientId) {
                                 string data = message.Data;
                                 EditJson(formType, WorkType.SelfWork, data);
                             }
-                        }, PathId.Empty, typeof(MineWorkViewModel));
+                        });
                         MinerStudioRoot.MinerStudioService.GetSelfWorkLocalJsonAsync(_minerClientVm);
                     }
                     else {

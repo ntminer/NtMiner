@@ -21,10 +21,10 @@ namespace NTMiner.Views.Ucs {
                         window.DragMove();
                     }
                 };
-                window.BuildEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新IP设置页", LogEnum.DevConsole,
+                window.BuildEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新IP设置页", LogEnum.DevConsole, location: typeof(LocalIpConfig), PathPriority.Normal,
                     path: message => {
                         UIThread.Execute(uc.Vm.Refresh);
-                    }, location: typeof(LocalIpConfig));
+                    });
                 return uc;
             }, fixedSize: true);
         }

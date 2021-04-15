@@ -49,11 +49,11 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new LoadNewServerMessageCommand());
                 }));
             });
-            VirtualRoot.BuildEventPath<ServerMessagesClearedEvent>("清空了本地存储的服务器消息后刷新Vm内存", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<ServerMessagesClearedEvent>("清空了本地存储的服务器消息后刷新Vm内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     Init();
-                }, location: this.GetType());
-            VirtualRoot.BuildEventPath<NewServerMessageLoadedEvent>("从服务器加载了新消息后刷新Vm内存", LogEnum.DevConsole,
+                });
+            VirtualRoot.BuildEventPath<NewServerMessageLoadedEvent>("从服务器加载了新消息后刷新Vm内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     UIThread.Execute(() => {
                         foreach (var item in message.Data) {
@@ -88,8 +88,8 @@ namespace NTMiner.Vms {
                         }
                         OnPropertyChanged(nameof(IsNoRecord));
                     });
-                }, location: this.GetType());
-            VirtualRoot.BuildEventPath<NewDayEvent>("新的一天到来时刷新消息集中的可读性时间戳展示", LogEnum.DevConsole,
+                });
+            VirtualRoot.BuildEventPath<NewDayEvent>("新的一天到来时刷新消息集中的可读性时间戳展示", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     if (QueryResults == null) {
                         return;
@@ -103,7 +103,7 @@ namespace NTMiner.Vms {
                             break;
                         }
                     }
-                }, location: this.GetType());
+                });
         }
 
         private void Init() {

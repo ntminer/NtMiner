@@ -38,10 +38,10 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             this.DataContext = this.Vm;
             InitializeComponent();
             this.OnLoaded((window) => {
-                window.BuildEventPath<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
+                window.BuildEventPath<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         Vm.Refresh();
-                    }, location: this.GetType());
+                    });
             });
         }
 

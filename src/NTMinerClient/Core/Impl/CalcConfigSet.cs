@@ -11,10 +11,10 @@ namespace NTMiner.Core.Impl {
         public CalcConfigSet(INTMinerContext ntminerContext) {
             _ntminerContext = ntminerContext;
             if (ClientAppType.IsMinerClient) {
-                VirtualRoot.BuildOnecePath<HasBoot20SecondEvent>("初始化收益计算器", LogEnum.DevConsole,
+                VirtualRoot.BuildOnecePath<HasBoot20SecondEvent>("初始化收益计算器", LogEnum.DevConsole, pathId: PathId.Empty, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         Init();
-                    }, location: this.GetType(), pathId: PathId.Empty);
+                    });
             }
         }
 

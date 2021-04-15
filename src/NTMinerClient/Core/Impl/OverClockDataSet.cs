@@ -11,7 +11,7 @@ namespace NTMiner.Core.Impl {
 
         public OverClockDataSet(INTMinerContext ntminerContext) {
             _ntminerContext = ntminerContext;
-            VirtualRoot.BuildCmdPath<AddOverClockDataCommand>(path: (message) => {
+            VirtualRoot.BuildCmdPath<AddOverClockDataCommand>(location: this.GetType(), LogEnum.DevConsole, path: (message) => {
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
                 }
@@ -31,8 +31,8 @@ namespace NTMiner.Core.Impl {
                         VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                     }
                 });
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<UpdateOverClockDataCommand>(path: (message) => {
+            });
+            VirtualRoot.BuildCmdPath<UpdateOverClockDataCommand>(location: this.GetType(), LogEnum.DevConsole, path: (message) => {
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
                 }
@@ -52,8 +52,8 @@ namespace NTMiner.Core.Impl {
                     }
                 });
                 VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(message.MessageId, entity));
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<RemoveOverClockDataCommand>(path: (message) => {
+            });
+            VirtualRoot.BuildCmdPath<RemoveOverClockDataCommand>(location: this.GetType(), LogEnum.DevConsole, path: (message) => {
                 if (message == null || message.EntityId == Guid.Empty) {
                     throw new ArgumentNullException();
                 }
@@ -70,7 +70,7 @@ namespace NTMiner.Core.Impl {
                         VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                     }
                 });
-            }, location: this.GetType());
+            });
         }
 
         protected override void Init() {

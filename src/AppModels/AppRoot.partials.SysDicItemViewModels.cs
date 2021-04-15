@@ -13,16 +13,16 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         _dicById.Clear();
                         Init();
-                    }, location: this.GetType());
-                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole,
+                    });
+                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         AllPropertyChanged();
-                    }, location: this.GetType());
-                BuildEventPath<SysDicItemAddedEvent>("调整VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<SysDicItemAddedEvent>("调整VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new SysDicItemViewModel(message.Source));
@@ -32,8 +32,8 @@ namespace NTMiner {
                                 sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
                             }
                         }
-                    }, location: this.GetType());
-                BuildEventPath<SysDicItemUpdatedEvent>("调整VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<SysDicItemUpdatedEvent>("调整VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out SysDicItemViewModel vm)) {
                             int sortNumber = vm.SortNumber;
@@ -45,8 +45,8 @@ namespace NTMiner {
                                 }
                             }
                         }
-                    }, location: this.GetType());
-                BuildEventPath<SysDicItemRemovedEvent>("调整VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<SysDicItemRemovedEvent>("调整VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         AllPropertyChanged();
@@ -54,7 +54,7 @@ namespace NTMiner {
                             sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
                             sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
                         }
-                    }, location: this.GetType());
+                    });
                 Init();
             }
 

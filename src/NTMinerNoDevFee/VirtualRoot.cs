@@ -63,12 +63,12 @@ namespace NTMiner {
         private static void Run() {
             try {
                 Windows.ConsoleHandler.Register(Exit);
-                BuildEventPath<Per10SecondEvent>("呼吸表示活着", LogEnum.None,
+                BuildEventPath<Per10SecondEvent>("呼吸表示活着", LogEnum.None, typeof(VirtualRoot), PathPriority.Normal,
                     path: message => {
                         NTMinerRegistry.SetNoDevFeeActiveOn(DateTime.Now);
                         NoDevFee.NoDevFeeUtil.StartAsync();
-                    }, typeof(VirtualRoot));
-                BuildEventPath<Per24HourEvent>("周期清理日志文件", LogEnum.None,
+                    });
+                BuildEventPath<Per24HourEvent>("周期清理日志文件", LogEnum.None, typeof(VirtualRoot), PathPriority.Normal,
                     path: message => {
                         #region
                         try {
@@ -93,7 +93,7 @@ namespace NTMiner {
                             Logger.ErrorDebugLine(e);
                         }
                         #endregion
-                    }, typeof(VirtualRoot));
+                    });
                 _waitHandle.WaitOne();
                 Exit();
             }

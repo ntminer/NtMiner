@@ -9,10 +9,10 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<string, List<IMinerStudioSession>> _dicByLoginName = new Dictionary<string, List<IMinerStudioSession>>();
 
         public MinerStudioSessionSet(IWsSessionsAdapter wsSessions) : base(wsSessions) {
-            VirtualRoot.BuildEventPath<UserPasswordChangedMqEvent>("群控用户密码变更后通知群控客户端重新登录", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<UserPasswordChangedMqEvent>("群控用户密码变更后通知群控客户端重新登录", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 SendToMinerStudioAsync(message.LoginName, new WsMessage(message.MessageId, WsMessage.ReLogin));
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<ConsoleOutLinesMqEvent>("收到ConsoleOutLinesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
+            });
+            VirtualRoot.BuildEventPath<ConsoleOutLinesMqEvent>("收到ConsoleOutLinesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 #region
                 if (IsTooOld(message.Timestamp)) {
                     return;
@@ -25,8 +25,8 @@ namespace NTMiner.Core.Impl {
                     }
                 });
                 #endregion
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<LocalMessagesMqEvent>("收到LocalMessagesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
+            });
+            VirtualRoot.BuildEventPath<LocalMessagesMqEvent>("收到LocalMessagesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 #region
                 if (IsTooOld(message.Timestamp)) {
                     return;
@@ -39,8 +39,8 @@ namespace NTMiner.Core.Impl {
                     }
                 });
                 #endregion
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<DrivesMqEvent>("收到DrivesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
+            });
+            VirtualRoot.BuildEventPath<DrivesMqEvent>("收到DrivesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 #region
                 if (IsTooOld(message.Timestamp)) {
                     return;
@@ -53,8 +53,8 @@ namespace NTMiner.Core.Impl {
                     }
                 });
                 #endregion
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<LocalIpsMqEvent>("收到LocalIpsMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
+            });
+            VirtualRoot.BuildEventPath<LocalIpsMqEvent>("收到LocalIpsMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 #region
                 if (IsTooOld(message.Timestamp)) {
                     return;
@@ -67,8 +67,8 @@ namespace NTMiner.Core.Impl {
                     }
                 });
                 #endregion
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<OperationResultsMqEvent>("收到OperationResultsMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
+            });
+            VirtualRoot.BuildEventPath<OperationResultsMqEvent>("收到OperationResultsMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 #region
                 if (IsTooOld(message.Timestamp)) {
                     return;
@@ -81,8 +81,8 @@ namespace NTMiner.Core.Impl {
                     }
                 });
                 #endregion
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<OperationReceivedMqEvent>("收到OperationReceivedMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
+            });
+            VirtualRoot.BuildEventPath<OperationReceivedMqEvent>("收到OperationReceivedMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 #region
                 if (IsTooOld(message.Timestamp)) {
                     return;
@@ -94,8 +94,8 @@ namespace NTMiner.Core.Impl {
                     }
                 });
                 #endregion
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<LocalJsonMqEvent>("收到LocalJsonMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
+            });
+            VirtualRoot.BuildEventPath<LocalJsonMqEvent>("收到LocalJsonMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 #region
                 if (IsTooOld(message.Timestamp)) {
                     return;
@@ -108,8 +108,8 @@ namespace NTMiner.Core.Impl {
                     }
                 });
                 #endregion
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<GpuProfilesJsonMqEvent>("收到GpuProfilesJsonMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, path: message => {
+            });
+            VirtualRoot.BuildEventPath<GpuProfilesJsonMqEvent>("收到GpuProfilesJsonMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 #region
                 if (IsTooOld(message.Timestamp)) {
                     return;
@@ -122,8 +122,8 @@ namespace NTMiner.Core.Impl {
                     }
                 });
                 #endregion
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<QueryClientsForWsResponseMqEvent>("收到QueryClientsResponseMq消息后通过Ws通道发送给群控客户端", LogEnum.None, path: message => {
+            });
+            VirtualRoot.BuildEventPath<QueryClientsForWsResponseMqEvent>("收到QueryClientsResponseMq消息后通过Ws通道发送给群控客户端", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 #region
                 if (IsTooOld(message.Timestamp)) {
                     return;
@@ -136,7 +136,7 @@ namespace NTMiner.Core.Impl {
                     }.SignToBytes(userData.Password));
                 }
                 #endregion
-            }, this.GetType());
+            });
         }
 
         public override void Add(IMinerStudioSession minerSession) {

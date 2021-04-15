@@ -60,12 +60,12 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 uc.Unloaded += (object sender, RoutedEventArgs e) => {
                     minerClientsWindowVm.PropertyChanged -= onSelectedMinerClientsChanged;
                 };
-                window.BuildEventPath<GetGpuProfilesResponsedEvent>("收到GetGpuProfilesJson的响应", LogEnum.DevConsole, path: message => {
+                window.BuildEventPath<GetGpuProfilesResponsedEvent>("收到GetGpuProfilesJson的响应", LogEnum.DevConsole, typeof(GpuProfilesPage), PathPriority.Normal, path: message => {
                     if (message.ClientId != minerClientVm.ClientId) {
                         return;
                     }
                     vm.SetData(message.Data);
-                }, typeof(GpuProfilesPage));
+                });
                 MinerStudioRoot.MinerStudioService.GetGpuProfilesJsonAsync(minerClientVm);
                 return uc;
             }, fixedSize: false);

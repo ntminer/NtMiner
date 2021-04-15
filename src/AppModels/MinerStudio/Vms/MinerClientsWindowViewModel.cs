@@ -242,7 +242,7 @@ namespace NTMiner.MinerStudio.Vms {
         }
 
         private void AddEventPath() {
-            VirtualRoot.BuildEventPath<QueryClientsResponseEvent>("收到QueryClientsResponse响应后刷新界面", LogEnum.DevConsole, path: message => {
+            VirtualRoot.BuildEventPath<QueryClientsResponseEvent>("收到QueryClientsResponse响应后刷新界面", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                 this.ResetCountDown();
                 this.IsLoading = false;
                 var response = message.Response;
@@ -354,7 +354,7 @@ namespace NTMiner.MinerStudio.Vms {
                     }
                     #endregion
                 }
-            }, this.GetType());
+            });
         }
         #endregion
 
@@ -865,7 +865,7 @@ namespace NTMiner.MinerStudio.Vms {
                     RpcRoot.SetIsOuterNet(false);
                 }
             });
-            VirtualRoot.BuildEventPath<MinerStudioServiceSwitchedEvent>("切换了群控后台客户端服务类型后刷新矿机列表", LogEnum.DevConsole, path: message => {
+            VirtualRoot.BuildEventPath<MinerStudioServiceSwitchedEvent>("切换了群控后台客户端服务类型后刷新矿机列表", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                 this.OnPropertyChanged(nameof(NetTypeToolTip));
                 this.OnPropertyChanged(nameof(NetTypeText));
                 if (message.ServiceType == MinerStudioServiceType.Out) {
@@ -880,14 +880,14 @@ namespace NTMiner.MinerStudio.Vms {
                 else {
                     this.QueryMinerClients();
                 }
-            }, this.GetType());
-            VirtualRoot.BuildCmdPath<UpdateMinerClientVmCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<UpdateMinerClientVmCommand>(this.GetType(), LogEnum.DevConsole, path: message => {
                 var vm = _minerClients.FirstOrDefault(a => a.Id == message.ClientData.Id);
                 if (vm != null) {
                     vm.Update(message.ClientData);
                 }
-            }, this.GetType(), LogEnum.DevConsole);
-            VirtualRoot.BuildCmdPath<RefreshWsStateCommand>(message => {
+            });
+            VirtualRoot.BuildCmdPath<RefreshWsStateCommand>(this.GetType(), LogEnum.DevConsole, message => {
                 #region
                 if (message.WsClientState != null) {
                     this.WsServerIp = message.WsClientState.WsServerIp;
@@ -908,18 +908,18 @@ namespace NTMiner.MinerStudio.Vms {
                     }
                 }
                 #endregion
-            }, this.GetType(), LogEnum.DevConsole);
+            });
             if (RpcRoot.IsOuterNet) {
                 VirtualRoot.Execute(new RefreshWsStateCommand(MinerStudioRoot.WsClient.GetState()));
             }
-            VirtualRoot.BuildEventPath<Per1SecondEvent>("外网群控重试秒表倒计时", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<Per1SecondEvent>("外网群控重试秒表倒计时", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 if (!IsWsOnline) {
                     if (WsNextTrySecondsDelay > 0) {
                         WsNextTrySecondsDelay--;
                     }
                     OnPropertyChanged(nameof(WsLastTryOnText));
                 }
-            }, this.GetType());
+            });
         }
         #endregion
 

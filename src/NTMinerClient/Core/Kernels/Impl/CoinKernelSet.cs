@@ -94,7 +94,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         }
                     }
                 }, location: this.GetType());
-            context.AddEventPath<FileWriterRemovedEvent>("移除文件书写器后移除引用关系", LogEnum.DevConsole,
+            context.AddEventPath<FileWriterRemovedEvent>("移除文件书写器后移除引用关系", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                 action: message => {
                     var repository = context.CreateServerRepository<CoinKernelData>();
                     var entities = _dicById.Values.Where(a => a.FileWriterIds.Contains(message.Source.GetId())).ToArray();
@@ -103,8 +103,8 @@ namespace NTMiner.Core.Kernels.Impl {
                         repository.Update(entity);
                         VirtualRoot.RaiseEvent(new CoinKernelUpdatedEvent(message.MessageId, entity));
                     }
-                }, location: this.GetType());
-            context.AddEventPath<FragmentWriterRemovedEvent>("移除命令行片段书写器后移除引用关系", LogEnum.DevConsole,
+                });
+            context.AddEventPath<FragmentWriterRemovedEvent>("移除命令行片段书写器后移除引用关系", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                 action: message => {
                     var repository = context.CreateServerRepository<CoinKernelData>();
                     var entities = _dicById.Values.Where(a => a.FragmentWriterIds.Contains(message.Source.GetId())).ToArray();
@@ -113,7 +113,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         repository.Update(entity);
                         VirtualRoot.RaiseEvent(new CoinKernelUpdatedEvent(message.MessageId, entity));
                     }
-                }, location: this.GetType());
+                });
         }
 
         public int Count {

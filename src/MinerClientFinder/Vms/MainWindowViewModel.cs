@@ -72,10 +72,10 @@ namespace NTMiner.Vms {
                     });
                 }
             });
-            VirtualRoot.BuildEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     LocalIps = GetLocalIps();
-                }, location: this.GetType());
+                });
             Task.Factory.StartNew(() => {
                 var localIp = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault();
                 if (localIp != null) {

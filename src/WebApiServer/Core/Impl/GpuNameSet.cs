@@ -7,12 +7,12 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<GpuName, int> _gpuNameCountDic = new Dictionary<GpuName, int>();
 
         public GpuNameSet() {
-            VirtualRoot.BuildEventPath<ClientSetInitedEvent>("矿机列表初始化后计算显卡名称集合", LogEnum.DevConsole, path: message => {
+            VirtualRoot.BuildEventPath<ClientSetInitedEvent>("矿机列表初始化后计算显卡名称集合", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                 Init();
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<Per10MinuteEvent>("周期刷新显卡名称集合", LogEnum.DevConsole, path: message => {
+            });
+            VirtualRoot.BuildEventPath<Per10MinuteEvent>("周期刷新显卡名称集合", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                 Init();
-            }, this.GetType());
+            });
         }
 
         private void Init() {

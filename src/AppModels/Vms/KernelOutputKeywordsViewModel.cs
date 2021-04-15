@@ -11,10 +11,10 @@ namespace NTMiner.Vms {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            VirtualRoot.BuildEventPath<CurrentMineContextChangedEvent>("挖矿上下文变更后刷新内核输出关键字Vm视图集", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<CurrentMineContextChangedEvent>("挖矿上下文变更后刷新内核输出关键字Vm视图集", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     OnPropertyChanged(nameof(KernelOutputVm));
-                }, location: this.GetType());
+                });
             this.Add = new DelegateCommand(() => {
                 KernelOutputViewModel kernelOutputVm = KernelOutputVm;
                 if (kernelOutputVm == null) {

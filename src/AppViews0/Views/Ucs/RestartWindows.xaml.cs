@@ -28,7 +28,7 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             this.OnLoaded(window => {
                 IMessagePathId messagePathId = null;
-                messagePathId = window.BuildViaTimesLimitPath<Per1SecondEvent>("重启倒计时", LogEnum.None, path: message => {
+                messagePathId = window.BuildViaTimesLimitPath<Per1SecondEvent>("重启倒计时", LogEnum.None, Vm.Seconds, location: this.GetType(), PathPriority.Normal, path: message => {
                     if (_isCanceled) {
                         return;
                     }
@@ -36,7 +36,7 @@ namespace NTMiner.Views.Ucs {
                     if (messagePathId.ViaTimesLimit == 0) {
                         Windows.Power.Restart();
                     }
-                }, Vm.Seconds, location: this.GetType());
+                });
             });
         }
 

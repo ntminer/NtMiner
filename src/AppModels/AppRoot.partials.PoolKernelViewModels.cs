@@ -14,16 +14,16 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         _dicById.Clear();
                         Init();
-                    }, location: this.GetType());
-                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole,
+                    });
+                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         OnPropertyChanged(nameof(AllPoolKernels));
-                    }, location: this.GetType());
-                BuildEventPath<PoolKernelAddedEvent>("刷新矿池内核VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<PoolKernelAddedEvent>("刷新矿池内核VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             if (PoolVms.TryGetPoolVm(message.Source.PoolId, out PoolViewModel poolVm)) {
@@ -31,8 +31,8 @@ namespace NTMiner {
                                 poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
                             }
                         }
-                    }, location: this.GetType());
-                BuildEventPath<PoolKernelRemovedEvent>("刷新矿池内核VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<PoolKernelRemovedEvent>("刷新矿池内核VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             var vm = _dicById[message.Source.GetId()];
@@ -41,13 +41,13 @@ namespace NTMiner {
                                 poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
                             }
                         }
-                    }, location: this.GetType());
-                BuildEventPath<PoolKernelUpdatedEvent>("刷新VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<PoolKernelUpdatedEvent>("刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out PoolKernelViewModel vm)) {
                             vm.Update(message.Source);
                         }
-                    }, location: this.GetType());
+                    });
                 Init();
             }
 

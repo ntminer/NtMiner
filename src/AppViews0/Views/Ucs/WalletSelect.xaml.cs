@@ -10,16 +10,16 @@ namespace NTMiner.Views.Ucs {
             this.Init(vm);
             InitializeComponent();
             this.OnLoaded(window => {
-                window.BuildEventPath<WalletVmAddedEvent>("添加了钱包后，如果添加的钱包是当前选中的币种的钱包则刷新钱包选择下拉列表的Vm内存", LogEnum.DevConsole, path: message => {
+                window.BuildEventPath<WalletVmAddedEvent>("添加了钱包后，如果添加的钱包是当前选中的币种的钱包则刷新钱包选择下拉列表的Vm内存", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                     if (message.Event.Source.CoinId == vm.Coin.Id) {
                         vm.OnPropertyChanged(nameof(vm.QueryResults));
                     }
-                }, this.GetType());
-                window.BuildEventPath<WalletVmRemovedEvent>("删除了钱包后，如果删除的钱包是当前选中的币种的钱包则刷新钱包选择下拉列表的Vm内存", LogEnum.DevConsole, path: message => {
+                });
+                window.BuildEventPath<WalletVmRemovedEvent>("删除了钱包后，如果删除的钱包是当前选中的币种的钱包则刷新钱包选择下拉列表的Vm内存", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                     if (message.Event.Source.CoinId == vm.Coin.Id) {
                         vm.OnPropertyChanged(nameof(vm.QueryResults));
                     }
-                }, this.GetType());
+                });
             });
         }
 

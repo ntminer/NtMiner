@@ -14,7 +14,7 @@ namespace NTMiner.Core.Impl {
                 throw new ArgumentNullException(nameof(dbFileFullName));
             }
             _connectionString = $"filename={dbFileFullName}";
-            VirtualRoot.BuildCmdPath<AddOrUpdateKernelOutputKeywordCommand>(path: (message) => {
+            VirtualRoot.BuildCmdPath<AddOrUpdateKernelOutputKeywordCommand>(location: this.GetType(), LogEnum.DevConsole, path: (message) => {
                 InitOnece();
                 DataLevel dataLevel = DataLevel.Global;
                 if (_dicById.TryGetValue(message.Input.GetId(), out KernelOutputKeywordData exist)) {
@@ -39,8 +39,8 @@ namespace NTMiner.Core.Impl {
                         col.Insert(entity);
                     }
                 }
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<RemoveKernelOutputKeywordCommand>(path: (message) => {
+            });
+            VirtualRoot.BuildCmdPath<RemoveKernelOutputKeywordCommand>(location: this.GetType(), LogEnum.DevConsole, path: (message) => {
                 InitOnece();
                 if (message == null || message.EntityId == Guid.Empty) {
                     return;
@@ -60,8 +60,8 @@ namespace NTMiner.Core.Impl {
                     var col = db.GetCollection<KernelOutputKeywordData>();
                     col.Delete(message.EntityId);
                 }
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<ClearKernelOutputKeywordsCommand>(message => {
+            });
+            VirtualRoot.BuildCmdPath<ClearKernelOutputKeywordsCommand>(this.GetType(), LogEnum.DevConsole, message => {
                 InitOnece();
                 if (message == null || message.ExceptedOutputIds == null || message.ExceptedOutputIds.Length == 0) {
                     return;
@@ -70,7 +70,7 @@ namespace NTMiner.Core.Impl {
                 foreach (var item in toRemoves) {
                     VirtualRoot.Execute(new RemoveKernelOutputKeywordCommand(item));
                 }
-            }, this.GetType());
+            });
         }
 
         protected override void Init() {

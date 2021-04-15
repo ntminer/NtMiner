@@ -15,11 +15,11 @@ namespace NTMiner.MinerStudio {
                     return;
                 }
                 Init(refresh: false);
-                AppRoot.BuildEventPath<OverClockDataSetInitedEvent>("超频菜谱集初始化后", LogEnum.DevConsole,
+                AppRoot.BuildEventPath<OverClockDataSetInitedEvent>("超频菜谱集初始化后", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         Init(refresh: true);
-                    }, location: this.GetType());
-                AppRoot.BuildEventPath<OverClockDataAddedEvent>("添加超频菜谱后刷新VM内存", LogEnum.DevConsole,
+                    });
+                AppRoot.BuildEventPath<OverClockDataAddedEvent>("添加超频菜谱后刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new OverClockDataViewModel(message.Source));
@@ -27,20 +27,20 @@ namespace NTMiner.MinerStudio {
                                 coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
                             }
                         }
-                    }, location: this.GetType());
-                AppRoot.BuildEventPath<OverClockDataUpdatedEvent>("更新超频菜谱后刷新VM内存", LogEnum.DevConsole,
+                    });
+                AppRoot.BuildEventPath<OverClockDataUpdatedEvent>("更新超频菜谱后刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out OverClockDataViewModel vm)) {
                             vm.Update(message.Source);
                         }
-                    }, location: this.GetType());
-                AppRoot.BuildEventPath<OverClockDataRemovedEvent>("删除超频菜谱后刷新VM内存", LogEnum.DevConsole,
+                    });
+                AppRoot.BuildEventPath<OverClockDataRemovedEvent>("删除超频菜谱后刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         _dicById.Remove(message.Source.GetId());
                         if (AppRoot.CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
                             coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
                         }
-                    }, location: this.GetType());
+                    });
             }
 
             private void Init(bool refresh) {

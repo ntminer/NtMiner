@@ -133,7 +133,7 @@ namespace NTMiner.MinerStudio.Views {
             this.LocationChanged += (sender, e) => {
                 MoveConsoleWindow();
             };
-            this.BuildEventPath<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
+            this.BuildEventPath<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     #region
                     var minerClients = Vm.MinerClients.ToArray();
@@ -154,7 +154,7 @@ namespace NTMiner.MinerStudio.Views {
                         MinerStudioRoot.MinerClientsWindowVm.QueryMinerClients(isAuto: true);
                     }
                     #endregion
-                }, location: this.GetType());
+                });
             NotiCenterWindow.Bind(this, ownerIsTopmost: true);
             MinerStudioRoot.MinerClientsWindowVm.QueryMinerClients();
         }

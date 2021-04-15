@@ -17,7 +17,7 @@ namespace NTMiner.Cpus.Impl {
                 Task.Factory.StartNew(() => {
                     // 注意：第一次GetTemperature请求约需要160毫秒，所以提前在非UI线程做第一次请求。
                     GetTemperature();
-                    VirtualRoot.BuildEventPath<Per2SecondEvent>("周期更新CpuAll的状态", LogEnum.None,
+                    VirtualRoot.BuildEventPath<Per2SecondEvent>("周期更新CpuAll的状态", LogEnum.None, location: this.GetType(), PathPriority.Normal,
                         path: message => {
                             Task.Factory.StartNew(() => {
                                 // 因为获取cpu温度的操作耗时100毫秒
@@ -66,7 +66,7 @@ namespace NTMiner.Cpus.Impl {
                                     }
                                 }
                             });
-                        }, location: this.GetType());
+                        });
                 });
             }
         }

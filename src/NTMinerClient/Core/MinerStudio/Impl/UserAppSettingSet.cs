@@ -8,7 +8,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
         private List<UserAppSettingData> _userAppSettings;
 
         public UserAppSettingSet() {
-            VirtualRoot.BuildCmdPath<SetUserAppSettingCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<SetUserAppSettingCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 if (message.AppSetting == null) {
                     return;
                 }
@@ -38,7 +38,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
                         VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
-            }, location: this.GetType());
+            });
         }
 
         public void Init(List<UserAppSettingData> userAppSettings) {

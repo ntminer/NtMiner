@@ -60,7 +60,7 @@ namespace NTMiner {
                         ThisLocalWarn(nameof(LocalIpSetImpl), $"网络不可用", toConsole: true);
                     }
                 };
-                BuildCmdPath<SetLocalIpCommand>(path: message => {
+                BuildCmdPath<SetLocalIpCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                     #region
                     ManagementObject mo = null;
                     using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration"))
@@ -102,7 +102,7 @@ namespace NTMiner {
                         }
                     }
                     #endregion
-                }, location: this.GetType());
+                });
             }
 
             protected override void Init() {

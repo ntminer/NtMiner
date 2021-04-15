@@ -14,7 +14,7 @@ namespace NTMiner.Core.Impl {
                 throw new ArgumentNullException(nameof(dbFileFullName));
             }
             _connectionString = $"filename={dbFileFullName}";
-            VirtualRoot.BuildCmdPath<LoadNewServerMessageCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<LoadNewServerMessageCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 if (!RpcRoot.IsServerMessagesVisible) {
                     return;
                 }
@@ -38,11 +38,11 @@ namespace NTMiner.Core.Impl {
                         }
                     }
                 });
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<ReceiveServerMessageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ReceiveServerMessageCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 ReceiveServerMessage(message.Data);
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<AddOrUpdateServerMessageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<AddOrUpdateServerMessageCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 InitOnece();
                 RpcRoot.OfficialServer.ServerMessageService.AddOrUpdateServerMessageAsync(new ServerMessageData().Update(message.Input), (response, ex) => {
                     if (response.IsSuccess()) {
@@ -52,8 +52,8 @@ namespace NTMiner.Core.Impl {
                         VirtualRoot.Out.ShowError(response.ReadMessage(ex), autoHideSeconds: 4);
                     }
                 });
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<MarkDeleteServerMessageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<MarkDeleteServerMessageCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 InitOnece();
                 RpcRoot.OfficialServer.ServerMessageService.MarkDeleteServerMessageAsync(message.EntityId, (response, ex) => {
                     if (response.IsSuccess()) {
@@ -63,8 +63,8 @@ namespace NTMiner.Core.Impl {
                         VirtualRoot.Out.ShowError(response.ReadMessage(ex), autoHideSeconds: 4);
                     }
                 });
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<ClearServerMessagesCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ClearServerMessagesCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 InitOnece();
                 try {
                     using (LiteDatabase db = new LiteDatabase(_connectionString)) {
@@ -78,7 +78,7 @@ namespace NTMiner.Core.Impl {
                     Logger.ErrorDebugLine(e);
                 }
                 VirtualRoot.RaiseEvent(new ServerMessagesClearedEvent());
-            }, location: this.GetType());
+            });
         }
 
         private void ReceiveServerMessage(List<ServerMessageData> data) {

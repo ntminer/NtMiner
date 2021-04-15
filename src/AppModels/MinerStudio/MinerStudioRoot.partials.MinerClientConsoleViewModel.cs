@@ -35,7 +35,7 @@ namespace NTMiner.MinerStudio {
 
             public MinerClientConsoleViewModel() {
                 if (ClientAppType.IsMinerStudio) {
-                    VirtualRoot.BuildEventPath<MinerClientSelectionChangedEvent>("刷新矿机控制台输出", LogEnum.DevConsole, path: message => {
+                    VirtualRoot.BuildEventPath<MinerClientSelectionChangedEvent>("刷新矿机控制台输出", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                         bool isChanged = true;
                         if (message.MinerClientVm != null && this._minerClientVm != null && this._minerClientVm.ClientId == message.MinerClientVm.ClientId) {
                             isChanged = false;
@@ -53,8 +53,8 @@ namespace NTMiner.MinerStudio {
                             }
                             SendGetConsoleOutLinesMqMessage(isFast: true);
                         }
-                    }, this.GetType());
-                    VirtualRoot.BuildEventPath<ClientConsoleOutLinesEvent>("将收到的挖矿端控制台消息输出到输出窗口", LogEnum.DevConsole, path: message => {
+                    });
+                    VirtualRoot.BuildEventPath<ClientConsoleOutLinesEvent>("将收到的挖矿端控制台消息输出到输出窗口", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                         if (this._minerClientVm == null
                             || this._minerClientVm.ClientId != message.ClientId
                             || message.Data == null
@@ -69,16 +69,16 @@ namespace NTMiner.MinerStudio {
                             // 因为客户端的时间可能不准所以不能使用客户端的时间
                             LatestTimestamp = DateTime.Now;
                         }
-                    }, this.GetType());
-                    VirtualRoot.BuildEventPath<Per5SecondEvent>("周期获取当前选中的那台矿机的控制台输出", LogEnum.DevConsole, path: message => {
+                    });
+                    VirtualRoot.BuildEventPath<Per5SecondEvent>("周期获取当前选中的那台矿机的控制台输出", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                         SendGetConsoleOutLinesMqMessage(isFast: false);
-                    }, this.GetType());
-                    VirtualRoot.BuildEventPath<Per1SecondEvent>("客户端控制台输出倒计时秒表", LogEnum.None, path: message => {
+                    });
+                    VirtualRoot.BuildEventPath<Per1SecondEvent>("客户端控制台输出倒计时秒表", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                         if (this._minerClientVm == null || this._latestTimestamp == Timestamp.UnixBaseTime) {
                             return;
                         }
                         OnPropertyChanged(nameof(LatestTimeSpanText));
-                    }, this.GetType());
+                    });
                 }
             }
 

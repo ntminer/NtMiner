@@ -114,7 +114,7 @@ namespace NTMiner {
 
         private const string messagePathIdsResourceKey = "messagePathIds";
 
-        public static void BuildCmdPath<TCmd>(this Window window, LogEnum logType, Action<TCmd> path, Type location)
+        public static void BuildCmdPath<TCmd>(this Window window, LogEnum logType, Type location, Action<TCmd> path)
             where TCmd : ICmd {
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -129,11 +129,11 @@ namespace NTMiner {
                 window.Closed += UiElement_Closed;
             }
             MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeAttribute(typeof(TCmd));
-            var messagePathId = VirtualRoot.BuildCmdPath(path, location, logType);
+            var messagePathId = VirtualRoot.BuildCmdPath(location, logType, path);
             messagePathIds.Add(messagePathId);
         }
 
-        public static void BuildEventPath<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> path, Type location)
+        public static void BuildEventPath<TEvent>(this Window window, string description, LogEnum logType, Type location, PathPriority priority, Action<TEvent> path)
             where TEvent : IEvent {
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -147,11 +147,11 @@ namespace NTMiner {
                 window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed; ;
             }
-            var messagePathId = VirtualRoot.BuildMessagePath(description, logType, path, location);
+            var messagePathId = VirtualRoot.BuildMessagePath(description, logType, location, priority, path);
             messagePathIds.Add(messagePathId);
         }
 
-        public static void BuildOnecePath<TMessage>(this Window window, string description, LogEnum logType, Action<TMessage> path, Guid pathId, Type location)
+        public static void BuildOnecePath<TMessage>(this Window window, string description, LogEnum logType, Guid pathId, Type location, PathPriority priority, Action<TMessage> path)
             where TMessage : IMessage {
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -165,17 +165,17 @@ namespace NTMiner {
                 window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed; ;
             }
-            var messagePathId = VirtualRoot.BuildOnecePath(description, logType, path, pathId, location);
+            var messagePathId = VirtualRoot.BuildOnecePath(description, logType, pathId, location, priority, path);
             messagePathIds.Add(messagePathId);
         }
 
         public static void BuildCloseWindowOnecePath(this Window window, Guid pathId) {
-            window.BuildOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, path: message => {
+            window.BuildOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, pathId: pathId, location: typeof(WindowExtension), PathPriority.Normal, path: message => {
                 UIThread.Execute(() => window.Close());
-            }, pathId: pathId, location: typeof(WindowExtension));
+            });
         }
 
-        public static IMessagePathId BuildViaTimesLimitPath<TMessage>(this Window window, string description, LogEnum logType, Action<TMessage> path, int viaTimesLimit, Type location)
+        public static IMessagePathId BuildViaTimesLimitPath<TMessage>(this Window window, string description, LogEnum logType, int viaTimesLimit, Type location, PathPriority priority, Action<TMessage> path)
             where TMessage : IMessage {
             if (WpfUtil.IsInDesignMode) {
                 return null;
@@ -189,7 +189,7 @@ namespace NTMiner {
                 window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed; ;
             }
-            var messagePathId = VirtualRoot.BuildViaTimesLimitPath(description, logType, path, viaTimesLimit, location);
+            var messagePathId = VirtualRoot.BuildViaTimesLimitPath(description, logType, viaTimesLimit, location, priority, path);
             messagePathIds.Add(messagePathId);
             return messagePathId;
         }

@@ -160,7 +160,7 @@ namespace NTMiner.Vms {
                 });
                 window.ShowSoftDialog();
             });
-            VirtualRoot.BuildEventPath<NTMinerFileSetInitedEvent>("开源矿工程序版本文件集初始化后刷新Vm内存", LogEnum.DevConsole, path: message => {
+            VirtualRoot.BuildEventPath<NTMinerFileSetInitedEvent>("开源矿工程序版本文件集初始化后刷新Vm内存", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                 var ntminerFiles = _readOnlyNTMinerFileSet.AsEnumerable().Where(a => a.AppType == App.AppType);
                 this.NTMinerFiles = ntminerFiles.Select(a => new NTMinerFileViewModel(a)).OrderByDescending(a => a.VersionData).ToList();
                 if (this.NTMinerFiles == null || this.NTMinerFiles.Count == 0) {
@@ -186,7 +186,7 @@ namespace NTMiner.Vms {
                         Install.Execute(null);
                     }
                 }
-            }, this.GetType());
+            });
             this.Refresh();
         }
 

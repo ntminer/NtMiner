@@ -96,13 +96,13 @@ namespace NTMiner.Core.Impl {
                 VirtualRoot.RaiseEvent(new ClientSetInitedEvent());
             });
             if (!isPull) {
-                VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期清理不活跃的缓存数据", LogEnum.None, message => {
+                VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期清理不活跃的缓存数据", LogEnum.None, typeof(ClientDataSetBase), PathPriority.Normal, message => {
                     DateTime time = message.BornOn.AddMinutes(-10);
                     string[] loginNameToRemoves = _clientDatasByLoginName.Where(a => a.Value.LastAccessOn <= time).Select(a => a.Key).ToArray();
                     foreach (var loginName in loginNameToRemoves) {
                         _clientDatasByLoginName.TryRemove(loginName, out _);
                     }
-                }, typeof(ClientDataSetBase));
+                });
             }
         }
 

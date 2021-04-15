@@ -19,16 +19,15 @@ namespace NTMiner.Core.Profiles {
 
         public MinerProfile(INTMinerContext ntminerContext) {
             _ntminerContext = ntminerContext;
-            VirtualRoot.BuildCmdPath<RefreshAutoBootStartCommand>(
-                path: message => {
-                    var minerProfileRepository = ntminerContext.ServerContext.CreateLocalRepository<MinerProfileData>();
-                    var data = minerProfileRepository.GetAll().FirstOrDefault();
-                    if (data != null && _data != null) {
-                        _data.IsAutoBoot = data.IsAutoBoot;
-                        _data.IsAutoStart = data.IsAutoStart;
-                        VirtualRoot.RaiseEvent(new AutoBootStartRefreshedEvent());
-                    }
-                }, location: this.GetType());
+            VirtualRoot.BuildCmdPath<RefreshAutoBootStartCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
+                var minerProfileRepository = ntminerContext.ServerContext.CreateLocalRepository<MinerProfileData>();
+                var data = minerProfileRepository.GetAll().FirstOrDefault();
+                if (data != null && _data != null) {
+                    _data.IsAutoBoot = data.IsAutoBoot;
+                    _data.IsAutoStart = data.IsAutoStart;
+                    VirtualRoot.RaiseEvent(new AutoBootStartRefreshedEvent());
+                }
+            });
             Init(ntminerContext);
         }
 

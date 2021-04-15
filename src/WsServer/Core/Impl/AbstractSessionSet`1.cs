@@ -36,11 +36,11 @@ namespace NTMiner.Core.Impl {
 
         public AbstractSessionSet(IWsSessionsAdapter wsSessions) {
             this._wsSessions = wsSessions;
-            VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期清理死连接、周期通知需要重新连接的客户端重新连接", LogEnum.UserConsole, path: message => {
+            VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期清理死连接、周期通知需要重新连接的客户端重新连接", LogEnum.UserConsole, this.GetType(), PathPriority.Normal, path: message => {
                 ClearDeath();
                 SendReGetServerAddressMessage(AppRoot.WsServerNodeAddressSet.AsEnumerable().ToArray());
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<UserDisabledMqEvent>("收到了UserDisabledMq消息后断开该用户的连接", LogEnum.UserConsole, path: message => {
+            });
+            VirtualRoot.BuildEventPath<UserDisabledMqEvent>("收到了UserDisabledMq消息后断开该用户的连接", LogEnum.UserConsole, this.GetType(), PathPriority.Normal, path: message => {
                 if (!string.IsNullOrEmpty(message.LoginName)) {
                     TSession[] toCloses;
                     lock (_locker) {
@@ -50,7 +50,7 @@ namespace NTMiner.Core.Impl {
                         item.CloseAsync(WsCloseCode.Normal, "用户已被禁用");
                     }
                 }
-            }, this.GetType());
+            });
         }
 
         private void SendReGetServerAddressMessage(string[] nodeAddresses) {

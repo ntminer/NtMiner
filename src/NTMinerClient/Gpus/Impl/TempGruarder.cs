@@ -23,7 +23,7 @@ namespace NTMiner.Gpus.Impl {
                 return;
             }
             _isInited = true;
-            VirtualRoot.BuildEventPath<Per1SecondEvent>("周期性调节风扇转速守卫温度防线", LogEnum.None,
+            VirtualRoot.BuildEventPath<Per1SecondEvent>("周期性调节风扇转速守卫温度防线", LogEnum.None, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     double ki = _ti > 0 ? _dt / _ti : _dt;
                     double kd = _td / _dt;
@@ -83,7 +83,7 @@ namespace NTMiner.Gpus.Impl {
 
                         _lastOutputCool[gpu.Index] = output;
                     }
-                }, location: this.GetType());
+                });
         }
     }
 }

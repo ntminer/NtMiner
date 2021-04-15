@@ -21,7 +21,7 @@ namespace NTMiner.Core.Impl {
             if (ClientAppType.IsMinerClient) {
                 LocalMessageDtoSet = new LocalMessageDtoSet();
             }
-            VirtualRoot.BuildCmdPath<AddLocalMessageCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<AddLocalMessageCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 InitOnece();
                 var data = LocalMessageData.Create(message.Input);
                 List<ILocalMessage> removeds = new List<ILocalMessage>();
@@ -37,8 +37,8 @@ namespace NTMiner.Core.Impl {
                 }
                 LocalMessageDtoSet.Add(data.ToDto());
                 VirtualRoot.RaiseEvent(new LocalMessageAddedEvent(message.MessageId, data, removeds));
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<ClearLocalMessageSetCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ClearLocalMessageSetCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 lock (_dbToInserts) {
                     _records.Clear();
                     _dbToRemoveIds.Clear();
@@ -53,13 +53,13 @@ namespace NTMiner.Core.Impl {
                     Logger.ErrorDebugLine(e);
                 }
                 VirtualRoot.RaiseEvent(new LocalMessageSetClearedEvent());
-            }, location: this.GetType());
-            VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期保存LocalMessage到数据库", LogEnum.DevConsole, path: message => {
+            });
+            VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期保存LocalMessage到数据库", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                 SaveToDb();
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<AppExitEvent>("程序退出时保存LocalMessage到数据库", LogEnum.DevConsole, path: message => {
+            });
+            VirtualRoot.BuildEventPath<AppExitEvent>("程序退出时保存LocalMessage到数据库", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                 SaveToDb();
-            }, this.GetType());
+            });
         }
 
         private void SaveToDb() {

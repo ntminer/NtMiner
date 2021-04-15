@@ -9,9 +9,9 @@ namespace NTMiner {
         public static Cleaner Instance { get; private set; } = new Cleaner();
 
         private Cleaner() {
-            VirtualRoot.BuildEventPath<Per24HourEvent>("周期清理过期日志、过期内核包、过期下载文件", LogEnum.DevConsole, message => {
+            VirtualRoot.BuildEventPath<Per24HourEvent>("周期清理过期日志、过期内核包、过期下载文件", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, message => {
                 AutoClear();
-            }, this.GetType());
+            });
         }
 
         public void Clear() {

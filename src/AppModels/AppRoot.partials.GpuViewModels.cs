@@ -31,27 +31,27 @@ namespace NTMiner {
                 else {
                     _gpuAllVm = new GpuViewModel(Gpu.GpuAll);
                 }
-                BuildEventPath<EPriceChangedEvent>("电价变更后更新电费显示", LogEnum.DevConsole,
+                BuildEventPath<EPriceChangedEvent>("电价变更后更新电费显示", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         foreach (var gpuVm in _gpuVms.Values) {
                             gpuVm.OnPropertyChanged(nameof(GpuViewModel.EChargeText));
                         }
                         GpuSpeedVms.OnPropertyChanged(nameof(GpuSpeedViewModels.ProfitCnyPerDayText));
-                    }, location: this.GetType());
-                BuildEventPath<MaxTempChangedEvent>("高温红色阈值变更后更新显卡温度颜色", LogEnum.DevConsole,
+                    });
+                BuildEventPath<MaxTempChangedEvent>("高温红色阈值变更后更新显卡温度颜色", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         foreach (var gpuVm in _gpuVms.Values) {
                             gpuVm.OnPropertyChanged(nameof(GpuViewModel.TemperatureForeground));
                         }
-                    }, location: this.GetType());
-                BuildEventPath<PowerAppendChangedEvent>("功耗补偿变更后更新功耗显示", LogEnum.DevConsole,
+                    });
+                BuildEventPath<PowerAppendChangedEvent>("功耗补偿变更后更新功耗显示", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         foreach (var gpuVm in _gpuVms.Values) {
                             gpuVm.OnPropertyChanged(nameof(GpuViewModel.PowerUsageWText));
                         }
                         GpuSpeedVms.OnPropertyChanged(nameof(GpuSpeedViewModels.ProfitCnyPerDayText));
-                    }, location: this.GetType());
-                BuildEventPath<GpuStateChangedEvent>("显卡状态变更后刷新VM内存", LogEnum.None,
+                    });
+                BuildEventPath<GpuStateChangedEvent>("显卡状态变更后刷新VM内存", LogEnum.None, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         if (_gpuVms.ContainsKey(message.Source.Index)) {
                             GpuViewModel vm = _gpuVms[message.Source.Index];
@@ -98,7 +98,7 @@ namespace NTMiner {
                             }
                             UpdateMinMax();
                         }
-                    }, location: this.GetType());
+                    });
             }
 
             private void UpdateMinMax() {

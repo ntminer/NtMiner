@@ -16,9 +16,9 @@ namespace NTMiner.Core.Impl {
                 }
             });
         }) {
-            VirtualRoot.BuildOnecePath<ClientSetInitedEvent>("开始拉取矿机算力的进程", LogEnum.None, path: message => {
+            VirtualRoot.BuildOnecePath<ClientSetInitedEvent>("开始拉取矿机算力的进程", LogEnum.None, PathId.Empty, this.GetType(), PathPriority.Normal, path: message => {
                 PullSpeedInit();
-            }, PathId.Empty, this.GetType());
+            });
         }
 
         private static LiteDatabase CreateLocalDb() {
@@ -60,7 +60,7 @@ namespace NTMiner.Core.Impl {
                 return;
             }
             _isPullSpeedInited = true;
-            VirtualRoot.BuildEventPath<Per10SecondEvent>("周期拉取矿机状态", LogEnum.DevConsole, message => {
+            VirtualRoot.BuildEventPath<Per10SecondEvent>("周期拉取矿机状态", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, message => {
                 if (RpcRoot.IsOuterNet) {
                     return;
                 }
@@ -96,7 +96,7 @@ namespace NTMiner.Core.Impl {
                     }
                     #endregion
                 });
-            }, this.GetType());
+            });
         }
 
         private Task CreatePullTask(ClientData clientData) {

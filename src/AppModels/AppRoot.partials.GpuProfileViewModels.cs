@@ -16,7 +16,7 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                VirtualRoot.BuildEventPath<GpuProfileSetRefreshedEvent>("刷新附着在当前币种上的超频数据", LogEnum.DevConsole,
+                VirtualRoot.BuildEventPath<GpuProfileSetRefreshedEvent>("刷新附着在当前币种上的超频数据", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         lock (_locker) {
                             _listByCoinId.Clear();
@@ -26,8 +26,8 @@ namespace NTMiner {
                         if (coinVm != null) {
                             coinVm.OnOverClockPropertiesChanges();
                         }
-                    }, location: this.GetType());
-                BuildEventPath<GpuProfileAddedOrUpdatedEvent>("刷新VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<GpuProfileAddedOrUpdatedEvent>("刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         lock (_locker) {
                             if (_listByCoinId.TryGetValue(message.Source.CoinId, out List<GpuProfileViewModel> list)) {
@@ -59,7 +59,7 @@ namespace NTMiner {
                                 _listByCoinId.Add(message.Source.CoinId, list);
                             }
                         }
-                    }, location: this.GetType());
+                    });
             }
 
             private readonly object _locker = new object();

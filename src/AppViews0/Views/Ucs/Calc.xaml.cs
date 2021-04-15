@@ -33,13 +33,13 @@ namespace NTMiner.Views.Ucs {
             this.DataContext = this.Vm;
             InitializeComponent();
             this.OnLoaded((window) => {
-                window.BuildEventPath<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
+                window.BuildEventPath<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         foreach (var coinVm in Vm.CoinVms.AllCoins) {
                             coinVm.CoinIncomeVm.Refresh();
                         }
-                    }, location: this.GetType());
-                window.BuildEventPath<Per1MinuteEvent>("当收益计算器页面打开着的时候周期刷新", LogEnum.None,
+                    });
+                window.BuildEventPath<Per1MinuteEvent>("当收益计算器页面打开着的时候周期刷新", LogEnum.None, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         if (Vm.CoinVms.AllCoins.Count == 0) {
                             return;
@@ -47,7 +47,7 @@ namespace NTMiner.Views.Ucs {
                         if (Vm.CoinVms.AllCoins.Max(a => a.CoinIncomeVm.ModifiedOn).AddMinutes(10) < DateTime.Now) {
                             NTMinerContext.Instance.CalcConfigSet.Init(forceRefresh: true);
                         }
-                    }, location: this.GetType());
+                    });
                 NTMinerContext.Instance.CalcConfigSet.Init(forceRefresh: true);
             });
         }

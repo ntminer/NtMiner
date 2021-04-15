@@ -21,9 +21,9 @@ namespace NTMiner {
                     window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                     window.ShowInTaskbar = false;
                 }
-                window.BuildEventPath<SignUpedEvent>("注册了新外网群控用户后自动填入外网群控用户名", LogEnum.None, path: message => {
+                window.BuildEventPath<SignUpedEvent>("注册了新外网群控用户后自动填入外网群控用户名", LogEnum.None, typeof(LoginWindow), PathPriority.Normal, path: message => {
                     window.Vm.LoginName = message.LoginName;
-                }, typeof(LoginWindow));
+                });
                 window.ShowSoftDialog();
                 window.PasswordFocus();
             }

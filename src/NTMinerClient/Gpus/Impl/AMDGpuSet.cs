@@ -25,9 +25,9 @@ namespace NTMiner.Gpus.Impl {
 #endif
             this.Properties = new List<GpuSetProperty>();
             this.OverClock = new GpuOverClock(_adlHelper);
-            VirtualRoot.BuildEventPath<AppExitEvent>("程序退出时调用adlHelper.Close", LogEnum.None, message => {
+            VirtualRoot.BuildEventPath<AppExitEvent>("程序退出时调用adlHelper.Close", LogEnum.None, this.GetType(), PathPriority.Normal, message => {
                 _adlHelper.Close();
-            }, this.GetType());
+            });
             if (_adlHelper.ATIGpus.Count > 0) {
                 int i = 0;
                 foreach (var atiGpu in _adlHelper.ATIGpus) {

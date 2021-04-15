@@ -85,11 +85,11 @@ namespace NTMiner {
                 }
                 BuildPaths();
                 NTMinerContext.Instance.Init(() => {
-                    VirtualRoot.BuildCmdPath<ShowSignUpPageCommand>(path: message => {
+                    VirtualRoot.BuildCmdPath<ShowSignUpPageCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                         UIThread.Execute(() => {
                             SignUpPage.ShowWindow();
                         });
-                    }, location: this.GetType());
+                    });
                     _appViewFactory.BuildPaths();
                     if (VirtualRoot.IsLTWin10) {
                         VirtualRoot.ThisLocalWarn(nameof(App), AppRoot.LowWinMessage, toConsole: true);
@@ -170,16 +170,16 @@ namespace NTMiner {
 
         private void BuildCommonPaths() {
             // 之所以提前到这里是因为升级之前可能需要下载升级器，下载升级器时需要下载器
-            VirtualRoot.BuildCmdPath<ShowFileDownloaderCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<ShowFileDownloaderCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<UpgradeCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<UpgradeCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 AppRoot.Upgrade(message.FileName, message.Callback);
-            }, location: this.GetType());
+            });
         }
 
         private void BuildPaths() {
-            VirtualRoot.BuildCmdPath<MinerClientActionCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<MinerClientActionCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 #region
                 switch (message.ActionType) {
                     case MinerClientActionType.SwitchRadeonGpuOn:
@@ -195,9 +195,9 @@ namespace NTMiner {
                         break;
                 }
                 #endregion
-            }, location: this.GetType());
+            });
             #region 处理显示主界面命令
-            VirtualRoot.BuildCmdPath<ShowMainWindowCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<ShowMainWindowCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     _appViewFactory.ShowMainWindow(message.IsToggle, out Window _);
                     // 使状态栏显示显示最新状态
@@ -215,36 +215,36 @@ namespace NTMiner {
                         AppRoot.GpuSpeedVms.Refresh();
                     }
                 });
-            }, location: this.GetType());
+            });
             #endregion
             #region 周期确保守护进程在运行
-            VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期确保守护进程在运行", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期确保守护进程在运行", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     Daemon.DaemonUtil.RunNTMinerDaemon();
                     NoDevFee.NoDevFeeUtil.RunNTMinerNoDevFee();
-                }, location: this.GetType());
+                });
             #endregion
             #region 开始和停止挖矿后
-            VirtualRoot.BuildEventPath<StartingMineEvent>("开始挖矿时更新挖矿按钮状态", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<StartingMineEvent>("开始挖矿时更新挖矿按钮状态", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     AppRoot.MinerProfileVm.IsMining = true;
                     // 因为无界面模式不一定会构建挖矿状态按钮，所以放在这里而不放在挖矿按钮的VM中
                     StartStopMineButtonViewModel.Instance.MineBtnText = "正在挖矿";
-                }, location: this.GetType());
-            VirtualRoot.BuildEventPath<MineStartedEvent>("启动1080ti小药丸、启动DevConsole? 更新挖矿按钮状态", LogEnum.DevConsole,
+                });
+            VirtualRoot.BuildEventPath<MineStartedEvent>("启动1080ti小药丸、启动DevConsole? 更新挖矿按钮状态", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Start();
-                }, location: this.GetType());
-            VirtualRoot.BuildEventPath<MineStopedEvent>("停止挖矿后停止1080ti小药丸 挖矿停止后更新界面挖矿状态", LogEnum.DevConsole,
+                });
+            VirtualRoot.BuildEventPath<MineStopedEvent>("停止挖矿后停止1080ti小药丸 挖矿停止后更新界面挖矿状态", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     AppRoot.MinerProfileVm.IsMining = false;
                     // 因为无界面模式不一定会构建挖矿状态按钮，所以放在这里而不放在挖矿按钮的VM中
                     StartStopMineButtonViewModel.Instance.MineBtnText = "尚未开始";
                     OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Stop();
-                }, location: this.GetType());
+                });
             #endregion
             #region 处理禁用win10系统更新
-            VirtualRoot.BuildCmdPath<BlockWAUCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<BlockWAUCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 NTMiner.Windows.WindowsUtil.BlockWAU().ContinueWith(t => {
                     if (t.Exception == null) {
                         VirtualRoot.ThisLocalInfo(nameof(App), "禁用windows系统更新成功", OutEnum.Success);
@@ -253,10 +253,10 @@ namespace NTMiner {
                         VirtualRoot.ThisLocalError(nameof(App), "禁用windows系统更新失败", OutEnum.Error);
                     }
                 });
-            }, location: this.GetType());
+            });
             #endregion
             #region 优化windows
-            VirtualRoot.BuildCmdPath<Win10OptimizeCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<Win10OptimizeCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 NTMiner.Windows.WindowsUtil.Win10Optimize(e => {
                     if (e == null) {
                         VirtualRoot.ThisLocalInfo(nameof(App), "优化Windows成功", OutEnum.Success);
@@ -265,24 +265,24 @@ namespace NTMiner {
                         VirtualRoot.ThisLocalError(nameof(App), "优化Windows失败", OutEnum.Error);
                     }
                 });
-            }, location: this.GetType());
+            });
             #endregion
             #region 处理开启A卡计算模式
-            VirtualRoot.BuildCmdPath<SwitchRadeonGpuCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<SwitchRadeonGpuCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 if (AdlHelper.IsHasATIGpu) {
                     AppRoot.SwitchRadeonGpu(message.On);
                 }
-            }, location: this.GetType());
+            });
             #endregion
             #region 处理A卡驱动签名
-            VirtualRoot.BuildCmdPath<AtikmdagPatcherCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<AtikmdagPatcherCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 if (AdlHelper.IsHasATIGpu) {
                     AppRoot.OpenAtikmdagPatcher();
                 }
-            }, location: this.GetType());
+            });
             #endregion
             #region 启用或禁用windows远程桌面
-            VirtualRoot.BuildCmdPath<EnableRemoteDesktopCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<EnableRemoteDesktopCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 if (NTMinerRegistry.GetIsRdpEnabled()) {
                     return;
                 }
@@ -294,10 +294,10 @@ namespace NTMiner {
                         NTMinerRegistry.SetIsRdpEnabled(true);
                         Firewall.AddRdpRule();
                     }));
-            }, location: this.GetType());
+            });
             #endregion
             #region 启用或禁用windows开机自动登录
-            VirtualRoot.BuildCmdPath<EnableOrDisableWindowsAutoLoginCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<EnableOrDisableWindowsAutoLoginCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 if (NTMiner.Windows.OS.Instance.IsAutoAdminLogon) {
                     VirtualRoot.Execute(new UnTopmostCommand());
                     NTMiner.Windows.Cmd.RunClose("control", "userpasswords2");
@@ -310,7 +310,7 @@ namespace NTMiner {
                     VirtualRoot.Execute(new UnTopmostCommand());
                     NTMiner.Windows.Cmd.RunClose("control", "userpasswords2");
                 }
-            }, location: this.GetType());
+            });
             #endregion
         }
     }

@@ -13,38 +13,38 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         _dicById.Clear();
                         Init();
-                    }, location: this.GetType());
-                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole,
+                    });
+                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         AllPropertyChanged();
-                    }, location: this.GetType());
-                BuildEventPath<KernelOutputAddedEvent>("刷新VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<KernelOutputAddedEvent>("刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         var vm = new KernelOutputViewModel(message.Source);
                         _dicById.Add(message.Source.GetId(), vm);
                         OnPropertyChanged(nameof(AllKernelOutputVms));
                         OnPropertyChanged(nameof(PleaseSelectVms));
-                    }, location: this.GetType());
-                BuildEventPath<KernelOutputUpdatedEvent>("刷新VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<KernelOutputUpdatedEvent>("刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputViewModel vm)) {
                             if (vm != null) {
                                 vm.Update(message.Source);
                             }
                         }
-                    }, location: this.GetType());
-                BuildEventPath<KernelOutputRemovedEvent>("刷新VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<KernelOutputRemovedEvent>("刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Remove(message.Source.GetId());
                             OnPropertyChanged(nameof(AllKernelOutputVms));
                             OnPropertyChanged(nameof(PleaseSelectVms));
                         }
-                    }, location: this.GetType());
+                    });
                 Init();
             }
 

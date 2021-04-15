@@ -6,13 +6,13 @@ namespace NTMiner.Core.MinerStudio.Impl {
         private readonly Dictionary<Guid, MineWorkData> _dicById = new Dictionary<Guid, MineWorkData>();
 
         public MineWorkSet() {
-            VirtualRoot.BuildEventPath<MinerStudioServiceSwitchedEvent>("切换了群口后台服务类型后刷新内存", LogEnum.DevConsole, path: message => {
+            VirtualRoot.BuildEventPath<MinerStudioServiceSwitchedEvent>("切换了群口后台服务类型后刷新内存", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                 _dicById.Clear();
                 base.DeferReInit();
                 // 初始化以触发MineWorkSetInitedEvent事件
                 InitOnece();
-            }, this.GetType());
-            VirtualRoot.BuildCmdPath<AddMineWorkCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<AddMineWorkCommand>(this.GetType(), LogEnum.DevConsole, path: message => {
                 InitOnece();
                 if (!_dicById.ContainsKey(message.Input.Id)) {
                     var repository = VirtualRoot.CreateLocalRepository<MineWorkData>();
@@ -22,8 +22,8 @@ namespace NTMiner.Core.MinerStudio.Impl {
                     repository.Add(data);
                     VirtualRoot.RaiseEvent(new MineWorkAddedEvent(message.MessageId, data));
                 }
-            }, this.GetType());
-            VirtualRoot.BuildCmdPath<UpdateMineWorkCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<UpdateMineWorkCommand>(this.GetType(), LogEnum.DevConsole, path: message => {
                 InitOnece();
                 if (_dicById.TryGetValue(message.Input.Id, out MineWorkData data)) {
                     var repository = VirtualRoot.CreateLocalRepository<MineWorkData>();
@@ -32,8 +32,8 @@ namespace NTMiner.Core.MinerStudio.Impl {
                     repository.Update(data);
                     VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(message.MessageId, data));
                 }
-            }, this.GetType());
-            VirtualRoot.BuildCmdPath<RemoveMineWorkCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<RemoveMineWorkCommand>(this.GetType(), LogEnum.DevConsole, path: message => {
                 InitOnece();
                 if (_dicById.TryGetValue(message.EntityId, out MineWorkData entity)) {
                     _dicById.Remove(message.EntityId);
@@ -42,7 +42,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
                     MinerStudioPath.DeleteMineWorkFiles(message.EntityId);
                     VirtualRoot.RaiseEvent(new MineWorkRemovedEvent(message.MessageId, entity));
                 }
-            }, this.GetType());
+            });
         }
 
         protected override void Init() {

@@ -1,5 +1,4 @@
 ﻿using NTMiner.Hub;
-using System;
 
 namespace NTMiner.Core.Mq.MqMessagePaths {
     /// <summary>
@@ -22,15 +21,15 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
         }
 
         protected AbstractMqMessagePath(string queue) : base(queue) {
-            VirtualRoot.BuildOnecePath<TEvent1>($"{typeof(TEvent1).Name}事件已经发生，可以订阅对应的Mq了", LogEnum.UserConsole, path: message => {
+            VirtualRoot.BuildOnecePath<TEvent1>($"{typeof(TEvent1).Name}事件已经发生，可以订阅对应的Mq了", LogEnum.UserConsole, PathId.Empty, this.GetType(), PathPriority.Normal, path: message => {
                 _isEvent1Happended = true;
-            }, PathId.Empty, this.GetType());
-            VirtualRoot.BuildOnecePath<TEvent2>($"{typeof(TEvent2).Name}事件已经发生，可以订阅对应的Mq了", LogEnum.UserConsole, path: message => {
+            });
+            VirtualRoot.BuildOnecePath<TEvent2>($"{typeof(TEvent2).Name}事件已经发生，可以订阅对应的Mq了", LogEnum.UserConsole, PathId.Empty, this.GetType(), PathPriority.Normal, path: message => {
                 _isEvent2Happended = true;
-            }, PathId.Empty, this.GetType());
-            VirtualRoot.BuildOnecePath<TEvent2>($"{typeof(TEvent3).Name}事件已经发生，可以订阅对应的Mq了", LogEnum.UserConsole, path: message => {
+            });
+            VirtualRoot.BuildOnecePath<TEvent2>($"{typeof(TEvent3).Name}事件已经发生，可以订阅对应的Mq了", LogEnum.UserConsole, PathId.Empty, this.GetType(), PathPriority.Normal, path: message => {
                 _isEvent3Happended = true;
-            }, PathId.Empty, this.GetType());
+            });
         }
     }
 }

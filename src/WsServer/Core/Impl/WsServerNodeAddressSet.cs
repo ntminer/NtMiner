@@ -11,7 +11,7 @@ namespace NTMiner.Core.Impl {
         public WsServerNodeAddressSet(IWsServerNodeRedis wsServerNodeRedis, IWsServerNodeMqSender wsServerNodeMqSender) : base(wsServerNodeRedis) {
             _wsServerNodeRedis = wsServerNodeRedis;
             _wsServerNodeMqSender = wsServerNodeMqSender;
-            VirtualRoot.BuildOnecePath<WebSocketServerStatedEvent>("上报节点信息，获取节点列表", LogEnum.UserConsole, path: _ => {
+            VirtualRoot.BuildOnecePath<WebSocketServerStatedEvent>("上报节点信息，获取节点列表", LogEnum.UserConsole, PathId.Empty, this.GetType(), PathPriority.Normal, path: _ => {
                 ReportNodeAsync(callback: () => {
                     base.Init(callback: () => {
                         NTMinerConsole.UserOk("Ws服务器节点地址集初始化完成");
@@ -19,10 +19,10 @@ namespace NTMiner.Core.Impl {
                     });
                     _wsServerNodeMqSender.SendWsServerNodeAdded();
                 });
-                VirtualRoot.BuildEventPath<Per10SecondEvent>("节点呼吸", LogEnum.UserConsole, path: message => {
+                VirtualRoot.BuildEventPath<Per10SecondEvent>("节点呼吸", LogEnum.UserConsole, this.GetType(), PathPriority.Normal, path: message => {
                     ReportNodeAsync();
-                }, this.GetType());
-            }, PathId.Empty, this.GetType());
+                });
+            });
         }
 
         private void ReportNodeAsync(Action callback = null) {

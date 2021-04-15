@@ -12,7 +12,7 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<Guid, UserMineWorkData> _dicById = new Dictionary<Guid, UserMineWorkData>();
 
         public UserMineWorkSet(IOperationMqSender mq) {
-            VirtualRoot.BuildEventPath<StartMineMqEvent>("收到StartMineMq消息后检查是否是作业挖矿，如果是则处理，否则忽略", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<StartMineMqEvent>("收到StartMineMq消息后检查是否是作业挖矿，如果是则处理，否则忽略", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 #region
                 if (IsTooOld(message.Timestamp)) {
                     return;
@@ -72,7 +72,7 @@ namespace NTMiner.Core.Impl {
                     }
                 }
                 #endregion
-            }, this.GetType());
+            });
         }
 
         private static bool IsTooOld(DateTime dateTime) {

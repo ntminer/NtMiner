@@ -86,7 +86,7 @@ namespace NTMiner.Mine {
             }
             else {
                 AddOnecePath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
-                    action: message => {
+                    path: message => {
                         message.MineContext?.Close();
                     }, location: this.GetType(), pathId: Guid.Empty);
                 this.MineStartedOn = DateTime.Now;
@@ -151,14 +151,14 @@ namespace NTMiner.Mine {
         /// <summary>
         /// 事件响应
         /// </summary>
-        private void AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type location)
+        private void AddEventPath<TEvent>(string description, LogEnum logType, Type location, PathPriority priority, Action<TEvent> path)
             where TEvent : IEvent {
-            var messagePathId = VirtualRoot.BuildMessagePath(description, logType, action, location);
+            var messagePathId = VirtualRoot.BuildMessagePath(description, logType, location, priority, path);
             _contextPathIds.Add(messagePathId);
         }
 
-        private void AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Guid pathId, Type location) {
-            var messagePathId = VirtualRoot.BuildOnecePath(description, logType, action, pathId, location);
+        private void AddOnecePath<TMessage>(string description, LogEnum logType, Guid pathId, Type location, Action<TMessage> path) {
+            var messagePathId = VirtualRoot.BuildOnecePath(description, logType, pathId, location, PathPriority.Normal, path);
             _contextPathIds.Add(messagePathId);
         }
 
@@ -200,11 +200,11 @@ namespace NTMiner.Mine {
                         if (NTMinerContext.Instance.GpuProfileSet.IsOverClockEnabled(MainCoin.GetId())) {
                             NTMinerConsole.UserWarn("应用超频，如果CPU性能较差耗时可能超过1分钟，请耐心等待");
                             var cmd = new CoinOverClockCommand(coinId: MainCoin.GetId());
-                            AddOnecePath<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole,
+                            AddOnecePath<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole, pathId: cmd.MessageId, location: this.GetType(),
                                 message => {
                                     // pathId是唯一的，从而可以断定该消息一定是因为该命令而引发的
                                     ContinueCreateProcess();
-                                }, location: this.GetType(), pathId: cmd.MessageId);
+                                });
                             // 超频是在另一个线程执行的，因为N卡超频当cpu性能非常差时较耗时
                             VirtualRoot.Execute(cmd);
                         }
@@ -287,8 +287,8 @@ namespace NTMiner.Mine {
                 return;
             }
             string processName = this.Kernel.GetProcessName();
-            this.AddEventPath<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole,
-                action: message => {
+            this.AddEventPath<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
+                path: message => {
                     if (this == NTMinerContext.Instance.LockedMineContext) {
                         if (!string.IsNullOrEmpty(processName)) {
                             Process[] processes = Process.GetProcessesByName(processName);
@@ -308,7 +308,7 @@ namespace NTMiner.Mine {
                     else {
                         this.Close();
                     }
-                }, location: this.GetType());
+                });
         }
         #endregion
 

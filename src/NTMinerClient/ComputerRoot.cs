@@ -13,10 +13,10 @@ namespace NTMiner {
                             _computer = new Computer();
                             _computer.Open();
                             _computer.CPUEnabled = true;
-                            VirtualRoot.BuildEventPath<AppExitEvent>($"程序退出时关闭OpenHardwareMonitor", LogEnum.None,
+                            VirtualRoot.BuildEventPath<AppExitEvent>($"程序退出时关闭OpenHardwareMonitor", LogEnum.None, typeof(VirtualRoot), PathPriority.Normal,
                                 message => {
                                     _computer?.Close();
-                                }, typeof(VirtualRoot));
+                                });
                         }
                     }
                 }

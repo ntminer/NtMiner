@@ -7,11 +7,11 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<string, MqCountData> _dicByAppId = new Dictionary<string, MqCountData>();
 
         public MqCountSet() {
-            VirtualRoot.BuildEventPath<MqCountReceivedMqEvent>("将收到的MqCountData数据更新到内存", LogEnum.None, message => {
+            VirtualRoot.BuildEventPath<MqCountReceivedMqEvent>("将收到的MqCountData数据更新到内存", LogEnum.None, this.GetType(), PathPriority.Normal, message => {
                 if (!string.IsNullOrEmpty(message.AppId) && message.Data != null) {
                     _dicByAppId[message.AppId] = message.Data;
                 }
-            }, this.GetType());
+            });
         }
 
         public MqCountData[] GetAll() {

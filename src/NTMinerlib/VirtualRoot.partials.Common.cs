@@ -132,12 +132,12 @@ namespace NTMiner {
 
         public static Task SecondsDelay(this int n) {
             var tcs = new TaskCompletionSource<object>();
-            BuildViaTimesLimitPath<Per1SecondEvent>("倒计时", LogEnum.None, message => {
+            BuildViaTimesLimitPath<Per1SecondEvent>("倒计时", LogEnum.None, viaTimesLimit: n, AnonymousMessagePath.Location, PathPriority.Normal, message => {
                 n--;
                 if (n == 0) {
                     tcs.SetResult(null);
                 }
-            }, viaTimesLimit: n, AnonymousMessagePath.Location);
+            });
             return tcs.Task;
         }
 

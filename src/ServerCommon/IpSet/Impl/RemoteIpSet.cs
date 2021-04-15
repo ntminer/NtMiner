@@ -21,17 +21,17 @@ namespace NTMiner.IpSet.Impl {
                     }
                 }
             }
-            VirtualRoot.BuildEventPath<WsTcpClientAcceptedEvent>("收集Ws客户端IP和端口", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<WsTcpClientAcceptedEvent>("收集Ws客户端IP和端口", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 IncActionTimes(message.RemoteIp);
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<WebApiRequestEvent>("收集WebApi客户端IP和端口", LogEnum.None, path: message => {
+            });
+            VirtualRoot.BuildEventPath<WebApiRequestEvent>("收集WebApi客户端IP和端口", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 IncActionTimes(message.RemoteIp);
-            }, this.GetType());
+            });
 
-            VirtualRoot.BuildEventPath<Per10SecondEvent>("周期找出恶意IP封掉", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<Per10SecondEvent>("周期找出恶意IP封掉", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 // TODO:阿里云AuthorizeSecurityGroup
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<Per100MinuteEvent>("清理长久不活跃的记录", LogEnum.DevConsole, path: message => {
+            });
+            VirtualRoot.BuildEventPath<Per100MinuteEvent>("清理长久不活跃的记录", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                 List<IPAddress> toRemoves = new List<IPAddress>();
                 DateTime time = message.BornOn.AddHours(-1);
                 foreach (var remoteIp in _dicByIp.Values.ToArray()) {
@@ -42,7 +42,7 @@ namespace NTMiner.IpSet.Impl {
                 foreach (var remoteIp in toRemoves) {
                     _dicByIp.TryRemove(remoteIp, out _);
                 }
-            }, this.GetType());
+            });
         }
     }
 }

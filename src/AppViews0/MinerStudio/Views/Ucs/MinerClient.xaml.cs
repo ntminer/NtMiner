@@ -16,10 +16,10 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             InitializeComponent();
             this.TbDateTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
             this.OnLoaded((window) => {
-                window.BuildEventPath<MinutePartChangedEvent>("整分钟时更新MinerClient上的日期时间计时器", LogEnum.None,
+                window.BuildEventPath<MinutePartChangedEvent>("整分钟时更新MinerClient上的日期时间计时器", LogEnum.None, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         this.TbDateTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
-                    }, location: this.GetType());
+                    });
             });
         }
 

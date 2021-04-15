@@ -49,7 +49,7 @@ namespace NTMiner {
                     this._list.Add(new GpuSpeedViewModel(item));
                 }
                 _totalSpeedVm = this._list.FirstOrDefault(a => a.GpuVm.Index == NTMinerContext.GpuAllId);
-                BuildEventPath<GpuShareChangedEvent>("显卡份额变更后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<GpuShareChangedEvent>("显卡份额变更后刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         ResetIfMainCoinSwitched();
                         int index = message.Source.Gpu.Index;
@@ -59,8 +59,8 @@ namespace NTMiner {
                             gpuSpeedVm.MainCoinSpeed.AcceptShare = message.Source.MainCoinSpeed.AcceptShare;
                             gpuSpeedVm.MainCoinSpeed.RejectShare = message.Source.MainCoinSpeed.RejectShare;
                         }
-                    }, location: this.GetType());
-                BuildEventPath<FoundShareIncreasedEvent>("找到一个份额后刷新VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<FoundShareIncreasedEvent>("找到一个份额后刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         ResetIfMainCoinSwitched();
                         int index = message.Source.Gpu.Index;
@@ -68,8 +68,8 @@ namespace NTMiner {
                         if (gpuSpeedVm != null) {
                             gpuSpeedVm.MainCoinSpeed.FoundShare = message.Source.MainCoinSpeed.FoundShare;
                         }
-                    }, location: this.GetType());
-                BuildEventPath<AcceptShareIncreasedEvent>("接受一个份额后刷新VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<AcceptShareIncreasedEvent>("接受一个份额后刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         ResetIfMainCoinSwitched();
                         int index = message.Source.Gpu.Index;
@@ -77,8 +77,8 @@ namespace NTMiner {
                         if (gpuSpeedVm != null) {
                             gpuSpeedVm.MainCoinSpeed.AcceptShare = message.Source.MainCoinSpeed.AcceptShare;
                         }
-                    }, location: this.GetType());
-                BuildEventPath<AcceptShareSetedEvent>("刷新显卡接受份额VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<AcceptShareSetedEvent>("刷新显卡接受份额VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         ResetIfMainCoinSwitched();
                         int index = message.Source.Gpu.Index;
@@ -86,8 +86,8 @@ namespace NTMiner {
                         if (gpuSpeedVm != null) {
                             gpuSpeedVm.MainCoinSpeed.AcceptShare = message.Source.MainCoinSpeed.AcceptShare;
                         }
-                    }, location: this.GetType());
-                BuildEventPath<RejectShareSetedEvent>("刷新显卡拒绝份额VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<RejectShareSetedEvent>("刷新显卡拒绝份额VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         ResetIfMainCoinSwitched();
                         int index = message.Source.Gpu.Index;
@@ -95,8 +95,8 @@ namespace NTMiner {
                         if (gpuSpeedVm != null) {
                             gpuSpeedVm.MainCoinSpeed.RejectShare = message.Source.MainCoinSpeed.RejectShare;
                         }
-                    }, location: this.GetType());
-                BuildEventPath<IncorrectShareSetedEvent>("刷新显卡计算错误份额VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<IncorrectShareSetedEvent>("刷新显卡计算错误份额VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         ResetIfMainCoinSwitched();
                         int index = message.Source.Gpu.Index;
@@ -104,8 +104,8 @@ namespace NTMiner {
                         if (gpuSpeedVm != null) {
                             gpuSpeedVm.MainCoinSpeed.IncorrectShare = message.Source.MainCoinSpeed.IncorrectShare;
                         }
-                    }, location: this.GetType());
-                BuildEventPath<RejectShareIncreasedEvent>("拒绝一个份额后刷新VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<RejectShareIncreasedEvent>("拒绝一个份额后刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         ResetIfMainCoinSwitched();
                         int index = message.Source.Gpu.Index;
@@ -113,8 +113,8 @@ namespace NTMiner {
                         if (gpuSpeedVm != null) {
                             gpuSpeedVm.MainCoinSpeed.RejectShare = message.Source.MainCoinSpeed.RejectShare;
                         }
-                    }, location: this.GetType());
-                BuildEventPath<IncorrectShareIncreasedEvent>("产生一个错误份额后刷新VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<IncorrectShareIncreasedEvent>("产生一个错误份额后刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         ResetIfMainCoinSwitched();
                         int index = message.Source.Gpu.Index;
@@ -122,8 +122,8 @@ namespace NTMiner {
                         if (gpuSpeedVm != null) {
                             gpuSpeedVm.MainCoinSpeed.IncorrectShare = message.Source.MainCoinSpeed.IncorrectShare;
                         }
-                    }, location: this.GetType());
-                BuildEventPath<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.None,
+                    });
+                BuildEventPath<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.None, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
                         ResetIfMainCoinSwitched();
                         int index = message.Source.Gpu.Index;
@@ -165,12 +165,12 @@ namespace NTMiner {
                                 }
                             }
                         }
-                    }, location: this.GetType());
-                BuildEventPath<Per1SecondEvent>("每秒钟更新算力活动时间", LogEnum.None,
+                    });
+                BuildEventPath<Per1SecondEvent>("每秒钟更新算力活动时间", LogEnum.None, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         TotalSpeedVm.MainCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
                         TotalSpeedVm.DualCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
-                    }, location: this.GetType());
+                    });
             }
 
             public void Refresh() {

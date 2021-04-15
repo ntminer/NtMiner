@@ -6,13 +6,13 @@ namespace NTMiner.Core.MinerStudio.Impl {
         private readonly Dictionary<Guid, MinerGroupData> _dicById = new Dictionary<Guid, MinerGroupData>();
 
         public MinerGroupSet() {
-            VirtualRoot.BuildEventPath<MinerStudioServiceSwitchedEvent>("切换了群口后台服务类型后刷新内存", LogEnum.DevConsole, path: message => {
+            VirtualRoot.BuildEventPath<MinerStudioServiceSwitchedEvent>("切换了群口后台服务类型后刷新内存", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                 _dicById.Clear();
                 base.DeferReInit();
                 // 初始化以触发MinerGroupSetInitedEvent事件
                 InitOnece();
-            }, this.GetType());
-            VirtualRoot.BuildCmdPath<AddMinerGroupCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<AddMinerGroupCommand>(this.GetType(), LogEnum.DevConsole, path: message => {
                 InitOnece();
                 if (!_dicById.ContainsKey(message.Input.Id)) {
                     var repository = VirtualRoot.CreateLocalRepository<MinerGroupData>();
@@ -22,8 +22,8 @@ namespace NTMiner.Core.MinerStudio.Impl {
                     repository.Add(data);
                     VirtualRoot.RaiseEvent(new MinerGroupAddedEvent(message.MessageId, data));
                 }
-            }, this.GetType());
-            VirtualRoot.BuildCmdPath<UpdateMinerGroupCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<UpdateMinerGroupCommand>(this.GetType(), LogEnum.DevConsole, path: message => {
                 InitOnece();
                 if (_dicById.TryGetValue(message.Input.Id, out MinerGroupData data)) {
                     var repository = VirtualRoot.CreateLocalRepository<MinerGroupData>();
@@ -32,8 +32,8 @@ namespace NTMiner.Core.MinerStudio.Impl {
                     repository.Update(data);
                     VirtualRoot.RaiseEvent(new MinerGroupUpdatedEvent(message.MessageId, data));
                 }
-            }, this.GetType());
-            VirtualRoot.BuildCmdPath<RemoveMinerGroupCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<RemoveMinerGroupCommand>(this.GetType(), LogEnum.DevConsole, path: message => {
                 InitOnece();
                 if (_dicById.TryGetValue(message.EntityId, out MinerGroupData entity)) {
                     _dicById.Remove(message.EntityId);
@@ -41,7 +41,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
                     repository.Remove(message.EntityId);
                     VirtualRoot.RaiseEvent(new MinerGroupRemovedEvent(message.MessageId, entity));
                 }
-            }, this.GetType());
+            });
         }
 
         protected override void Init() {

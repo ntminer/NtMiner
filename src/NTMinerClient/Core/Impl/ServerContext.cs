@@ -46,18 +46,18 @@ namespace NTMiner.Core.Impl {
         /// <summary>
         /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
         /// </summary>
-        public void AddCmdPath<TCmd>(LogEnum logType, Action<TCmd> action, Type location)
+        public void AddCmdPath<TCmd>(LogEnum logType, Type location, Action<TCmd> path)
             where TCmd : ICmd {
-            var messagePathId = VirtualRoot.BuildCmdPath(action, location, logType);
+            var messagePathId = VirtualRoot.BuildCmdPath(location, logType, path);
             _contextPathIds.Add(messagePathId);
         }
 
         /// <summary>
         /// 事件响应
         /// </summary>
-        public void AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type location)
+        public void AddEventPath<TEvent>(string description, LogEnum logType, Type location, PathPriority priority, Action<TEvent> path)
             where TEvent : IEvent {
-            var messagePathId = VirtualRoot.BuildMessagePath(description, logType, action, location);
+            var messagePathId = VirtualRoot.BuildMessagePath(description, logType, location, priority, path);
             _contextPathIds.Add(messagePathId);
         }
 

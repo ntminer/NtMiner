@@ -32,18 +32,18 @@ namespace NTMiner {
             if (ClientAppType.IsMinerClient) {
                 SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
 
-                VirtualRoot.BuildEventPath<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
+                VirtualRoot.BuildEventPath<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         RefreshServerJsonFile();
-                    }, location: this.GetType());
+                    });
             }
-            VirtualRoot.BuildEventPath<AppExitEvent>($"程序退出时的{nameof(NTMinerContext)}退出逻辑", LogEnum.None,
+            VirtualRoot.BuildEventPath<AppExitEvent>($"程序退出时的{nameof(NTMinerContext)}退出逻辑", LogEnum.None, typeof(NTMinerContext), PathPriority.Normal,
                 message => {
                     if (LockedMineContext != null) {
                         StopMine(StopMineReason.ApplicationExit);
                     }
                     SystemEvents.SessionSwitch -= SystemEvents_SessionSwitch;
-                }, typeof(NTMinerContext));
+                });
         }
 
         private void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e) {
@@ -219,7 +219,7 @@ namespace NTMiner {
         }
 
         private void Link() {
-            VirtualRoot.BuildCmdPath<RegCmdHereCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<RegCmdHereCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 try {
                     Cmd.RegCmdHere();
                     VirtualRoot.ThisLocalInfo(nameof(NTMinerContext), "添加windows右键命令行成功");
@@ -228,8 +228,8 @@ namespace NTMiner {
                     Logger.ErrorDebugLine(e);
                     VirtualRoot.ThisLocalError(nameof(NTMinerContext), "添加windows右键命令行失败", OutEnum.Warn);
                 }
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<UnRegCmdHereCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<UnRegCmdHereCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 try {
                     Cmd.UnRegCmdHere();
                     VirtualRoot.ThisLocalInfo(nameof(NTMinerContext), "移除windows右键命令行成功");
@@ -238,17 +238,17 @@ namespace NTMiner {
                     Logger.ErrorDebugLine(e);
                     VirtualRoot.ThisLocalError(nameof(NTMinerContext), "移除windows右键命令行失败", OutEnum.Warn);
                 }
-            }, location: this.GetType());
-            VirtualRoot.BuildEventPath<Per1MinuteEvent>("每1分钟阻止系统休眠", LogEnum.None,
+            });
+            VirtualRoot.BuildEventPath<Per1MinuteEvent>("每1分钟阻止系统休眠", LogEnum.None, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     Power.PreventSleep(MinerProfile.IsPreventDisplaySleep);
-                }, location: this.GetType());
+                });
             #region 挖矿开始时将无份额内核重启份额计数置0
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
             DateTime highSpeedOn = DateTime.Now;
             DateTime overClockHighSpeedOn = DateTime.Now;
-            VirtualRoot.BuildEventPath<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     // 将无份额内核重启份额计数置0
                     shareCount = 0;
@@ -258,10 +258,10 @@ namespace NTMiner {
                         // 当不是内核重启时更新shareOn，如果是内核重启不用更新shareOn从而给不干扰无内核矿机重启的逻辑
                         shareOn = DateTime.Now;
                     }
-                }, location: this.GetType());
+                });
             #endregion
             #region 每20秒钟检查是否需要重启
-            VirtualRoot.BuildEventPath<Per20SecondEvent>("每20秒钟检查是否需要重启", LogEnum.None,
+            VirtualRoot.BuildEventPath<Per20SecondEvent>("每20秒钟检查是否需要重启", LogEnum.None, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     #region 低算力重启电脑
                     if (IsMining && LockedMineContext.ProcessCreatedOn != DateTime.MinValue) {
@@ -357,7 +357,7 @@ namespace NTMiner {
                     try {
                         if (IsMining && this.LockedMineContext.MainCoin != null) {
                             int totalShare = 0;
-                            bool restartComputer = MinerProfile.NoShareRestartComputerMinutes >0 && MinerProfile.IsNoShareRestartComputer && (DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartComputerMinutes;
+                            bool restartComputer = MinerProfile.NoShareRestartComputerMinutes > 0 && MinerProfile.IsNoShareRestartComputer && (DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartComputerMinutes;
                             bool restartKernel = MinerProfile.NoShareRestartKernelMinutes > 0 && MinerProfile.IsNoShareRestartKernel && (DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartKernelMinutes;
                             if (restartComputer || restartKernel) {
                                 ICoinShare mainCoinShare = this.CoinShareSet.GetOrCreate(this.LockedMineContext.MainCoin.GetId());
@@ -399,15 +399,15 @@ namespace NTMiner {
                         Logger.ErrorDebugLine(e);
                     }
                     #endregion
-                }, location: this.GetType());
+                });
             #endregion
-            VirtualRoot.BuildEventPath<Per10SecondEvent>("周期刷新显卡状态", LogEnum.None,
+            VirtualRoot.BuildEventPath<Per10SecondEvent>("周期刷新显卡状态", LogEnum.None, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     // 因为遇到显卡系统状态变更时可能费时
                     Task.Factory.StartNew(() => {
                         GpuSet.LoadGpuState();
                     });
-                }, location: this.GetType());
+                });
         }
         private DateTime GetKernelRestartBaseOnTime() {
             if (LockedMineContext == null) {

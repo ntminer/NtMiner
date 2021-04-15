@@ -16,7 +16,7 @@ namespace NTMiner.Core.Impl {
                 throw new ArgumentNullException(nameof(dbFileFullName));
             }
             _connectionString = $"filename={dbFileFullName}";
-            VirtualRoot.BuildCmdPath<LoadKernelOutputKeywordCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<LoadKernelOutputKeywordCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 DateTime localTimestamp = VirtualRoot.LocalKernelOutputKeywordSetTimestamp;
                 // 如果已知服务器端最新内核输出关键字时间戳不比本地已加载的最新内核输出关键字时间戳新就不用加载了
                 if (message.KnowKernelOutputKeywordTimestamp <= Timestamp.GetTimestamp(localTimestamp)) {
@@ -52,8 +52,8 @@ namespace NTMiner.Core.Impl {
                         VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                     }
                 });
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<AddOrUpdateKernelOutputKeywordCommand>(path: (message) => {
+            });
+            VirtualRoot.BuildCmdPath<AddOrUpdateKernelOutputKeywordCommand>(location: this.GetType(), LogEnum.DevConsole, path: (message) => {
                 InitOnece();
                 if (ClientAppType.IsMinerClient) {
                     DataLevel dataLevel = DataLevel.Profile;
@@ -93,8 +93,8 @@ namespace NTMiner.Core.Impl {
                         }
                     });
                 }
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<RemoveKernelOutputKeywordCommand>(path: (message) => {
+            });
+            VirtualRoot.BuildCmdPath<RemoveKernelOutputKeywordCommand>(location: this.GetType(), LogEnum.DevConsole, path: (message) => {
                 InitOnece();
                 if (ClientAppType.IsMinerClient) {
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -124,7 +124,7 @@ namespace NTMiner.Core.Impl {
                         }
                     });
                 }
-            }, location: this.GetType());
+            });
         }
 
         private const string fileName = "ServerKernelOutputKeywords.json";

@@ -8,9 +8,9 @@ namespace NTMiner.Core.Impl {
         private DateTime _timestamp = DateTime.MinValue;
 
         public ReadOnlyNTMinerFileSet() {
-            VirtualRoot.BuildCmdPath<RefreshNTMinerFileSetCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<RefreshNTMinerFileSetCommand>(this.GetType(), LogEnum.DevConsole, path: message => {
                 Refresh();
-            }, this.GetType(), LogEnum.DevConsole);
+            });
         }
 
         protected override void Init() {

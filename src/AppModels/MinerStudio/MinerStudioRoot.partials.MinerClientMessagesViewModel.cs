@@ -7,7 +7,7 @@ using System.Linq;
 namespace NTMiner.MinerStudio {
     public static partial class MinerStudioRoot {
         public class MinerClientMessagesViewModel : ViewModelBase {
-            private ObservableCollection<LocalMessageDtoViewModel> _vms = new ObservableCollection<LocalMessageDtoViewModel>();
+            private readonly ObservableCollection<LocalMessageDtoViewModel> _vms = new ObservableCollection<LocalMessageDtoViewModel>();
             private readonly object _locker = new object();
             private MinerClientViewModel _minerClientVm;
 
@@ -22,7 +22,7 @@ namespace NTMiner.MinerStudio {
                     return;
                 }
                 if (ClientAppType.IsMinerStudio) {
-                    VirtualRoot.BuildEventPath<MinerClientSelectionChangedEvent>("刷新矿机消息列表", LogEnum.DevConsole, path: message => {
+                    VirtualRoot.BuildEventPath<MinerClientSelectionChangedEvent>("刷新矿机消息列表", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                         bool isChanged = true;
                         if (message.MinerClientVm != null && this._minerClientVm != null && this._minerClientVm.ClientId == message.MinerClientVm.ClientId) {
                             isChanged = false;
@@ -35,8 +35,8 @@ namespace NTMiner.MinerStudio {
                             }
                             SendGetLocalMessagesMqMessage(isFast: true);
                         }
-                    }, this.GetType());
-                    VirtualRoot.BuildEventPath<ClientLocalMessagesEvent>("将收到的挖矿端本地消息展示到消息列表", LogEnum.DevConsole,
+                    });
+                    VirtualRoot.BuildEventPath<ClientLocalMessagesEvent>("将收到的挖矿端本地消息展示到消息列表", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                         path: message => {
                             if (this._minerClientVm == null || this._minerClientVm.ClientId != message.ClientId) {
                                 return;
@@ -50,10 +50,10 @@ namespace NTMiner.MinerStudio {
                                 }
                                 OnPropertyChanged(nameof(IsNoRecord));
                             });
-                        }, location: this.GetType());
-                    VirtualRoot.BuildEventPath<Per5SecondEvent>("周期获取当前选中的那台矿机的本地消息", LogEnum.DevConsole, path: message => {
+                        });
+                    VirtualRoot.BuildEventPath<Per5SecondEvent>("周期获取当前选中的那台矿机的本地消息", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                         SendGetLocalMessagesMqMessage(isFast: false);
-                    }, this.GetType());
+                    });
                 }
             }
 

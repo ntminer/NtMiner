@@ -14,14 +14,14 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                BuildEventPath<KernelOutputKeywordLoadedEvent>("从服务器加载了内核输入关键字后刷新Vm集", LogEnum.DevConsole,
+                BuildEventPath<KernelOutputKeywordLoadedEvent>("从服务器加载了内核输入关键字后刷新Vm集", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         KernelOutputKeywordViewModel[] toRemoves = _dicById.Where(a => a.Value.GetDataLevel() == DataLevel.Global).Select(a => a.Value).ToArray();
                         foreach (var item in toRemoves) {
                             _dicById.Remove(item.Id);
                         }
                         foreach (var kv in _dicByKernelOutputId) {
-                            foreach (var toRemove in toRemoves.Where(a=>a.KernelOutputId == kv.Key)) {
+                            foreach (var toRemove in toRemoves.Where(a => a.KernelOutputId == kv.Key)) {
                                 kv.Value.Remove(toRemove);
                             }
                         }
@@ -43,8 +43,8 @@ namespace NTMiner {
                                 kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputKeywords));
                             }
                         }
-                    }, location: this.GetType());
-                BuildEventPath<UserKernelOutputKeywordAddedEvent>("添加了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<UserKernelOutputKeywordAddedEvent>("添加了内核输出过滤器后刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             KernelOutputKeywordViewModel vm = new KernelOutputKeywordViewModel(message.Source);
@@ -57,14 +57,14 @@ namespace NTMiner {
                                 kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputKeywords));
                             }
                         }
-                    }, location: this.GetType());
-                BuildEventPath<UserKernelOutputKeywordUpdatedEvent>("更新了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<UserKernelOutputKeywordUpdatedEvent>("更新了内核输出过滤器后刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputKeywordViewModel vm)) {
                             vm.Update(message.Source);
                         }
-                    }, location: this.GetType());
-                BuildEventPath<UserKernelOutputKeywordRemovedEvent>("删除了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
+                    });
+                BuildEventPath<UserKernelOutputKeywordRemovedEvent>("删除了内核输出过滤器后刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputKeywordViewModel vm)) {
                             _dicById.Remove(vm.Id);
@@ -73,7 +73,7 @@ namespace NTMiner {
                                 kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputKeywords));
                             }
                         }
-                    }, location: this.GetType());
+                    });
                 Init();
             }
 

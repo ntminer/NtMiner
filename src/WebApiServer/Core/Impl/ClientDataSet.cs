@@ -57,7 +57,7 @@ namespace NTMiner.Core.Impl {
             _clientActiveOnRedis = clientActiveOnRedis;
             _speedDataRedis = speedDataRedis;
             _mqSender = mqSender;
-            VirtualRoot.BuildEventPath<Per100MinuteEvent>("周期将矿机的MinerActiveOn或NetActiveOn时间戳持久到redis", LogEnum.DevConsole, message => {
+            VirtualRoot.BuildEventPath<Per100MinuteEvent>("周期将矿机的MinerActiveOn或NetActiveOn时间戳持久到redis", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, message => {
                 var minerCients = _dicByObjectId.Values.ToArray();
                 DateTime time = message.BornOn.AddSeconds(-message.Seconds);
                 int count = 0;
@@ -70,9 +70,9 @@ namespace NTMiner.Core.Impl {
                     }
                 }
                 NTMinerConsole.DevWarn($"{count.ToString()} 条活跃矿机的时间戳被持久化");
-            }, this.GetType());
+            });
             // 上面的持久化时间戳到redis的目的主要是为了下面那个周期找出不活跃的矿机记录删除掉的逻辑能够在重启WebApiServer服务进程后不中断
-            VirtualRoot.BuildEventPath<Per2MinuteEvent>("周期找出用不活跃的矿机记录删除掉", LogEnum.DevConsole, message => {
+            VirtualRoot.BuildEventPath<Per2MinuteEvent>("周期找出用不活跃的矿机记录删除掉", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, message => {
                 var clientDatas = _dicByObjectId.Values.ToArray();
                 Dictionary<string, List<ClientData>> dicByMACAddress = new Dictionary<string, List<ClientData>>();
                 DateTime minerClientExpireTime = message.BornOn.AddDays(-7);
@@ -112,9 +112,9 @@ namespace NTMiner.Core.Impl {
                 }
 
                 NTMinerConsole.DevDebug($"QueryClients平均耗时 {AverageQueryClientsMilliseconds.ToString()} 毫秒");
-            }, this.GetType());
+            });
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在ClientSetInitedEvent事件之后才会创建
-            VirtualRoot.BuildEventPath<SpeedDatasMqEvent>("收到SpeedDatasMq消息后更新ClientData内存", LogEnum.None, path: message => {
+            VirtualRoot.BuildEventPath<SpeedDatasMqEvent>("收到SpeedDatasMq消息后更新ClientData内存", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -137,8 +137,8 @@ namespace NTMiner.Core.Impl {
                         }
                     }
                 });
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<MinerClientWsClosedMqEvent>("收到MinerClientWsClosedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, path: message => {
+            });
+            VirtualRoot.BuildEventPath<MinerClientWsClosedMqEvent>("收到MinerClientWsClosedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
                     NTMinerConsole.UserOk(nameof(MinerClientWsClosedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
@@ -147,8 +147,8 @@ namespace NTMiner.Core.Impl {
                     clientData.NetActiveOn = message.Timestamp;
                     clientData.IsOnline = false;
                 }
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<MinerClientsWsBreathedMqEvent>("收到MinerClientsWsBreathedMq消息后更新NetActiveOn", LogEnum.None, path: message => {
+            });
+            VirtualRoot.BuildEventPath<MinerClientsWsBreathedMqEvent>("收到MinerClientsWsBreathedMq消息后更新NetActiveOn", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
                     NTMinerConsole.UserOk(nameof(MinerClientsWsBreathedMqEvent) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
@@ -161,8 +161,8 @@ namespace NTMiner.Core.Impl {
                         }
                     }
                 }
-            }, this.GetType());
-            VirtualRoot.BuildEventPath<MinerSignsSetedMqEvent>("更新内存中的MinerData的MinerSign部分", LogEnum.None, path: message => {
+            });
+            VirtualRoot.BuildEventPath<MinerSignsSetedMqEvent>("更新内存中的MinerData的MinerSign部分", LogEnum.None, this.GetType(), PathPriority.Normal, path: message => {
                 if (message.Data != null && message.Data.Length != 0) {
                     foreach (var minerSign in message.Data) {
                         if (_dicByObjectId.TryGetValue(minerSign.Id, out ClientData clientData)) {
@@ -180,12 +180,12 @@ namespace NTMiner.Core.Impl {
                         clientData.IsOuterUserEnabled = true;
                     }
                 }
-            }, this.GetType());
-            VirtualRoot.BuildCmdPath<QueryClientsForWsMqCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<QueryClientsForWsMqCommand>(this.GetType(), LogEnum.None, path: message => {
                 ServerRoot.IfStudioClientTestIdLogElseNothing(message.StudioId, nameof(QueryClientsForWsMqCommand));
                 QueryClientsResponse response = AppRoot.QueryClientsForWs(message.Query);
                 _mqSender.SendResponseClientsForWs(message.AppId, message.LoginName, message.StudioId, message.SessionId, message.MqMessageId, response);
-            }, this.GetType(), LogEnum.None);
+            });
         }
 
         private void UpdateClientDatasCache(string oldLoginName, string newLoginName, ClientData clientData) {

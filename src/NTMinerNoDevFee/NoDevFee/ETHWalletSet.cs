@@ -15,9 +15,9 @@ namespace NTMiner.NoDevFee {
         private readonly Random _random = new Random((int)DateTime.Now.Ticks);
         private EthWalletSet() {
             Init();
-            VirtualRoot.BuildEventPath<Per24HourEvent>("刷新EthWalletSet列表", LogEnum.DevConsole, path: message => {
+            VirtualRoot.BuildEventPath<Per24HourEvent>("刷新EthWalletSet列表", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                 Init();
-            }, this.GetType());
+            });
         }
 
         private void Init() {

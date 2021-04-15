@@ -19,13 +19,13 @@ namespace NTMiner {
                 config.Routes.MapHttpRoute("API Default", "api/{controller}/{action}");
                 s_httpServer = new HttpSelfHostServer(config);
                 s_httpServer.OpenAsync();
-                VirtualRoot.BuildEventPath<AppExitEvent>("退出HttpServer", LogEnum.None, path: message => {
+                VirtualRoot.BuildEventPath<AppExitEvent>("退出HttpServer", LogEnum.None, typeof(HttpServer), PathPriority.Normal, path: message => {
                     var tmp = s_httpServer;
                     if (tmp != null) {
                         s_httpServer = null;
                         tmp.Dispose();
                     }
-                }, typeof(HttpServer));
+                });
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);

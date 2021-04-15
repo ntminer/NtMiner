@@ -21,336 +21,336 @@ namespace NTMiner {
 
         public override void BuildPaths() {
             var location = this.GetType();
-            VirtualRoot.BuildCmdPath<ShowDialogWindowCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<ShowDialogWindowCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     DialogWindow.ShowSoftDialog(new DialogWindowViewModel(message: message.Message, title: message.Title, onYes: message.OnYes, icon: message.Icon));
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowCalcCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowCalcCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     Calc.ShowWindow(message.CoinVm);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowLocalIpsCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowLocalIpsCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
-                    MinerClientUcs.LocalIpConfig.ShowWindow();
+                    LocalIpConfig.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowAboutPageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowAboutPageCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     AboutPage.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowKernelOutputPageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowKernelOutputPageCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     KernelOutputPage.ShowWindow(message.SelectedKernelOutputVm);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowKernelInputPageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowKernelInputPageCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     KernelInputPage.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowTagBrandCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowTagBrandCommand>(location: location, LogEnum.DevConsole, path: message => {
                 if (NTMinerContext.IsBrandSpecified) {
                     return;
                 }
                 UIThread.Execute(() => {
                     BrandTag.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowCoinPageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowCoinPageCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     CoinPage.ShowWindow(message.CurrentCoin, message.TabType);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowCoinGroupsCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowCoinGroupsCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     CoinGroupPage.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowSysDicPageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowSysDicPageCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     SysDicPage.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowVirtualMemoryCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowVirtualMemoryCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerClientUcs.VirtualMemory.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowRestartWindowsCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowRestartWindowsCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     RestartWindows.ShowDialog(new RestartWindowsViewModel(message.CountDownSeconds));
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowNotificationSampleCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowNotificationSampleCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     NotificationSample.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowPropertyCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowPropertyCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     Property.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowMessagePathIdsCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowMessagePathIdsCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MessagePathIds.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowKernelsWindowCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowKernelsWindowCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     KernelsWindow.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowKernelDownloaderCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowKernelDownloaderCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     KernelDownloading.ShowWindow(message.KernelId, message.DownloadComplete);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditEnvironmentVariableCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditEnvironmentVariableCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     EnvironmentVariableEdit.ShowWindow(message.CoinKernelVm, message.EnvironmentVariable);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditInputSegmentCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditInputSegmentCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     InputSegmentEdit.ShowWindow(message.CoinKernelVm, message.Segment);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditCoinKernelCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditCoinKernelCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     CoinKernelEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditCoinCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditCoinCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     CoinEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowSpeedChartsCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowSpeedChartsCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     SpeedCharts.ShowWindow(message.GpuSpeedVm);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowFileWriterPageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowFileWriterPageCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     FileWriterPage.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditFileWriterCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditFileWriterCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     FileWriterEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowFragmentWriterPageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowFragmentWriterPageCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     FragmentWriterPage.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditFragmentWriterCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditFragmentWriterCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     FragmentWriterEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditGroupCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditGroupCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     GroupEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditServerMessageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditServerMessageCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     ServerMessageEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditKernelInputCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditKernelInputCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     KernelInputEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditKernelOutputKeywordCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditKernelOutputKeywordCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     KernelOutputKeywordEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditKernelOutputTranslaterCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditKernelOutputTranslaterCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     KernelOutputTranslaterEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditKernelOutputCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditKernelOutputCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     KernelOutputEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowPackagesWindowCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowPackagesWindowCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     PackagesWindow.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditKernelCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditKernelCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     KernelEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditPackageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditPackageCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     PackageEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditPoolKernelCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditPoolKernelCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     PoolKernelEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditPoolCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditPoolCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     PoolEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditSysDicItemCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditSysDicItemCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     SysDicItemEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditSysDicCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditSysDicCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     SysDicEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowKernelOutputKeywordsCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowKernelOutputKeywordsCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     KernelOutputKeywords.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditWalletCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditWalletCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     WalletEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
+            });
 
             #region MinerStudio
-            VirtualRoot.BuildCmdPath<ShowQQGroupQrCodeCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<ShowQQGroupQrCodeCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.QQGroupQrCode.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowCalcConfigCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowCalcConfigCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.CalcConfig.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowMinerClientsWindowCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowMinerClientsWindowCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioViews.MinerClientsWindow.ShowWindow(message.IsToggle);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowNTMinerUpdaterConfigCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowNTMinerUpdaterConfigCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.NTMinerUpdaterConfig.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowMinerClientFinderConfigCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowMinerClientFinderConfigCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.MinerClientFinderConfig.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowOverClockDataPageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowOverClockDataPageCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.OverClockDataPage.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowMinerStudioVirtualMemoryCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowMinerStudioVirtualMemoryCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.VirtualMemory.ShowWindow(message.Vm);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowMinerStudioLocalIpsCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowMinerStudioLocalIpsCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.LocalIpConfig.ShowWindow(message.Vm);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowNTMinerWalletPageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowNTMinerWalletPageCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.NTMinerWalletPage.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowUserPageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowUserPageCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.UserPage.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowGpuNamePageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowGpuNamePageCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.GpuNameCounts.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowActionCountPageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowActionCountPageCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.ActionCounts.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowChangePassword>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowChangePassword>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.ChangePassword.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowWsServerNodePageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowWsServerNodePageCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.WsServerNodePage.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowRemoteDesktopLoginDialogCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowRemoteDesktopLoginDialogCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.RemoteDesktopLogin.ShowWindow(message.Vm);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowMinerClientSettingCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowMinerClientSettingCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.MinerClientSetting.ShowWindow(message.Vm);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowMinerNamesSeterCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowMinerNamesSeterCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.MinerNamesSeter.ShowWindow(message.Vm);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowGpuProfilesPageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowGpuProfilesPageCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.GpuProfilesPage.ShowWindow(message.MinerClientsWindowVm);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<ShowMinerClientAddCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<ShowMinerClientAddCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.MinerClientAdd.ShowWindow();
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditMinerGroupCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditMinerGroupCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.MinerGroupEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditNTMinerWalletCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditNTMinerWalletCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.NTMinerWalletEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditMineWorkCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditMineWorkCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.MineWorkEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditOverClockDataCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditOverClockDataCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.OverClockDataEdit.ShowWindow(message.FormType, message.Source);
                 });
-            }, location: location);
-            VirtualRoot.BuildCmdPath<EditColumnsShowCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<EditColumnsShowCommand>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.ColumnsShowEdit.ShowWindow(message.Source);
                 });
-            }, location: location);
+            });
             #endregion
         }
     }

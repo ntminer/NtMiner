@@ -14,12 +14,12 @@ namespace NTMiner.Gpus.Impl {
         private readonly INTMinerContext _ntminerContext;
         public GpusSpeed(INTMinerContext ntminerContext) {
             _ntminerContext = ntminerContext;
-            VirtualRoot.BuildEventPath<Per10MinuteEvent>("周期清除过期的历史算力", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<Per10MinuteEvent>("周期清除过期的历史算力", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     ClearOutOfDateHistory();
-                }, location: this.GetType());
+                });
 
-            VirtualRoot.BuildEventPath<MineStopedEvent>("停止挖矿后产生一次0算力", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<MineStopedEvent>("停止挖矿后产生一次0算力", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     var now = DateTime.Now;
                     foreach (var gpu in _ntminerContext.GpuSet.AsEnumerable()) {
@@ -28,9 +28,9 @@ namespace NTMiner.Gpus.Impl {
                             SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: true, now: now);
                         }
                     }
-                }, location: this.GetType());
+                });
 
-            VirtualRoot.BuildEventPath<MineStartedEvent>("挖矿开始时产生一次0算力0份额", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<MineStartedEvent>("挖矿开始时产生一次0算力0份额", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                 path: message => {
                     var now = DateTime.Now;
                     _ntminerContext.CoinShareSet.UpdateShare(message.MineContext.MainCoin.GetId(), 0, 0, now);
@@ -44,7 +44,7 @@ namespace NTMiner.Gpus.Impl {
                             SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: true, now: now);
                         }
                     }
-                }, location: this.GetType());
+                });
         }
 
         protected override void Init() {

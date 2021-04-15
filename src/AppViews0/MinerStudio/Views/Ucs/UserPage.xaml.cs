@@ -31,25 +31,25 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             this.DataContext = this.Vm;
             InitializeComponent();
             this.OnLoaded(window => {
-                window.BuildEventPath<Per20SecondEvent>("外网群控用户列表页面打开着时周期刷新", LogEnum.DevConsole, path: message => {
+                window.BuildEventPath<Per20SecondEvent>("外网群控用户列表页面打开着时周期刷新", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                     Vm.Refresh();
-                }, this.GetType());
-                window.BuildEventPath<UserEnabledEvent>("外网群控用户列表页面打开着时，用户启用后刷新Vm内存", LogEnum.DevConsole, path: message => {
+                });
+                window.BuildEventPath<UserEnabledEvent>("外网群控用户列表页面打开着时，用户启用后刷新Vm内存", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                     UIThread.Execute(() => {
                         var userVm = Vm.QueryResults.FirstOrDefault(a => a.LoginName == message.Source.LoginName);
                         if (userVm != null) {
                             userVm.IsEnabled = true;
                         }
                     });
-                }, this.GetType());
-                window.BuildEventPath<UserDisabledEvent>("外网群控用户列表页面打开着时，用户禁用后刷新Vm内存", LogEnum.DevConsole, path: message => {
+                });
+                window.BuildEventPath<UserDisabledEvent>("外网群控用户列表页面打开着时，用户禁用后刷新Vm内存", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                     UIThread.Execute(() => {
                         var userVm = Vm.QueryResults.FirstOrDefault(a => a.LoginName == message.Source.LoginName);
                         if (userVm != null) {
                             userVm.IsEnabled = false;
                         }
                     });
-                }, this.GetType());
+                });
             });
         }
 

@@ -18,7 +18,7 @@ namespace NTMiner.Views.Ucs {
             this.DataContext = this.Vm;
             InitializeComponent();
             this.OnLoaded((window) => {
-                window.BuildEventPath<LocalContextReInitedEventHandledEvent>("上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole, 
+                window.BuildEventPath<LocalContextReInitedEventHandledEvent>("上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         UIThread.Execute(() => {
                             if (Vm.MinerProfile.MineWork != null) {
@@ -40,7 +40,7 @@ namespace NTMiner.Views.Ucs {
                                 OpenMainCoinWalletPopup();
                             }
                         });
-                }, location: this.GetType());
+                    });
             });
 #if DEBUG
             var elapsedMilliseconds = NTStopwatch.Stop();

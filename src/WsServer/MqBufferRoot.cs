@@ -31,7 +31,7 @@ namespace NTMiner {
         static MqBufferRoot() {
             // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
             // 还可以继续消减，将这每秒钟6个Mq消息消减到1个，但是感觉没有什么必要了。
-            VirtualRoot.BuildEventPath<Per1SecondEvent>("每1秒钟将暂存的数据发送到Mq", LogEnum.None, message => {
+            VirtualRoot.BuildEventPath<Per1SecondEvent>("每1秒钟将暂存的数据发送到Mq", LogEnum.None, typeof(MqBufferRoot), PathPriority.Normal, message => {
                 Task.Factory.StartNew(() => {
                     Guid[] clientIds;
                     lock (_lockerForToBreathClientIds) {
@@ -100,14 +100,14 @@ namespace NTMiner {
                     }
                     AppRoot.OperationMqSender.SendOperationResultses(operationResultses);
                 });
-            }, typeof(MqBufferRoot));
-            VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期清理内存中过期的fastId", LogEnum.None, message => {
+            });
+            VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期清理内存中过期的fastId", LogEnum.None, typeof(MqBufferRoot), PathPriority.Normal, message => {
                 DateTime dt = message.BornOn.AddMinutes(-1);
                 var keys = _fastIdDic.Where(a => a.Value <= dt).Select(a => a.Key).ToArray();
                 foreach (var key in keys) {
                     _fastIdDic.TryRemove(key, out _);
                 }
-            }, typeof(MqBufferRoot));
+            });
         }
 
         public static void AddFastId(Guid messageId) {

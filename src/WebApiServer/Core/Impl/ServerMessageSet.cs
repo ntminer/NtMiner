@@ -15,7 +15,7 @@ namespace NTMiner.Core.Impl {
                 throw new ArgumentNullException(nameof(dbFileFullName));
             }
             _connectionString = $"filename={dbFileFullName}";
-            VirtualRoot.BuildCmdPath<AddOrUpdateServerMessageCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<AddOrUpdateServerMessageCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 InitOnece();
                 #region Server
                 ServerMessageData exist;
@@ -68,8 +68,8 @@ namespace NTMiner.Core.Impl {
                 }
                 SetServerMessageTimestamp();
                 #endregion
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<MarkDeleteServerMessageCommand>(path: message => {
+            });
+            VirtualRoot.BuildCmdPath<MarkDeleteServerMessageCommand>(location: this.GetType(), LogEnum.DevConsole, path: message => {
                 InitOnece();
                 #region Server
                 ServerMessageData exist = null;
@@ -96,7 +96,7 @@ namespace NTMiner.Core.Impl {
                 }
                 #endregion
                 SetServerMessageTimestamp();
-            }, location: this.GetType());
+            });
         }
 
         private void SetServerMessageTimestamp() {

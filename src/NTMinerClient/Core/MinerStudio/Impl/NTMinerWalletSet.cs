@@ -7,7 +7,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
         private readonly Dictionary<Guid, NTMinerWalletData> _dicById = new Dictionary<Guid, NTMinerWalletData>();
 
         public NTMinerWalletSet() {
-            VirtualRoot.BuildCmdPath<AddNTMinerWalletCommand>(path: (message) => {
+            VirtualRoot.BuildCmdPath<AddNTMinerWalletCommand>(location: this.GetType(), LogEnum.DevConsole, path: (message) => {
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
                 }
@@ -27,8 +27,8 @@ namespace NTMiner.Core.MinerStudio.Impl {
                         VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                     }
                 });
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<UpdateNTMinerWalletCommand>(path: (message) => {
+            });
+            VirtualRoot.BuildCmdPath<UpdateNTMinerWalletCommand>(location: this.GetType(), LogEnum.DevConsole, path: (message) => {
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
                 }
@@ -48,8 +48,8 @@ namespace NTMiner.Core.MinerStudio.Impl {
                     }
                 });
                 VirtualRoot.RaiseEvent(new NTMinerWalletUpdatedEvent(message.MessageId, entity));
-            }, location: this.GetType());
-            VirtualRoot.BuildCmdPath<RemoveNTMinerWalletCommand>(path: (message) => {
+            });
+            VirtualRoot.BuildCmdPath<RemoveNTMinerWalletCommand>(location: this.GetType(), LogEnum.DevConsole, path: (message) => {
                 if (message == null || message.EntityId == Guid.Empty) {
                     throw new ArgumentNullException();
                 }
@@ -66,7 +66,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
                         VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                     }
                 });
-            }, location: this.GetType());
+            });
         }
 
         protected override void Init() {

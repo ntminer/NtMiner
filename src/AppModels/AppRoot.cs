@@ -23,16 +23,16 @@ namespace NTMiner {
 
         #region methods
         // 因为是上下文路径，无需返回路径标识
-        public static void BuildCmdPath<TCmd>(LogEnum logType, Action<TCmd> path, Type location)
+        public static void BuildCmdPath<TCmd>(LogEnum logType, Type location, Action<TCmd> path)
             where TCmd : ICmd {
-            var messagePathId = VirtualRoot.BuildCmdPath(path, location, logType);
+            var messagePathId = VirtualRoot.BuildCmdPath(location, logType, path);
             _contextPathIds.Add(messagePathId);
         }
 
         // 因为是上下文路径，无需返回路径标识
-        public static void BuildEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> path, Type location)
+        public static void BuildEventPath<TEvent>(string description, LogEnum logType, Type location, PathPriority priority, Action<TEvent> path)
             where TEvent : IEvent {
-            var messagePathId = VirtualRoot.BuildMessagePath(description, logType, path, location);
+            var messagePathId = VirtualRoot.BuildMessagePath(description, logType, location, priority, path);
             _contextPathIds.Add(messagePathId);
         }
 

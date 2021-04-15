@@ -122,12 +122,12 @@ namespace NTMiner {
             this._redisConn = redisConn;
             this._mqChannel = channel;
             this._mqCountSender = new MqCountSender(this);
-            VirtualRoot.BuildEventPath<Per20SecondEvent>("周期将本节点的MqCountData广播到Mq上去", LogEnum.None, message => {
+            VirtualRoot.BuildEventPath<Per20SecondEvent>("周期将本节点的MqCountData广播到Mq上去", LogEnum.None, typeof(MqCountRoot), PathPriority.Normal, message => {
                 this._mqCountSender.SendMqCounts(MqCountRoot.GetMqCount());
-            }, typeof(MqCountRoot));
-            VirtualRoot.BuildCmdPath<RefreshMinerTestIdMqCommand>(message => {
+            });
+            VirtualRoot.BuildCmdPath<RefreshMinerTestIdMqCommand>(this.GetType(), LogEnum.DevConsole, message => {
                 RefreshClientTestId();
-            }, this.GetType());
+            });
             RefreshClientTestId();
         }
 

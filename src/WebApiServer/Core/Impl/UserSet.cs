@@ -14,7 +14,7 @@ namespace NTMiner.Core.Impl {
         public UserSet(IUserDataRedis redis, IUserMqSender mqSender) : base(redis) {
             _redis = redis;
             _mqSender = mqSender;
-            VirtualRoot.BuildCmdPath<UpdateUserRSAKeyMqCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<UpdateUserRSAKeyMqCommand>(this.GetType(), LogEnum.DevConsole, path: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -31,7 +31,7 @@ namespace NTMiner.Core.Impl {
                         _mqSender.SendUserRSAKeyUpdated(message.LoginName);
                     });
                 }
-            }, this.GetType(), LogEnum.DevConsole);
+            });
         }
 
         public List<UserData> QueryUsers(QueryUsersRequest query, out int total) {

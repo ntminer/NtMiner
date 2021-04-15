@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            VirtualRoot.BuildCmdPath<StopMineCommand>(path: message => {
+            VirtualRoot.BuildCmdPath<StopMineCommand>(this.GetType(), LogEnum.DevConsole, path: message => {
                 if (!NTMinerContext.Instance.IsMining) {
                     this.MinerProfile.IsMining = false;
                 }
@@ -22,7 +22,7 @@ namespace NTMiner.Vms {
                         this.MinerProfile.IsMining = false;
                     }
                 });
-            }, this.GetType(), LogEnum.DevConsole);
+            });
             this.StartMine = new DelegateCommand(() => {
                 VirtualRoot.ThisLocalInfo(nameof(StartStopMineButtonViewModel), $"手动开始挖矿", toConsole: true);
                 NTMinerContext.Instance.StartMine();
@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
                 NTMinerConsole.UserInfo($"{MinerProfile.AutoStartDelaySeconds.ToString()}秒后开始挖矿");
                 this.MinerProfile.IsMining = true;
                 IMessagePathId pathId = null;
-                pathId = VirtualRoot.BuildViaTimesLimitPath<Per1SecondEvent>("自动开始挖矿倒计时", LogEnum.None,
+                pathId = VirtualRoot.BuildViaTimesLimitPath<Per1SecondEvent>("自动开始挖矿倒计时", LogEnum.None, viaTimesLimit: MinerProfile.AutoStartDelaySeconds, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         if (!NTMinerContext.IsAutoStartCanceled) {
                             MineBtnText = $"倒计时{pathId.ViaTimesLimit.ToString()}";
@@ -50,7 +50,7 @@ namespace NTMiner.Vms {
                                 NTMinerContext.Instance.StartMine();
                             }
                         }
-                    }, location: this.GetType(), viaTimesLimit: MinerProfile.AutoStartDelaySeconds);
+                    });
             }
         }
 
