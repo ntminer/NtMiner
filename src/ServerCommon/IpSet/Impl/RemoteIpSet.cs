@@ -44,5 +44,16 @@ namespace NTMiner.IpSet.Impl {
                 }
             });
         }
+
+        public int Count {
+            get { return _dicByIp.Count; }
+        }
+
+        public RemoteIpEntry[] GetTopNRemoteIpEntries(int n) {
+            if (n <= 0) {
+                return new RemoteIpEntry[0];
+            }
+            return _dicByIp.Values.OrderByDescending(a => a.ActionTimes).Take(n).ToArray();
+        }
     }
 }

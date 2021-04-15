@@ -47,6 +47,7 @@
     <Compile Include="IMinerClientController.cs" />
     <Compile Include="IMqCountController.cs" />
     <Compile Include="INTMinerFileController.cs" />
+    <Compile Include="IRemoteIpController.cs" />
     <Compile Include="IReportBinaryController.cs" />
     <Compile Include="IServerMessageBinaryController`1.cs" />
     <Compile Include="IUserAppSettingController.cs" />

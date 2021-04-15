@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NTMiner.IpSet {
+﻿namespace NTMiner.IpSet {
     public interface IRemoteIpSet {
+        int Count { get; }
+        RemoteIpEntry[] GetTopNRemoteIpEntries(int n);
     }
 }

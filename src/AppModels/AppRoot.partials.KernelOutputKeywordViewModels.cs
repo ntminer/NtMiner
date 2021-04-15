@@ -37,12 +37,6 @@ namespace NTMiner {
                                 _dicByKernelOutputId[item.KernelOutputId].Add(vm);
                             }
                         }
-                        // TODO:给事件处理程序引入执行顺序改变，引入几个典型的顺序后可以避免很多为了顺序而构建的事件类型
-                        if (NTMinerContext.Instance.CurrentMineContext != null) {
-                            if (KernelOutputVms.TryGetKernelOutputVm(NTMinerContext.Instance.CurrentMineContext.KernelOutput.GetId(), out KernelOutputViewModel kernelOutputVm)) {
-                                kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputKeywords));
-                            }
-                        }
                     });
                 BuildEventPath<UserKernelOutputKeywordAddedEvent>("添加了内核输出过滤器后刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {

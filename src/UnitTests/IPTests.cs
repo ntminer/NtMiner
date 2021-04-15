@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NTMiner;
 using NTMiner.Core.MinerClient;
 using System;
 using System.Net;
@@ -49,6 +48,7 @@ namespace NTMiner {
         public void IPAddressHashCodeTest() {
             IPAddress iPAddress1 = IPAddress.Parse("111.222.222.111");
             IPAddress iPAddress2 = IPAddress.Parse("111.222.222.111");
+            Console.WriteLine(iPAddress1.ToString());
             Assert.AreEqual(iPAddress1.GetHashCode(), iPAddress2.GetHashCode());
         }
     }

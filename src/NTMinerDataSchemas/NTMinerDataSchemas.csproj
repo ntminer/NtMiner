@@ -93,6 +93,7 @@
     <Compile Include="ServerNode\IClientTestId.cs" />
     <Compile Include="ServerNode\IMqReceivedCount.cs" />
     <Compile Include="ServerNode\IMqSendCount.cs" />
+    <Compile Include="ServerNode\IRemoteIpEntry.cs" />
     <Compile Include="ServerNode\MqCountData.cs" />
     <Compile Include="ServerNode\MqReceivedCountData.cs" />
     <Compile Include="ServerNode\MqSendCountData.cs" />
@@ -106,7 +107,9 @@
     <Compile Include="ServerNode\IVarServerState.cs" />
     <Compile Include="ServerNode\IVarWsServerNode.cs" />
     <Compile Include="ServerNode\IWebApiServerState.cs" />
+    <Compile Include="ServerNode\RemoteIpEntryDto.cs" />
     <Compile Include="ServerNode\ServerAddress.cs" />
+    <Compile Include="ServerNode\TopNRemoteIpsResponse.cs" />
     <Compile Include="ServerNode\WebApiServerState.cs" />
     <Compile Include="ServerNode\WsStatus.cs" />
     <Compile Include="Core\OperationResultDto.cs" />

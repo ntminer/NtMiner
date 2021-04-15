@@ -12,10 +12,10 @@ namespace NTMiner {
         internal static void SetClientTestId(IClientTestId clientTestId) {
             _clientTestId = clientTestId;
         }
-        public static readonly IRemoteIpSet _remoteEndPointSet = new RemoteIpSet();
-        public static IRemoteIpSet RemoteEndPointSet {
+        public static readonly IRemoteIpSet _remoteIpSet = new RemoteIpSet();
+        public static IRemoteIpSet RemoteIpSet {
             get {
-                return _remoteEndPointSet;
+                return _remoteIpSet;
             }
         }
 

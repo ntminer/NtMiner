@@ -104,6 +104,7 @@
     <Compile Include="Controllers\GpuNameController.cs" />
     <Compile Include="Controllers\MqCountController.cs" />
     <Compile Include="Controllers\NTMinerFileController.cs" />
+    <Compile Include="Controllers\RemoteIpController.cs" />
     <Compile Include="Controllers\ReportBinaryController.cs" />
     <Compile Include="Controllers\ServerMessageBinaryController.cs" />
     <Compile Include="Core\IGpuNameSet.cs" />

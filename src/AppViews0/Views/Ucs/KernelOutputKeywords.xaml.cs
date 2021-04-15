@@ -26,6 +26,11 @@ namespace NTMiner.Views.Ucs {
             this.Vm = new KernelOutputKeywordsViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();
+            this.OnLoaded(window => {
+                window.BuildEventPath<KernelOutputKeywordLoadedEvent>("刷新Vm内存", LogEnum.None, this.GetType(), PathPriority.BelowNormal, message => {
+                    this.Vm.KernelOutputVm?.OnPropertyChanged(nameof(KernelOutputViewModel.KernelOutputKeywords));
+                });
+            });
             VirtualRoot.Execute(new LoadKernelOutputKeywordCommand());
         }
 

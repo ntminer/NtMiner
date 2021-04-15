@@ -25,6 +25,11 @@ namespace NTMiner.Views.Ucs {
             this.Vm = new KernelOutputPageViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();
+            this.OnLoaded(window => {
+                window.BuildEventPath<KernelOutputKeywordLoadedEvent>("刷新Vm内存", LogEnum.None, this.GetType(), PathPriority.BelowNormal, message => {
+                    this.Vm.CurrentKernelOutputVm?.OnPropertyChanged(nameof(KernelOutputViewModel.KernelOutputKeywords));
+                });
+            });
             if (selectedKernelOutputVm != null) {
                 Vm.CurrentKernelOutputVm = selectedKernelOutputVm;
             }
