@@ -39,8 +39,6 @@ namespace NTMiner.Core.Impl {
             // CoreContext的视图模型集在此事件时刷新
             // 注意，ServerContext有15个Core层集合，所以必定有15个对应的Vm集合订阅该事件
             VirtualRoot.RaiseEvent(new ServerContextReInitedEvent());
-            // CoreContext的视图模型集已全部刷新，此时刷新视图界面
-            VirtualRoot.RaiseEvent(new ServerContextReInitedEventHandledEvent());
         }
 
         /// <summary>

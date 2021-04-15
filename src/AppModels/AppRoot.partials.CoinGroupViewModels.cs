@@ -20,7 +20,7 @@ namespace NTMiner {
                         _listByGroupId.Clear();
                         Init();
                     });
-                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新视图界面", LogEnum.DevConsole, location: this.GetType(), PathPriority.BelowNormal,
                     path: message => {
                         // 什么也不做，因为该集合没有什么属性
                     });

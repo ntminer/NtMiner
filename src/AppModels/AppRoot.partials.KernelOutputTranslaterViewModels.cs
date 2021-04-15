@@ -20,7 +20,7 @@ namespace NTMiner {
                         _dicByKernelOutputId.Clear();
                         Init();
                     });
-                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新视图界面", LogEnum.DevConsole, location: this.GetType(), PathPriority.BelowNormal,
                     path: message => {
                         OnPropertyChanged(nameof(AllKernelOutputTranslaterVms));
                     });

@@ -18,7 +18,7 @@ namespace NTMiner {
                         _dicById.Clear();
                         Init();
                     });
-                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("刷新视图界面", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("刷新视图界面", LogEnum.DevConsole, location: this.GetType(), PathPriority.BelowNormal,
                     path: message => {
                         OnPropertyChanged(nameof(AllCoinKernels));
                     });
@@ -34,7 +34,6 @@ namespace NTMiner {
                             kernelVm.OnPropertyChanged(nameof(kernelVm.SupportedCoinVms));
                             kernelVm.OnPropertyChanged(nameof(kernelVm.SupportedCoins));
                         }
-                        VirtualRoot.RaiseEvent(new CoinKernelVmAddedEvent(message));
                     });
                 BuildEventPath<CoinKernelUpdatedEvent>("刷新VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
@@ -65,7 +64,6 @@ namespace NTMiner {
                             kernelVm.OnPropertyChanged(nameof(kernelVm.CoinVms));
                             kernelVm.OnPropertyChanged(nameof(kernelVm.SupportedCoinVms));
                             kernelVm.OnPropertyChanged(nameof(kernelVm.SupportedCoins));
-                            VirtualRoot.RaiseEvent(new CoinKernelVmRemovedEvent(message));
                         }
                     });
                 Init();

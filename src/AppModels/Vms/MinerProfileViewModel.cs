@@ -165,10 +165,10 @@ namespace NTMiner.Vms {
                         CoinVm.CoinKernel?.CoinKernelProfile.SelectedDualCoin?.CoinProfile?.OnPropertyChanged(nameof(CoinVm.CoinProfile.SelectedDualCoinWallet));
                     }
                 });
-            VirtualRoot.BuildEventPath<CoinVmAddedEvent>("Vm集添加了新币种后刷新MinerProfileVm内存", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
+            VirtualRoot.BuildEventPath<CoinAddedEvent>("Vm集添加了新币种后刷新MinerProfileVm内存", LogEnum.DevConsole, this.GetType(), PathPriority.BelowNormal, path: message => {
                 OnPropertyChanged(nameof(CoinVm));
             });
-            VirtualRoot.BuildEventPath<CoinVmRemovedEvent>("Vm集删除了新币种后刷新MinerProfileVm内存", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
+            VirtualRoot.BuildEventPath<CoinRemovedEvent>("Vm集删除了新币种后刷新MinerProfileVm内存", LogEnum.DevConsole, this.GetType(), PathPriority.BelowNormal, path: message => {
                 OnPropertyChanged(nameof(CoinVm));
             });
         }

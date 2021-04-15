@@ -61,11 +61,6 @@ namespace NTMiner {
         public ServerContextReInitedEvent() { }
     }
 
-    [MessageType(description: "处理了ServerContext重新初始化后事件后")]
-    public class ServerContextReInitedEventHandledEvent : EventBase {
-        public ServerContextReInitedEventHandledEvent() { }
-    }
-
     [MessageType(description: "LocalContext重新初始化后")]
     public class LocalContextReInitedEvent : EventBase {
         public LocalContextReInitedEvent() { }

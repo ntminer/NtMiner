@@ -345,40 +345,4 @@ namespace NTMiner {
         public EditWalletCommand(FormType formType, WalletViewModel source) : base(formType, source) {
         }
     }
-
-    [MessageType(description: "添加了币种后")]
-    public class CoinVmAddedEvent : VmEventBase<CoinAddedEvent> {
-        public CoinVmAddedEvent(CoinAddedEvent evt) : base(evt) {
-        }
-    }
-
-    [MessageType(description: "移除了币种后")]
-    public class CoinVmRemovedEvent : VmEventBase<CoinRemovedEvent> {
-        public CoinVmRemovedEvent(CoinRemovedEvent evt) : base(evt) {
-        }
-    }
-
-    [MessageType(description: "添加了钱包后")]
-    public class WalletVmAddedEvent : VmEventBase<WalletAddedEvent> {
-        public WalletVmAddedEvent(WalletAddedEvent evt) : base(evt) {
-        }
-    }
-
-    [MessageType(description: "移除了钱包后")]
-    public class WalletVmRemovedEvent : VmEventBase<WalletRemovedEvent> {
-        public WalletVmRemovedEvent(WalletRemovedEvent evt) : base(evt) {
-        }
-    }
-
-    [MessageType(description: "添加了币种级内核后")]
-    public class CoinKernelVmAddedEvent : VmEventBase<CoinKernelAddedEvent> {
-        public CoinKernelVmAddedEvent(CoinKernelAddedEvent evt) : base(evt) {
-        }
-    }
-
-    [MessageType(description: "移除了币种级内核后")]
-    public class CoinKernelVmRemovedEvent : VmEventBase<CoinKernelRemovedEvent> {
-        public CoinKernelVmRemovedEvent(CoinKernelRemovedEvent evt) : base(evt) {
-        }
-    }
 }

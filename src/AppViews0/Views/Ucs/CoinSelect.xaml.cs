@@ -9,11 +9,11 @@ namespace NTMiner.Views.Ucs {
             this.Init(vm);
             InitializeComponent();
             this.OnLoaded(window => {
-                window.BuildEventPath<CoinVmAddedEvent>("添加了币种后，刷新币种选择下拉列表的Vm内存", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
+                window.BuildEventPath<CoinAddedEvent>("添加了币种后，刷新币种选择下拉列表的Vm内存", LogEnum.DevConsole, this.GetType(), PathPriority.BelowNormal, path: message => {
                     vm.OnPropertyChanged(nameof(vm.QueryResults));
                     vm.OnPropertyChanged(nameof(vm.HotCoins));
                 });
-                window.BuildEventPath<CoinVmRemovedEvent>("删除了币种后，刷新币种选择下拉列表的Vm内存", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
+                window.BuildEventPath<CoinRemovedEvent>("删除了币种后，刷新币种选择下拉列表的Vm内存", LogEnum.DevConsole, this.GetType(), PathPriority.BelowNormal, path: message => {
                     vm.OnPropertyChanged(nameof(vm.QueryResults));
                     vm.OnPropertyChanged(nameof(vm.HotCoins));
                 });

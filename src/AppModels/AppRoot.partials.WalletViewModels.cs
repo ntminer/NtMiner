@@ -26,7 +26,6 @@ namespace NTMiner {
                             coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                         }
-                        VirtualRoot.RaiseEvent(new WalletVmAddedEvent(message));
                     });
                 BuildEventPath<WalletRemovedEvent>("调整VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
@@ -38,7 +37,6 @@ namespace NTMiner {
                             coin.CoinProfile?.OnPropertyChanged(nameof(CoinProfileViewModel.SelectedWallet));
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                         }
-                        VirtualRoot.RaiseEvent(new WalletVmRemovedEvent(message));
                     });
                 BuildEventPath<WalletUpdatedEvent>("调整VM内存", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
