@@ -1,5 +1,6 @@
 ﻿using NTMiner.User;
 using System;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -107,6 +108,13 @@ namespace NTMiner.Ws {
             VirtualRoot.BuildEventPath<AppExitEvent>("退出程序时关闭Ws连接", LogEnum.DevConsole, this.GetType(), PathPriority.Normal, path: message => {
                 _ws?.CloseAsync(CloseStatusCode.Normal, "客户端程序退出");
             });
+            NetworkChange.NetworkAvailabilityChanged += (object sender, NetworkAvailabilityEventArgs e) => {
+                if (e.IsAvailable) {
+                    1.SecondsDelay().ContinueWith(t => {
+                        OpenOrCloseWs(isResetFailCount: true);
+                    });
+                }
+            };
             /// 1，进程启动后第一次连接时；
             NeedReWebSocket();
             OpenOrCloseWs();
