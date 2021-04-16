@@ -154,7 +154,7 @@
                         }
                     }
                     else if (messagePath.Location != AnonymousMessagePath.Location) {
-                        var paths = _messagePaths.Where(a => a.Path == messagePath.Path && a.PathId == messagePath.PathId).ToArray();
+                        var paths = _messagePaths.Where(a => a.Path == messagePath.Path && a.PathId == messagePath.PathId && a.Priority == messagePath.Priority).ToArray();
                         if (paths.Length != 0) {
                             foreach (var path in paths) {
                                 NTMinerConsole.DevWarn(() => $"重复的路径:{path.Path} {path.Description}");
