@@ -493,10 +493,6 @@ namespace NTMiner {
             Process.Start("control.exe", "system");
         });
 
-        public static ICommand ShowServerKernelOutputKeywords { get; private set; } = new DelegateCommand(() => {
-
-        });
-
         public static ICommand ShowSignUpPage { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowSignUpPageCommand());
         });

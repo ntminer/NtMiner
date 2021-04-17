@@ -81,15 +81,13 @@
     <Compile Include="RpcUser.cs" />
     <Compile Include="Rpc\Impl\JsonRpcHelper.cs" />
     <Compile Include="Services\ClientServices.cs" />
-    <Compile Include="Services\Official\ActionCountService.cs" />
+    <Compile Include="Services\Official\AdminService.cs" />
     <Compile Include="Services\Official\AppSettingService.cs" />
     <Compile Include="Services\Client\MinerStudioService.cs" />
     <Compile Include="Services\Client\NTMinerClientService.cs" />
     <Compile Include="Services\Client\NTMinerDaemonService.cs" />
     <Compile Include="Core\Impl\KernelOutputKeywordSet.cs" />
     <Compile Include="Services\Official\FileUrlService.cs" />
-    <Compile Include="Services\Official\GpuNameService.cs" />
-    <Compile Include="Services\Official\MqCountService.cs" />
     <Compile Include="Services\Official\NTMinerFileService.cs" />
     <Compile Include="Services\Official\NTMinerWalletService.cs" />
     <Compile Include="Services\OfficialServices.cs" />
@@ -100,7 +98,6 @@
     <Compile Include="Services\Official\ReportBinaryService.cs" />
     <Compile Include="Services\Official\UserAppSettingService.cs" />
     <Compile Include="Services\Official\UserService.cs" />
-    <Compile Include="Services\Official\WebApiServerNodeService.cs" />
     <Compile Include="Services\Official\WsServerNodeService.cs" />
     <Compile Include="Services\Official\ClientDataService.cs" />
     <Compile Include="Services\Official\UserMinerGroupService.cs" />

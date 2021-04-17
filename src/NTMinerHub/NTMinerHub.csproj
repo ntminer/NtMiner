@@ -37,7 +37,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnonymousMessagePath.cs" />
+    <Compile Include="Anonymous.cs" />
     <Compile Include="Hub\Cmd.cs" />
     <Compile Include="PathPriority.cs" />
     <Compile Include="Hub\SourcedEvent`1.cs" />

@@ -37,7 +37,7 @@ namespace NTMiner.MinerStudio.Vms {
         }
 
         public void Query() {
-            RpcRoot.OfficialServer.ActionCountService.QueryActionCountsAsync(new QueryActionCountsRequest {
+            RpcRoot.OfficialServer.AdminService.QueryActionCountsAsync(new QueryActionCountsRequest {
                 PageIndex = this.PageIndex,
                 PageSize = this.PageSize,
                 Keyword = this.Keyword

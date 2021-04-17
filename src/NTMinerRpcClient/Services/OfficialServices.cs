@@ -3,7 +3,6 @@
 
     public class OfficialServices {
         public readonly WsServerNodeService WsServerNodeService = new WsServerNodeService();
-        public readonly WebApiServerNodeService WebApiServerNodeService = new WebApiServerNodeService();
         public readonly FileUrlService FileUrlService = new FileUrlService();
         public readonly NTMinerFileService NTMinerFileService = new NTMinerFileService();
         public readonly OverClockDataService OverClockDataService = new OverClockDataService();
@@ -19,9 +18,7 @@
         public readonly ClientDataService ClientDataService = new ClientDataService();
         public readonly UserMinerGroupService UserMinerGroupService = new UserMinerGroupService();
         public readonly UserMineWorkService UserMineWorkService = new UserMineWorkService();
-        public readonly GpuNameService GpuNameService = new GpuNameService();
-        public readonly ActionCountService ActionCountService = new ActionCountService();
-        public readonly MqCountService MqCountService = new MqCountService();
+        public readonly AdminService AdminService = new AdminService();
 
         internal OfficialServices() {
         }

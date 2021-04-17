@@ -62,7 +62,7 @@ namespace NTMiner.Cpus.Impl {
                                     }
                                     if ((message.BornOn - LowPerformanceOn).TotalSeconds >= _minerProfile.HighCpuSeconds) {
                                         LowPerformanceOn = message.BornOn;
-                                        VirtualRoot.ThisLocalWarn(nameof(CpuPackage), $"CPU使用率过高：连续{_minerProfile.HighCpuSeconds.ToString()}秒不低于{_minerProfile.HighCpuBaseline.ToString()}%");
+                                        VirtualRoot.ThisLocalWarn(nameof(CpuPackage), $"CPU使用率过高：连续{_minerProfile.HighCpuSeconds.ToString()}秒不低于{_minerProfile.HighCpuBaseline.ToString()}%，如果有杀毒软件需关闭或卸载杀毒软件。");
                                     }
                                 }
                             });

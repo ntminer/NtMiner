@@ -153,13 +153,13 @@
                             throw new Exception($"一种命令只应被一个处理器处理:{typeof(TMessage).Name}");
                         }
                     }
-                    else if (messagePath.Location != AnonymousMessagePath.Location) {
-                        var paths = _messagePaths.Where(a => a.Path == messagePath.Path && a.PathId == messagePath.PathId && a.Priority == messagePath.Priority).ToArray();
+                    else if (messagePath.Location != Anonymous.Location) {
+                        var paths = _messagePaths.Where(a => a.PathName == messagePath.PathName && a.PathId == messagePath.PathId && a.Priority == messagePath.Priority).ToArray();
                         if (paths.Length != 0) {
                             foreach (var path in paths) {
-                                NTMinerConsole.DevWarn(() => $"重复的路径:{path.Path} {path.Description}");
+                                NTMinerConsole.DevWarn(() => $"重复的路径:{path.PathName} {path.Description}");
                             }
-                            NTMinerConsole.DevWarn(() => $"重复的路径:{messagePath.Path} {messagePath.Description}");
+                            NTMinerConsole.DevWarn(() => $"重复的路径:{messagePath.PathName} {messagePath.Description}");
                         }
                     }
                     _messagePaths.Add(messagePath);
@@ -173,7 +173,7 @@
                     if (item != null) {
                         _messagePaths.Remove(item);
                         Sort();
-                        NTMinerConsole.DevDebug(() => "拆除路径" + messagePathId.Path + messagePathId.Description);
+                        NTMinerConsole.DevDebug(() => "拆除路径" + messagePathId.PathName + messagePathId.Description);
                     }
                 }
             }
@@ -238,7 +238,7 @@
 
                 MessageType = messageType;
                 Location = location;
-                Path = path;
+                PathName = path;
                 Description = description;
                 LogType = logType;
                 PathId = pathId;
@@ -273,7 +273,7 @@
                 }
             }
             public Type Location { get; private set; }
-            public string Path { get; private set; }
+            public string PathName { get; private set; }
             public LogEnum LogType { get; private set; }
             public string Description { get; private set; }
             public bool IsEnabled {
@@ -291,7 +291,7 @@
                     _action?.Invoke(message);
                 }
                 catch (Exception e) {
-                    Logger.ErrorDebugLine(Path + ":" + e.Message, e);
+                    Logger.ErrorDebugLine(PathName + ":" + e.Message, e);
                 }
             }
         }

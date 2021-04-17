@@ -97,14 +97,10 @@
       <Link>HttpServer.cs</Link>
     </Compile>
     <Compile Include="ActionCountRoot.cs" />
-    <Compile Include="Controllers\ActionCountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CalcConfigBinaryController.cs" />
     <Compile Include="Controllers\ClientDataBinaryController.cs" />
-    <Compile Include="Controllers\GpuNameController.cs" />
-    <Compile Include="Controllers\MqCountController.cs" />
     <Compile Include="Controllers\NTMinerFileController.cs" />
-    <Compile Include="Controllers\RemoteIpController.cs" />
     <Compile Include="Controllers\ReportBinaryController.cs" />
     <Compile Include="Controllers\ServerMessageBinaryController.cs" />
     <Compile Include="Core\IGpuNameSet.cs" />
@@ -151,7 +147,6 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\OverClockDataController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
-    <Compile Include="Controllers\WebApiServerNodeController.cs" />
     <Compile Include="Controllers\WsServerNodeController.cs" />
     <Compile Include="Core\ICalcConfigSet.cs" />
     <Compile Include="Core\IClientDataSet.cs" />

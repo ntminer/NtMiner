@@ -38,20 +38,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControllerUtil.cs" />
-    <Compile Include="IActionCountController.cs" />
     <Compile Include="IAdminController.cs" />
     <Compile Include="ICalcConfigBinaryController`1.cs" />
     <Compile Include="ICaptchaController`1.cs" />
     <Compile Include="IClientDataBinaryController`1.cs" />
-    <Compile Include="IGpuNameController.cs" />
     <Compile Include="IMinerClientController.cs" />
-    <Compile Include="IMqCountController.cs" />
     <Compile Include="INTMinerFileController.cs" />
-    <Compile Include="IRemoteIpController.cs" />
     <Compile Include="IReportBinaryController.cs" />
     <Compile Include="IServerMessageBinaryController`1.cs" />
     <Compile Include="IUserAppSettingController.cs" />
-    <Compile Include="IWebApiServerNodeController.cs" />
     <Compile Include="IWsServerNodeController.cs" />
     <Compile Include="IUserController.cs" />
     <Compile Include="IAppSettingController.cs" />

@@ -37,7 +37,7 @@ namespace NTMiner.MinerStudio.Vms {
         }
 
         public void Query() {
-            RpcRoot.OfficialServer.GpuNameService.QueryGpuNameCountsAsync(new QueryGpuNameCountsRequest {
+            RpcRoot.OfficialServer.AdminService.QueryGpuNameCountsAsync(new QueryGpuNameCountsRequest {
                 PageIndex = this.PageIndex,
                 PageSize = this.PageSize,
                 Keyword = this.Keyword

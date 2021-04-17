@@ -227,16 +227,6 @@
 							Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="内核输出关键字" Command="{x:Static app:AppStatic.ShowServerKernelOutputKeywords}">
-                    <MenuItem.Icon>
-                        <Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_KernelOutput}"
-							Fill="{StaticResource BtnBackground}"
-							Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
                 <MenuItem Header="收益计算器设置" Command="{x:Static app:AppStatic.ShowCalcConfig}">
 					<MenuItem.Icon>
 						<Path
