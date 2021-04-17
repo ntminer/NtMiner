@@ -84,7 +84,7 @@ namespace NTMiner {
                         if (incomeItems != null && incomeItems.Count != 0) {
                             RpcRoot.Login(new RpcUser(Config.RpcLoginName, HashUtil.Sha1(Config.RpcPassword)));
                             RpcRoot.SetIsOuterNet(false);
-                            RpcRoot.OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
+                            RpcRoot.OfficialServer.CalcConfigBinaryService.GetCalcConfigsAsync(data => {
                                 NTMinerConsole.UserInfo($"NTMiner有{data.Count.ToString()}个币种");
                                 HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                                 foreach (CalcConfigData calcConfigData in data) {

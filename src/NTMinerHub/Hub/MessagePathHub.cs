@@ -138,12 +138,6 @@
                 return _messagePaths.ToArray();
             }
 
-            private void Sort() {
-                _messagePaths.Sort((left, right) => {
-                    return right.Priority - left.Priority;
-                });
-            }
-
             public void AddMessagePath(MessagePath<TMessage> messagePath) {
                 lock (_locker) {
                     if (typeof(ICmd).IsAssignableFrom(typeof(TMessage))) {
@@ -163,8 +157,21 @@
                         }
                     }
                     _messagePaths.Add(messagePath);
+                    // Add时排序，Remove时不需要排序
                     Sort();
                 }
+            }
+
+            private void Sort() {
+                if (_messagePaths.Count <= 1) {
+                    return;
+                }
+                if (_messagePaths.All(a => a.Priority == _messagePaths[0].Priority)) {
+                    return;
+                }
+                _messagePaths.Sort((left, right) => {
+                    return right.Priority - left.Priority;
+                });
             }
 
             public void RemoveMessagePath(IMessagePathId messagePathId) {
@@ -172,7 +179,6 @@
                     var item = _messagePaths.FirstOrDefault(a => ReferenceEquals(a, messagePathId));
                     if (item != null) {
                         _messagePaths.Remove(item);
-                        Sort();
                         NTMinerConsole.DevDebug(() => "拆除路径" + messagePathId.PathName + messagePathId.Description);
                     }
                 }

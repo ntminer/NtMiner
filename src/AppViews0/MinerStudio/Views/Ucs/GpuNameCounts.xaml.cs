@@ -31,13 +31,9 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             InitializeComponent();
         }
 
-        private void TbKeyword_LostFocus(object sender, RoutedEventArgs e) {
-            ((GpuNameCountsViewModel)this.DataContext).Search.Execute(null);
-        }
-
         private void TbKeyword_KeyUp(object sender, KeyEventArgs e) {
             if (e.Key == Key.Enter) {
-                ((GpuNameCountsViewModel)this.DataContext).Keyword = this.TbKeyword.Text;
+                this.Vm.Keyword = this.TbKeyword.Text;
             }
         }
     }

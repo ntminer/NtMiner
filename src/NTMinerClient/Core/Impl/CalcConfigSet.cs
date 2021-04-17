@@ -25,7 +25,7 @@ namespace NTMiner.Core.Impl {
             // 如果未显示主界面则收益计算器也不用更新了
             if ((_initedOn == DateTime.MinValue || NTMinerContext.IsUiVisible || ClientAppType.IsMinerStudio) && (forceRefresh || _initedOn.AddMinutes(10) < now)) {
                 _initedOn = now;
-                RpcRoot.OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
+                RpcRoot.OfficialServer.CalcConfigBinaryService.GetCalcConfigsAsync(data => {
                     if (data != null && data.Count != 0) {
                         Init(data);
                         VirtualRoot.RaiseEvent(new CalcConfigSetInitedEvent());

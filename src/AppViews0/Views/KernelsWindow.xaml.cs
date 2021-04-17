@@ -71,10 +71,6 @@ namespace NTMiner.Views {
             }
         }
 
-        private void TbKeyword_LostFocus(object sender, RoutedEventArgs e) {
-            Vm.Search.Execute(null);
-        }
-
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             WpfUtil.DataGrid_EditRow<KernelViewModel>(sender, e);
         }

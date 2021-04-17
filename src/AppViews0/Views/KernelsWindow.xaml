@@ -97,7 +97,6 @@
 				<controls:KbTextBox 
 					x:Name="TbKeyword" Width="154" Height="24"
 					Text="{Binding Keyword, UpdateSourceTrigger=LostFocus}" 
-					LostFocus="TbKeyword_LostFocus"
 					VerticalContentAlignment="Center"
 					Hint="输入内核关键字然后回车"
                     ToolTip="输入内核关键字然后回车"

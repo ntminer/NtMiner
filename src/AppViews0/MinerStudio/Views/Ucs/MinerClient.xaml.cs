@@ -6,12 +6,6 @@ using System.Windows.Input;
 
 namespace NTMiner.MinerStudio.Views.Ucs {
     public partial class MinerClient : UserControl {
-        public MinerClientViewModel Vm {
-            get {
-                return (MinerClientViewModel)this.DataContext;
-            }
-        }
-
         public MinerClient() {
             InitializeComponent();
             this.TbDateTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm");

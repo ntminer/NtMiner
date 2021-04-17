@@ -23,7 +23,7 @@ namespace NTMiner.Core.Impl {
                 if (message.KnowServerMessageTimestamp <= Timestamp.GetTimestamp(localTimestamp)) {
                     return;
                 }
-                RpcRoot.OfficialServer.ServerMessageService.GetServerMessagesAsync(localTimestamp, (response, e) => {
+                RpcRoot.OfficialServer.ServerMessageBinaryService.GetServerMessagesAsync(localTimestamp, (response, e) => {
                     if (response.IsSuccess()) {
                         if (response.Data.Count > 0) {
                             VirtualRoot.Execute(new ReceiveServerMessageCommand(response.Data));
