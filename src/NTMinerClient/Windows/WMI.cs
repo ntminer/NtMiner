@@ -49,7 +49,7 @@ namespace NTMiner.Windows {
             if (string.IsNullOrEmpty(processName)) {
                 return results;
             }
-            if (processName.EndsWith(".exe")) {
+            if (processName.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)) {
                 processName = processName.Substring(0, processName.Length - ".exe".Length);
             }
             Process[] processes = Process.GetProcessesByName(processName);
