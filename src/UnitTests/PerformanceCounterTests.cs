@@ -33,13 +33,14 @@ namespace NTMiner {
             Console.WriteLine(process.ProcessName);
             NTStopwatch.Start();
             // 这个很快
-            Process[] processes = Process.GetProcessesByName(process.ProcessName);
+            Process[] processes = Process.GetProcessesByName("devenv");
+            Assert.IsTrue(processes.Length != 0);
             var elapsedMilliseconds = NTStopwatch.Stop();
             Console.WriteLine(elapsedMilliseconds);
 
             NTStopwatch.Start();
             for (int i = 0; i < 100; i++) {
-                processes = Process.GetProcessesByName(process.ProcessName);
+                processes = Process.GetProcessesByName("devenv");
             }
             elapsedMilliseconds = NTStopwatch.Stop();
             Console.WriteLine(elapsedMilliseconds);

@@ -109,7 +109,6 @@ namespace NTMiner {
 
         #region 注册表
         public const string ClientIdRegistryKey = "ClientId";
-        public const string NoDevFeeActiveOnRegistryKey = "NoDevFeeActiveOn";
         public const string NoDevFeeVersionRegistryKey = "NoDevFeeVersion";
         public const string IsOuterUserEnabledRegistryKey = "IsOuterUserEnabled";
         public const string OuterUserIdRegistryKey = "OuterUserId";

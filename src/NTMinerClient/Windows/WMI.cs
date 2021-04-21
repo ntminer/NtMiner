@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Management;
 
 namespace NTMiner.Windows {
@@ -48,10 +49,14 @@ namespace NTMiner.Windows {
             if (string.IsNullOrEmpty(processName)) {
                 return results;
             }
-            if (!processName.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)) {
-                processName += ".exe";
+            if (processName.EndsWith(".exe")) {
+                processName = processName.Substring(0, processName.Length - ".exe".Length);
             }
-            string wmiQuery = $"select CommandLine from Win32_Process where Name='{processName}'";
+            Process[] processes = Process.GetProcessesByName(processName);
+            if (processes.Length == 0) {
+                return results;
+            }
+            string wmiQuery = $"select CommandLine from Win32_Process where Name='{processName}.exe'";
             using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(wmiQuery))
             using (ManagementObjectCollection retObjectCollection = searcher.Get()) {
                 foreach (ManagementObject retObject in retObjectCollection) {

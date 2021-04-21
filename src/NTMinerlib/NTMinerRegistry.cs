@@ -220,24 +220,6 @@ namespace NTMiner {
         }
         #endregion
 
-        #region NoDevFeeActiveOn
-        public static DateTime GetNoDevFeeActiveOn() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.NoDevFeeActiveOnRegistryKey);
-            if (value == null) {
-                return DateTime.MinValue;
-            }
-            string str = value.ToString();
-            if (!DateTime.TryParse(str, out DateTime dateTime)) {
-                return DateTime.MinValue;
-            }
-            return dateTime;
-        }
-
-        public static void SetNoDevFeeActiveOn(DateTime noDevFeeActiveOn) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.NoDevFeeActiveOnRegistryKey, noDevFeeActiveOn.ToString());
-        }
-        #endregion
-
         #region DaemonVersion
         public static string GetDaemonVersion() {
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.DaemonVersionRegistryKey);

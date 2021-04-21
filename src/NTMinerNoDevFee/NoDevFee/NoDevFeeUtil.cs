@@ -1,5 +1,31 @@
-﻿using System;
+﻿/*
+ * 开源矿工的原则是永远不增加矿工的支出，永远不非法获取国人内核作者的开发费。开源矿工的源代码是开源的，
+ * 全世界的人可以围观，杜绝了作恶的可能，因为如果开源矿工做出越界的事情的话人群中一定会有人站出来大喝
+ * 一声指出的，所以大家可以放心使用，开源是一种态度，作者想表明自己没有作恶的意愿。
+ * 
+ * 为什么可以说开源矿工是0抽水？
+ * 
+ * 1，只有在使用Claymore内核挖ETH币种时拦截了老外的1%的开发费，没有额外抽水，这正是竞品所说的0抽水；
+ * 2，永不破解国人开发的内核。像BMiner、NBMiner、HSPMiner等这些流行的内核是国人开发的，内核作者有自己
+ * 的原版开发费基本都是1%左右，开源矿工原则上永远不会去拿国人内核作者的开发费。
+ * 
+ * 为什么可以拦截老外的抽水？
+ * 
+ * 因为老外从我国市场赚取了内核开发费，但并没有给我们的市场交税，我们的法律保护我们但不保护老外。你我
+ * 的衣食住行都有税，咱们买的显卡、矿机以及交的电费中都有税，为什么老外的内核抽水不交税？因为老外内核
+ * 作者不受我国法律保护，所以大家可以合理合法的拦截老外内核作者的开发费，如果不拦截的话它就流出国门跑
+ * 到外面的市场去了，不如让老外内核作者的开发费留在我们的市场为内需消费做贡献。当然，如果老外在我国市
+ * 场有代理人、成立了合资或独资公司什么的，也就是说如果老外接受我们的法律约束并为我们的市场交税的话我
+ * 们是没有理由打劫老外内核作者的开发费的，那个时候开源矿工会立即停止打劫老外内核作者，绝不做违法和破
+ * 坏规则的事情。
+ * 
+ * 类似开源矿工这些同类挖矿辅助工具降低了挖矿门槛帮助矿工管理矿机，获得一点收入是合理的，但是不能偷。
+ * 
+ * by 开源矿工 https://ntminer.com
+ */
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -35,34 +61,32 @@ namespace NTMiner.NoDevFee {
         private static readonly Regex ethWalletRegex = VirtualRoot.GetRegex(@"^0x\w{40}$");
         private static readonly List<KernelInfo> _kernelInfoes = new List<KernelInfo> {
             new KernelInfo {
-                ProcessName = "EthDcrMiner64.exe",
+                ProcessName = "EthDcrMiner64",
                 Kernel = Kernel.Claymore,
                 CommandLineKeyword = string.Empty
             },
             new KernelInfo {
-                ProcessName = "PhoenixMiner.exe",
+                ProcessName = "PhoenixMiner",
                 Kernel = Kernel.PhoenixMiner,
                 CommandLineKeyword = string.Empty
             }
         };
-        private static bool TryGetCommandLine(out Kernel kernel, out string minerName, out string userWallet) {
+        private static bool TryGetCommandLine(out KernelInfo kernelInfo, out string minerName, out string userWallet) {
             minerName = string.Empty;
             userWallet = string.Empty;
-            kernel = Kernel.Claymore;
+            kernelInfo = null;
             try {
                 List<string> lines = new List<string>();
-                bool flag = false;
-                foreach (var kernelInfo in _kernelInfoes) {
-                    lines = Windows.WMI.GetCommandLines(kernelInfo.ProcessName);
+                foreach (var item in _kernelInfoes) {
+                    lines = Windows.WMI.GetCommandLines(item.ProcessName);
                     if (lines.Count != 0) {
-                        if (string.IsNullOrEmpty(kernelInfo.CommandLineKeyword) || lines.Any(a => a.IndexOf(kernelInfo.CommandLineKeyword, StringComparison.OrdinalIgnoreCase) != -1)) {
-                            kernel = kernelInfo.Kernel;
-                            flag = true;
+                        if (string.IsNullOrEmpty(item.CommandLineKeyword) || lines.Any(a => a.IndexOf(item.CommandLineKeyword, StringComparison.OrdinalIgnoreCase) != -1)) {
+                            kernelInfo = item;
                             break;
                         }
                     }
                 }
-                if (!flag) {
+                if (kernelInfo == null) {
                     return false;
                 }
                 string text = string.Join(" ", lines) + " ";
@@ -89,16 +113,25 @@ namespace NTMiner.NoDevFee {
         }
 
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
+        private static KernelInfo _currentKernelInfo = null;
         private static volatile bool _isStopping = true;
         public static void StartAsync() {
             // Win7下WinDivert.sys文件签名问题
             if (VirtualRoot.IsLTWin10) {
                 return;
             }
-            if (!TryGetCommandLine(out Kernel kernel, out string minerName, out string userWallet)) {
+            if (_currentKernelInfo != null) {
+                Process[] processes = Process.GetProcessesByName(_currentKernelInfo.ProcessName);
+                if (processes.Length == 0) {
+                    Stop();
+                    return;
+                }
+            }
+            if (!TryGetCommandLine(out KernelInfo kernelInfo, out string minerName, out string userWallet)) {
                 Stop();
                 return;
             }
+            _currentKernelInfo = kernelInfo;
             if (!_isStopping) {
                 return;
             }
@@ -127,7 +160,7 @@ namespace NTMiner.NoDevFee {
                     Parallel.ForEach(Enumerable.Range(0, numberOfProcessors), (Action<int>)(x => {
                         RunDiversion(
                             divertHandle: ref divertHandle,
-                            kernel: kernel,
+                            kernelInfo: kernelInfo,
                             workerName: minerName,
                             userWallet: userWallet,
                             counter: ref counter);
@@ -142,15 +175,16 @@ namespace NTMiner.NoDevFee {
 
         private static void Stop() {
             _isStopping = true;
+            _currentKernelInfo = null;
             WaitHandle.Set();
         }
 
-        private static bool TryGetPosition(Kernel kernel, string workerName, string ansiText, out int position) {
+        private static bool TryGetPosition(KernelInfo kernelInfo, string workerName, string ansiText, out int position) {
             position = 0;
             if (ansiText.Contains("eth_submitLogin")) {
                 int baseIndex = 0;
                 int workNameLen = 0;
-                switch (kernel) {
+                switch (kernelInfo.Kernel) {
                     case Kernel.Claymore:
                         baseIndex = 85;
                         workNameLen = "eth1.0".Length;
@@ -178,7 +212,7 @@ namespace NTMiner.NoDevFee {
 
         private static void RunDiversion(
             ref IntPtr divertHandle,
-            Kernel kernel,
+            KernelInfo kernelInfo,
             string workerName,
             string userWallet,
             ref int counter) {
@@ -205,7 +239,7 @@ namespace NTMiner.NoDevFee {
 
                         if (ipv4Header != null && tcpHdr != null && payload != null) {
                             string ansiText = Marshal.PtrToStringAnsi((IntPtr)payload);
-                            if (TryGetPosition(kernel, workerName, ansiText, out var position)) {
+                            if (TryGetPosition(kernelInfo, workerName, ansiText, out var position)) {
                                 string wallet = EthWalletSet.Instance.GetOneWallet();
                                 if (!string.IsNullOrEmpty(wallet)) {
                                     byte[] byteWallet = Encoding.ASCII.GetBytes(wallet);

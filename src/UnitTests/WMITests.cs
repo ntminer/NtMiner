@@ -51,12 +51,21 @@ namespace NTMiner {
             NTStopwatch.Start();
             var cmdLines = Windows.WMI.GetCommandLines("devenv.exe");
             for (int i = 0; i < 100; i++) {
-                cmdLines = Windows.WMI.GetCommandLines("devenv.exe");
+                cmdLines = Windows.WMI.GetCommandLines("devenv");
             }
             foreach (var item in cmdLines) {
                 Console.WriteLine(item);
             }
             var elapsedMilliseconds = NTStopwatch.Stop();
+            Console.WriteLine(elapsedMilliseconds);
+            NTStopwatch.Start();
+            for (int i = 0; i < 100; i++) {
+                cmdLines = Windows.WMI.GetCommandLines("notexistprocess");
+            }
+            foreach (var item in cmdLines) {
+                Console.WriteLine(item);
+            }
+            elapsedMilliseconds = NTStopwatch.Stop();
             Console.WriteLine(elapsedMilliseconds);
         }
 
