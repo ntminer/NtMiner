@@ -26,6 +26,11 @@ namespace NTMiner.MinerStudio {
         public ShowActionCountPageCommand() { }
     }
 
+    [MessageType(description: "打开MqCounts页")]
+    public class ShowMqCountsPageCommand : Cmd {
+        public ShowMqCountsPageCommand() { }
+    }
+
     [MessageType(description: "打开密码修改界面")]
     public class ShowChangePassword : Cmd {
         public ShowChangePassword() { }

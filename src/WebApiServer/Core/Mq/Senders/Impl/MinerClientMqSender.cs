@@ -52,6 +52,20 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: MinerClientMqBodyUtil.GetQueryClientsResponseMqSendBody(response));
         }
 
+        public void SendResponseClientsForWs(string wsServerIp, string mqCorrelationId, QueryClientsResponseEx[] responses) {
+            if (responses == null || responses.Length == 0) {
+                return;
+            }
+            var basicProperties = CreateBasicProperties();
+            if (!string.IsNullOrEmpty(mqCorrelationId)) {
+                basicProperties.CorrelationId = mqCorrelationId;
+            }
+            _mq.BasicPublish(
+                routingKey: string.Format(MqKeyword.AutoQueryClientsForWsResponseRoutingKey, wsServerIp),
+                basicProperties: basicProperties,
+                body: MinerClientMqBodyUtil.GetAutoQueryClientsResponseMqSendBody(responses));
+        }
+
         private IBasicProperties CreateWsBasicProperties(string loginName, Guid studioId, string sessionId) {
             var basicProperties = _mq.CreateBasicProperties();
             basicProperties.Persistent = false;// 非持久化的

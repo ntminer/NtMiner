@@ -151,7 +151,7 @@ namespace NTMiner {
             messagePathIds.Add(messagePathId);
         }
 
-        public static void BuildOnecePath<TMessage>(this Window window, string description, LogEnum logType, Guid pathId, Type location, PathPriority priority, Action<TMessage> path)
+        private static void BuildOnecePath<TMessage>(this Window window, string description, LogEnum logType, Guid pathId, Type location, PathPriority priority, Action<TMessage> path)
             where TMessage : IMessage {
             if (WpfUtil.IsInDesignMode) {
                 return;

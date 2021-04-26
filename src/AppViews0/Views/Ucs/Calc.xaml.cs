@@ -32,7 +32,7 @@ namespace NTMiner.Views.Ucs {
             this.Vm = new CalcViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();
-            this.OnLoaded((window) => {
+            this.OnLoaded(window => {
                 window.BuildEventPath<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         foreach (var coinVm in Vm.CoinVms.AllCoins) {

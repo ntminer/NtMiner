@@ -32,6 +32,14 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     if (query != null) {
                         VirtualRoot.Execute(new QueryClientsForWsMqCommand(appId, mqMessageId, ea.GetTimestamp(), loginName, studioId, sessionId, query));
                     }
+                },
+                [MqKeyword.AutoQueryClientsForWsRoutingKey] = ea => {
+                    string appId = ea.BasicProperties.AppId;
+                    string mqMessageId = ea.BasicProperties.MessageId;
+                    QueryClientsForWsRequest[] queries = MinerClientMqBodyUtil.GetAutoQueryClientsForWsMqReceiveBody(ea.Body);
+                    if (queries != null && queries.Length != 0) {
+                        VirtualRoot.Execute(new AutoQueryClientsForWsMqCommand(appId, mqMessageId, ea.GetTimestamp(), queries));
+                    }
                 }
             };
         }

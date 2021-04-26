@@ -43,6 +43,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     string appId = ea.BasicProperties.AppId;
                     VirtualRoot.RaiseEvent(new UserPasswordChangedMqEvent(appId, loginName, ea.GetTimestamp()));
                 },
+                // 该事件通常不会发生，因为用户注册的时候已经生成了RSA公私钥对了，RSA非空时不会更新
                 [MqKeyword.UserRSAKeyUpdatedRoutingKey] = ea => {
                     string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
                     string appId = ea.BasicProperties.AppId;

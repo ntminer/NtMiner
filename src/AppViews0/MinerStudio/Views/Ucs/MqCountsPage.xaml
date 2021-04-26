@@ -1,0 +1,90 @@
+﻿<UserControl 
+    x:Class="NTMiner.MinerStudio.Views.Ucs.MqCountsPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
+    Background="White"
+	mc:Ignorable="d" 
+    d:DesignHeight="700" 
+    d:DesignWidth="1400"
+    d:DataContext="{d:DesignData Source=../Design/MqCountsPageViewModel.xaml}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ListBox 
+            Grid.ColumnSpan="2"
+			Background="Transparent"				
+			ItemsSource="{Binding ServerNodes}"
+			SelectedItem="{Binding SelectedServerNode}"
+			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+			ScrollViewer.VerticalScrollBarVisibility="Disabled"
+			ItemContainerStyle="{StaticResource ListBoxBarItem}"
+			BorderThickness="0">
+            <ListBox.Resources>
+                <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+            </ListBox.Resources>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel>
+                    </WrapPanel>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock FontSize="14" Padding="8 2" Text="{Binding}"></TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock Grid.Row="1" Grid.Column="0" Padding="4">收到的Mq消息</TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="1" Padding="4">发送的Mq消息</TextBlock>
+        <DataGrid 
+            Grid.Row="2"
+            Grid.Column="0"
+            EnableColumnVirtualization="True"
+            EnableRowVirtualization="True"
+            ItemsSource="{Binding CurrentMqCountVm.ReceivedCounts}" 
+			BorderThickness="0">
+            <DataGrid.Resources>
+                <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="250" IsReadOnly="True" Header="Queue" Binding="{Binding Queue}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="300" IsReadOnly="True" Header="RoutingKey" Binding="{Binding RoutingKey}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="100" IsReadOnly="True" Header="Count" Binding="{Binding Count}">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid 
+            Grid.Row="2"
+            Grid.Column="1"
+            EnableColumnVirtualization="True"
+            EnableRowVirtualization="True"
+            ItemsSource="{Binding CurrentMqCountVm.SendCounts}" 
+			BorderThickness="0">
+            <DataGrid.Resources>
+                <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="300" IsReadOnly="True" Header="RoutingKey" Binding="{Binding RoutingKey}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="100" IsReadOnly="True" Header="Count" Binding="{Binding Count}">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

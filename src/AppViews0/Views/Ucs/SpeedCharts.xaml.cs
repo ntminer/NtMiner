@@ -46,7 +46,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             Guid mainCoinId = NTMinerContext.Instance.MinerProfile.CoinId;
-            this.OnLoaded((window) => {
+            this.OnLoaded(window => {
                 window.BuildEventPath<GpuSpeedChangedEvent>("显卡算力变更后刷新算力图界面", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: (message) => {
                         UIThread.Execute(() => {

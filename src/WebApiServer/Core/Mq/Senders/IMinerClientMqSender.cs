@@ -12,5 +12,6 @@ namespace NTMiner.Core.Mq.Senders {
             string sessionId, 
             string mqCorrelationId, 
             QueryClientsResponse response);
+        void SendResponseClientsForWs(string wsServerIp, string mqCorrelationId, QueryClientsResponseEx[] responses);
     }
 }

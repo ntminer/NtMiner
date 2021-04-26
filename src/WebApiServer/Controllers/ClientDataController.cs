@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core.MinerServer;
-using NTMiner.User;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
@@ -7,35 +6,6 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     // 注意该控制器不能重命名
     public class ClientDataController : ApiControllerBase, IClientDataController {
-        #region QueryClients
-        [Role.User]
-        [HttpPost]
-        public QueryClientsResponse QueryClients([FromBody]QueryClientsRequest request) {
-            return DoQueryClients(request, User);
-        }
-        #endregion
-
-        internal static QueryClientsResponse DoQueryClients(QueryClientsRequest request, UserData user) {
-            if (request == null) {
-                return ResponseBase.InvalidInput<QueryClientsResponse>("参数错误");
-            }
-            request.PagingTrim();
-            try {
-                var data = AppRoot.ClientDataSet.QueryClients(
-                    user,
-                    request,
-                    out int total,
-                    out CoinSnapshotData[] latestSnapshots,
-                    out int totalOnlineCount,
-                    out int totalMiningCount) ?? new List<ClientData>();
-                return QueryClientsResponse.Ok(data, total, latestSnapshots, totalMiningCount, totalOnlineCount);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return ResponseBase.ServerError<QueryClientsResponse>(e.Message);
-            }
-        }
-
         #region UpdateClient
         [Role.User]
         [HttpPost]

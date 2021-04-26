@@ -18,7 +18,6 @@
         public readonly AppSettingService AppSettingService = new AppSettingService();
         public readonly UserAppSettingService UserAppSettingService = new UserAppSettingService();
         public readonly ClientDataService ClientDataService = new ClientDataService();
-        public readonly ClientDataBinaryService ClientDataBinaryService = new ClientDataBinaryService();
         public readonly UserMinerGroupService UserMinerGroupService = new UserMinerGroupService();
         public readonly UserMineWorkService UserMineWorkService = new UserMineWorkService();
         public readonly AdminService AdminService = new AdminService();

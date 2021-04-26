@@ -14,6 +14,7 @@ namespace NTMiner.Core.Impl {
         public UserSet(IUserDataRedis redis, IUserMqSender mqSender) : base(redis) {
             _redis = redis;
             _mqSender = mqSender;
+            // 收到通常不会收到该命令，因为用户注册的时候已经生成了RSA公私钥对了，RSA非空时不会更新
             VirtualRoot.BuildCmdPath<UpdateUserRSAKeyMqCommand>(this.GetType(), LogEnum.DevConsole, path: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;

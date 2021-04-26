@@ -291,6 +291,11 @@ namespace NTMiner {
                     MinerStudioUcs.ActionCounts.ShowWindow();
                 });
             });
+            VirtualRoot.BuildCmdPath<ShowMqCountsPageCommand>(location: location, LogEnum.DevConsole, path: message => {
+                UIThread.Execute(() => {
+                    MinerStudioUcs.MqCountsPage.ShowWindow();
+                });
+            });
             VirtualRoot.BuildCmdPath<ShowChangePassword>(location: location, LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.ChangePassword.ShowWindow();

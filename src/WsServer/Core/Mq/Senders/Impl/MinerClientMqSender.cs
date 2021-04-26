@@ -54,18 +54,26 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: MinerClientMqBodyUtil.GetMinerSignsMqSendBody(minerSigns));
         }
 
-        public void SendQueryClientsForWs(
-            Guid studioId, 
-            string sessionId, 
-            QueryClientsForWsRequest request) {
-            if (string.IsNullOrEmpty(sessionId) || request == null || string.IsNullOrEmpty(request.LoginName)) {
+        public void SendQueryClientsForWs(QueryClientsForWsRequest request) {
+            if (request == null || string.IsNullOrEmpty(request.LoginName) || string.IsNullOrEmpty(request.SessionId)) {
                 return;
             }
-            var basicProperties = CreateNonePersistentWsBasicProperties(request.LoginName, studioId, sessionId);
+            var basicProperties = CreateNonePersistentWsBasicProperties(request.LoginName, request.StudioId, request.SessionId);
             _mq.BasicPublish(
                 routingKey: MqKeyword.QueryClientsForWsRoutingKey,
                 basicProperties: basicProperties,
                 body: MinerClientMqBodyUtil.GetQueryClientsForWsMqSendBody(request));
+        }
+
+        public void SendAutoQueryClientsForWs(QueryClientsForWsRequest[] requests) {
+            if (requests == null || requests.Length == 0) {
+                return;
+            }
+            var basicProperties = CreateNonePersistentBasicProperties();
+            _mq.BasicPublish(
+                routingKey: MqKeyword.AutoQueryClientsForWsRoutingKey,
+                basicProperties: basicProperties,
+                body: MinerClientMqBodyUtil.GetAutoQueryClientsForWsMqSendBody(requests));
         }
 
         private IBasicProperties CreateNonePersistentBasicProperties() {
@@ -81,9 +89,9 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             basicProperties.Persistent = false;// 非持久化的
             basicProperties.Expiration = MqKeyword.Expiration36sec;
             basicProperties.Headers = new Dictionary<string, object> {
-                [MqKeyword.LoginNameHeaderName] = loginName,
                 [MqKeyword.StudioIdHeaderName] = studioId.ToString(),
-                [MqKeyword.SessionIdHeaderName] = sessionId
+                [MqKeyword.SessionIdHeaderName] = sessionId,
+                [MqKeyword.LoginNameHeaderName] = loginName
             };
 
             return basicProperties;

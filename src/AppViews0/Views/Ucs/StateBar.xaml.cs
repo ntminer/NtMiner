@@ -17,7 +17,7 @@ namespace NTMiner.Views.Ucs {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            this.OnLoaded((window) => {
+            this.OnLoaded(window => {
                 window.Activated += (object sender, EventArgs e) => {
                     Vm.OnPropertyChanged(nameof(Vm.IsAutoAdminLogon));
                     Vm.OnPropertyChanged(nameof(Vm.AutoAdminLogonToolTip));

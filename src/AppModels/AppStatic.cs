@@ -589,6 +589,10 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowActionCountPageCommand());
         });
 
+        public static ICommand ShowMqCountsPage { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new ShowMqCountsPageCommand());
+        });
+
         public static ICommand ShowChangePassword { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowChangePassword());
         });

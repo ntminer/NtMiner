@@ -247,6 +247,22 @@ namespace NTMiner.Core {
         public QueryClientsForWsRequest Query { get; private set; }
     }
 
+    [MessageType(description: "收到了AutoQueryClientsForWs Mq消息后，该消息是个命令")]
+    public class AutoQueryClientsForWsMqCommand : Cmd {
+        public AutoQueryClientsForWsMqCommand(
+            string appId, string mqMessageId, DateTime timestamp, QueryClientsForWsRequest[] queries) {
+            this.AppId = appId;
+            this.MqMessageId = mqMessageId;
+            this.Timestamp = timestamp;
+            this.Queries = queries;
+        }
+
+        public string AppId { get; private set; }
+        public string MqMessageId { get; private set; }
+        public DateTime Timestamp { get; private set; }
+        public QueryClientsForWsRequest[] Queries { get; private set; }
+    }
+
     [MessageType(description: "收到了QueryClientsForWsResponse Mq消息后，该消息是个命令")]
     public class QueryClientsForWsResponseMqEvent : EventBase {
         public QueryClientsForWsResponseMqEvent(

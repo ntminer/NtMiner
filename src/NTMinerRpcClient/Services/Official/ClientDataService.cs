@@ -10,18 +10,6 @@ namespace NTMiner.Services.Official {
         internal ClientDataService() {
         }
 
-        #region QueryClientsAsync
-        public void QueryClientsAsync(QueryClientsRequest query, Action<QueryClientsResponse, Exception> callback) {
-            RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
-                _controllerName, 
-                nameof(IClientDataController.QueryClients), 
-                data: query, 
-                callback);
-        }
-        #endregion
-
         #region UpdateClientAsync
         public void UpdateClientAsync(string objectId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
             UpdateClientRequest request = new UpdateClientRequest {

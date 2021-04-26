@@ -13,7 +13,7 @@ namespace NTMiner.CloudFileUrlGenerater.Impl {
 
         public string GeneratePresignedUrl(string bucketName, string key) {
             // 注意：Qiniu.dll是github上下载源码编译的，因为Qiniu依赖的Newtonsoft.Json版本不对
-            // TODO:等域名备案，七牛kodo需绑定域名
+            // TODO:搁置，需要开发个工具同时往阿里云oss和七牛kodo上传文件
             string kodoDomain = ServerRoot.HostConfig.KodoDomain;
             if (string.IsNullOrEmpty(kodoDomain)) {
                 kodoDomain = "kodo.ntminer.top";

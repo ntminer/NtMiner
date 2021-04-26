@@ -99,7 +99,6 @@
     <Compile Include="ActionCountRoot.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CalcConfigBinaryController.cs" />
-    <Compile Include="Controllers\ClientDataBinaryController.cs" />
     <Compile Include="Controllers\NTMinerFileController.cs" />
     <Compile Include="Controllers\ReportBinaryController.cs" />
     <Compile Include="Controllers\ServerMessageBinaryController.cs" />

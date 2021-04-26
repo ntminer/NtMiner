@@ -452,6 +452,16 @@
 							Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="MqCounts" Visibility="{Binding IsMinerStudioOuterAdminVisible}" Command="{x:Static app:AppStatic.ShowMqCountsPage}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_RabbitMq}"
+							Fill="{StaticResource BtnBackground}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="外网群控服务器节点" Visibility="{Binding IsMinerStudioOuterAdminVisible}" Command="{x:Static app:AppStatic.ShowWsServerNodes}">
                     <MenuItem.Icon>
                         <Path

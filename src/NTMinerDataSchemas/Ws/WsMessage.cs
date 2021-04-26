@@ -57,6 +57,7 @@ namespace NTMiner.Ws {
         public const string StopMine = "StopMine";                              // MinerStudio->WsServer->Mq->WsServer->MinerClient
 
         public const string QueryClientDatas = "QueryClientDatas";              // MinerStudio->WsServer->Mq->WebApiServer
+        public const string AutoQueryClientDatas = "AutoQueryClientDatas";      // MinerStudio->WsServer->Mq->WebApiServer
 
         public const string ConsoleOutLines = "ConsoleOutLines";                // MinerClient->WsServer->Mq->WsServer->MinerStudio
         public const string LocalMessages = "LocalMessages";                    // MinerClient->WsServer->Mq->WsServer->MinerStudio

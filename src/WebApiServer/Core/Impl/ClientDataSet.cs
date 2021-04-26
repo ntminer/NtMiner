@@ -186,6 +186,15 @@ namespace NTMiner.Core.Impl {
                 QueryClientsResponse response = AppRoot.QueryClientsForWs(message.Query);
                 _mqSender.SendResponseClientsForWs(message.AppId, message.LoginName, message.StudioId, message.SessionId, message.MqMessageId, response);
             });
+            VirtualRoot.BuildCmdPath<AutoQueryClientsForWsMqCommand>(this.GetType(), LogEnum.None, path: message => {
+                if (message.Queries != null && message.Queries.Length != 0) {
+                    foreach (var query in message.Queries) {
+                        ServerRoot.IfStudioClientTestIdLogElseNothing(query.StudioId, nameof(QueryClientsForWsMqCommand));
+                    }
+                    QueryClientsResponseEx[] responses = AppRoot.QueryClientsForWs(message.Queries);
+                    _mqSender.SendResponseClientsForWs(message.AppId, message.MqMessageId, responses);
+                }
+            });
         }
 
         private void UpdateClientDatasCache(string oldLoginName, string newLoginName, ClientData clientData) {

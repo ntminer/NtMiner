@@ -6,6 +6,7 @@ using System.Collections.Generic;
 namespace NTMiner.Core.Mq.MqMessagePaths {
     public class MinerClientMqMessagePath : AbstractMqMessagePath {
         private readonly string _queryClientsForWsResponseRoutingKey;
+        private readonly string _autoQueryClientsForWsResponseRoutingKey;
 
         public override bool IsReadyToBuild {
             get { return true; }
@@ -13,6 +14,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
 
         public MinerClientMqMessagePath(string queue, string thisServerAddress) : base(queue) {
             _queryClientsForWsResponseRoutingKey = string.Format(MqKeyword.QueryClientsForWsResponseRoutingKey, thisServerAddress);
+            _autoQueryClientsForWsResponseRoutingKey = string.Format(MqKeyword.AutoQueryClientsForWsResponseRoutingKey, thisServerAddress);
         }
 
         protected override Dictionary<string, Action<BasicDeliverEventArgs>> GetPaths() {
@@ -26,6 +28,17 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     QueryClientsResponse response = MinerClientMqBodyUtil.GetQueryClientsResponseMqReceiveBody(ea.Body);
                     if (response != null) {
                         VirtualRoot.RaiseEvent(new QueryClientsForWsResponseMqEvent(appId, mqCorrelationId, ea.GetTimestamp(), loginName, studioId, sessionId, response));
+                    }
+                },
+                [_autoQueryClientsForWsResponseRoutingKey] = ea => {
+                    string appId = ea.BasicProperties.AppId;
+                    string mqCorrelationId = ea.BasicProperties.CorrelationId;
+                    QueryClientsResponseEx[] responses = MinerClientMqBodyUtil.GetAutoQueryClientsResponseMqReceiveBody(ea.Body);
+                    if (responses != null && responses.Length != 0) {
+                        var timestamp = ea.GetTimestamp();
+                        foreach (var response in responses) {
+                            VirtualRoot.RaiseEvent(new QueryClientsForWsResponseMqEvent(appId, mqCorrelationId, timestamp, response.LoginName, response.StudioId, response.SessionId, response));
+                        }
                     }
                 }
             };

@@ -37,7 +37,9 @@ namespace NTMiner {
         public const string MinerSignsSetedRoutingKey = "MinerSignsSeted";
 
         public const string QueryClientsForWsRoutingKey = "QueryClientsForWs";
+        public const string AutoQueryClientsForWsRoutingKey = "AutoQueryClientsForWs";
         public const string QueryClientsForWsResponseRoutingKey = "QueryClientsForWsResponse{0}";
+        public const string AutoQueryClientsForWsResponseRoutingKey = "AutoQueryClientsForWsResponse{0}";
         public const string SpeedsRoutingKey = WsMessage.Speed + "s";
 
         public const string StartMineRoutingKey = WsMessage.StartMine;

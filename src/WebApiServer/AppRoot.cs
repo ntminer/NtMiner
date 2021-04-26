@@ -318,5 +318,21 @@ namespace NTMiner {
             }
             return response;
         }
+
+        public static QueryClientsResponseEx[] QueryClientsForWs(QueryClientsForWsRequest[] requests) {
+            List<QueryClientsResponseEx> responses = new List<QueryClientsResponseEx>();
+            if (requests == null || requests.Length == 0) {
+                responses.Add(ResponseBase.InvalidInput<QueryClientsResponseEx>("参数错误"));
+            }
+            else {
+                foreach (var request in requests) {
+                    responses.Add(
+                        QueryClientsResponseEx.Create(
+                            QueryClientsForWs(request), 
+                            request.LoginName, request.StudioId, request.SessionId));
+                }
+            }
+            return responses.ToArray();
+        }
     }
 }

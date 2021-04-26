@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System.Linq;
+using NTMiner.Core.MinerServer;
 
 namespace NTMiner {
     public static class MqBufferRoot {
@@ -27,10 +28,13 @@ namespace NTMiner {
         private static readonly object _lockForLocalMessageses = new object();
         private static readonly List<OperationResults> _operationResultses = new List<OperationResults>();
         private static readonly object _lockForOperationResultses = new object();
+        private static readonly List<QueryClientsForWsRequest> _autoQueryClientDatas = new List<QueryClientsForWsRequest>();
+        private static readonly object _lockForAutoQueryClientDatas = new object();
 
         static MqBufferRoot() {
             // 这样做以消减WebApiServer收到的Mq消息的数量，能消减90%以上，降低CPU使用率
             // 还可以继续消减，将这每秒钟6个Mq消息消减到1个，但是感觉没有什么必要了。
+            // WsServer全是2核4G内存的windows
             VirtualRoot.BuildEventPath<Per1SecondEvent>("每1秒钟将暂存的数据发送到Mq", LogEnum.None, typeof(MqBufferRoot), PathPriority.Normal, message => {
                 Task.Factory.StartNew(() => {
                     Guid[] clientIds;
@@ -99,6 +103,13 @@ namespace NTMiner {
                         _operationResultses.Clear();
                     }
                     AppRoot.OperationMqSender.SendOperationResultses(operationResultses);
+
+                    QueryClientsForWsRequest[] queryClientsRequests;
+                    lock (_lockForAutoQueryClientDatas) {
+                        queryClientsRequests = _autoQueryClientDatas.ToArray();
+                        _autoQueryClientDatas.Clear();
+                    }
+                    AppRoot.MinerClientMqSender.SendAutoQueryClientsForWs(queryClientsRequests);
                 });
             });
             VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期清理内存中过期的fastId", LogEnum.None, typeof(MqBufferRoot), PathPriority.Normal, message => {
@@ -175,6 +186,12 @@ namespace NTMiner {
         public static void OperationResults(OperationResults operationResults) {
             lock (_lockForOperationResultses) {
                 _operationResultses.Add(operationResults);
+            }
+        }
+
+        public static void AutoQueryClientDatas(QueryClientsForWsRequest query) {
+            lock (_lockForAutoQueryClientDatas) {
+                _autoQueryClientDatas.Add(query);
             }
         }
     }

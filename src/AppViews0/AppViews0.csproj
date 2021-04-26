@@ -101,6 +101,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppViewFactory.cs" />
+    <Compile Include="MinerStudio\Views\Ucs\MqCountsPage.xaml.cs">
+      <DependentUpon>MqCountsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MinerStudio\Views\Ucs\ColumnsShowEdit.xaml.cs">
       <DependentUpon>ColumnsShowEdit.xaml</DependentUpon>
     </Compile>
@@ -408,6 +411,10 @@
     <Compile Include="Views\Ucs\CoinPage.xaml.cs">
       <DependentUpon>CoinPage.xaml</DependentUpon>
     </Compile>
+    <Page Include="MinerStudio\Views\Design\MqCountsPageViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MinerStudio\Views\Design\QQGroupQrCodeViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -445,6 +452,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MinerStudio\Views\Design\ColumnsShowViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MinerStudio\Views\Ucs\MqCountsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -88,7 +88,6 @@
     <Compile Include="Services\Client\NTMinerDaemonService.cs" />
     <Compile Include="Core\Impl\KernelOutputKeywordSet.cs" />
     <Compile Include="Services\Official\CalcConfigBinaryService.cs" />
-    <Compile Include="Services\Official\ClientDataBinaryService.cs" />
     <Compile Include="Services\Official\FileUrlService.cs" />
     <Compile Include="Services\Official\NTMinerFileService.cs" />
     <Compile Include="Services\Official\NTMinerWalletService.cs" />

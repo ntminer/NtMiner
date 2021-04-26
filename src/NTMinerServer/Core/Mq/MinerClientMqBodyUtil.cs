@@ -112,6 +112,15 @@ namespace NTMiner.Core.Mq {
             string json = Encoding.UTF8.GetString(body);
             return VirtualRoot.JsonSerializer.Deserialize<QueryClientsForWsRequest>(json);
         }
+
+        public static byte[] GetAutoQueryClientsForWsMqSendBody(QueryClientsForWsRequest[] requests) {
+            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(requests));
+        }
+
+        public static QueryClientsForWsRequest[] GetAutoQueryClientsForWsMqReceiveBody(byte[] body) {
+            string json = Encoding.UTF8.GetString(body);
+            return VirtualRoot.JsonSerializer.Deserialize<QueryClientsForWsRequest[]>(json);
+        }
         #endregion
 
         #region QueryClientsResponse
@@ -121,6 +130,14 @@ namespace NTMiner.Core.Mq {
 
         public static QueryClientsResponse GetQueryClientsResponseMqReceiveBody(byte[] body) {
             return VirtualRoot.BinarySerializer.Deserialize<QueryClientsResponse>(body);
+        }
+
+        public static byte[] GetAutoQueryClientsResponseMqSendBody(QueryClientsResponseEx[] responses) {
+            return VirtualRoot.BinarySerializer.Serialize(responses);
+        }
+
+        public static QueryClientsResponseEx[] GetAutoQueryClientsResponseMqReceiveBody(byte[] body) {
+            return VirtualRoot.BinarySerializer.Deserialize<QueryClientsResponseEx[]>(body);
         }
         #endregion
     }

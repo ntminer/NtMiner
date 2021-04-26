@@ -176,7 +176,13 @@ namespace NTMiner {
                 [WsMessage.QueryClientDatas] = (session, studioId, message) => {
                     if (message.TryGetData(out QueryClientsRequest query)) {
                         ServerRoot.IfStudioClientTestIdLogElseNothing(studioId, $"{nameof(WsMessage)}.{nameof(WsMessage.QueryClientDatas)}");
-                        AppRoot.MinerClientMqSender.SendQueryClientsForWs(studioId, session.WsSessionId, QueryClientsForWsRequest.Create(query, session.LoginName));
+                        AppRoot.MinerClientMqSender.SendQueryClientsForWs(QueryClientsForWsRequest.Create(query, session.LoginName, studioId, session.WsSessionId));
+                    }
+                },
+                [WsMessage.AutoQueryClientDatas] = (session, studioId, message) => {
+                    if (message.TryGetData(out QueryClientsRequest query)) {
+                        ServerRoot.IfStudioClientTestIdLogElseNothing(studioId, $"{nameof(WsMessage)}.{nameof(WsMessage.AutoQueryClientDatas)}");
+                        MqBufferRoot.AutoQueryClientDatas(QueryClientsForWsRequest.Create(query, session.LoginName, studioId, session.WsSessionId));
                     }
                 }
             };

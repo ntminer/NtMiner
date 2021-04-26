@@ -1,6 +1,8 @@
-﻿namespace NTMiner.Core.MinerServer {
+﻿using System;
+
+namespace NTMiner.Core.MinerServer {
     public class QueryClientsForWsRequest : QueryClientsRequest {
-        public static QueryClientsForWsRequest Create(QueryClientsRequest request, string loginName) {
+        public static QueryClientsForWsRequest Create(QueryClientsRequest request, string loginName, Guid studioId, string sessionId) {
             return new QueryClientsForWsRequest {
                 Coin = request.Coin,
                 GpuDriver = request.GpuDriver,
@@ -19,12 +21,16 @@
                 Version = request.Version,
                 Wallet = request.Wallet,
                 WorkId = request.WorkId,
-                LoginName = loginName
+                LoginName = loginName,
+                StudioId = studioId,
+                SessionId = sessionId
             };
         }
 
         public QueryClientsForWsRequest() { }
 
         public string LoginName { get; set; }
+        public Guid StudioId { get; set; }
+        public string SessionId { get; set; }
     }
 }

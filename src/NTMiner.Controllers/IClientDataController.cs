@@ -8,10 +8,6 @@ namespace NTMiner.Controllers {
         /// <summary>
         /// 需签名
         /// </summary>
-        QueryClientsResponse QueryClients(QueryClientsRequest request);
-        /// <summary>
-        /// 需签名
-        /// </summary>
         ResponseBase UpdateClient(UpdateClientRequest request);
         /// <summary>
         /// 需签名

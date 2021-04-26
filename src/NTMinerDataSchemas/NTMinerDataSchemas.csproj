@@ -51,6 +51,7 @@
     <Compile Include="Core\LocalMessages.cs" />
     <Compile Include="Core\MinerServer\NTMinerFilesRequest.cs" />
     <Compile Include="Core\MinerServer\NTMinerFilesResponse.cs" />
+    <Compile Include="Core\MinerServer\QueryClientsResponseEx.cs" />
     <Compile Include="Core\OperationResults.cs" />
     <Compile Include="Core\UserGetSpeedRequest.cs" />
     <Compile Include="Gpus\GpuExtensions.cs" />
