@@ -324,5 +324,51 @@ namespace NTMiner {
             var elapsedMilliseconds = NTStopwatch.Stop();
             Console.WriteLine(elapsedMilliseconds);
         }
+
+        public class ListItem {
+            public ListItem() { }
+
+            public int N { get; set; }
+        }
+        [TestMethod]
+        public void ListSortTest() {
+            List<ListItem> list = new List<ListItem>();
+            var item2 = new ListItem {
+                N = 2
+            };
+            var item3 = new ListItem {
+                N = 3
+            };
+            var item1 = new ListItem {
+                N = 1
+            };
+            list.Add(item2);
+            list.Add(new ListItem {
+                N = 2
+            });
+            list.Add(item3);
+            list.Add(new ListItem {
+                N = 3
+            });
+            list.Add(item1);
+            list.Sort((left, right) => {
+                return right.N - left.N;
+            });
+            Assert.AreEqual(3, list[0].N);
+            Assert.AreEqual(3, list[1].N);
+            Assert.AreEqual(2, list[2].N);
+            Assert.AreEqual(2, list[3].N);
+            Assert.AreEqual(1, list[4].N);
+            list.Remove(item2);
+            Assert.AreEqual(3, list[0].N);
+            Assert.AreEqual(3, list[1].N);
+            Assert.AreEqual(2, list[2].N);
+            Assert.AreEqual(1, list[3].N);
+            list.Remove(item3);
+            list.Remove(item1);
+            Assert.AreEqual(3, list[0].N);
+            Assert.AreEqual(2, list[1].N);
+            // 结论：移除排序后的List中的元素不会改变排序
+        }
     }
 }

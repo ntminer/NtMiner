@@ -48,6 +48,7 @@
     <Compile Include="Core\CaptchaData.cs" />
     <Compile Include="Core\AfterTimeRequest.cs" />
     <Compile Include="Core\ConsoleOutLines.cs" />
+    <Compile Include="Core\KernelOutputExtensions.cs" />
     <Compile Include="Core\LocalMessages.cs" />
     <Compile Include="Core\MinerServer\NTMinerFilesRequest.cs" />
     <Compile Include="Core\MinerServer\NTMinerFilesResponse.cs" />

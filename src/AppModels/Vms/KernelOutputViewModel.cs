@@ -294,16 +294,7 @@ namespace NTMiner.Vms {
 
         public bool IsFoundOneGpuShare {
             get {
-                if (!string.IsNullOrEmpty(FoundOneShare) && FoundOneShare.Contains("?<gpu>")) {
-                    return true;
-                }
-                if (!string.IsNullOrEmpty(AcceptOneShare) && AcceptOneShare.Contains("?<gpu>")) {
-                    return true;
-                }
-                if (!string.IsNullOrEmpty(GpuAcceptShare) && GpuAcceptShare.Contains("?<gpu>")) {
-                    return true;
-                }
-                return false;
+                return this.GetIsFoundOneGpuShare();
             }
         }
 
@@ -341,19 +332,13 @@ namespace NTMiner.Vms {
 
         public bool IsRejectOneGpuShare {
             get {
-                return !string.IsNullOrEmpty(RejectOneShare) || !string.IsNullOrEmpty(GpuRejectShare);
+                return this.GetIsRejectOneGpuShare();
             }
         }
 
         public bool IsGotOneIncorrectGpuShare {
             get {
-                if (!string.IsNullOrEmpty(GpuGotOneIncorrectShare) && GpuGotOneIncorrectShare.Contains("?<gpu>")) {
-                    return true;
-                }
-                if (!string.IsNullOrEmpty(GpuIncorrectShare) && GpuIncorrectShare.Contains("?<gpu>")) {
-                    return true;
-                }
-                return false;
+                return this.GetIsGotOneIncorrectGpuShare();
             }
         }
 

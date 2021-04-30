@@ -171,9 +171,9 @@ namespace NTMiner.Report {
                     if (ntminerContext.ServerContext.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
                         speedDto.Kernel = kernel.GetFullName();
                         if (ntminerContext.ServerContext.KernelOutputSet.TryGetKernelOutput(kernel.KernelOutputId, out IKernelOutput kernelOutput)) {
-                            speedDto.IsFoundOneGpuShare = !string.IsNullOrEmpty(kernelOutput.FoundOneShare);
-                            speedDto.IsGotOneIncorrectGpuShare = !string.IsNullOrEmpty(kernelOutput.GpuGotOneIncorrectShare);
-                            speedDto.IsRejectOneGpuShare = !string.IsNullOrEmpty(kernelOutput.RejectOneShare);
+                            speedDto.IsFoundOneGpuShare = kernelOutput.GetIsFoundOneGpuShare();
+                            speedDto.IsGotOneIncorrectGpuShare = kernelOutput.GetIsGotOneIncorrectGpuShare();
+                            speedDto.IsRejectOneGpuShare = kernelOutput.GetIsRejectOneGpuShare();
                         }
                         ICoinKernelProfile coinKernelProfile = workProfile.GetCoinKernelProfile(coinProfile.CoinKernelId);
                         speedDto.IsDualCoinEnabled = coinKernelProfile.IsDualCoinEnabled;

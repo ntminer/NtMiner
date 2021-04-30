@@ -11,7 +11,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 Title = "Mq Counts",
                 IconName = "Icon_RabbitMq",
                 Width = 1400,
-                Height = 700,
+                Height = 800,
                 IsMaskTheParent = false,
                 IsChildWindow = true,
                 CloseVisible = Visibility.Visible,

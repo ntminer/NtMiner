@@ -11,7 +11,7 @@
 	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
     Background="White"
 	mc:Ignorable="d" 
-    d:DesignHeight="700" 
+    d:DesignHeight="800" 
     d:DesignWidth="1400"
     d:DataContext="{d:DesignData Source=../Design/MqCountsPageViewModel.xaml}">
     <Grid>
@@ -20,7 +20,7 @@
             <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
