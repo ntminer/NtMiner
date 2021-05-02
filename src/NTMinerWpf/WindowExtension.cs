@@ -37,6 +37,12 @@ namespace NTMiner {
                 if (over > 0) {
                     left -= over;
                 }
+                if (top > SystemParameters.WorkArea.Height) {
+                    top = SystemParameters.WorkArea.Height - height;
+                }
+                if (left > SystemParameters.WorkArea.Width) {
+                    left = SystemParameters.WorkArea.Width - width;
+                }
                 window.Left = left;
                 window.Top = top;
             }

@@ -119,10 +119,7 @@ namespace NTMiner.Vms {
         }
 
         private void ApplyOverClock() {
-            Task.Factory.StartNew(() => {
-                // 比较耗时，防止界面卡
-                VirtualRoot.Execute(new CoinOverClockCommand(this.Id));
-            });
+            VirtualRoot.Execute(new CoinOverClockCommand(this.Id));
         }
 
         private void FillOverClock(OverClockDataViewModel data) {
