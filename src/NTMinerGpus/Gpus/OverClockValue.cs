@@ -61,21 +61,5 @@ namespace NTMiner.Gpus {
                 this.MemoryClockVoltage = 0;
             }
         }
-
-        internal bool GetIsSetCoreClock(IGpu gpu) {
-            return this.CoreClockMHz == 0 || this.CoreClockMHz != gpu.CoreClockDelta || this.CoreClockVoltage != gpu.CoreVoltage;
-        }
-
-        internal bool GetIsSetMemoryClock(IGpu gpu) {
-            return this.MemoryClockMHz == 0 || this.MemoryClockMHz != gpu.MemoryClockDelta || this.MemoryClockVoltage != gpu.MemoryVoltage;
-        }
-
-        internal bool GetIsSetPowerLimit(IGpu gpu) {
-            return this.PowerLimit == 0 || this.PowerLimit != gpu.PowerCapacity;
-        }
-
-        internal bool GetIsSetTempLimit(IGpu gpu) {
-            return this.TempLimit == 0 || this.TempLimit != gpu.TempLimit;
-        }
     }
 }

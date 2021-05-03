@@ -285,42 +285,22 @@ namespace NTMiner.Gpus {
                 if (!TryGetAtiGpu(gpuIndex, out ATIGPU atiGpu)) {
                     return;
                 }
-                bool isSetCoreClock = value.GetIsSetCoreClock(gpu);
-                bool isSetMemoryClock = value.GetIsSetMemoryClock(gpu);
-                bool isSetPowerLimit = value.GetIsSetPowerLimit(gpu);
-                bool isSetTempLimit = value.GetIsSetTempLimit(gpu);
                 bool isSetMemoryTimingLevel = value.MemoryTimingLevel != -1;
                 if (atiGpu.OverdriveVersion < 8) {
-                    if (isSetCoreClock) {
-                        SetCoreClockOld(atiGpu, value.CoreClockMHz, value.CoreClockVoltage);
-                    }
-                    if (isSetMemoryClock) {
-                        SetMemoryClockOld(atiGpu, value.MemoryClockMHz, value.MemoryClockVoltage);
-                    }
-                    if (isSetPowerLimit) {
-                        SetPowerLimitOld(atiGpu, value.PowerLimit);
-                    }
-                    if (isSetTempLimit) {
-                        SetTempLimitOld(atiGpu, value.TempLimit);
-                    }
+                    SetCoreClockOld(atiGpu, value.CoreClockMHz, value.CoreClockVoltage);
+                    SetMemoryClockOld(atiGpu, value.MemoryClockMHz, value.MemoryClockVoltage);
+                    SetPowerLimitOld(atiGpu, value.PowerLimit);
+                    SetTempLimitOld(atiGpu, value.TempLimit);
                     if (!value.IgnoreFanSpeed) {
                         SetFanSpeedOld(atiGpu, value.FanSpeed);
                     }
                 }
                 else if (GetOD8CurrentSetting(atiGpu.AdapterIndex, out ADLOD8CurrentSetting aDLOD8CurrentSetting)) {
                     ADLOD8SetSetting odSetSetting = ADLOD8SetSetting.Create();
-                    if (isSetCoreClock) {
-                        SetCoreClockNew(atiGpu, value.CoreClockMHz, value.CoreClockVoltage, ref odSetSetting);
-                    }
-                    if (isSetMemoryClock) {
-                        SetMemoryClockNew(atiGpu, value.MemoryClockMHz, value.MemoryClockVoltage, ref odSetSetting);
-                    }
-                    if (isSetPowerLimit) {
-                        SetPowerLimitNew(value.PowerLimit, ref odSetSetting);
-                    }
-                    if (isSetTempLimit) {
-                        SetTempLimitNew(atiGpu, value.TempLimit, ref odSetSetting);
-                    }
+                    SetCoreClockNew(atiGpu, value.CoreClockMHz, value.CoreClockVoltage, ref odSetSetting);
+                    SetMemoryClockNew(atiGpu, value.MemoryClockMHz, value.MemoryClockVoltage, ref odSetSetting);
+                    SetPowerLimitNew(value.PowerLimit, ref odSetSetting);
+                    SetTempLimitNew(atiGpu, value.TempLimit, ref odSetSetting);
                     if (!value.IgnoreFanSpeed) {
                         SetFanSpeedNew(atiGpu, value.FanSpeed, ref odSetSetting);
                     }

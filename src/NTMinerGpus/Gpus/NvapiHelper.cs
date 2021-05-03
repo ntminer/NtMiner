@@ -55,23 +55,11 @@ namespace NTMiner.Gpus {
         #region OverClock
         public void OverClock(IGpu gpu, OverClockValue value) {
             value.Correct(gpu);
-            bool isSetCoreClock = value.GetIsSetCoreClock(gpu);
-            bool isSetMemoryClock = value.GetIsSetMemoryClock(gpu);
-            bool isSetPowerLimit = value.GetIsSetPowerLimit(gpu);
-            bool isSetTempLimit = value.GetIsSetTempLimit(gpu);
             int busId = gpu.GetOverClockId();
-            if (isSetCoreClock) {
-                SetCoreClock(busId, value.CoreClockMHz, value.CoreClockVoltage);
-            }
-            if (isSetMemoryClock) {
-                SetMemoryClock(busId, value.MemoryClockMHz, value.MemoryClockVoltage);
-            }
-            if (isSetPowerLimit) {
-                SetPowerLimit(busId, value.PowerLimit);
-            }
-            if (isSetTempLimit) {
-                SetTempLimit(busId, value.TempLimit);
-            }
+            SetCoreClock(busId, value.CoreClockMHz, value.CoreClockVoltage);
+            SetMemoryClock(busId, value.MemoryClockMHz, value.MemoryClockVoltage);
+            SetPowerLimit(busId, value.PowerLimit);
+            SetTempLimit(busId, value.TempLimit);
             if (!value.IgnoreFanSpeed) {
                 SetFanSpeed(gpu, value.FanSpeed);
             }
