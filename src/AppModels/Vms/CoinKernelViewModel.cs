@@ -324,7 +324,7 @@ namespace NTMiner.Vms {
             }
             set {
                 _inputSegmentVms = value;
-                _gpuInputSegmentVms = _inputSegmentVms.Where(a => a.TargetGpu.IsSupportedGpu(NTMinerContext.Instance.GpuSet.GpuType)).ToList();
+                _gpuInputSegmentVms = _inputSegmentVms.Where(a => a.TargetGpu.IsSupportedGpu(NTMinerContext.Instance.GpuSet.GpuType)).OrderBy(a => a.Name).ToList();
                 OnPropertyChanged(nameof(InputSegmentVms));
                 OnPropertyChanged(nameof(GpuInputSegmentVms));
             }
