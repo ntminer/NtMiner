@@ -132,7 +132,7 @@ namespace NTMiner {
 
         public static Task SecondsDelay(this int n) {
             var tcs = new TaskCompletionSource<object>();
-            BuildViaTimesLimitPath<Per1SecondEvent>("倒计时", LogEnum.None, viaTimesLimit: n, Anonymous.Location, PathPriority.Normal, message => {
+            BuildViaTimesLimitPath<Per1SecondEvent>("倒计时", LogEnum.None, viaTimesLimit: n, location: Guid.NewGuid().ToString("N"), PathPriority.Normal, message => {
                 n--;
                 if (n == 0) {
                     tcs.SetResult(null);

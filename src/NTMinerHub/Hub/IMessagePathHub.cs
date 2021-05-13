@@ -21,7 +21,7 @@ namespace NTMiner.Hub {
         /// <param name="viaTimesLimit"><see cref="IMessagePathId.ViaTimesLimit"/></param>
         /// <returns></returns>
         IMessagePathId AddPath<TMessage>(
-            Type location, 
+            string location, 
             string description, 
             LogEnum logType, 
             PathId pathId, 

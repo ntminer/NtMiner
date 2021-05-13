@@ -68,7 +68,7 @@ namespace NTMiner.Vms {
             _environmentVariables.AddRange(data.EnvironmentVariables.Select(a => new EnvironmentVariable(a)));
             // 复制，视为值对象，防止直接修改引用
             _inputSegments.AddRange(data.InputSegments.Select(a => new InputSegment(a)));
-            _inputSegmentVms.AddRange(_inputSegments.Select(a => new InputSegmentViewModel(a)));
+            _inputSegmentVms.AddRange(_inputSegments.OrderBy(a => a.Name).Select(a => new InputSegmentViewModel(a)));
             _gpuInputSegmentVms.AddRange(_inputSegmentVms.Where(a => a.TargetGpu.IsSupportedGpu(NTMinerContext.Instance.GpuSet.GpuType)));
             _fileWriterIds = data.FileWriterIds;
             _fragmentWriterIds = data.FragmentWriterIds;

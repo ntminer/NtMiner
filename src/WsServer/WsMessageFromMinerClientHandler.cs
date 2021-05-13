@@ -17,11 +17,11 @@ namespace NTMiner {
                 [WsMessage.ConsoleOutLines] = (session, clientId, message) => {
                     if (message.TryGetData(out List<ConsoleOutLine> consoleOutLines) && consoleOutLines != null && consoleOutLines.Count != 0) {
                         if (MqBufferRoot.TryRemoveFastId(message.Id)) {
-                            ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"fast {nameof(WsMessage)}.{nameof(WsMessage.ConsoleOutLines)}");
+                            ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"fast {nameof(WsMessage)}.{message.Type}");
                             AppRoot.OperationMqSender.SendConsoleOutLines(session.LoginName, clientId, consoleOutLines);
                         }
                         else {
-                            ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{nameof(WsMessage.ConsoleOutLines)}");
+                            ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{message.Type}");
                             MqBufferRoot.ConsoleOutLines(new ConsoleOutLines {
                                 LoginName = session.LoginName,
                                 ClientId = clientId,
@@ -33,11 +33,11 @@ namespace NTMiner {
                 [WsMessage.LocalMessages] = (session, clientId, message) => {
                     if (message.TryGetData(out List<LocalMessageDto> localMessages) && localMessages != null && localMessages.Count != 0) {
                         if (MqBufferRoot.TryRemoveFastId(message.Id)) {
-                            ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"fast {nameof(WsMessage)}.{nameof(WsMessage.LocalMessages)}");
+                            ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"fast {nameof(WsMessage)}.{message.Type}");
                             AppRoot.OperationMqSender.SendLocalMessages(session.LoginName, clientId, localMessages);
                         }
                         else {
-                            ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{nameof(WsMessage.LocalMessages)}");
+                            ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{message.Type}");
                             MqBufferRoot.LocalMessages(new LocalMessages {
                                 LoginName = session.LoginName,
                                 ClientId = clientId,
@@ -49,11 +49,11 @@ namespace NTMiner {
                 [WsMessage.OperationResults] = (session, clientId, message) => {
                     if (message.TryGetData(out List<OperationResultData> operationResults) && operationResults != null && operationResults.Count != 0) {
                         if (MqBufferRoot.TryRemoveFastId(message.Id)) {
-                            ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"fast {nameof(WsMessage)}.{nameof(WsMessage.OperationResults)}");
+                            ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"fast {nameof(WsMessage)}.{message.Type}");
                             AppRoot.OperationMqSender.SendOperationResults(session.LoginName, clientId, operationResults);
                         }
                         else {
-                            ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{nameof(WsMessage.OperationResults)}");
+                            ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{message.Type}");
                             MqBufferRoot.OperationResults(new OperationResults {
                                 LoginName = session.LoginName,
                                 ClientId = clientId,
@@ -64,23 +64,23 @@ namespace NTMiner {
                 },
                 [WsMessage.Drives] = (session, clientId, message) => {
                     if (message.TryGetData(out List<DriveDto> drives)) {
-                        ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{nameof(WsMessage.Drives)}");
+                        ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{message.Type}");
                         AppRoot.OperationMqSender.SendDrives(session.LoginName, clientId, drives);
                     }
                 },
                 [WsMessage.LocalIps] = (session, clientId, message) => {
                     if (message.TryGetData(out List<LocalIpDto> localIps)) {
-                        ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{nameof(WsMessage.LocalIps)}");
+                        ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{message.Type}");
                         AppRoot.OperationMqSender.SendLocalIps(session.LoginName, clientId, localIps);
                     }
                 },
                 [WsMessage.OperationReceived] = (session, clientId, message) => {
-                    ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{nameof(WsMessage.OperationReceived)}");
+                    ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{message.Type}");
                     AppRoot.OperationMqSender.SendOperationReceived(session.LoginName, clientId);
                 },
                 [WsMessage.Speed] = (session, clientId, message) => {
                     if (message.TryGetData(out SpeedDto speedDto)) {
-                        ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{nameof(WsMessage.Speed)}");
+                        ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{message.Type}");
                         AppRoot.SpeedDataRedis.SetAsync(new SpeedData(speedDto, DateTime.Now)).ContinueWith(t => {
                             MqBufferRoot.SendSpeed(new ClientIdIp(speedDto.ClientId, session.RemoteEndPoint.ToString()));
                         });
@@ -88,13 +88,13 @@ namespace NTMiner {
                 },
                 [WsMessage.SelfWorkLocalJson] = (session, clientId, message) => {
                     if (message.TryGetData(out string json)) {
-                        ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{nameof(WsMessage.SelfWorkLocalJson)}");
+                        ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{message.Type}");
                         AppRoot.OperationMqSender.SendSelfWorkLocalJson(session.LoginName, clientId, json);
                     }
                 },
                 [WsMessage.GpuProfilesJson] = (session, clientId, message) => {
                     if (message.TryGetData(out string json)) {
-                        ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{nameof(WsMessage.GpuProfilesJson)}");
+                        ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{message.Type}");
                         AppRoot.OperationMqSender.SendGpuProfilesJson(session.LoginName, clientId, json);
                     }
                 }

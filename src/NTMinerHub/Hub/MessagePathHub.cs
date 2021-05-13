@@ -69,14 +69,14 @@
                             switch (messagePath.LogType) {
                                 case LogEnum.DevConsole:
                                     if (DevMode.IsDevMode) {
-                                        NTMinerConsole.DevDebug(() => $"({typeof(TMessage).Name})->({messagePath.Location.Name}){messagePath.Description}");
+                                        NTMinerConsole.DevDebug(() => $"({typeof(TMessage).Name})->({messagePath.Location}){messagePath.Description}");
                                     }
                                     break;
                                 case LogEnum.UserConsole:
-                                    NTMinerConsole.UserInfo($"({typeof(TMessage).Name})->({messagePath.Location.Name}){messagePath.Description}");
+                                    NTMinerConsole.UserInfo($"({typeof(TMessage).Name})->({messagePath.Location}){messagePath.Description}");
                                     break;
                                 case LogEnum.Log:
-                                    Logger.InfoDebugLine($"({typeof(TMessage).Name})->({messagePath.Location.Name}){messagePath.Description}");
+                                    Logger.InfoDebugLine($"({typeof(TMessage).Name})->({messagePath.Location}){messagePath.Description}");
                                     break;
                                 case LogEnum.None:
                                 default:
@@ -92,7 +92,7 @@
             }
         }
 
-        public IMessagePathId AddPath<TMessage>(Type location, string description, LogEnum logType, PathId pathId, PathPriority priority, Action<TMessage> action, int viaTimesLimit = -1) {
+        public IMessagePathId AddPath<TMessage>(string location, string description, LogEnum logType, PathId pathId, PathPriority priority, Action<TMessage> action, int viaTimesLimit = -1) {
             if (action == null) {
                 throw new ArgumentNullException(nameof(action));
             }
@@ -147,7 +147,7 @@
                             throw new Exception($"一种命令只应被一个处理器处理:{typeof(TMessage).Name}");
                         }
                     }
-                    else if (messagePath.Location != Anonymous.Location) {
+                    else {
                         var paths = _messagePaths.Where(a => a.PathName == messagePath.PathName && a.PathId == messagePath.PathId && a.Priority == messagePath.Priority).ToArray();
                         if (paths.Length != 0) {
                             foreach (var path in paths) {
@@ -232,7 +232,7 @@
 
             public event PropertyChangedEventHandler PropertyChanged;
 
-            internal MessagePath(Type location, string description, LogEnum logType, Action<TMessage> action, PathId pathId, PathPriority priority, int viaTimesLimit) {
+            internal MessagePath(string location, string description, LogEnum logType, Action<TMessage> action, PathId pathId, PathPriority priority, int viaTimesLimit) {
                 if (viaTimesLimit == 0) {
                     throw new InvalidProgramException("消息路径的viaTimesLimit不能为0，可以为负数表示不限制通过次数或为正数表示限定通过次数，但不能为0");
                 }
@@ -240,7 +240,7 @@
                 _isEnabled = true;
                 _viaTimesLimit = viaTimesLimit;
                 var messageType = typeof(TMessage);
-                string path = $"{location.FullName}[{messageType.FullName}]";
+                string path = $"{location}[{messageType.FullName}]";
 
                 MessageType = messageType;
                 Location = location;
@@ -278,7 +278,7 @@
                     return MessageTypeAttribute.GetMessageTypeAttribute(this.MessageType);
                 }
             }
-            public Type Location { get; private set; }
+            public string Location { get; private set; }
             public string PathName { get; private set; }
             public LogEnum LogType { get; private set; }
             public string Description { get; private set; }

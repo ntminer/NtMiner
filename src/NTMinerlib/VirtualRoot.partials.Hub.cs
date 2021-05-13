@@ -35,7 +35,7 @@ namespace NTMiner {
         /// 修建消息的运动路径
         /// </summary>
         public static IMessagePathId BuildMessagePath<TMessage>(string description, LogEnum logType, Type location, PathPriority priority, Action<TMessage> path) {
-            return MessageHub.AddPath(location, description, logType, pathId: PathId.Empty, priority, path);
+            return MessageHub.AddPath(location.FullName, description, logType, pathId: PathId.Empty, priority, path);
         }
 
         /// <summary>
@@ -43,13 +43,20 @@ namespace NTMiner {
         /// 注意该路径具有特定的路径标识pathId，pathId可以看作是路径的形状，只有和该路径的形状相同的消息才能通过路径。
         /// </summary>
         public static IMessagePathId BuildOnecePath<TMessage>(string description, LogEnum logType, PathId pathId, Type location, PathPriority priority, Action<TMessage> path) {
-            return MessageHub.AddPath(location, description, logType, pathId, priority, path, viaTimesLimit: 1);
+            return MessageHub.AddPath(location.FullName, description, logType, pathId, priority, path, viaTimesLimit: 1);
         }
 
         /// <summary>
         /// 消息通过路径指定的次数后路径即消失
         /// </summary>
         public static IMessagePathId BuildViaTimesLimitPath<TMessage>(string description, LogEnum logType, int viaTimesLimit, Type location, PathPriority priority, Action<TMessage> path) {
+            return MessageHub.AddPath(location.FullName, description, logType, pathId: PathId.Empty, priority, path, viaTimesLimit);
+        }
+
+        /// <summary>
+        /// 消息通过路径指定的次数后路径即消失
+        /// </summary>
+        public static IMessagePathId BuildViaTimesLimitPath<TMessage>(string description, LogEnum logType, int viaTimesLimit, string location, PathPriority priority, Action<TMessage> path) {
             return MessageHub.AddPath(location, description, logType, pathId: PathId.Empty, priority, path, viaTimesLimit);
         }
 

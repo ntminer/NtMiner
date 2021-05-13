@@ -57,7 +57,7 @@
                 <DataGridTemplateColumn Width="340" Header="Location">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding Location.FullName,Mode=OneWay}"></TextBox>
+                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding Location,Mode=OneWay}"></TextBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
