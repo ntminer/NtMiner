@@ -37,7 +37,7 @@ namespace NTMiner.Core.Impl {
                     var cpu = Windows.Cpu.Instance;
                     nodeState = new WsServerNodeState {
                         Address = ServerRoot.HostConfig.ThisServerAddress,
-                        Description = string.Empty,
+                        Description = ServerRoot.HostConfig.Description,
                         MinerClientSessionCount = AppRoot.MinerClientSessionSet.Count,
                         MinerStudioSessionCount = AppRoot.MinerStudioSessionSet.Count,
                         MinerClientWsSessionCount = minerClientWsSessionCount,

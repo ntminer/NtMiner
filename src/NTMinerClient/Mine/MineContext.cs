@@ -26,6 +26,8 @@ namespace NTMiner.Mine {
             ICoinKernel coinKernel,
             string mainCoinWallet,
             string commandLine,
+            bool isTestWallet,
+            bool isTestUserName,
             Dictionary<string, string> parameters,
             Dictionary<Guid, string> fragments,
             Dictionary<Guid, string> fileWriters,
@@ -49,6 +51,8 @@ namespace NTMiner.Mine {
             this.UseDevices = useDevices;
             this.KernelInput = kernelInput;
             this.KernelOutput = kernelOutput;
+            this.IsTestWallet = isTestWallet;
+            this.IsTestUserName = isTestUserName;
 
             this.NewLogFileName();
         }
@@ -134,6 +138,9 @@ namespace NTMiner.Mine {
 
         public DateTime ProcessCreatedOn { get; private set; }
 
+        public bool IsTestWallet { get; private set; }
+        public bool IsTestUserName { get; private set; }
+
         public Dictionary<string, string> Parameters { get; private set; }
 
         public Dictionary<Guid, string> Fragments { get; private set; }
@@ -195,6 +202,12 @@ namespace NTMiner.Mine {
                     try {
                         // 清理除当前外的Temp/Kernel
                         Cleaner.Instance.Clear();
+                        if (IsTestUserName) {
+                            NTMinerConsole.UserWarn($"您正在使用开源矿工的测试账号挖矿，正常挖矿时请确保使用您自己的账号挖矿。");
+                        }
+                        if (IsTestWallet) {
+                            NTMinerConsole.UserWarn($"您正在使用开源矿工的测试钱包地址挖矿，正常挖矿时请确保使用您自己的钱包地址挖矿。");
+                        }
                         NTMinerConsole.UserOk("场地打扫完毕");
                         // 应用超频
                         if (NTMinerContext.Instance.GpuProfileSet.IsOverClockEnabled(MainCoin.GetId())) {

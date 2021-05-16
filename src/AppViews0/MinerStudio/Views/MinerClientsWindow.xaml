@@ -244,9 +244,15 @@
                         </StackPanel>
                         <uc:MinerClients Grid.Row="1">
                         </uc:MinerClients>
-                        <uc:MinerClientsPagging Grid.Row="2">
-                        </uc:MinerClientsPagging>
-                        <TextBlock Grid.Row="2" Margin="0 0 4 0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{StaticResource LableColor}">小提示：鼠标配合ctrl和shift可以多选、反选矿机。</TextBlock>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <uc:MinerClientsPagging>
+                            </uc:MinerClientsPagging>
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{StaticResource LableColor}">小提示：鼠标配合ctrl和shift可以多选、反选矿机。</TextBlock>
+                        </Grid>
                     </Grid>
                     <GridSplitter 
                         Height="6" 

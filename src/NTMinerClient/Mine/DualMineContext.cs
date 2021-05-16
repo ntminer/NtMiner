@@ -23,6 +23,8 @@ namespace NTMiner.Mine {
                 mineContext.CoinKernel,
                 mineContext.MainCoinWallet,
                 mineContext.CommandLine,
+                mineContext.IsTestWallet,
+                mineContext.IsTestUserName,
                 parameters,
                 fragments,
                 fileWriters,

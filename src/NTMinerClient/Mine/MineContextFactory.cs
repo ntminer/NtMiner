@@ -44,6 +44,8 @@ namespace NTMiner.Mine {
             string userName = string.Empty;
             string password = NTKeyword.PasswordDefaultValue;
             string wallet = mainCoinProfile.Wallet;
+            bool isTestWallet = false;
+            bool isTestUserName = false;
             IPoolProfile poolProfile = minerProfile.GetPoolProfile(mainCoinPool.GetId());
             if (mainCoinPool.IsUserMode) {
                 password = poolProfile.Password;
@@ -52,9 +54,11 @@ namespace NTMiner.Mine {
                 }
                 userName = poolProfile.UserName;
                 wallet = poolProfile.UserName;
+                isTestUserName = serverContext.PoolSet.TryGetPool(poolProfile.PoolId, out IPool pool) && userName == pool.UserName;
             }
             else {
                 userName = wallet;
+                isTestWallet = serverContext.CoinSet.TryGetCoin(mainCoinProfile.CoinId, out ICoin coin) && wallet == coin.TestWallet;
             }
             parameters.Add(NTKeyword.UserNameParameterName, userName);
             parameters.Add(NTKeyword.PasswordParameterName, password);
@@ -175,6 +179,8 @@ namespace NTMiner.Mine {
                                     mainCoinKernel,
                                     wallet,
                                     dualSb.ToString(),
+                                    isTestWallet,
+                                    isTestUserName,
                                     parameters,
                                     fragments,
                                     fileWriters,
@@ -224,6 +230,8 @@ namespace NTMiner.Mine {
                 mainCoinKernel,
                 wallet,
                 sb.ToString(),
+                isTestWallet,
+                isTestUserName,
                 parameters,
                 fragments,
                 fileWriters,

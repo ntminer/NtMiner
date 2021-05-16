@@ -1,5 +1,12 @@
-﻿namespace NTMiner.Core {
+﻿using System;
+
+namespace NTMiner.Core {
     public interface IHostConfig {
+        /// <summary>
+        /// 没有什么用，只是因为持久层需要一个Id
+        /// </summary>
+        Guid Id { get; }
+        string Description { get; }
         string OssAccessKeyId { get; }
         string OssAccessKeySecret { get; }
         string OssEndpoint { get; }

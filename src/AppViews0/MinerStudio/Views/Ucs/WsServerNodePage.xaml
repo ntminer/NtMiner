@@ -10,7 +10,7 @@
 	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
     Background="White"
 	mc:Ignorable="d" 
-    d:DesignHeight="400" 
+    d:DesignHeight="450" 
     d:DesignWidth="1590"
     d:DataContext="{d:DesignData Source=../Design/WsServerNodePageViewModel.xaml}">
     <UserControl.Resources>

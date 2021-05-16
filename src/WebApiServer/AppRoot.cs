@@ -266,7 +266,7 @@ namespace NTMiner {
             return new WebApiServerState {
                 WsServerNodes = wsServerNodes.OrderBy(a => a.Address).ToList(),
                 Address = ServerRoot.HostConfig.ThisServerAddress,
-                Description = string.Empty,
+                Description = ServerRoot.HostConfig.Description,
                 AvailablePhysicalMemory = ram.AvailablePhysicalMemory,
                 TotalPhysicalMemory = ram.TotalPhysicalMemory,
                 Cpu = cpu.ToData(),

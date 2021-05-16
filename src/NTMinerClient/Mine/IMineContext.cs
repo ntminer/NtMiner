@@ -31,5 +31,7 @@ namespace NTMiner.Mine {
         IKernelOutput KernelOutput { get; }
         string CommandLine { get; }
         Process KernelProcess { get; }
+        bool IsTestWallet { get; }
+        bool IsTestUserName { get; }
     }
 }

@@ -5,7 +5,11 @@ namespace NTMiner.Core.Impl {
         public HostConfigData() {
         }
 
+        /// <summary>
+        /// <see cref="IHostConfig.Id"/>
+        /// </summary>
         public Guid Id { get; set; }
+        public string Description { get; set; }
         public string OssAccessKeyId { get; set; }
         public string OssAccessKeySecret { get; set; }
         public string OssEndpoint { get; set; }

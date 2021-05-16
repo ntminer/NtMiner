@@ -84,17 +84,19 @@
                 </WrapPanel>
             </controls:KbButton>
             <controls:KbButton
-				Width="26" 
                 ToolTip="定制列分组"
                 Background="Transparent"
                 BorderThickness="0"
 				Command="{Binding ColumnsShow.Edit}">
-                <Path 
-					Width="14"
-					Height="14"
-					Stretch="Fill"
-					Fill="{StaticResource BtnBackground}"
-					Data="{StaticResource Icon_Edit}"></Path>
+                <WrapPanel>
+                    <Path 
+					    Width="14"
+					    Height="14"
+					    Stretch="Fill"
+					    Fill="{StaticResource BtnBackground}"
+					    Data="{StaticResource Icon_Edit}"></Path>
+                    <TextBlock Padding="2" Foreground="{StaticResource LableColor}">隐藏的列可在定制列分组中找回</TextBlock>
+                </WrapPanel>
             </controls:KbButton>
             <Popup 
                 x:Name="PopupColumnsShow" 
