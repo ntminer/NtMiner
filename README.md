@@ -1,4 +1,4 @@
-点击加入 [NTMiner官方QQ群](https://jq.qq.com/?_wv=1027&k=Tr2BsZ8Y): 1040479962
+点击加入 [NTMiner官方QQ群](https://jq.qq.com/?_wv=1027&k=k3hXnSsS): 775854760
 
 1. 开源矿工内置的所有内核均为原版，开源矿工永远不会额外增加矿工支出；
 2. 开源矿工永远开源；
@@ -34,7 +34,7 @@
 
 类似开源矿工这些同类挖矿辅助工具降低了挖矿门槛帮助矿工管理矿机，获得一点收入是合理的，但是不能偷。
 
-点击加入 [NTMiner官方QQ群](https://jq.qq.com/?_wv=1027&k=Tr2BsZ8Y): 1040479962
+点击加入 [NTMiner官方QQ群](https://jq.qq.com/?_wv=1027&k=k3hXnSsS): 775854760
 
 # 授权协议
 The LGPL license。
