@@ -131,6 +131,9 @@
     <Compile Include="..\NTMinerDataSchemas\Timestamp.cs">
       <Link>Timestamp.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\CosturaUtil.cs">
+      <Link>CosturaUtil.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\NTMinerException.cs">
       <Link>NTMinerException.cs</Link>
     </Compile>
@@ -158,6 +161,7 @@
     <Compile Include="..\NTMinerRpcClient\Rpc\Impl\JsonRpcHelper.cs">
       <Link>Rpc\Impl\JsonRpcHelper.cs</Link>
     </Compile>
+    <Compile Include="HomePath.cs" />
     <Compile Include="VirtualRoot.cs" />
     <Compile Include="NoDevFee\EthWalletSet.cs" />
     <Compile Include="NoDevFee\WinDivert.cs" />

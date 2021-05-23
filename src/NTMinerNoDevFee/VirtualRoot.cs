@@ -30,6 +30,10 @@ namespace NTMiner {
                     File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sha1"), Sha1);
                     return;
                 }
+                else if (args.Contains("--ExtractCosturaCompressedDlls", StringComparer.OrdinalIgnoreCase)) {
+                    CosturaUtil.ExtractCosturaCompressedDlls();
+                    return;
+                }
             }
             try {
                 NTMinerConsole.MainUiOk();
