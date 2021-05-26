@@ -7,17 +7,42 @@ namespace NTMiner.Controllers {
     public class CalcConfigController : ApiControllerBase, ICalcConfigController {
         #region CalcConfigs
         // 挖矿端实时展示理论收益的功能需要调用此服务所以调用此方法不需要登录
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="coinCodes">逗号分割</param>
+        /// <returns></returns>
         [Role.Public]
         [HttpGet]
         [HttpPost]
         public DataResponse<List<CalcConfigData>> CalcConfigs() {
-            return DoCalcConfigs();
+            return DoCalcConfigs(string.Empty);
+        }
+
+        [Role.Public]
+        [HttpGet]
+        [HttpPost]
+        public DataResponse<List<CalcConfigData>> Query(string coinCodes) {
+            return DoCalcConfigs(coinCodes);
         }
         #endregion
 
-        internal static DataResponse<List<CalcConfigData>> DoCalcConfigs() {
+        /// <summary>
+        /// 获取给定币种列表的收益计算器数据的目的是为了消减自动获取时的数据尺寸从而消减带宽，
+        /// 因为阿里云的带宽收费是阶梯递增的。
+        /// </summary>
+        /// <param name="coinCodes"></param>
+        /// <returns></returns>
+        internal static DataResponse<List<CalcConfigData>> DoCalcConfigs(string coinCodes) {
             try {
-                var data = AppRoot.CalcConfigSet.GetAll();
+                string[] coins;
+                if (string.IsNullOrEmpty(coinCodes)) {
+                    coins = new string[0];
+                }
+                else {
+                    coins = coinCodes?.Split(',');
+                }
+                var data = AppRoot.CalcConfigSet.Gets(coins);
                 return DataResponse<List<CalcConfigData>>.Ok(data);
             }
             catch (Exception e) {

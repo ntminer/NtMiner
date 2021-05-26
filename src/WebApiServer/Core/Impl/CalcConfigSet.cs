@@ -20,9 +20,25 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        public List<CalcConfigData> GetAll() {
+        /// <summary>
+        /// <see cref="ICalcConfigSet.Gets(IEnumerable{string})"/>
+        /// </summary>
+        /// <param name="coinCodes">null或长度0表示读取全部</param>
+        /// <returns></returns>
+        public List<CalcConfigData> Gets(string[] coinCodes) {
             InitOnece();
-            return _dicByCode.Values.ToList();
+            if (coinCodes == null || coinCodes.Length == 0) {
+                return _dicByCode.Values.ToList();
+            }
+            else {
+                List<CalcConfigData> list = new List<CalcConfigData>();
+                foreach (var coinCode in coinCodes) {
+                    if (_dicByCode.TryGetValue(coinCode, out CalcConfigData value)) {
+                        list.Add(value);
+                    }
+                }
+                return list;
+            }
         }
 
         public void SaveCalcConfigs(List<CalcConfigData> data) {

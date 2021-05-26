@@ -10,10 +10,12 @@ namespace NTMiner {
 
         public override void OnActionExecuting(HttpActionContext actionContext) {
             base.OnActionExecuting(actionContext);
+            // TODO:整个开关
             string ip = actionContext.Request.GetRemoteIp();
             if (IPAddress.TryParse(ip, out IPAddress remoteIp)) {
                 VirtualRoot.RaiseEvent(new WebApiRequestEvent(remoteIp));
             }
+            // TODO:整个开关
             string controllerName = actionContext.ActionDescriptor.ControllerDescriptor.ControllerName;
             string actionName = $"{controllerName}Controller.{actionContext.ActionDescriptor.ActionName}";
             ActionCountRoot.Count(actionName);

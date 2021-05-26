@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.MinerServer;
+using NTMiner.Mine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,19 @@ namespace NTMiner.Core.Impl {
             // 如果未显示主界面则收益计算器也不用更新了
             if ((_initedOn == DateTime.MinValue || NTMinerContext.IsUiVisible || ClientAppType.IsMinerStudio) && (forceRefresh || _initedOn.AddMinutes(10) < now)) {
                 _initedOn = now;
-                RpcRoot.OfficialServer.CalcConfigBinaryService.GetCalcConfigsAsync(data => {
+                List<string> coinCodes = new List<string>();
+                var mineContext = NTMinerContext.Instance.CurrentMineContext;
+                if (!forceRefresh && mineContext != null) {
+                    if (mineContext.MainCoin != null) {
+                        coinCodes.Add(mineContext.MainCoin.Code);
+                    }
+                    if (mineContext is IDualMineContext dualMineContext) {
+                        if (dualMineContext.DualCoin != null) {
+                            coinCodes.Add(dualMineContext.DualCoin.Code);
+                        }
+                    }
+                }
+                RpcRoot.OfficialServer.CalcConfigBinaryService.QueryCalcConfigsAsync(coinCodes, data => {
                     if (data != null && data.Count != 0) {
                         Init(data);
                         VirtualRoot.RaiseEvent(new CalcConfigSetInitedEvent());

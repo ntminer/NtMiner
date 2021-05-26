@@ -28,6 +28,28 @@ namespace NTMiner.Services.Official {
                     }
                 }, timeountMilliseconds: 10 * 1000);
         }
+
+        public void QueryCalcConfigsAsync(List<string> coinCodes, Action<List<CalcConfigData>> callback) {
+            if (coinCodes == null) {
+                coinCodes = new List<string>();
+            }
+            RpcRoot.JsonRequestBinaryResponseRpcHelper.GetAsync(
+                RpcRoot.OfficialServerHost,
+                RpcRoot.OfficialServerPort,
+                _controllerName,
+                nameof(ICalcConfigBinaryController<HttpResponseMessage>.Query),
+                new Dictionary<string, string> {
+                    ["coinCodes"] = string.Join(",", coinCodes)
+                },
+                callback: (DataResponse<List<CalcConfigData>> response, Exception e) => {
+                    if (response.IsSuccess()) {
+                        callback?.Invoke(response.Data);
+                    }
+                    else {
+                        callback?.Invoke(new List<CalcConfigData>());
+                    }
+                }, timeountMilliseconds: 10 * 1000);
+        }
         #endregion
     }
 }
