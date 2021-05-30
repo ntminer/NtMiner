@@ -13,8 +13,6 @@ namespace NTMiner.Services.Official {
         #region GetNTMinerWalletsAsync
         public void GetNTMinerWalletsAsync(Action<DataResponse<List<NTMinerWalletData>>, Exception> callback) {
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(INTMinerWalletController.NTMinerWallets), 
                 null, 
@@ -28,8 +26,6 @@ namespace NTMiner.Services.Official {
                 Data = entity
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(INTMinerWalletController.AddOrUpdateNTMinerWallet), 
                 data: request, 
@@ -43,8 +39,6 @@ namespace NTMiner.Services.Official {
                 Data = id
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(INTMinerWalletController.RemoveNTMinerWallet), 
                 data: request, 

@@ -18,8 +18,6 @@ namespace NTMiner.Services.Official {
                 Value = value
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IClientDataController.UpdateClient), 
                 data: request, 
@@ -34,8 +32,6 @@ namespace NTMiner.Services.Official {
                 Values = values
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IClientDataController.UpdateClients), 
                 data: request, 
@@ -49,8 +45,6 @@ namespace NTMiner.Services.Official {
                 ObjectIds = objectIds
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IClientDataController.RemoveClients), 
                 data: request, 

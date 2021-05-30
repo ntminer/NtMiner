@@ -14,8 +14,6 @@ namespace NTMiner.Services.Official {
         #region GetCalcConfigsAsync
         public void GetCalcConfigsAsync(Action<List<CalcConfigData>> callback) {
             RpcRoot.JsonRequestBinaryResponseRpcHelper.PostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(ICalcConfigBinaryController<HttpResponseMessage>.CalcConfigs),
                 null,
@@ -34,8 +32,6 @@ namespace NTMiner.Services.Official {
                 coinCodes = new List<string>();
             }
             RpcRoot.JsonRequestBinaryResponseRpcHelper.GetAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(ICalcConfigBinaryController<HttpResponseMessage>.Query),
                 new Dictionary<string, string> {

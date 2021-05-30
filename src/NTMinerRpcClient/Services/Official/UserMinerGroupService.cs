@@ -14,8 +14,6 @@ namespace NTMiner.Services.Official {
         #region GetMinerGroupsAsync
         public void GetMinerGroupsAsync(Action<DataResponse<List<UserMinerGroupData>>, Exception> callback) {
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IUserMinerGroupController.MinerGroups), 
                 data: new object(), 
@@ -31,8 +29,6 @@ namespace NTMiner.Services.Official {
                 Data = entity
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IUserMinerGroupController.AddOrUpdateMinerGroup), 
                 data: request, 
@@ -46,8 +42,6 @@ namespace NTMiner.Services.Official {
                 Data = id
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IUserMinerGroupController.RemoveMinerGroup), 
                 data: request, 

@@ -17,8 +17,6 @@ namespace NTMiner.Services.Official {
                 Timestamp = Timestamp.GetTimestamp(timestamp)
             };
             RpcRoot.JsonRequestBinaryResponseRpcHelper.PostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IServerMessageBinaryController<HttpResponseMessage>.ServerMessages), 
                 request, 

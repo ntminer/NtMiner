@@ -11,8 +11,6 @@ namespace NTMiner.Services.Official {
 
         public void ReportSpeedAsync(SpeedDto speedDto, Action<ReportResponse, Exception> callback) {
             RpcRoot.BinaryRequestJsonResponseRpcHelper.PostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IReportBinaryController.ReportSpeed), 
                 query: null, 

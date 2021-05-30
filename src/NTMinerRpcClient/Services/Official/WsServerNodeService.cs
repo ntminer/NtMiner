@@ -15,8 +15,6 @@ namespace NTMiner.Services.Official {
                 UserId = outerUserId
             };
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IWsServerNodeController.GetNodeAddress), 
                 data, 

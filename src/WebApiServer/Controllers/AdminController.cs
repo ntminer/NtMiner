@@ -67,6 +67,22 @@ namespace NTMiner.Controllers {
 
         [Role.Admin]
         [HttpPost]
+        public DataResponse<MqAppIds> MqAppIds() {
+            var appIds = AppRoot.MqCountSet.GetAppIds();
+            var appId = appIds.FirstOrDefault();
+            MqCountData mqCountData = null;
+            if (!string.IsNullOrEmpty(appId)) {
+                mqCountData = AppRoot.MqCountSet.GetByAppId(appId);
+            }
+            return DataResponse<MqAppIds>.Ok(new MqAppIds {
+                AppIds = appIds,
+                AppId = appId,
+                MqCountData = mqCountData
+            });
+        }
+
+        [Role.Admin]
+        [HttpPost]
         public TopNRemoteIpsResponse TopNRemoteIps([FromBody] DataRequest<int> request) {
             if (request == null || request.Data <= 0) {
                 return ResponseBase.InvalidInput<TopNRemoteIpsResponse>("参数错误");

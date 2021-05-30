@@ -14,8 +14,6 @@ namespace NTMiner.Services.Official {
         public void GetKernelOutputKeywords(Action<KernelOutputKeywordsResponse, Exception> callback) {
             object request = new object();
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IKernelOutputKeywordController.KernelOutputKeywords), 
                 request, 
@@ -29,8 +27,6 @@ namespace NTMiner.Services.Official {
                 Data = entity
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IKernelOutputKeywordController.AddOrUpdateKernelOutputKeyword), 
                 data: request, 
@@ -44,8 +40,6 @@ namespace NTMiner.Services.Official {
                 Data = id
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IKernelOutputKeywordController.RemoveKernelOutputKeyword), 
                 data: request, 

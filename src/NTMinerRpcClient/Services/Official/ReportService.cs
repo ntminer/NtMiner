@@ -11,8 +11,6 @@ namespace NTMiner.Services.Official {
 
         public void ReportSpeedAsync(SpeedDto speedDto, Action<ReportResponse, Exception> callback) {
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IReportController.ReportSpeed), 
                 speedDto, 
@@ -26,8 +24,6 @@ namespace NTMiner.Services.Official {
                 IsMining = isMining
             };
             RpcRoot.JsonRpc.FirePostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IReportController.ReportState), 
                 null, 

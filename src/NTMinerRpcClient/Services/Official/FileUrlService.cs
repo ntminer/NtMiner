@@ -16,8 +16,6 @@ namespace NTMiner.Services.Official {
                 FileName = fileName
             };
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IFileUrlController.NTMinerUrl),
                 request,
@@ -28,8 +26,6 @@ namespace NTMiner.Services.Official {
         #region GetLiteDbExplorerUrlAsync
         public void GetLiteDbExplorerUrlAsync(Action<string, Exception> callback) {
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IFileUrlController.LiteDbExplorerUrl), 
                 callback);
@@ -39,8 +35,6 @@ namespace NTMiner.Services.Official {
         #region GetAtikmdagPatcherUrlAsync
         public void GetAtikmdagPatcherUrlAsync(Action<string, Exception> callback) {
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IFileUrlController.AtikmdagPatcherUrl), 
                 callback);
@@ -50,8 +44,6 @@ namespace NTMiner.Services.Official {
         #region GetSwitchRadeonGpuUrlAsync
         public void GetSwitchRadeonGpuUrlAsync(Action<string, Exception> callback) {
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IFileUrlController.SwitchRadeonGpuUrl), 
                 callback);
@@ -62,8 +54,6 @@ namespace NTMiner.Services.Official {
         // ReSharper disable once InconsistentNaming
         public void GetNTMinerUpdaterUrlAsync(Action<string, Exception> callback) {
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IFileUrlController.NTMinerUpdaterUrl), 
                 callback, 
@@ -74,8 +64,6 @@ namespace NTMiner.Services.Official {
         #region GetMinerClientFinderUrlAsync
         public void GetMinerClientFinderUrlAsync(Action<string, Exception> callback) {
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IFileUrlController.MinerClientFinderUrl), 
                 callback, 
@@ -89,8 +77,6 @@ namespace NTMiner.Services.Official {
                 Package = package
             };
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IFileUrlController.PackageUrl), 
                 request, 

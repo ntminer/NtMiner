@@ -11,8 +11,6 @@ namespace NTMiner.Services.Official {
 
         public void QueryActionCountsAsync(QueryActionCountsRequest request, Action<QueryActionCountsResponse, Exception> callback) {
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IAdminController.QueryActionCounts),
                 request,
@@ -22,8 +20,6 @@ namespace NTMiner.Services.Official {
 
         public void QueryGpuNameCountsAsync(QueryGpuNameCountsRequest request, Action<QueryGpuNameCountsResponse, Exception> callback) {
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IAdminController.QueryGpuNameCounts),
                 request,
@@ -33,8 +29,6 @@ namespace NTMiner.Services.Official {
 
         public void GetMqCountsAsync(Action<DataResponse<MqCountData[]>, Exception> callback) {
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IAdminController.MqCounts),
                 null,
@@ -47,8 +41,6 @@ namespace NTMiner.Services.Official {
                 Data = appId
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IAdminController.MqCount),
                 request,
@@ -56,10 +48,17 @@ namespace NTMiner.Services.Official {
                 timeountMilliseconds: 5 * 1000);
         }
 
+        public void GetMqAppIdsAsync(Action<DataResponse<MqAppIds>, Exception> callback) {
+            RpcRoot.JsonRpc.SignPostAsync(
+                _controllerName,
+                nameof(IAdminController.MqAppIds),
+                null,
+                callback,
+                timeountMilliseconds: 5 * 1000);
+        }
+
         public void GetServerStateAsync(Action<DataResponse<WebApiServerState>, Exception> callback) {
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IAdminController.GetServerState),
                 new object(),

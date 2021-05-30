@@ -25,6 +25,10 @@ namespace NTMiner.Core.Impl {
             return null;
         }
 
+        public List<string> GetAppIds() {
+            return _dicByAppId.Keys.ToList();
+        }
+
         public void Clear() {
             _dicByAppId.Clear();
         }

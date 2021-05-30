@@ -25,8 +25,6 @@ namespace NTMiner.Services.Official {
                 MACAddress = macAddresses.ToArray()
             };
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IAppSettingController.GetServerState),
                 request,
@@ -54,8 +52,6 @@ namespace NTMiner.Services.Official {
                 Data = entity
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IAppSettingController.SetAppSetting), 
                 data: request, 

@@ -16,8 +16,6 @@ namespace NTMiner.Services.Official {
                 Timestamp = Timestamp.GetTimestamp(timestamp)
             };
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IServerMessageController.ServerMessages), 
                 request, 
@@ -31,8 +29,6 @@ namespace NTMiner.Services.Official {
                 Data = entity
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IServerMessageController.AddOrUpdateServerMessage), 
                 data: request, 
@@ -46,8 +42,6 @@ namespace NTMiner.Services.Official {
                 Data = id
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IServerMessageController.MarkDeleteServerMessage), 
                 data: request, 

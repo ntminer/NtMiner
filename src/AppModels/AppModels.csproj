@@ -69,6 +69,10 @@
     <Compile Include="AppRoot.partials.CoinGroupViewModels.cs" />
     <Compile Include="AppRoot.partials.CoinKernelViewModels.cs" />
     <Compile Include="AppRoot.partials.CoinProfileViewModels.cs" />
+    <Compile Include="FileOpeners\IFileOpener.cs" />
+    <Compile Include="FileOpeners\Impl\EverFileOpener.cs" />
+    <Compile Include="FileOpeners\Impl\FileOpenerBase.cs" />
+    <Compile Include="FileOpeners\Impl\NppFileOpener.cs" />
     <Compile Include="MinerStudio\Impl\EmptyWsClient.cs" />
     <Compile Include="AppRoot.partials.CoinViewModels.cs" />
     <Compile Include="MinerStudio\MinerStudioRoot.partials.ColumnsShowViewModels.cs" />
@@ -289,6 +293,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

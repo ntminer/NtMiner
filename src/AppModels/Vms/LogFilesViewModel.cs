@@ -28,7 +28,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.OpenLogFile = new DelegateCommand<string>((fileFullName) => {
-                OpenLogFileByEveredit(fileFullName);
+                AppRoot.FileOpener.Open(fileFullName);
             });
         }
 
@@ -83,47 +83,6 @@ namespace NTMiner.Vms {
             catch {
             }
             return fileFullName;
-        }
-
-        public void OpenLogFileByNpp(string fileFullName) {
-            OpenLogFileBy(
-                downloadFileUrl: AppRoot.NppPackageUrl,
-                toolSubDirName: "Npp",
-                exeFileName: "notepad++.exe",
-                downloadTitle: "Notepad++",
-                args: $"-nosession -ro {fileFullName}");
-        }
-
-        // 用户查看挖矿日志的时候会下载使用一个文本编辑器，因为日志文件可能很大直接使用windows自带
-        // 的记事本打开会很耗资源，不要使用notepad++，EverEdit是一个很好的替代，而且是国人开发的。
-        public void OpenLogFileByEveredit(string fileFullName) {
-            OpenLogFileBy(
-                downloadFileUrl: AppRoot.EvereditPackageUrl,
-                toolSubDirName: "everedit",
-                exeFileName: "EverEdit.exe",
-                downloadTitle: "EverEdit",
-                args: fileFullName);
-        }
-
-        private static void OpenLogFileBy(string downloadFileUrl, string toolSubDirName, string exeFileName, string downloadTitle, string args) {
-            string dir = Path.Combine(MinerClientTempPath.ToolsDirFullName, toolSubDirName);
-            string exeFileFullName = Path.Combine(dir, exeFileName);
-            if (!Directory.Exists(dir)) {
-                Directory.CreateDirectory(dir);
-            }
-            if (!File.Exists(exeFileFullName)) {
-                VirtualRoot.Execute(new ShowFileDownloaderCommand(downloadFileUrl, downloadTitle, (window, isSuccess, message, saveFileFullName) => {
-                    if (isSuccess) {
-                        ZipUtil.DecompressZipFile(saveFileFullName, dir);
-                        File.Delete(saveFileFullName);
-                        window?.Close();
-                        Windows.Cmd.RunClose(exeFileFullName, args);
-                    }
-                }));
-            }
-            else {
-                Windows.Cmd.RunClose(exeFileFullName, args);
-            }
         }
     }
 }

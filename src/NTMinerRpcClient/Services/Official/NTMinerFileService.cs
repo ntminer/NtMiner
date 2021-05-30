@@ -13,8 +13,6 @@ namespace NTMiner.Services.Official {
         // ReSharper disable once InconsistentNaming
         public void GetNTMinerFilesAsync(DateTime timestamp, Action<NTMinerFilesResponse, Exception> callback) {
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(INTMinerFileController.GetNTMinerFiles),
                 new NTMinerFilesRequest {
@@ -31,8 +29,6 @@ namespace NTMiner.Services.Official {
                 Data = entity
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(INTMinerFileController.AddOrUpdateNTMinerFile),
                 data: request,
@@ -47,8 +43,6 @@ namespace NTMiner.Services.Official {
                 Data = id
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(INTMinerFileController.RemoveNTMinerFile),
                 data: request,

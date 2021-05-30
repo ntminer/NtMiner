@@ -14,8 +14,6 @@ namespace NTMiner.Services.Official {
         public void GetOverClockDatasAsync(Action<DataResponse<List<OverClockData>>, Exception> callback) {
             object request = new object();
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IOverClockDataController.OverClockDatas), 
                 request, 
@@ -29,8 +27,6 @@ namespace NTMiner.Services.Official {
                 Data = entity
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IOverClockDataController.AddOrUpdateOverClockData), 
                 data: request, 
@@ -44,8 +40,6 @@ namespace NTMiner.Services.Official {
                 Data = id
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IOverClockDataController.RemoveOverClockData), 
                 data: request, 

@@ -96,6 +96,7 @@
     <Compile Include="ServerNode\IMqReceivedCount.cs" />
     <Compile Include="ServerNode\IMqSendCount.cs" />
     <Compile Include="ServerNode\IRemoteIpEntry.cs" />
+    <Compile Include="ServerNode\MqAppIds.cs" />
     <Compile Include="ServerNode\MqCountData.cs" />
     <Compile Include="ServerNode\MqReceivedCountData.cs" />
     <Compile Include="ServerNode\MqSendCountData.cs" />

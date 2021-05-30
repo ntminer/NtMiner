@@ -16,8 +16,6 @@ namespace NTMiner.Services.Official {
         public void GetMineWorksAsync(Action<DataResponse<List<UserMineWorkData>>, Exception> callback) {
             object request = new object();
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IUserMineWorkController.MineWorks), 
                 data: request, 
@@ -33,8 +31,6 @@ namespace NTMiner.Services.Official {
                 Data = entity
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IUserMineWorkController.AddOrUpdateMineWork), 
                 data: request, 
@@ -48,8 +44,6 @@ namespace NTMiner.Services.Official {
                 Data = id
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IUserMineWorkController.RemoveMineWork), 
                 data: request, 
@@ -65,8 +59,6 @@ namespace NTMiner.Services.Official {
                 ServerJson = serverJson
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IUserMineWorkController.ExportMineWork), 
                 data: request, 
@@ -80,8 +72,6 @@ namespace NTMiner.Services.Official {
                 Data = workId
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost, 
-                RpcRoot.OfficialServerPort, 
                 _controllerName, 
                 nameof(IUserMineWorkController.GetLocalJson), 
                 data: request, 

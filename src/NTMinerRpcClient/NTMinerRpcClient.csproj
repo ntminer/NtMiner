@@ -87,8 +87,11 @@
     <Compile Include="Services\Client\NTMinerClientService.cs" />
     <Compile Include="Services\Client\NTMinerDaemonService.cs" />
     <Compile Include="Core\Impl\KernelOutputKeywordSet.cs" />
+    <Compile Include="Services\Official\BinaryRequestJsonResponseRpcHelperExtensions.cs" />
     <Compile Include="Services\Official\CalcConfigBinaryService.cs" />
     <Compile Include="Services\Official\FileUrlService.cs" />
+    <Compile Include="Services\Official\JsonRequestBinaryResponseRpcHelperExtensions.cs" />
+    <Compile Include="Services\Official\JsonRpcHelperExtensions.cs" />
     <Compile Include="Services\Official\NTMinerFileService.cs" />
     <Compile Include="Services\Official\NTMinerWalletService.cs" />
     <Compile Include="Services\OfficialServices.cs" />

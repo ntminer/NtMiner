@@ -13,8 +13,6 @@ namespace NTMiner.Services.Official {
         #region LoginAsync
         public void LoginAsync(string loginName, string password, Action<DataResponse<LoginedUser>, Exception> callback) {
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IUserController.Login),
                 RpcUser.GetSignData(loginName, password),
@@ -26,8 +24,6 @@ namespace NTMiner.Services.Official {
         #region IsLoginNameExistAsync
         public void IsLoginNameExistAsync(string loginName, Action<bool> callback) {
             RpcRoot.JsonRpc.GetAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IUserController.IsLoginNameExist),
                 new Dictionary<string, string> {
@@ -42,8 +38,6 @@ namespace NTMiner.Services.Official {
         #region QueryUsersAsync
         public void QueryUsersAsync(QueryUsersRequest request, Action<QueryUsersResponse, Exception> callback) {
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IUserController.QueryUsers),
                 data: request,
@@ -63,8 +57,6 @@ namespace NTMiner.Services.Official {
         #region RemoveUserAsync
         public void RemoveUserAsync(string loginName, Action<ResponseBase, Exception> callback) {
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IUserController.RemoveUser),
                 new DataRequest<string> {
@@ -76,8 +68,6 @@ namespace NTMiner.Services.Official {
         #region EnableUserAsync
         public void EnableUserAsync(string loginName, Action<ResponseBase, Exception> callback) {
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IUserController.EnableUser),
                 new DataRequest<string> {
@@ -89,8 +79,6 @@ namespace NTMiner.Services.Official {
         #region DisableUserAsync
         public void DisableUserAsync(string loginName, Action<ResponseBase, Exception> callback) {
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IUserController.DisableUser),
                 new DataRequest<string> {
@@ -102,8 +90,6 @@ namespace NTMiner.Services.Official {
         #region AddAdminRoleAsync
         public void AddAdminRoleAsync(string loginName, Action<ResponseBase, Exception> callback) {
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IUserController.AddAdminRole),
                 new DataRequest<string> {
@@ -115,8 +101,6 @@ namespace NTMiner.Services.Official {
         #region RemoveAdminRoleAsync
         public void RemoveAdminRoleAsync(string loginName, Action<ResponseBase, Exception> callback) {
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IUserController.RemoveAdminRole),
                 new DataRequest<string> {
@@ -128,8 +112,6 @@ namespace NTMiner.Services.Official {
         #region SignUpAsync
         public void SignUpAsync(SignUpRequest data, Action<ResponseBase, Exception> callback) {
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IUserController.SignUp),
                 data,
@@ -140,8 +122,6 @@ namespace NTMiner.Services.Official {
         #region UpdateUserAsync
         public void UpdateUserAsync(UserUpdateData data, Action<ResponseBase, Exception> callback) {
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IUserController.UpdateUser),
                 data,
@@ -152,8 +132,6 @@ namespace NTMiner.Services.Official {
         #region ChangePasswordAsync
         public void ChangePasswordAsync(ChangePasswordRequest request, Action<ResponseBase, Exception> callback) {
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(IUserController.ChangePassword),
                 request,

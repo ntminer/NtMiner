@@ -13,8 +13,6 @@ namespace NTMiner.Services.Official {
         #region GetCalcConfigsAsync
         public void GetCalcConfigsAsync(Action<List<CalcConfigData>> callback) {
             RpcRoot.JsonRpc.PostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(ICalcConfigController.CalcConfigs),
                 null,
@@ -33,8 +31,6 @@ namespace NTMiner.Services.Official {
                 coinCodes = new List<string>();
             }
             RpcRoot.JsonRpc.GetAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(ICalcConfigController.Query),
                 new Dictionary<string, string> {
@@ -60,8 +56,6 @@ namespace NTMiner.Services.Official {
                 Data = configs
             };
             RpcRoot.JsonRpc.SignPostAsync(
-                RpcRoot.OfficialServerHost,
-                RpcRoot.OfficialServerPort,
                 _controllerName,
                 nameof(ICalcConfigController.SaveCalcConfigs),
                 data: request,

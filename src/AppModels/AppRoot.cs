@@ -1,4 +1,6 @@
 ﻿using NTMiner.Core;
+using NTMiner.FileOpeners;
+using NTMiner.FileOpeners.Impl;
 using NTMiner.Hub;
 using NTMiner.RemoteDesktop;
 using NTMiner.Vms;
@@ -15,6 +17,8 @@ namespace NTMiner {
         public static Action<RdpInput> RemoteDesktop;
         public static ExtendedNotifyIcon NotifyIcon;
         public const string LowWinMessage = "Windows版本较低，建议使用Win10系统";
+        // everedit存在试用期，试用期过后无法继续使用，所以需要改回使用notepad++
+        public static readonly IFileOpener FileOpener = new NppFileOpener();
 
         private static readonly List<IMessagePathId> _contextPathIds = new List<IMessagePathId>();
 

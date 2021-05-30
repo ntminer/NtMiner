@@ -26,6 +26,10 @@ namespace NTMiner.Controllers {
         /// <summary>
         /// 需签名
         /// </summary>
+        DataResponse<MqAppIds> MqAppIds();
+        /// <summary>
+        /// 需签名
+        /// </summary>
         TopNRemoteIpsResponse TopNRemoteIps(DataRequest<int> request);
         /// <summary>
         /// 需签名
