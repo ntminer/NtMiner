@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -290,6 +291,8 @@ namespace NTMiner {
 
         private static async Task<byte[]> GetHtmlAsync(string url) {
             try {
+                // 没有这一行可能会报错：System.Net.WebException: 请求被中止: 未能创建 SSL/TLS 安全通道
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 using (HttpClient client = RpcRoot.CreateHttpClient()) {
                     client.Timeout = TimeSpan.FromSeconds(20);
                     return await client.GetByteArrayAsync(url);
