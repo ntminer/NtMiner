@@ -56,42 +56,11 @@
 					<RowDefinition Height="Auto"></RowDefinition>
 					<RowDefinition Height="Auto"></RowDefinition>
 				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource LblTbBase}" Text="服务器"></TextBlock>
-
-                <TextBox 
-                    x:Name="TextBoxServerHost" 
-                    Grid.Row="0" 
-                    Grid.Column="1" 
-                    Margin="0 4" 
-                    ToolTip="IP或域名" 
-                    Padding="0 0 20 0" 
-                    VerticalContentAlignment="Center" 
-                    Text="{Binding ServerHost}">
-                </TextBox>
-                <Button 
-                    x:Name="ButtonServerHost"
-                    Grid.Row="0" 
-                    Grid.Column="1"
-					Margin="0 4" 
-                    Width="20"
-                    BorderThickness="0"
-                    HorizontalAlignment="Right"
-					Click="ButtonServerHost_Click"
-					IsEnabled="{Binding ElementName=PopupServerHosts,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}">
-                    <Path
-						Width="12"
-						Height="8"
-						Data="{StaticResource Icon_ComboBoxToogle}"
-						Fill="Black"
-						Stretch="Fill" />
-                </Button>
-                <Popup 
-					x:Name="PopupServerHosts" 
-					PopupAnimation="Slide" 
-					PlacementTarget="{Binding ElementName=TextBoxServerHost}" 
-					Placement="Bottom" 
-					StaysOpen="False"></Popup>
-
+				<TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource LblTbBase}" Text="类型"></TextBlock>
+                <WrapPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
+                    <RadioButton Margin="20 2 0 0" IsChecked="{Binding IsInnerIp,Converter={StaticResource BoolInvertConverter}}" Content="外网群控"></RadioButton>
+                    <RadioButton Margin="20 2 0 0" IsChecked="{Binding IsInnerIp}" Content="内网群控"></RadioButton>
+                </WrapPanel>
 				<TextBlock 
 					Grid.Row="1" Grid.Column="0" 
                     Style="{StaticResource LblTbBase}"
@@ -104,10 +73,6 @@
 					Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenInvertConverter}}"
 					Text="{Binding LoginName}" Background="White" 
 					VerticalContentAlignment="Center"></TextBox>
-				<TextBlock 
-					Grid.Row="1" Grid.Column="1" Margin="0 2" 
-                    Foreground="Red" FontSize="16"
-					Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenConverter}}">内网群控</TextBlock>
 
 				<TextBlock 
 					Grid.Row="2" Grid.Column="0"
@@ -148,6 +113,7 @@
                         VerticalAlignment="Bottom"
                         BorderThickness="1"
                         Background="Transparent"
+						Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenInvertConverter}}"
 						Command="{Binding ShowSignUpPage}"
 						Content="注册"
                         ToolTip="注册群控用户">

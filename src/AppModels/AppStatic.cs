@@ -735,8 +735,7 @@ namespace NTMiner {
         });
 
         public static ICommand OpenOfficialSite { get; private set; } = new DelegateCommand(() => {
-            string url = "http://ntminer.com/";
-            url = NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue(NTKeyword.ThisSystemSysDicCode, "HomePageUrl", defaultValue: url);
+            string url = HomePageUrl;
             VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);
         });
@@ -750,9 +749,9 @@ namespace NTMiner {
             }
         }
 
-        public static string OfficialSiteName {
+        public static string HomePageUrl {
             get {
-                string url = "NTMiner.com";
+                string url = "https://ntminer.com";
                 if (WpfUtil.IsInDesignMode) {
                     return url;
                 }
@@ -760,6 +759,13 @@ namespace NTMiner {
                 if (!string.IsNullOrEmpty(dicItemValue)) {
                     url = dicItemValue;
                 }
+                return url;
+            }
+        }
+
+        public static string OfficialSiteName {
+            get {
+                string url = HomePageUrl;
                 if (!string.IsNullOrEmpty(url)) {
                     if (url.StartsWith("https://")) {
                         return url.Substring("https://".Length);

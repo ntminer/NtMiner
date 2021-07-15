@@ -38,6 +38,7 @@ namespace NTMiner.MinerStudio.Vms {
             _cpu = data.Cpu;
             _cpuVm = new CpuDataViewModel(data.Cpu);
             _wsServerNodes = data.WsServerNodes;
+            _wsServerNodes.Sort((l, r) => string.Compare(l.Description, r.Description));
             _wsServerNodeVms = new ObservableCollection<WsServerNodeStateViewModel>(data.WsServerNodes.Select(a => new WsServerNodeStateViewModel(a)));
         }
 
@@ -65,13 +66,18 @@ namespace NTMiner.MinerStudio.Vms {
                     _wsServerNodeVms.Clear();
                 }
                 else {
+                    bool needSort = false;
                     if (_wsServerNodeVms == null) {
+                        needSort = true;
                         _wsServerNodeVms = new ObservableCollection<WsServerNodeStateViewModel>(value.Select(a => new WsServerNodeStateViewModel(a)));
                     }
                     else {
                         var toRemoves = _wsServerNodeVms.Where(a => value.All(b => b.Address != a.Address)).ToArray();
+                        if (toRemoves.Length != 0) {
+                            needSort = true;
+                        }
                         foreach (var item in toRemoves) {
-                            _wsServerNodeVms.Remove(item);
+                            _ = _wsServerNodeVms.Remove(item);
                         }
                         foreach (var item in value) {
                             var vm = _wsServerNodeVms.FirstOrDefault(a => a.Address == item.Address);
@@ -79,9 +85,14 @@ namespace NTMiner.MinerStudio.Vms {
                                 vm.Update(item);
                             }
                             else {
+                                needSort = true;
                                 _wsServerNodeVms.Add(new WsServerNodeStateViewModel(item));
                             }
                         }
+                    }
+                    if (needSort) {
+                        _wsServerNodeVms = new ObservableCollection<WsServerNodeStateViewModel>(_wsServerNodeVms.OrderBy(a => a.Description));
+                        OnPropertyChanged(nameof(WsServerNodeVms));
                     }
                 }
                 OnPropertyChanged(nameof(MinerClientWsSessionCount));

@@ -2,23 +2,6 @@
 
 namespace NTMiner.Windows {
     public static class WinRegistry {
-        public static bool GetIsValueNameExist(RegistryKey root, string subkey, string valueName) {
-            try {
-                using (RegistryKey registryKey = root.OpenSubKey(subkey, true)) {
-                    if (registryKey != null) {
-                        var registData = registryKey.GetValue(valueName);
-                        registryKey.Close();
-                        return registData != null;
-                    }
-                    return false;
-                }
-            }
-            catch (System.Exception e) {
-                Logger.ErrorDebugLine(e);
-                return true;
-            }
-        }
-
         public static object GetValue(RegistryKey root, string subkey, string valueName) {
             object registData = "";
             try {

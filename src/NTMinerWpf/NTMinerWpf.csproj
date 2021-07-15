@@ -143,12 +143,8 @@
     <Compile Include="Views\InputWindow.xaml.cs">
       <DependentUpon>InputWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Ucs\ServerHostSelect.xaml.cs">
-      <DependentUpon>ServerHostSelect.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Vms\LocalIpConfigViewModel.cs" />
     <Compile Include="Vms\LocalIpViewModel.cs" />
-    <Compile Include="Vms\ServerHostSelectViewModel.cs" />
     <Compile Include="Vms\ServerHostItem.cs" />
     <Compile Include="Vms\SignUpPageViewModel.cs" />
     <Compile Include="WindowExtension.cs" />
@@ -268,10 +264,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\MessagePathIds.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Ucs\ServerHostSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

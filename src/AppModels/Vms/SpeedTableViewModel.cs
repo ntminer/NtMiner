@@ -1,5 +1,4 @@
-﻿using NTMiner.Gpus;
-using System.Windows;
+﻿using System.Windows;
 
 namespace NTMiner.Vms {
     public class SpeedTableViewModel : ViewModelBase {
@@ -15,15 +14,6 @@ namespace NTMiner.Vms {
                     _isPCIEVisible = value;
                     OnPropertyChanged(nameof(IsPCIEVisible));
                 }
-            }
-        }
-
-        public Visibility IsVoltVisible {
-            get {
-                if (NTMinerContext.Instance.GpuSet.GpuType == GpuType.AMD) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
             }
         }
 

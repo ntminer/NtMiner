@@ -5,9 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -63,19 +60,11 @@ namespace NTMiner {
         }
 
         private static void UpdateAsync() {
-            Task.Factory.StartNew(() => {
+            Task.Factory.StartNew(async () => {
                 try {
-                    Task<byte[]> htmlDataTask = GetHtmlAsync("https://www.f2pool.com/");
-                    byte[] htmlData = null;
-                    try {
-                        Task.WaitAll(new Task[] { htmlDataTask }, 60 * 1000);
-                        htmlData = htmlDataTask.Result;
-                    }
-                    catch {
-                    }
-                    if (htmlData != null && htmlData.Length != 0) {
+                    string html = await HtmlUtil.GetF2poolHtmlAsync();
+                    if (!string.IsNullOrEmpty(html)) {
                         NTMinerConsole.UserOk($"{DateTime.Now.ToString()} - 鱼池首页html获取成功");
-                        string html = Encoding.UTF8.GetString(htmlData);
                         double usdCny = PickUsdCny(html);
                         NTMinerConsole.UserInfo($"usdCny={usdCny.ToString()}");
                         List<IncomeItem> incomeItems = PickIncomeItems(html);
@@ -286,21 +275,6 @@ namespace NTMiner {
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
                 return 0;
-            }
-        }
-
-        private static async Task<byte[]> GetHtmlAsync(string url) {
-            try {
-                // 没有这一行可能会报错：System.Net.WebException: 请求被中止: 未能创建 SSL/TLS 安全通道
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                    client.Timeout = TimeSpan.FromSeconds(20);
-                    return await client.GetByteArrayAsync(url);
-                }
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return new byte[0];
             }
         }
     }

@@ -1,7 +1,5 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace NTMiner {
     public static partial class NTMinerRegistry {
@@ -117,9 +115,16 @@ namespace NTMiner {
         }
         #endregion
 
-        public static bool GetIsValueNameExist(string valueName) {
-            return Windows.WinRegistry.GetIsValueNameExist(Registry.Users, NTMinerRegistrySubKey, valueName);
+        #region MinerStudioIsInnerIp
+        public static bool GetMinerStudioIsInnerIp() {
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "MinerStudioIsInnerIp");
+            return value != null && value.ToString() == "true";
         }
+
+        public static void SetMinerStudioIsInnerIp(bool isInnerIp) {
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "MinerStudioIsInnerIp", isInnerIp ? "true" : "false");
+        }
+        #endregion
 
         #region IsNoUi
         public static bool GetIsNoUi() {
@@ -145,7 +150,10 @@ namespace NTMiner {
 
         #region LoginName
         public static string GetLoginName() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ControlCenterLoginName);
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.LoginNameRegistryKey);
+            if (value == null) {
+                value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "ControlCenterLoginName");
+            }
             if (value == null) {
                 return string.Empty;
             }
@@ -156,50 +164,7 @@ namespace NTMiner {
             if (daemonVersion == null) {
                 daemonVersion = string.Empty;
             }
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ControlCenterLoginName, daemonVersion);
-        }
-        #endregion
-
-        #region ControlCenterAddress
-        private const string DefaultControlCenterAddress = NTKeyword.Localhost;
-        private static string _controlCenterAddress;
-        public static string GetControlCenterAddress() {
-            if (_controlCenterAddress != null) {
-                return _controlCenterAddress;
-            }
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ControlCenterAddressRegistryKey);
-            if (value == null) {
-                _controlCenterAddress = DefaultControlCenterAddress;
-                return _controlCenterAddress;
-            }
-            _controlCenterAddress = (string)value;
-            return _controlCenterAddress;
-        }
-
-        public static void SetControlCenterAddress(string address) {
-            if (string.IsNullOrEmpty(address)) {
-                address = DefaultControlCenterAddress;
-            }
-            _controlCenterAddress = address;
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ControlCenterAddressRegistryKey, address);
-        }
-        #endregion
-
-        #region ControlCenterAddresses
-        public static List<string> GetControlCenterAddresses() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ControlCenterAddressesRegistryKey);
-            if (value == null) {
-                return new List<string>();
-            }
-            return value.ToString().Split(',').ToList();
-        }
-
-        public static void SetControlCenterAddresses(List<string> addresses) {
-            string value = string.Empty;
-            if (addresses != null) {
-                value = string.Join(",", addresses);
-            }
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ControlCenterAddressesRegistryKey, value);
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.LoginNameRegistryKey, daemonVersion);
         }
         #endregion
 

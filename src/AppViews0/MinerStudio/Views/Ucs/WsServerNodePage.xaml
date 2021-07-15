@@ -102,6 +102,8 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTextColumn Width="100" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
+                </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="100" Binding="{Binding MinerClientWsSessionCount}">
                     <DataGridTextColumn.Header>
                         <StackPanel>
@@ -163,7 +165,7 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="60" Header="CPU架构" Binding="{Binding CpuVm.ProcessorArchitecture}">
                 </DataGridTextColumn>
-                <DataGridTemplateColumn IsReadOnly="True" Width="280" Header="操作系统/CPU名称">
+                <DataGridTemplateColumn IsReadOnly="True" Width="*" Header="操作系统/CPU名称">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -173,8 +175,6 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Width="*" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
-				</DataGridTextColumn>
 			</DataGrid.Columns>
 		</DataGrid>
         <TextBlock 

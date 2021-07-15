@@ -24,13 +24,13 @@ namespace NTMiner.Vms {
                 return;
             }
             this._loginName = NTMinerRegistry.GetLoginName();
+            this._isInnerIp = NTMinerRegistry.GetMinerStudioIsInnerIp();
             if (!string.IsNullOrEmpty(serverHost)) {
                 this._serverHost = serverHost;
             }
             else {
-                this._serverHost = NTMinerRegistry.GetControlCenterAddress();
+                this._serverHost = RpcRoot.OfficialServerAddress;
             }
-            this._isInnerIp = Net.IpUtil.IsInnerIp(_serverHost);
         }
 
         public void ShowMessage(string message, int autoHideSeconds = 4, bool isSuccess = false) {
@@ -69,8 +69,17 @@ namespace NTMiner.Vms {
         public bool IsInnerIp {
             get => _isInnerIp;
             set {
-                _isInnerIp = value;
-                OnPropertyChanged(nameof(IsInnerIp));
+                if (_isInnerIp != value) {
+                    _isInnerIp = value;
+                    if (value) {
+                        this._serverHost = NTKeyword.Localhost;
+                    }
+                    else {
+                        this._serverHost = RpcRoot.OfficialServerAddress;
+                    }
+                    NTMinerRegistry.SetMinerStudioIsInnerIp(value);
+                    OnPropertyChanged(nameof(IsInnerIp));
+                }
             }
         }
 

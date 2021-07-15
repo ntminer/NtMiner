@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.IO.Compression;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,7 +58,7 @@ namespace NTMiner.Services.OSS {
                         byte[] data = new byte[ms.Length];
                         ms.Position = 0;
                         ms.Read(data, 0, data.Length);
-                        data = ZipDecompress(data);
+                        data = RpcRoot.ZipDecompress(data);
                         callback?.Invoke(Encoding.UTF8.GetString(data));
                     }
                 }
@@ -68,25 +67,6 @@ namespace NTMiner.Services.OSS {
                     callback?.Invoke(string.Empty);
                 }
             });
-        }
-
-        private static byte[] ZipDecompress(byte[] zippedData) {
-            using (Stream ms = new MemoryStream(zippedData),
-                          compressedzipStream = new GZipStream(ms, CompressionMode.Decompress),
-                          outBuffer = new MemoryStream()) {
-                byte[] block = new byte[NTKeyword.IntK];
-                while (true) {
-                    int bytesRead = compressedzipStream.Read(block, 0, block.Length);
-                    if (bytesRead <= 0) {
-                        break;
-                    }
-                    else {
-                        outBuffer.Write(block, 0, bytesRead);
-                    }
-                }
-                compressedzipStream.Close();
-                return ((MemoryStream)outBuffer).ToArray();
-            }
         }
     }
 }

@@ -140,6 +140,7 @@
     <Compile Include="ResourceDictionaryTests.cs" />
     <Compile Include="RedisTests.cs" />
     <Compile Include="PartialTests.cs" />
+    <Compile Include="F2poolTests.cs" />
     <Compile Include="UriTests.cs" />
     <Compile Include="VersionTests.cs" />
     <Compile Include="WebSocketTests.cs" />
@@ -159,6 +160,10 @@
     <ProjectReference Include="..\AppModels\AppModels.csproj">
       <Project>{3426f677-5026-4bb1-a0b2-dd5d9bd70d07}</Project>
       <Name>AppModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CalcConfigUpdater\CalcConfigUpdater.csproj">
+      <Project>{5646cada-feaf-4991-abda-dbebcd54d792}</Project>
+      <Name>CalcConfigUpdater</Name>
     </ProjectReference>
     <ProjectReference Include="..\MinerClient\MinerClient.csproj">
       <Project>{128b59a2-fa1a-479c-9136-7eb866b96fb4}</Project>

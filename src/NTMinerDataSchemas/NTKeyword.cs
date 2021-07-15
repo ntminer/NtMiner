@@ -11,13 +11,14 @@ namespace NTMiner {
         public const long LongG = 1024 * 1024 * 1024;
 
         public const string Version = "2.8.6";
-        private const string _build = "2";
+        private const string _build = "4";
         public const string VersionBuild = Version + "." + _build;
         public const string ManJiTag = "蛮吉";
         public const string ManXiaoManTag = "蛮小满";
         public const string WoLiuDao = "涡流岛";
         public const string Copyright = "Copyright ©  NTMiner";
         public const string Company = "开源矿工 https://github.com/ntminer/NtMiner";
+        public const string OfficialServerAddress = "server.ntminer.top:3339";
 
         public const string CloudFileDomain = "oss-cn-beijing.aliyuncs.com";
 
@@ -113,9 +114,7 @@ namespace NTMiner {
         public const string IsOuterUserEnabledRegistryKey = "IsOuterUserEnabled";
         public const string OuterUserIdRegistryKey = "OuterUserId";
         public const string DaemonVersionRegistryKey = "DaemonVersion";
-        public const string ControlCenterAddressesRegistryKey = "ControlCenterAddresses";
-        public const string ControlCenterAddressRegistryKey = "ControlCenterAddress";
-        public const string ControlCenterLoginName = "ControlCenterLoginName";
+        public const string LoginNameRegistryKey = "LoginName";
         public const string CurrentVersionTagRegistryKey = "CurrentVersionTag";
         public const string CurrentVersionRegistryKey = "CurrentVersion";
         public const string ArgumentsRegistryKey = "Arguments";

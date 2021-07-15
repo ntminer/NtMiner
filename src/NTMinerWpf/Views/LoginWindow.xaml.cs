@@ -1,5 +1,4 @@
-﻿using NTMiner.Views.Ucs;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System;
 using System.Windows;
 
@@ -15,10 +14,6 @@ namespace NTMiner.Views {
             this.Vm = new LoginWindowViewModel(serverHost);
             this.DataContext = Vm;
             InitializeComponent();
-            if (!string.IsNullOrEmpty(serverHost)) {
-                this.TextBoxServerHost.IsEnabled = false;
-                this.ButtonServerHost.IsEnabled = false;
-            }
             this.TbUcName.Text = nameof(LoginWindow);
             // 1个是通知窗口，1个是本窗口
             NotiCenterWindow.Bind(this);
@@ -49,14 +44,8 @@ namespace NTMiner.Views {
                 return;
             }
             string passwordSha1 = HashUtil.Sha1(Vm.Password);
-            NTMinerRegistry.SetControlCenterAddress(Vm.ServerHost);
-            var list = NTMinerRegistry.GetControlCenterAddresses();
-            if (!list.Contains(Vm.ServerHost)) {
-                list.Insert(0, Vm.ServerHost);
-            }
-            NTMinerRegistry.SetControlCenterAddresses(list);
             // 内网免登录
-            if (Net.IpUtil.IsInnerIp(Vm.ServerHost)) {
+            if (Vm.IsInnerIp) {
                 RpcRoot.Login(RpcUser.Empty);
                 RpcRoot.SetIsOuterNet(false);
                 _isLogined = true;
@@ -94,30 +83,6 @@ namespace NTMiner.Views {
                     Vm.ShowMessage(response.ReadMessage(exception), autoHideSeconds: 0);
                 }
             });
-        }
-
-        private void OpenServerHostsPopup() {
-            var popup = PopupServerHosts;
-            popup.IsOpen = true;
-            var selected = Vm.ServerHost;
-            var vm = new ServerHostSelectViewModel(selected, onOk: selectedResult => {
-                if (selectedResult != null) {
-                    if (Vm.ServerHost != selectedResult.IpOrHost) {
-                        Vm.ServerHost = selectedResult.IpOrHost;
-                    }
-                    popup.IsOpen = false;
-                }
-            }) {
-                HideView = new DelegateCommand(() => {
-                    popup.IsOpen = false;
-                })
-            };
-            popup.Child = new ServerHostSelect(vm);
-        }
-
-        private void ButtonServerHost_Click(object sender, RoutedEventArgs e) {
-            OpenServerHostsPopup();
-            e.Handled = true;
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e) {

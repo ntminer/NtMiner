@@ -2,6 +2,8 @@
 using NTMiner.Rpc.Impl;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
 
@@ -10,12 +12,13 @@ namespace NTMiner {
         public static readonly IJsonRpcHelper JsonRpc = new JsonRpcHelper();
 
         static RpcRoot() {
+            SetOfficialServerAddress(NTKeyword.OfficialServerAddress);
         }
 
         public static string OfficialServerHost { get; private set; }
-        public static int OfficialServerPort;
-        public static string OfficialServerAddress = SetOfficialServerAddress("server.ntminer.com:3339");
-        public static string SetOfficialServerAddress(string address) {
+        public static int OfficialServerPort { get; private set; }
+        public static string OfficialServerAddress { get; private set; }
+        public static void SetOfficialServerAddress(string address) {
             if (!address.Contains(":")) {
                 address = address + ":" + 3339;
             }
@@ -26,7 +29,6 @@ namespace NTMiner {
             }
             OfficialServerHost = parts[0];
             OfficialServerPort = port;
-            return address;
         }
 
         public static string GetUrl(string host, int port, string controller, string action, Dictionary<string, string> query) {
@@ -52,6 +54,25 @@ namespace NTMiner {
                     timeountMilliseconds *= 1000;
                 }
                 client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds.Value);
+            }
+        }
+
+        public static byte[] ZipDecompress(byte[] zippedData) {
+            using (Stream ms = new MemoryStream(zippedData),
+                          compressedzipStream = new GZipStream(ms, CompressionMode.Decompress),
+                          outBuffer = new MemoryStream()) {
+                byte[] block = new byte[NTKeyword.IntK];
+                while (true) {
+                    int bytesRead = compressedzipStream.Read(block, 0, block.Length);
+                    if (bytesRead <= 0) {
+                        break;
+                    }
+                    else {
+                        outBuffer.Write(block, 0, bytesRead);
+                    }
+                }
+                compressedzipStream.Close();
+                return ((MemoryStream)outBuffer).ToArray();
             }
         }
     }

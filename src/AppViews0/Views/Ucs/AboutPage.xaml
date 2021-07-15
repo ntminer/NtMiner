@@ -37,7 +37,7 @@
 						    KbDisplayLine="False"
 						    HorizontalAlignment="Left"
 						    Background="Transparent">
-                            <TextBlock Text="https://ntminer.com/"></TextBlock>
+                            <TextBlock Text="{x:Static app:AppStatic.HomePageUrl}"></TextBlock>
                         </controls:KbLinkButton>
                     </WrapPanel>
 				</StackPanel>

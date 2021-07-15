@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigData.cs" />
+    <Compile Include="HtmlUtil.cs" />
     <Compile Include="IncomeItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

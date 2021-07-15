@@ -56,8 +56,18 @@ namespace NTMiner.Gpus {
         public void OverClock(IGpu gpu, OverClockValue value) {
             value.Correct(gpu);
             int busId = gpu.GetOverClockId();
-            SetCoreClock(busId, value.CoreClockMHz, value.CoreClockVoltage);
-            SetMemoryClock(busId, value.MemoryClockMHz, value.MemoryClockVoltage);
+            SetCoreClock(busId, value.CoreClockMHz);
+            int voltage = 0;
+            if (value.CoreClockVoltage != 0 && value.MemoryClockVoltage != 0) {
+                voltage = Math.Min(value.CoreClockVoltage, value.MemoryClockVoltage);
+            }
+            else {
+                voltage = Math.Max(value.CoreClockVoltage, value.MemoryClockVoltage);
+            }
+            if (voltage >= 0) {
+                SetVoltage(busId, voltage);
+            }
+            SetMemoryClock(busId, value.MemoryClockMHz);
             SetPowerLimit(busId, value.PowerLimit);
             SetTempLimit(busId, value.TempLimit);
             if (!value.IgnoreFanSpeed) {
@@ -72,14 +82,21 @@ namespace NTMiner.Gpus {
             OverClockRange result = new OverClockRange(busId);
             try {
                 if (GetClockDelta(busId,
-                    out int outCoreCurrFreqDelta, out int outCoreMinFreqDelta, out int outCoreMaxFreqDelta,
-                    out int outMemoryCurrFreqDelta, out int outMemoryMinFreqDelta, out int outMemoryMaxFreqDelta)) {
+                    out int outCoreCurrFreqDelta, out int outCoreMinFreqDelta, 
+                    out int outCoreMaxFreqDelta,
+                    out int outMemoryCurrFreqDelta, out int outMemoryMinFreqDelta, 
+                    out int outMemoryMaxFreqDelta)) {
                     result.CoreClockMin = outCoreMinFreqDelta;
                     result.CoreClockMax = outCoreMaxFreqDelta;
                     result.CoreClockDelta = outCoreCurrFreqDelta;
                     result.MemoryClockMin = outMemoryMinFreqDelta;
                     result.MemoryClockMax = outMemoryMaxFreqDelta;
                     result.MemoryClockDelta = outMemoryCurrFreqDelta;
+                    int voltage = GetVoltage(busId);
+                    result.CoreVoltage = voltage;
+                    result.MemoryVoltage = voltage;
+                    result.VoltMin = 0;
+                    result.VoltMax = 0;
                 }
 
                 if (GetPowerLimit(busId, out uint outCurrPower, out uint outMinPower, out uint outDefPower, out uint outMaxPower)) {
@@ -199,7 +216,7 @@ namespace NTMiner.Gpus {
         }
         #endregion
 
-        private static void SetCoreClock(int busId, int mHz, int voltage) {
+        private static void SetCoreClock(int busId, int mHz) {
             int kHz = mHz * 1000;
             try {
                 if (NvGetPStateV2(busId, out NvGpuPerfPStates20InfoV2 info)) {
@@ -218,7 +235,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        private static void SetMemoryClock(int busId, int mHz, int voltage) {
+        private static void SetMemoryClock(int busId, int mHz) {
             int kHz = mHz * 1000;
             try {
                 if (NvGetPStateV2(busId, out NvGpuPerfPStates20InfoV2 info)) {
@@ -229,7 +246,6 @@ namespace NTMiner.Gpus {
                     info.pstates[0].clocks[0].domainId = NvGpuPublicClockId.NVAPI_GPU_PUBLIC_CLOCK_MEMORY;
                     info.pstates[0].clocks[0].typeId = NvGpuPerfPState20ClockTypeId.NVAPI_GPU_PERF_PSTATE20_CLOCK_TYPE_SINGLE;
                     info.pstates[0].clocks[0].freqDelta_kHz.value = kHz;
-
                     var r = NvSetPStateV2(busId, ref info);
                     if (!r) {
                         NTMinerConsole.DevError(() => $"{nameof(SetMemoryClock)} {r.ToString()}");
@@ -363,6 +379,74 @@ namespace NTMiner.Gpus {
             return false;
         }
 
+        private static int GetVoltage(int busId) {
+            if (NvapiNativeMethods.NvGetClockBoostLock == null) {
+                return 0;
+            }
+            try {
+                if (!HandlesByBusId.TryGetValue(busId, out NvPhysicalGpuHandle handle)) {
+                    return 0;
+                }
+                NvGpuClockLock clockLock = NvGpuClockLock.Create();
+                var r = NvapiNativeMethods.NvGetClockBoostLock(HandlesByBusId[busId], ref clockLock);
+                if (r != NvStatus.NVAPI_OK) {
+                    NTMinerConsole.DevError(() => $"{nameof(NvapiNativeMethods.NvGetClockBoostLock)} {r.ToString()}");
+                }
+                if (r == NvStatus.NVAPI_OK) {
+                    int v = (int)clockLock.Enties[0].voltageUV;
+                    uint index = clockLock.Enties[0].index;
+                    foreach (var item in clockLock.Enties) {
+                        if (item.index > index) {
+                            index = item.index;
+                            v = (int)item.voltageUV;
+                        }
+                    }
+                    return v / 1000;
+                }
+            }
+            catch {
+            }
+            return 0;
+        }
+
+        private static void SetVoltage(int busId, int voltage) {
+            voltage *= 1000;
+            if (NvapiNativeMethods.NvSetClockBoostLock == null) {
+                return;
+            }
+            try {
+                if (!HandlesByBusId.TryGetValue(busId, out NvPhysicalGpuHandle handle)) {
+                    return;
+                }
+                NvGpuClockLock clockLock = NvGpuClockLock.Create();
+                var r = NvapiNativeMethods.NvGetClockBoostLock(HandlesByBusId[busId], ref clockLock);
+                if (r != NvStatus.NVAPI_OK) {
+                    NTMinerConsole.DevError(() => $"{nameof(NvapiNativeMethods.NvGetClockBoostLock)} {r.ToString()}");
+                }
+                if (r == NvStatus.NVAPI_OK) {
+                    uint index = clockLock.Enties[0].index;
+                    foreach (var item in clockLock.Enties) {
+                        if (item.index > index) {
+                            index = item.index;
+                        }
+                    }
+                    if (voltage != 0) {
+                        clockLock.Enties[index].mode = 3;
+                    }
+                    else {
+                        clockLock.Enties[index].mode = 0;
+                    }
+                    clockLock.Enties[index].voltageUV = (uint)voltage;
+                    r = NvapiNativeMethods.NvSetClockBoostLock(handle, ref clockLock);
+                    if (r != NvStatus.NVAPI_OK) {
+                        NTMinerConsole.DevError(() => $"{nameof(NvapiNativeMethods.NvSetClockBoostLock)} {r.ToString()}");
+                    }
+                }
+            }
+            catch {
+            }
+        }
+
         private static bool GetClockDelta(int busId,
             out int outCoreCurrFreqDelta, 
             out int outCoreMinFreqDelta, 
@@ -379,7 +463,7 @@ namespace NTMiner.Gpus {
             try {
                 bool isCoreClockPicked = false;
                 bool isMemoryClockPicked = false;
-                if (NvGetPStateV2(busId, out NvGpuPerfPStates20InfoV2 info)) {
+                if (NvGetPStateV2(busId, out NvGpuPerfPStates20InfoV2 info)) {                    
                     for (int i = 0; i < info.numPStates; i++) {
                         for (int j = 0; j < info.numClocks; j++) {
                             uint min = info.pstates[i].clocks[j].data.minFreq_kHz;

@@ -367,7 +367,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="50" Width="50" IsReadOnly="True" CanUserResize="False" Visibility="{Binding Data.IsVoltVisible,Source={StaticResource proxy}}">
+                <DataGridTemplateColumn MinWidth="50" Width="50" IsReadOnly="True" CanUserResize="False">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -435,7 +435,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="50" Width="50" IsReadOnly="True" Header="显存电压" CanUserResize="False" Visibility="{Binding Data.IsVoltVisible,Source={StaticResource proxy}}">
+                <DataGridTemplateColumn MinWidth="50" Width="50" IsReadOnly="True" Header="显存电压" CanUserResize="False">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel>
