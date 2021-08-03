@@ -78,7 +78,7 @@ namespace NTMiner.Core.Kernels {
 
         public static bool IsSupported(this IKernel kernel, ICoin coin) {
             // 群控客户端和无显卡的电脑的GpuSet类型都是空
-            if (NTMinerContext.Instance.GpuSet.GpuType == GpuType.Empty) {
+            if (NTMinerContext.Instance.GpuSet.GpuType.IsEmpty()) {
                 return true;
             }
             var coinKernelSet = NTMinerContext.Instance.ServerContext.CoinKernelSet;

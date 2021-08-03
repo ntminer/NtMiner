@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-	xmlns:blankWindow="http://NTMiner.com"
+	xmlns:blankWindow="http://dl.ntminer.top"
     xmlns:local="clr-namespace:NTMiner.Views"
     xmlns:vm="clr-namespace:NTMiner.Vms"
     mc:Ignorable="d"

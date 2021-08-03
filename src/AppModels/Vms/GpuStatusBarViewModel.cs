@@ -71,7 +71,7 @@ namespace NTMiner.Vms {
                 if (WpfUtil.IsInDesignMode) {
                     return string.Empty;
                 }
-                if (NTMinerContext.Instance.GpuSet.GpuType == GpuType.Empty) {
+                if (NTMinerContext.Instance.GpuSet.GpuType.IsEmpty()) {
                     return "没有矿卡或矿卡未驱动";
                 }
                 return NTMinerContext.Instance.GpuSet.GpuType.GetDescription();

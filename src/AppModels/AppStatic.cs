@@ -226,7 +226,7 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return Visibility.Visible;
                 }
-                if (NTMinerContext.Instance.GpuSet.GpuType == GpuType.AMD) {
+                if (NTMinerContext.Instance.GpuSet.GpuType.IsAmd()) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
@@ -248,7 +248,7 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return Visibility.Visible;
                 }
-                return NTMinerContext.Instance.GpuSet.GpuType == GpuType.NVIDIA && AdlHelper.IsHasATIGpu ? Visibility.Visible : Visibility.Collapsed;
+                return NTMinerContext.Instance.GpuSet.GpuType.IsNvidia() && AdlHelper.IsHasATIGpu ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
@@ -701,7 +701,7 @@ namespace NTMiner {
             VirtualRoot.Execute(new UpgradeCommand(string.Empty, null));
         });
         public static ICommand ShowHelp { get; private set; } = new DelegateCommand(() => {
-            string url = "http://ntminer.com/";
+            string url = "http://dl.ntminer.top/";
             url = NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue(NTKeyword.ThisSystemSysDicCode, "HelpUrl", defaultValue: url);
             VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);
@@ -751,7 +751,7 @@ namespace NTMiner {
 
         public static string HomePageUrl {
             get {
-                string url = "https://ntminer.com";
+                string url = "http://dl.ntminer.top";
                 if (WpfUtil.IsInDesignMode) {
                     return url;
                 }

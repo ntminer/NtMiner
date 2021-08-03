@@ -21,7 +21,7 @@
  * 
  * 类似开源矿工这些同类挖矿辅助工具降低了挖矿门槛帮助矿工管理矿机，获得一点收入是合理的，但是不能偷。
  * 
- * by 开源矿工 https://ntminer.com
+ * by 开源矿工 http://dl.ntminer.top
  */
 using System;
 using System.Collections.Generic;

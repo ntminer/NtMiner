@@ -58,6 +58,7 @@
     <Compile Include="Gpus\GpuExtensions.cs" />
     <Compile Include="Gpus\GpuName.cs" />
     <Compile Include="Gpus\GpuNameCount.cs" />
+    <Compile Include="Gpus\GpuTypeExtensions.cs" />
     <Compile Include="Gpus\IGpu.cs" />
     <Compile Include="Gpus\IGpuName.cs" />
     <Compile Include="Gpus\IGpuNameCount.cs" />

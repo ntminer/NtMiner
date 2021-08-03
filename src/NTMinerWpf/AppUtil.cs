@@ -39,7 +39,7 @@ namespace NTMiner {
                 app.Run();
             }
             else {
-                Process.Start("https://ntminer.com/getDotNet.html");
+                Process.Start("http://dl.ntminer.top/getDotNet.html");
             }
             // 这个机制在MinerClient程序起作用但在MinerStudio程序中会发生类型初始化错误不起作用，具体原因未知
         }

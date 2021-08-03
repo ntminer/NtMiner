@@ -25,4 +25,4 @@ using System.Windows.Markup;
 
 [assembly: AssemblyVersion("1.0.0.*")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: XmlnsDefinition("http://NTMiner.com", "NTMiner")]
+[assembly: XmlnsDefinition("http://dl.ntminer.top", "NTMiner")]

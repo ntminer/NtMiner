@@ -533,6 +533,9 @@ namespace NTMiner.Vms {
 
         public string VoltageMinMaxText {
             get {
+                if (NTMinerContext.Instance.GpuSet.GpuType.IsNvidia()) {
+                    return "对20系N卡和1660有效，通常设置成800，其它N卡填0";
+                }
                 if (Index == NTMinerContext.GpuAllId) {
                     if (_isGpuData) {
                         return $"{_gpuDatas.Max(a => a.VoltMin).ToString()} - {_gpuDatas.Min(a => a.VoltMax).ToString()}，默认：0";

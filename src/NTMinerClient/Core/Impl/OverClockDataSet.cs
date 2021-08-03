@@ -77,7 +77,7 @@ namespace NTMiner.Core.Impl {
             RpcRoot.OfficialServer.OverClockDataService.GetOverClockDatasAsync((response, e) => {
                 if (response.IsSuccess()) {
                     IEnumerable<OverClockData> query;
-                    if (_ntminerContext.GpuSet.GpuType == GpuType.Empty) {
+                    if (_ntminerContext.GpuSet.GpuType.IsEmpty()) {
                         query = response.Data;
                     }
                     else {

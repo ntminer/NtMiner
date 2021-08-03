@@ -320,7 +320,7 @@ namespace NTMiner.Vms {
 
         public bool IsSupported {
             get {
-                if (this.Id == PleaseSelect.Id || NTMinerContext.Instance.GpuSet.GpuType == GpuType.Empty) {
+                if (this.Id == PleaseSelect.Id || NTMinerContext.Instance.GpuSet.GpuType.IsEmpty()) {
                     return true;
                 }
                 foreach (var coinKernel in NTMinerContext.Instance.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == this.Id).ToArray()) {

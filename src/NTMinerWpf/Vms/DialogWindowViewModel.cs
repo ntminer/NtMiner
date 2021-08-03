@@ -119,7 +119,7 @@ namespace NTMiner.Vms {
         public string HelpUrl {
             get {
                 if (WpfUtil.IsInDesignMode) {
-                    return "https://ntminer.com/";
+                    return "http://dl.ntminer.top";
                 }
                 return _helpUrl;
             }

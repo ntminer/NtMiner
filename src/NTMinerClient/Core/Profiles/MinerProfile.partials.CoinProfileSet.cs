@@ -81,7 +81,7 @@ namespace NTMiner.Core.Profiles {
                     var root = NTMinerContext.Instance;
                     Guid coinKernelId = Guid.Empty;
                     bool noneGpu = false;
-                    if (root.GpuSet.GpuType == GpuType.Empty) {
+                    if (root.GpuSet.GpuType.IsEmpty()) {
                         noneGpu = true;
                     }
                     List<ICoinKernel> coinKernels;
