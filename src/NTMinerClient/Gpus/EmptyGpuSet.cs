@@ -51,6 +51,10 @@ namespace NTMiner.Gpus {
             }
         }
 
+        public DateTime HighTemperatureOn { get; set; }
+
+        public DateTime LowTemperatureOn { get; set; }
+
         public void LoadGpuState() {
             // nothing need todo
         }

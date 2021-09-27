@@ -13,6 +13,9 @@ namespace NTMiner.Gpus {
         IOverClock OverClock { get; }
         int Count { get; }
 
+
+        DateTime HighTemperatureOn { get; set; }
+        DateTime LowTemperatureOn { get; set; }
         bool TryGetGpu(int index, out IGpu gpu);
 
         List<GpuSetProperty> Properties { get; }

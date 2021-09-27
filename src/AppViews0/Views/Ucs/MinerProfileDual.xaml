@@ -92,7 +92,7 @@
 						</ContextMenu>
 					</controls:KbButton.ContextMenu>
 					<WrapPanel>
-						<TextBlock Width="121" Padding="0 0 10 0" Foreground="Black" Text="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Name}"></TextBlock>
+						<TextBlock Width="120" Padding="0 0 10 0" Foreground="Black" Text="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Name}"></TextBlock>
 						<Path
 							Margin="0 2 0 0"
 							Width="12"
@@ -121,7 +121,7 @@
 					<WrapPanel>
 						<controls:KbButton 
 							x:Name="ButtonDualCoinWallet"
-							Width="284"
+							Width="283"
 							Padding="4"
 							BorderThickness="1"
 							BorderBrush="{StaticResource LightLineColor}"

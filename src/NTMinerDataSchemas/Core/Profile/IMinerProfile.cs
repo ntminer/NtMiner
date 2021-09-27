@@ -62,6 +62,12 @@ namespace NTMiner.Core.Profile {
         bool IsAutoStartByCpu { get; }
         int CpuStartTemperature { get; }
         int CpuLETemperatureSeconds { get; }
+        bool IsAutoStopByGpu { get; }
+        int GpuStopTemperature { get; }
+        int GpuGETemperatureSeconds { get; }
+        bool IsAutoStartByGpu { get; }
+        int GpuStartTemperature { get; }
+        int GpuLETemperatureSeconds { get; }
         bool IsRaiseHighCpuEvent { get; }
         int HighCpuBaseline { get; }
         int HighCpuSeconds { get; }

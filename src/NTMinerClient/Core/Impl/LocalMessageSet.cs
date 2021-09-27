@@ -94,12 +94,14 @@ namespace NTMiner.Core.Impl {
             try {
                 using (LiteDatabase db = new LiteDatabase(ConnString)) {
                     var col = db.GetCollection<LocalMessageData>();
-                    foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
-                        if (_records.Count < NTKeyword.LocalMessageSetCapacity) {
-                            _records.AddFirst(item);
-                        }
-                        else {
-                            col.Delete(item.Id);
+                    if (col.Count() > 0) {
+                        foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
+                            if (_records.Count < NTKeyword.LocalMessageSetCapacity) {
+                                _records.AddFirst(item);
+                            }
+                            else {
+                                col.Delete(item.Id);
+                            }
                         }
                     }
                 }

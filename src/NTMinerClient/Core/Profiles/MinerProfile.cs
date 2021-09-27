@@ -558,6 +558,48 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
+        public bool IsAutoStopByGpu {
+            get => _data.IsAutoStopByGpu;
+            private set {
+                _data.IsAutoStopByGpu = value;
+            }
+        }
+
+        public int GpuStopTemperature {
+            get => _data.GpuStopTemperature;
+            private set {
+                _data.GpuStopTemperature = value;
+            }
+        }
+
+        public int GpuGETemperatureSeconds {
+            get => _data.GpuGETemperatureSeconds;
+            private set {
+                _data.GpuGETemperatureSeconds = value;
+            }
+        }
+
+        public bool IsAutoStartByGpu {
+            get => _data.IsAutoStartByGpu;
+            private set {
+                _data.IsAutoStartByGpu = value;
+            }
+        }
+
+        public int GpuStartTemperature {
+            get => _data.GpuStartTemperature;
+            private set {
+                _data.GpuStartTemperature = value;
+            }
+        }
+
+        public int GpuLETemperatureSeconds {
+            get => _data.GpuLETemperatureSeconds;
+            private set {
+                _data.GpuLETemperatureSeconds = value;
+            }
+        }
+
         public bool IsRaiseHighCpuEvent {
             get => _data.IsRaiseHighCpuEvent;
             private set {

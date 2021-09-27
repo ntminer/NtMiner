@@ -80,10 +80,16 @@ namespace NTMiner.Core.Profile {
             IsCreateShortcut = true;
             IsAutoStopByCpu = false;
             IsAutoStartByCpu = false;
+            IsAutoStopByGpu = false;
+            IsAutoStartByGpu = false;
             CpuGETemperatureSeconds = 60;
             CpuLETemperatureSeconds = 60;
+            GpuGETemperatureSeconds = 60;
+            GpuLETemperatureSeconds = 60;
             CpuStartTemperature = 40;
             CpuStopTemperature = 65;
+            GpuStartTemperature = 40;
+            GpuStopTemperature = 80;
             IsRaiseHighCpuEvent = true;
             HighCpuBaseline = 80;
             HighCpuSeconds = 10;
@@ -194,7 +200,12 @@ namespace NTMiner.Core.Profile {
         public int CpuStartTemperature { get; set; }
 
         public int CpuLETemperatureSeconds { get; set; }
-
+        public bool IsAutoStopByGpu { get; set; }
+        public int GpuStopTemperature { get; set; }
+        public int GpuGETemperatureSeconds { get; set; }
+        public bool IsAutoStartByGpu { get; set; }
+        public int GpuStartTemperature { get; set; }
+        public int GpuLETemperatureSeconds { get; set; }
         public bool IsRaiseHighCpuEvent { get; set; }
 
         public int HighCpuBaseline { get; set; }

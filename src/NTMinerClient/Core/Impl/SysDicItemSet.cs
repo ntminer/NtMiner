@@ -89,7 +89,11 @@ namespace NTMiner.Core.Impl {
                             break;
                         case NTKeyword.AlgoSysDicCode:
                             if (NTMinerContext.Instance.ServerContext.PackageSet.AsEnumerable().Any(a => a.AlgoIds.Contains(message.EntityId))) {
-                                VirtualRoot.Out.ShowWarn("该算法字典项关联有内核不能删除，请先解除关联");
+                                string s = "该";
+                                if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(message.EntityId, out ISysDicItem item)) {
+                                    s = item.Code;
+                                }
+                                VirtualRoot.Out.ShowWarn($"{s}算法字典项关联有内核不能删除，请先解除关联");
                                 return;
                             }
                             break;

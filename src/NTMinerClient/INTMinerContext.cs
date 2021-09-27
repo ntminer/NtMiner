@@ -51,6 +51,7 @@ namespace NTMiner {
         string GpuSetInfo { get; }
 
         IGpuSet GpuSet { get; }
+        void GpuTemperatureReset();
         IOverClockDataSet OverClockDataSet { get; }
 
         ICpuPackage CpuPackage { get; }

@@ -26,6 +26,11 @@ namespace NTMiner {
         [Description("CPU温度过高")]
         HighCpuTemperature,
         /// <summary>
+        /// GPU温度过高
+        /// </summary>
+        [Description("GPU温度过高")]
+        HighGpuTemperature,
+        /// <summary>
         /// 用户通过群控远程停止挖矿
         /// </summary>
         [Description("用户通过群控远程停止挖矿")]

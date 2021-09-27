@@ -988,6 +988,72 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsAutoStopByGpu {
+            get => NTMinerContext.Instance.MinerProfile.IsAutoStopByGpu;
+            set {
+                if (NTMinerContext.Instance.MinerProfile.IsAutoStopByGpu != value) {
+                    NTMinerContext.Instance.GpuTemperatureReset();
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStopByGpu), value);
+                    OnPropertyChanged(nameof(IsAutoStopByGpu));
+                }
+            }
+        }
+
+        public int GpuStopTemperature {
+            get => NTMinerContext.Instance.MinerProfile.GpuStopTemperature;
+            set {
+                if (NTMinerContext.Instance.MinerProfile.GpuStopTemperature != value) {
+                    NTMinerContext.Instance.GpuTemperatureReset();
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(GpuStopTemperature), value);
+                    OnPropertyChanged(nameof(GpuStopTemperature));
+                }
+            }
+        }
+
+        public int GpuGETemperatureSeconds {
+            get => NTMinerContext.Instance.MinerProfile.GpuGETemperatureSeconds;
+            set {
+                if (NTMinerContext.Instance.MinerProfile.GpuGETemperatureSeconds != value) {
+                    NTMinerContext.Instance.GpuTemperatureReset();
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(GpuGETemperatureSeconds), value);
+                    OnPropertyChanged(nameof(GpuGETemperatureSeconds));
+                }
+            }
+        }
+
+        public bool IsAutoStartByGpu {
+            get => NTMinerContext.Instance.MinerProfile.IsAutoStartByGpu;
+            set {
+                if (NTMinerContext.Instance.MinerProfile.IsAutoStartByGpu != value) {
+                    NTMinerContext.Instance.GpuTemperatureReset();
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStartByGpu), value);
+                    OnPropertyChanged(nameof(IsAutoStartByGpu));
+                }
+            }
+        }
+
+        public int GpuStartTemperature {
+            get => NTMinerContext.Instance.MinerProfile.GpuStartTemperature;
+            set {
+                if (NTMinerContext.Instance.MinerProfile.GpuStartTemperature != value) {
+                    NTMinerContext.Instance.GpuTemperatureReset();
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(GpuStartTemperature), value);
+                    OnPropertyChanged(nameof(GpuStartTemperature));
+                }
+            }
+        }
+
+        public int GpuLETemperatureSeconds {
+            get => NTMinerContext.Instance.MinerProfile.GpuLETemperatureSeconds;
+            set {
+                if (NTMinerContext.Instance.MinerProfile.GpuLETemperatureSeconds != value) {
+                    NTMinerContext.Instance.GpuTemperatureReset();
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(GpuLETemperatureSeconds), value);
+                    OnPropertyChanged(nameof(GpuLETemperatureSeconds));
+                }
+            }
+        }
+
         public bool IsRaiseHighCpuEvent {
             get => NTMinerContext.Instance.MinerProfile.IsRaiseHighCpuEvent;
             set {

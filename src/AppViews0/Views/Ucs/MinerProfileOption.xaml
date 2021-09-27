@@ -12,7 +12,7 @@
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
     Background="White"
     d:DataContext="{d:DesignData Source=../Design/MinerProfileViewModel.xaml}"
-	mc:Ignorable="d" d:DesignHeight="930" d:DesignWidth="600">
+	mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="600">
     <UserControl.Resources>
         <ResourceDictionary>
             <StreamGeometry x:Key="Icon_Up">M4,0 L0,4 L8,4 z</StreamGeometry>
@@ -632,6 +632,85 @@
                                         </Button>
                                     </StackPanel>
                                     <TextBlock VerticalAlignment="Center">% 产生告警消息</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="{StaticResource RowThickness}">
+                            <CheckBox
+								FocusVisualStyle="{x:Null}"
+								Padding="0"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsAutoStopByGpu}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">GPU 温度持续</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding GpuGETemperatureSeconds}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="GpuGETemperatureSeconds">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="GpuGETemperatureSeconds">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">秒不低于</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding GpuStopTemperature,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="GpuStopTemperature">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="GpuStopTemperature">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">℃ 停止挖矿</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="{StaticResource RowThickness}">
+                            <CheckBox
+								FocusVisualStyle="{x:Null}"
+								Padding="0"
+                                IsEnabled="{Binding IsAutoStopByGpu}"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsAutoStartByGpu}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">GPU 温度持续</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding GpuLETemperatureSeconds}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="GpuLETemperatureSeconds">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="GpuLETemperatureSeconds">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">秒不高于</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding GpuStartTemperature,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="GpuStartTemperature">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="GpuStartTemperature">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">℃ 开始挖矿</TextBlock>
                                 </WrapPanel>
                             </CheckBox>
                         </WrapPanel>

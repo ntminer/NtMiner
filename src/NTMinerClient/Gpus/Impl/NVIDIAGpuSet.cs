@@ -123,6 +123,10 @@ namespace NTMiner.Gpus.Impl {
 
         public IOverClock OverClock { get; private set; }
 
+        public DateTime HighTemperatureOn { get; set; }
+
+        public DateTime LowTemperatureOn { get; set; }
+
         public IEnumerable<IGpu> AsEnumerable() {
             return _gpus.Values;
         }

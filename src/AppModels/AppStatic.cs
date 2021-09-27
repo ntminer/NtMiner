@@ -740,6 +740,11 @@ namespace NTMiner {
             Process.Start(url);
         });
 
+        public static ICommand OpenDualMineDescription { get; private set; } = new DelegateCommand(() => {
+            string url = "https://zhuanlan.zhihu.com/p/346734794";
+            Process.Start(url);
+        });
+
         public static string QQGroup {
             get {
                 if (WpfUtil.IsInDesignMode) {

@@ -684,8 +684,14 @@
 							</DataGridTemplateColumn>
 							<DataGridTemplateColumn IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
-									<TextBlock Text="双挖币组"></TextBlock>
-								</DataGridTemplateColumn.Header>
+                                    <controls:KbLinkButton
+										Command="{x:Static app:AppStatic.OpenDualMineDescription}"
+										KbDisplayLine="False"
+										HorizontalAlignment="Left"
+										Background="Transparent">
+                                        <TextBlock Text="关于双挖"></TextBlock>
+                                    </controls:KbLinkButton>
+                                </DataGridTemplateColumn.Header>
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
                                         <TextBlock Text="{Binding SelectedDualCoinGroup.Name}"></TextBlock>

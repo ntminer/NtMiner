@@ -774,11 +774,81 @@ namespace NTMiner {
                             if (_gpuSet == null || (_gpuSet != EmptyGpuSet.Instance && _gpuSet.Count == 0)) {
                                 _gpuSet = EmptyGpuSet.Instance;
                             }
+                            GpuTemperatureInit();
                         }
                     }
                 }
                 return _gpuSet;
             }
+        }
+
+        private void GpuTemperatureInit() {
+            if (GpuSet.Count == 0) {
+                return;
+            }
+            VirtualRoot.BuildEventPath<Per2SecondEvent>("周期更新GpuSet的状态", LogEnum.None, location: this.GetType(), PathPriority.Normal,
+                path: message => {
+                    if (GpuSet.Count == 0) {
+                        return;
+                    }
+                    #region GPU温度过高时自动停止挖矿和温度降低时自动开始挖矿
+                    if (_minerProfile.IsAutoStopByGpu) {
+                        if (IsMining) {
+                            /* 挖矿中时周期更新最后一次温度低于挖矿停止温度的时刻，然后检查最后一次低于
+                             * 挖矿停止温度的时刻距离现在是否已经超过了设定的时常，如果超过了则自动停止挖矿*/
+                            this.GpuSet.HighTemperatureOn = message.BornOn;
+                            // 如果当前温度低于挖矿停止温度则更新记录的低温时刻
+                            var maxGpu = GetMaxTemperatureGpu();
+                            if (maxGpu.Temperature < _minerProfile.GpuStopTemperature) {
+                                this.GpuSet.LowTemperatureOn = message.BornOn;
+                            }
+                            if ((message.BornOn - this.GpuSet.LowTemperatureOn).TotalSeconds >= _minerProfile.GpuGETemperatureSeconds) {
+                                this.GpuSet.LowTemperatureOn = message.BornOn;
+                                VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), $"自动停止挖矿，因为 GPU{maxGpu.Index} 温度连续{_minerProfile.GpuGETemperatureSeconds.ToString()}秒不低于{_minerProfile.GpuStopTemperature.ToString()}℃", toConsole: true);
+                                StopMineAsync(StopMineReason.HighGpuTemperature);
+                            }
+                        }
+                        else {
+                            /* 高温停止挖矿后周期更新最后一次温度高于挖矿停止温度的时刻，然后检查最后一次高于
+                             * 挖矿停止温度的时刻距离现在是否已经超过了设定的时常，如果超过了则自动开始挖矿*/
+                            this.GpuSet.LowTemperatureOn = message.BornOn;
+                            if (_minerProfile.IsAutoStartByGpu && StopReason == StopMineReason.HighGpuTemperature) {
+                                // 当前温度高于挖矿停止温度则更新记录的高温时刻
+                                var maxGpu = GetMaxTemperatureGpu();
+                                if (maxGpu.Temperature > _minerProfile.GpuStartTemperature) {
+                                    this.GpuSet.HighTemperatureOn = message.BornOn;
+                                }
+                                if ((message.BornOn - this.GpuSet.HighTemperatureOn).TotalSeconds >= _minerProfile.GpuLETemperatureSeconds) {
+                                    this.GpuSet.HighTemperatureOn = message.BornOn;
+                                    VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), $"自动开始挖矿，因为 GPU 温度连续{_minerProfile.GpuLETemperatureSeconds.ToString()}秒不高于{_minerProfile.GpuStartTemperature.ToString()}℃", toConsole: true);
+                                    StartMine();
+                                }
+                            }
+                        }
+                    }
+                    #endregion
+                });
+        }
+
+        private IGpu GetMaxTemperatureGpu() {
+            if (GpuSet.Count == 0) {
+                return Gpu.GpuAll;
+            }
+            int maxTemperature = int.MinValue;
+            IGpu gpu = Gpu.GpuAll;
+            foreach (var item in GpuSet.AsEnumerable()) {
+                if (item.Temperature > maxTemperature) {
+                    maxTemperature = item.Temperature;
+                    gpu = item;
+                }
+            }
+            return gpu;
+        }
+
+        public void GpuTemperatureReset() {
+            DateTime now = DateTime.Now;
+            this.GpuSet.LowTemperatureOn = DateTime.Now;
+            this.GpuSet.HighTemperatureOn = now;
         }
         #endregion
 
