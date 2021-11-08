@@ -1,6 +1,5 @@
 ﻿namespace NTMiner.IpSet {
-    public interface IRemoteIpSet {
-        int Count { get; }
+    public interface IRemoteIpSet : ICountSet {
         RemoteIpEntry[] GetTopNRemoteIpEntries(int n);
     }
 }

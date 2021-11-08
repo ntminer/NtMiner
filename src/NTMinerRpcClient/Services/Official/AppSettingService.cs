@@ -34,7 +34,7 @@ namespace NTMiner.Services.Official {
                     }
                     if (response == null) {
                         response = ServerStateResponse.Empty;
-                        Logger.ErrorWriteLine("询问服务器状态失败，请检查网络。");
+                        Logger.WarnWriteLine("询问服务器状态。");
                     }
                     if (response.NeedReClientId) {
                         NTMinerRegistry.ReClientId(ClientAppType.AppType);

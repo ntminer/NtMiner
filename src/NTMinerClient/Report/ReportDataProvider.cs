@@ -14,7 +14,7 @@ namespace NTMiner.Report {
                 VirtualRoot.BuildOnecePath<HasBoot5SecondEvent>("登录服务器并报告一次0算力", LogEnum.DevConsole, pathId: PathId.Empty, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         // 报告0算力从而告知服务器该客户端当前在线的币种
-                        ReportSpeed();
+                        //ReportSpeed();
                     });
 
                 VirtualRoot.BuildEventPath<Per2MinuteEvent>("每两分钟上报一次", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
@@ -25,17 +25,17 @@ namespace NTMiner.Report {
                         if (WsGetSpeedOn.AddSeconds(130) > message.BornOn) {
                             return;
                         }
-                        ReportSpeed();
+                        //ReportSpeed();
                     });
 
                 VirtualRoot.BuildEventPath<MineStartedEvent>("开始挖矿后报告状态", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
-                        ReportSpeed();
+                        //ReportSpeed();
                     });
 
                 VirtualRoot.BuildEventPath<MineStopedEvent>("停止挖矿后报告状态", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
-                        RpcRoot.OfficialServer.ReportService.ReportStateAsync(NTMinerContext.Id, isMining: false);
+                        //RpcRoot.OfficialServer.ReportService.ReportStateAsync(NTMinerContext.Id, isMining: false);
                     });
             }
         }
@@ -247,31 +247,31 @@ namespace NTMiner.Report {
             return speedDto;
         }
 
-        private void ReportSpeed() {
-            try {
-                SpeedDto speedDto = CreateSpeedDto();
-                RpcRoot.OfficialServer.ReportBinaryService.ReportSpeedAsync(speedDto, (response, e) => {
-                    if (response.IsSuccess()) {
-                        AppVersionChangedEvent.PublishIfNewVersion(response.ServerState.MinerClientVersion);
-                        if (response.NewServerMessages.Count != 0) {
-                            VirtualRoot.Execute(new ReceiveServerMessageCommand(response.NewServerMessages));
-                        }
-                        else {
-                            VirtualRoot.Execute(new LoadNewServerMessageCommand(response.ServerState.MessageTimestamp));
-                        }
-                        VirtualRoot.Execute(new LoadKernelOutputKeywordCommand(response.ServerState.OutputKeywordTimestamp));
-                        if (response.ServerState.WsStatus == WsStatus.Online) {
-                            VirtualRoot.RaiseEvent(new WsServerOkEvent());
-                        }
-                    }
-                    else {
-                        Logger.ErrorDebugLine(e);
-                    }
-                });
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-            }
-        }
+        //private void ReportSpeed() {
+        //    try {
+        //        SpeedDto speedDto = CreateSpeedDto();
+        //        RpcRoot.OfficialServer.ReportBinaryService.ReportSpeedAsync(speedDto, (response, e) => {
+        //            if (response.IsSuccess()) {
+        //                AppVersionChangedEvent.PublishIfNewVersion(response.ServerState.MinerClientVersion);
+        //                if (response.NewServerMessages.Count != 0) {
+        //                    VirtualRoot.Execute(new ReceiveServerMessageCommand(response.NewServerMessages));
+        //                }
+        //                else {
+        //                    VirtualRoot.Execute(new LoadNewServerMessageCommand(response.ServerState.MessageTimestamp));
+        //                }
+        //                VirtualRoot.Execute(new LoadKernelOutputKeywordCommand(response.ServerState.OutputKeywordTimestamp));
+        //                if (response.ServerState.WsStatus == WsStatus.Online) {
+        //                    VirtualRoot.RaiseEvent(new WsServerOkEvent());
+        //                }
+        //            }
+        //            else {
+        //                Logger.ErrorDebugLine(e);
+        //            }
+        //        });
+        //    }
+        //    catch (Exception e) {
+        //        Logger.ErrorDebugLine(e);
+        //    }
+        //}
     }
 }

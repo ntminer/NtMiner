@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace NTMiner.Gpus {
-    public interface IGpuSet {
+    public interface IGpuSet : ICountSet {
         GpuType GpuType { get; }
         /// <summary>
         /// NVIDIA的驱动版本号形如399.24，AMD的驱动版本号形如18.6.1
@@ -11,7 +11,6 @@ namespace NTMiner.Gpus {
         string DriverVersion { get; }
         bool IsLowDriverVersion { get; }
         IOverClock OverClock { get; }
-        int Count { get; }
 
 
         DateTime HighTemperatureOn { get; set; }

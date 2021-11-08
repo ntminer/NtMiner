@@ -2,7 +2,7 @@
 
 namespace NTMiner.Controllers {
     public interface IReportController {
-        ReportResponse ReportSpeed(SpeedDto speedDto);
-        void ReportState(ReportState request);
+        //ReportResponse ReportSpeed(SpeedDto speedDto);
+        //void ReportState(ReportState request);
     }
 }

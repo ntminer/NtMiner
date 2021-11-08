@@ -85,7 +85,9 @@
     <Compile Include="EnumExtension.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="IConsoleOutLine.cs" />
+    <Compile Include="ICountSet.cs" />
     <Compile Include="IPagingRequest.cs" />
+    <Compile Include="IRedisLazySet.cs" />
     <Compile Include="IsNotDataSchemaAttribute.cs" />
     <Compile Include="NTKeyword.cs" />
     <Compile Include="PagingRequestExtensions.cs" />

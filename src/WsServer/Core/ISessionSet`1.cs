@@ -1,8 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.Core {
-    public interface ISessionSet<TSession> where TSession : ISession {
-        int Count { get; }
+    public interface ISessionSet<TSession> : ICountSet where TSession : ISession {
         void Add(TSession ntminerSession);
         TSession RemoveByWsSessionId(string wsSessionId);
         bool TryGetByClientId(Guid clientId, out TSession ntminerSession);

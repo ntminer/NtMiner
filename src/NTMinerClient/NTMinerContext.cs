@@ -94,7 +94,7 @@ namespace NTMiner {
                                     SetServerJsonVersion(serverState.JsonFileVersion);
                                     AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
                                     if (serverState.Time == 0) {
-                                        NTMinerConsole.UserWarn("网络不通或服务器暂时不可用，请检查矿机网络，不影响挖矿。");
+                                        Logger.ErrorDebugLine("网络不通或服务器暂时不可用，请检查矿机网络，不影响挖矿。");
                                     }
                                     else if (Math.Abs((long)Timestamp.GetTimestamp() - (long)serverState.Time) >= Timestamp.DesyncSeconds) {
                                         NTMinerConsole.UserWarn($"本机和服务器时间不同步，请调整，本地：{DateTime.Now.ToString()}，服务器：{Timestamp.FromTimestamp(serverState.Time).ToString()}。此问题不影响挖矿。");

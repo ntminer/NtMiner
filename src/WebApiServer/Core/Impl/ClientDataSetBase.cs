@@ -191,19 +191,32 @@ namespace NTMiner.Core.Impl {
                     }
                 }
                 if (isInclude && isFilterByMinerIp) {
-                    isInclude = !string.IsNullOrEmpty(item.LocalIp) && item.LocalIp.Contains(query.MinerIp);
-                    if (!isInclude) {
-                        if (query.MinerIp.IndexOf(':') != -1) {
-                            isInclude = query.MinerIp.Equals(item.MinerIp);
-                        }
-                        else if (!string.IsNullOrEmpty(item.MinerIp)) {
+                    if (query.MinerIp.StartsWith("#")) {
+                        if (!string.IsNullOrEmpty(item.MinerIp)) {
                             // MinerIp可能带有端口号
                             int index = item.MinerIp.IndexOf(':');
                             string minerIp = item.MinerIp;
                             if (index != -1) {
                                 minerIp = minerIp.Substring(0, index);
                             }
-                            isInclude = query.MinerIp.Equals(minerIp);
+                            isInclude = minerIp.EndsWith(query.MinerIp.Substring(1, query.MinerIp.Length - 1));
+                        }
+                    }
+                    else {
+                        isInclude = !string.IsNullOrEmpty(item.LocalIp) && item.LocalIp.Contains(query.MinerIp);
+                        if (!isInclude) {
+                            if (query.MinerIp.IndexOf(':') != -1) {
+                                isInclude = query.MinerIp.Equals(item.MinerIp);
+                            }
+                            else if (!string.IsNullOrEmpty(item.MinerIp)) {
+                                // MinerIp可能带有端口号
+                                int index = item.MinerIp.IndexOf(':');
+                                string minerIp = item.MinerIp;
+                                if (index != -1) {
+                                    minerIp = minerIp.Substring(0, index);
+                                }
+                                isInclude = query.MinerIp.Equals(minerIp);
+                            }
                         }
                     }
                 }
