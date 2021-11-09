@@ -42,4 +42,4 @@
 The LGPL license。
 
 # 友情链接
-[蜜蜂矿池](https://www.beepool.org/)&nbsp;&nbsp;&nbsp;&nbsp;[鱼池](https://www.f2pool.com/)&nbsp;&nbsp;&nbsp;&nbsp;[星火](https://www.sparkpool.com/)&nbsp;&nbsp;&nbsp;&nbsp;[BMiner](https://www.bminer.me/)&nbsp;&nbsp;&nbsp;&nbsp;[NBMiner](https://nbminer.com/)&nbsp;&nbsp;&nbsp;&nbsp;[loserhub](https://www.loserhub.cn/)&nbsp;&nbsp;&nbsp;&nbsp;[挖币网](http://www.wabi.com/)
+[鱼池](https://www.f2pool.com/)&nbsp;&nbsp;&nbsp;&nbsp;[BMiner](https://www.bminer.me/)&nbsp;&nbsp;&nbsp;&nbsp;[NBMiner](https://nbminer.com/)&nbsp;&nbsp;&nbsp;&nbsp;[挖币网](http://www.wabi.com/)
