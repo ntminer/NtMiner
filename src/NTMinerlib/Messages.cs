@@ -305,4 +305,9 @@ namespace NTMiner {
     public class WsServerNodeAddressSetInitedEvent : EventBase {
         public WsServerNodeAddressSetInitedEvent() { }
     }
+
+    [MessageType(description: "收益计算器配置集已初始化完成")]
+    public class CalcConfigSetInitedEvent : EventBase {
+        public CalcConfigSetInitedEvent() { }
+    }
 }

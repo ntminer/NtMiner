@@ -59,6 +59,7 @@ namespace NTMiner {
                         string wsBreathQueue = queue + MqKeyword.WsBreathQueueEndsWith;
                         AbstractMqMessagePath[] mqMessagePaths = new AbstractMqMessagePath[] {
                             new UserMqMessagePath(durableQueue),
+                            new CalcConfigMqMessagePath(queue),
                             new MinerClientMqMessagePath(queue),
                             new WsBreathMqMessagePath(wsBreathQueue),
                             new OperationMqMessagePath(queue),
@@ -78,12 +79,14 @@ namespace NTMiner {
                         ClientTestIdDataRedis = new ClientTestIdDataRedis(redis);
                         var minerClientMqSender = new MinerClientMqSender(mq);
                         var userMqSender = new UserMqSender(mq);
+                        var calcConfigMqSender = new CalcConfigMqSender(mq);
 
                         var minerRedis = new MinerDataRedis(redis);
                         var clientActiveOnRedis = new ClientActiveOnRedis(redis);
                         var speedDataRedis = new SpeedDataRedis(redis);
                         var userRedis = new UserDataRedis(redis);
                         var captchaRedis = new CaptchaDataRedis(redis);
+                        var calcConfigRedis = new CalcConfigDataRedis(redis);
 
                         MqCountSet = new MqCountSet();
                         WsServerNodeRedis = new WsServerNodeRedis(redis);
@@ -91,12 +94,12 @@ namespace NTMiner {
                         UserSet = new UserSet(userRedis, userMqSender);
                         UserAppSettingSet = new UserAppSettingSet();
                         CaptchaSet = new CaptchaSet(captchaRedis);
-                        CalcConfigSet = new CalcConfigSet();
+                        CalcConfigSet = new CalcConfigSet(calcConfigRedis, calcConfigMqSender);
                         NTMinerWalletSet = new NTMinerWalletSet();
                         GpuNameSet = new GpuNameSet();
                         ClientDataSet clientDataSet = new ClientDataSet(minerRedis, clientActiveOnRedis, speedDataRedis, minerClientMqSender);
                         ClientDataSet = clientDataSet;
-                        var operationMqSender = new OperationMqSender(mqRedis);
+                        var operationMqSender = new OperationMqSender(mq);
                         MineWorkSet = new UserMineWorkSet(operationMqSender);
                         MinerGroupSet = new UserMinerGroupSet();
                         NTMinerFileSet = new NTMinerFileSet();

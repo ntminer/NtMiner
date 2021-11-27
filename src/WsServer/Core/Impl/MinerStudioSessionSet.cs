@@ -176,12 +176,9 @@ namespace NTMiner.Core.Impl {
         public void SendToMinerStudioAsync(string loginName, WsMessage message) {
             // TODO:考虑给每一个登录的MinerStudio用户建立一个会话，由基于LoginName推送改为基于会话Id推送
             var minerStudioSessions = GetSessionsByLoginName(loginName).ToArray();// 避免发生集合被修改的异常
-            var userData = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(loginName));
-            if (userData != null) {
-                foreach (var minerStudioSession in minerStudioSessions) {
-                    ServerRoot.IfStudioClientTestIdLogElseNothing(minerStudioSession.ClientId, $"{nameof(WsMessage)}.{message.Type}");
-                    minerStudioSession.SendAsync(message, userData.Password);
-                }
+            foreach (var minerStudioSession in minerStudioSessions) {
+                ServerRoot.IfStudioClientTestIdLogElseNothing(minerStudioSession.ClientId, $"{nameof(WsMessage)}.{message.Type}");
+                minerStudioSession.SendAsync(message);
             }
         }
     }

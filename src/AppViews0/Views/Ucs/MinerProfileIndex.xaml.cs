@@ -300,7 +300,6 @@ namespace NTMiner.Views.Ucs {
             }
             else {
                 OpenMainCoinWalletPopup();
-                UserActionHappend();
             }
             e.Handled = true;
         }

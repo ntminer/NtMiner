@@ -47,13 +47,13 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        public void SendAsync(WsMessage message, string password) {
+        public void SendAsync(WsMessage message) {
             if (TryGetWsSession(out IWsSessionAdapter wsSession)) {
                 if (WsUserName.IsBinarySupported) {
-                    wsSession.SendAsync(message.SignToBytes(password));
+                    wsSession.SendAsync(message.SignToBytes(this.GetSignPassword()));
                 }
                 else {
-                    wsSession.SendAsync(message.SignToJson(password));
+                    wsSession.SendAsync(message.SignToJson(this.GetSignPassword()));
                 }
             }
         }

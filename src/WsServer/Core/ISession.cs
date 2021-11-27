@@ -52,8 +52,7 @@ namespace NTMiner.Core {
         /// 或委托给<see cref="WebSocket.SendAsync(string, Action{bool})"/>。
         /// </summary>
         /// <param name="message"></param>
-        /// <param name="password"></param>
-        void SendAsync(WsMessage message, string password);
+        void SendAsync(WsMessage message);
         /// <summary>
         /// 将ActiveOn修置为当前时间。
         /// </summary>

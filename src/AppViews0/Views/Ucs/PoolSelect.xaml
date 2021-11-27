@@ -140,7 +140,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="230" IsReadOnly="True">
+				<DataGridTemplateColumn Width="160" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="地址"></TextBlock>
 					</DataGridTemplateColumn.Header>
@@ -149,8 +149,18 @@
 							<TextBlock Text="{Binding Server}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="40" IsReadOnly="True">
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="160" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="重写地址"></TextBlock>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding PoolProfileVm.Server}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="40" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <controls:KbLinkButton

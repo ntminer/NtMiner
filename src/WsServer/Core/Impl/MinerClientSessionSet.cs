@@ -276,8 +276,7 @@ namespace NTMiner.Core.Impl {
         public void SendToMinerClientAsync(Guid clientId, WsMessage message) {
             if (TryGetByClientId(clientId, out IMinerClientSession minerClientSession)) {
                 ServerRoot.IfMinerClientTestIdLogElseNothing(minerClientSession.ClientId, $"{nameof(WsMessage)}.{message.Type}");
-                string password = minerClientSession.GetSignPassword();
-                minerClientSession.SendAsync(message, password);
+                minerClientSession.SendAsync(message);
             }
         }
     }

@@ -12,8 +12,6 @@
         public readonly CalcConfigBinaryService CalcConfigBinaryService = new CalcConfigBinaryService();
         public readonly ServerMessageService ServerMessageService = new ServerMessageService();
         public readonly ServerMessageBinaryService ServerMessageBinaryService = new ServerMessageBinaryService();
-        public readonly ReportService ReportService = new ReportService();
-        public readonly ReportBinaryService ReportBinaryService = new ReportBinaryService();
         public readonly UserService UserService = new UserService();
         public readonly AppSettingService AppSettingService = new AppSettingService();
         public readonly UserAppSettingService UserAppSettingService = new UserAppSettingService();

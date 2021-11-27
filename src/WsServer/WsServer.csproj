@@ -78,6 +78,9 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\WebApiServer\SpecialPath.partials.cs">
+      <Link>SpecialPath.partials.cs</Link>
+    </Compile>
     <Compile Include="Core\IMinerSignSet.cs" />
     <Compile Include="Core\Impl\MinerSignSet.cs" />
     <Compile Include="Core\Impl\WsServerNodeAddressSet.cs" />

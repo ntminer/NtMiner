@@ -543,4 +543,9 @@ namespace NTMiner.Core {
         public MqCountData Data { get; private set; }
         public DateTime Timestamp { get; private set; }
     }
+
+    [MessageType(description: "收到了CalcConfigsUpdated Mq消息后")]
+    public class CalcConfigsUpdatedMqEvent : EventBase {
+        public CalcConfigsUpdatedMqEvent() { }
+    }
 }

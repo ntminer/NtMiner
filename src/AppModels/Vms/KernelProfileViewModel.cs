@@ -263,14 +263,21 @@ namespace NTMiner.Vms {
                     });
                 };
                 RpcRoot.OfficialServer.FileUrlService.GetPackageUrlAsync(package, (packageUrl, e) => {
-                    if (string.IsNullOrEmpty(packageUrl)) {
-                        string msg = $"未获取到{package}内核包下载地址";
-                        downloadComplete?.Invoke(false, msg, saveFileFullName);
-                        VirtualRoot.ThisLocalError(nameof(KernelProfileViewModel), msg, toConsole: true);
+                    if (e != null && e is NTMinerHttpException httpE) {
+                        if (httpE.StatusCode >= HttpStatusCode.InternalServerError) {
+                            VirtualRoot.Out.ShowError("服务器忙");
+                        }
                     }
                     else {
-                        VirtualRoot.ThisLocalInfo(nameof(KernelProfileViewModel), "下载：" + package, toConsole: true);
-                        webClient.DownloadFileAsync(new Uri(packageUrl), saveFileFullName);
+                        if (string.IsNullOrEmpty(packageUrl)) {
+                            string msg = $"未获取到{package}内核包下载地址";
+                            downloadComplete?.Invoke(false, msg, saveFileFullName);
+                            VirtualRoot.ThisLocalError(nameof(KernelProfileViewModel), msg, toConsole: true);
+                        }
+                        else {
+                            VirtualRoot.ThisLocalInfo(nameof(KernelProfileViewModel), "下载：" + package, toConsole: true);
+                            webClient.DownloadFileAsync(new Uri(packageUrl), saveFileFullName);
+                        }
                     }
                 });
             }

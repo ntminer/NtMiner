@@ -104,7 +104,10 @@ namespace NTMiner.Rpc.Impl {
                             });
                         }
                         else {
-                            callback?.Invoke(default, new NTMinerException($"{action} http response {getHttpResponse.Result.StatusCode.ToString()} {getHttpResponse.Result.ReasonPhrase}"));
+                            callback?.Invoke(default, new NTMinerHttpException($"{action} http response {getHttpResponse.Result.StatusCode.ToString()} {getHttpResponse.Result.ReasonPhrase}") {
+                                StatusCode = getHttpResponse.Result.StatusCode,
+                                ReasonPhrase = getHttpResponse.Result.ReasonPhrase
+                            });
                         }
                     }
                 }

@@ -69,6 +69,9 @@ namespace NTMiner.Ws {
         public const string SelfWorkLocalJson = "SelfWorkLocalJson";            // MinerClient->WsServer->Mq->WsServer->MinerStudio
         public const string GpuProfilesJson = "GpuProfilesJson";                // MinerClient->WsServer->Mq->WsServer->MinerStudio
 
+        public const string CalcConfigs = "CalcConfigs";                        // MinerClient->WsServer->MinerClient
+        public const string QueryCalcConfigs = "QueryCalcConfigs";              // MinerClient->WsServer->MinerClient
+
         /// <summary>
         /// WsServer收到来自MinerStudio的 <see cref="QueryClientDatas"/> WsMessage时往会Mq发送QueryClientsForWsRoutingKey消息，
         /// WebApiServer订阅了QueryClientsForWsRoutingKey消息并将QueryClientsForWsResponseMqMessage消息发送回到Mq，WsServer订阅了

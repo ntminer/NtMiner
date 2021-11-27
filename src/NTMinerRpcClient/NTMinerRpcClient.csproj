@@ -99,7 +99,6 @@
     <Compile Include="Services\Official\CalcConfigService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Official\KernelOutputKeywordService.cs" />
-    <Compile Include="Services\Official\ReportBinaryService.cs" />
     <Compile Include="Services\Official\ServerMessageBinaryService.cs" />
     <Compile Include="Services\Official\UserAppSettingService.cs" />
     <Compile Include="Services\Official\UserService.cs" />
@@ -107,7 +106,6 @@
     <Compile Include="Services\Official\ClientDataService.cs" />
     <Compile Include="Services\Official\UserMinerGroupService.cs" />
     <Compile Include="Services\Official\UserMineWorkService.cs" />
-    <Compile Include="Services\Official\ReportService.cs" />
     <Compile Include="Core\Impl\ServerMessageSet.cs" />
     <Compile Include="Services\OSSService.cs" />
     <Compile Include="Services\OSS\AliyunOSSService.cs" />

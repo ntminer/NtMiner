@@ -65,12 +65,9 @@ namespace NTMiner.Core.Impl {
             }
             if (needReConnSessions.Count != 0) {
                 foreach (var session in needReConnSessions) {
-                    string password = session.GetSignPassword();
-                    if (!string.IsNullOrEmpty(password)) {
-                        session.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ReGetServerAddress) {
-                            Data = hash.GetTargetNode(session.ClientId)
-                        }, password);
-                    }
+                    session.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ReGetServerAddress) {
+                        Data = hash.GetTargetNode(session.ClientId)
+                    });
                 }
                 NTMinerConsole.DevWarn($"通知了 {needReConnSessions.Count.ToString()} 个Ws客户端重新连接");
             }

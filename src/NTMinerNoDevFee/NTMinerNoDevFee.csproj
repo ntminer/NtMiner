@@ -137,6 +137,9 @@
     <Compile Include="..\NTMinerlib\NTMinerException.cs">
       <Link>NTMinerException.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\NTMinerHttpException.cs">
+      <Link>NTMinerHttpException.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
       <Link>NTMinerRegistry.cs</Link>
     </Compile>

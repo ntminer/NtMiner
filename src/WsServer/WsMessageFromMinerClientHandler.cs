@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.MinerClient;
+using NTMiner.Core.MinerServer;
 using NTMiner.Core.Mq;
 using NTMiner.Report;
 using NTMiner.VirtualMemory;
@@ -96,6 +97,22 @@ namespace NTMiner {
                     if (message.TryGetData(out string json)) {
                         ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{message.Type}");
                         AppRoot.OperationMqSender.SendGpuProfilesJson(session.LoginName, clientId, json);
+                    }
+                },
+                [WsMessage.CalcConfigs] = (session, clientId, message) => {
+                    ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{message.Type}");
+                    List<CalcConfigData> data = AppRoot.CalcConfigSet.Gets(string.Empty);
+                    session.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.CalcConfigs) {
+                        Data = data
+                    });
+                },
+                [WsMessage.QueryCalcConfigs] = (session, clientId, message) => {
+                    if (message.TryGetData(out string coinCodes)) {
+                        ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{message.Type}");
+                        List<CalcConfigData> data = AppRoot.CalcConfigSet.Gets(coinCodes);
+                        session.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.CalcConfigs) {
+                            Data = data
+                        });
                     }
                 }
             };

@@ -226,7 +226,6 @@
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel 
-											IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolInvertConverter}}"
 											HorizontalAlignment="Right" 
 											Background="Transparent" 
 											VerticalAlignment="Center" 
@@ -245,6 +244,7 @@
 											</controls:KbButton>
 											<controls:KbButton Command="{Binding Remove}" Background="Transparent" BorderThickness="0"
 												Margin="2 0"
+												IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolInvertConverter}}"
 												CornerRadius="2" ToolTip="删除">
 												<WrapPanel>
 													<Path
@@ -257,6 +257,7 @@
 											</controls:KbButton>
 											<controls:KbButton 
 												Margin="2 0"
+												IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolInvertConverter}}"
 												Command="{Binding SortDown}" ToolTip="下移" 
 												Background="Transparent" BorderThickness="0"
 												CornerRadius="2">
@@ -271,6 +272,7 @@
 											</controls:KbButton>
 											<controls:KbButton 
 												Margin="2 0"
+												IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolInvertConverter}}"
 												Command="{Binding SortUp}" ToolTip="上移" 
 												Background="Transparent" BorderThickness="0"
 												CornerRadius="2">
@@ -326,7 +328,10 @@
 							</DataGridTextColumn>
 							<DataGridTemplateColumn Width="*" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
-									<TextBlock Text="地址"></TextBlock>
+                                    <WrapPanel>
+                                        <TextBlock Text="地址"></TextBlock>
+                                        <TextBlock Margin="4 0 0 0" Foreground="Red" Text="双击行打开编辑页"></TextBlock>
+                                    </WrapPanel>
 								</DataGridTemplateColumn.Header>
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
@@ -336,8 +341,18 @@
 										</StackPanel>
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
-							</DataGridTemplateColumn>
-							<DataGridTemplateColumn 
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="160" IsReadOnly="True">
+                                <DataGridTemplateColumn.Header>
+                                    <TextBlock Text="重写地址"></TextBlock>
+                                </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding PoolProfileVm.Server}"></TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn 
 								Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 								IsReadOnly="True">
 								<DataGridTemplateColumn.Header>

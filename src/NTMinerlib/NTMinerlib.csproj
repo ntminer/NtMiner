@@ -58,6 +58,7 @@
     <Compile Include="IdGenerator\DefaultIdGenerator.cs" />
     <Compile Include="IdGenerator\IIdGenerator.cs" />
     <Compile Include="Net\Hosts.cs" />
+    <Compile Include="NTMinerHttpException.cs" />
     <Compile Include="NTMinerRegistry.partials.cs" />
     <Compile Include="Net\IpUtil.cs" />
     <Compile Include="Repositories\JsonReadOnlyRepository`1.cs" />

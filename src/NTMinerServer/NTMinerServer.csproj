@@ -46,11 +46,14 @@
   <ItemGroup>
     <Compile Include="Core\IHostConfig.cs" />
     <Compile Include="Core\Impl\HostConfigData.cs" />
+    <Compile Include="Core\Impl\ReadOnlyCalcConfigSet.cs" />
     <Compile Include="Core\Impl\WsServerNodeAddressSetBase.cs" />
+    <Compile Include="Core\IReadOnlyCalcConfigSet.cs" />
     <Compile Include="Core\IWsServerNodeAddressSet.cs" />
     <Compile Include="Core\Mq\ClientIdIp.cs" />
     <Compile Include="Core\Mq\MqCountMqBodyUtil.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\BasicDeliverEventArgsExtensions.cs" />
+    <Compile Include="Core\Mq\MqMessagePaths\CalcConfigMqMessagePath.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\ClientTestIdMqMessagePath.cs" />
     <Compile Include="Core\Mq\Senders\Impl\MqCountSender.cs" />
     <Compile Include="Core\Mq\Senders\IMqCountSender.cs" />
@@ -61,8 +64,11 @@
     <Compile Include="Core\Mq\MqMessagePaths\AbstractMqMessagePath`3.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\AbstractMqMessagePath`2.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\ReadOnlyUserMqMessagePath.cs" />
+    <Compile Include="ReadOnlyCalcConfigSetExtensions.cs" />
+    <Compile Include="Core\Redis\ICalcConfigDataRedis.cs" />
     <Compile Include="Core\Redis\IClientTestIdDataRedis.cs" />
     <Compile Include="Core\Redis\IMinerDataRedis.cs" />
+    <Compile Include="Core\Redis\Impl\CalcConfigDataRedis.cs" />
     <Compile Include="Core\Redis\Impl\ClientTestIdDataRedis.cs" />
     <Compile Include="Core\Redis\Impl\MinerDataRedis.cs" />
     <Compile Include="Core\Redis\Impl\ReadOnlyWsServerNodeRedis.cs" />

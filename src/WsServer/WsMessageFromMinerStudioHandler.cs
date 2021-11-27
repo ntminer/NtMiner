@@ -184,6 +184,22 @@ namespace NTMiner {
                         ServerRoot.IfStudioClientTestIdLogElseNothing(studioId, $"{nameof(WsMessage)}.{message.Type}");
                         MqBufferRoot.AutoQueryClientDatas(QueryClientsForWsRequest.Create(query, session.LoginName, studioId, session.WsSessionId));
                     }
+                },
+                [WsMessage.CalcConfigs] = (session, clientId, message) => {
+                    ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{message.Type}");
+                    List<CalcConfigData> data = AppRoot.CalcConfigSet.Gets(string.Empty);
+                    session.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.CalcConfigs) {
+                        Data = data
+                    });
+                },
+                [WsMessage.QueryCalcConfigs] = (session, clientId, message) => {
+                    if (message.TryGetData(out string coinCodes)) {
+                        ServerRoot.IfMinerClientTestIdLogElseNothing(clientId, $"{nameof(WsMessage)}.{message.Type}");
+                        List<CalcConfigData> data = AppRoot.CalcConfigSet.Gets(coinCodes);
+                        session.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.CalcConfigs) {
+                            Data = data
+                        });
+                    }
                 }
             };
 

@@ -43,7 +43,6 @@
     <Compile Include="ICaptchaController`1.cs" />
     <Compile Include="IMinerClientController.cs" />
     <Compile Include="INTMinerFileController.cs" />
-    <Compile Include="IReportBinaryController.cs" />
     <Compile Include="IServerMessageBinaryController`1.cs" />
     <Compile Include="IUserAppSettingController.cs" />
     <Compile Include="IWsServerNodeController.cs" />
@@ -59,7 +58,6 @@
     <Compile Include="INTMinerDaemonController.cs" />
     <Compile Include="INTMinerWalletController.cs" />
     <Compile Include="IOverClockDataController.cs" />
-    <Compile Include="IReportController.cs" />
     <Compile Include="IServerMessageController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

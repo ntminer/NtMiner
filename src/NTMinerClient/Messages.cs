@@ -201,12 +201,6 @@ namespace NTMiner {
         public MaxTempChangedEvent() { }
     }
 
-    [MessageType(description: "收益计算器数据集初始化后")]
-    public class CalcConfigSetInitedEvent : EventBase {
-        public CalcConfigSetInitedEvent() {
-        }
-    }
-
     [MessageType(description: "从内核输出中提取了矿池延时")]
     public class PoolDelayPickedEvent : EventBase {
         public PoolDelayPickedEvent(Guid poolId, bool isDual, string poolDelay) {

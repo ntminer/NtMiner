@@ -12,31 +12,37 @@ namespace NTMiner.Core.Impl {
         public CalcConfigSet(INTMinerContext ntminerContext) {
             _ntminerContext = ntminerContext;
             if (ClientAppType.IsMinerClient) {
-                VirtualRoot.BuildOnecePath<HasBoot20SecondEvent>("初始化收益计算器", LogEnum.DevConsole, pathId: PathId.Empty, location: this.GetType(), PathPriority.Normal,
+                VirtualRoot.BuildEventPath<MineStartedEvent>("开始挖矿时加载收益计算器数据", LogEnum.DevConsole, location: this.GetType(), PathPriority.Normal,
                     path: message => {
                         Init();
                     });
             }
         }
 
+        private List<string> _coinCodes = new List<string>();
         private DateTime _initedOn = DateTime.MinValue;
-
         public void Init(bool forceRefresh = false) {
+            List<string> coinCodes = new List<string>();
+            var mineContext = NTMinerContext.Instance.CurrentMineContext;
+            if (!forceRefresh && mineContext != null) {
+                if (mineContext.MainCoin != null) {
+                    coinCodes.Add(mineContext.MainCoin.Code);
+                }
+                if (mineContext is IDualMineContext dualMineContext) {
+                    if (dualMineContext.DualCoin != null) {
+                        coinCodes.Add(dualMineContext.DualCoin.Code);
+                    }
+                }
+            }
             DateTime now = DateTime.Now;
             // 如果未显示主界面则收益计算器也不用更新了
-            if ((_initedOn == DateTime.MinValue || NTMinerContext.IsUiVisible || ClientAppType.IsMinerStudio) && (forceRefresh || _initedOn.AddMinutes(10) < now)) {
+            if ((_initedOn == DateTime.MinValue || NTMinerContext.IsUiVisible || ClientAppType.IsMinerStudio)
+                && (forceRefresh || (_coinCodes.Count != 0 && coinCodes.Any(a => !_coinCodes.Contains(a))) || _initedOn.AddMinutes(10) < now)) {
                 _initedOn = now;
-                List<string> coinCodes = new List<string>();
-                var mineContext = NTMinerContext.Instance.CurrentMineContext;
-                if (!forceRefresh && mineContext != null) {
-                    if (mineContext.MainCoin != null) {
-                        coinCodes.Add(mineContext.MainCoin.Code);
-                    }
-                    if (mineContext is IDualMineContext dualMineContext) {
-                        if (dualMineContext.DualCoin != null) {
-                            coinCodes.Add(dualMineContext.DualCoin.Code);
-                        }
-                    }
+                _coinCodes = coinCodes;
+                if (forceRefresh) {
+                    // 传空表示获取全部
+                    _coinCodes.Clear();
                 }
                 RpcRoot.OfficialServer.CalcConfigBinaryService.QueryCalcConfigsAsync(coinCodes, data => {
                     if (data != null && data.Count != 0) {

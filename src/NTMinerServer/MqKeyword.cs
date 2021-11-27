@@ -46,5 +46,6 @@ namespace NTMiner {
         public const string StartWorkMineRoutingKey = WsMessage.StartWorkMine;
 
         public const string RefreshMinerTestIdRoutingKey = "RefreshMinerTestId";
+        public const string CalcConfigsUpdatedRoutingKey = "CalcConfigsUpdated";
     }
 }

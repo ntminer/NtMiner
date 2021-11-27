@@ -61,7 +61,7 @@ namespace NTMiner {
         public const int NTMinerDaemonPort = 3337;
 
         public const int MinerStudioPort = 3338;
-        public const string DNSServer0 = "119.29.29.29";
+        public const string DNSServer0 = "114.114.114.114";
         public const string DNSServer1 = "223.5.5.5";
         public const string MinerClientFinderFileName = "MinerClientFinder.exe";
         public const string AtikmdagPatcherFileName = "AtikmdagPatcher.exe";

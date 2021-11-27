@@ -25,6 +25,8 @@ namespace NTMiner {
             }
         }
 
+        public static IReadOnlyCalcConfigSet CalcConfigSet { get; private set; }
+
         public static IMinerClientSessionSet MinerClientSessionSet { get; private set; }
         public static IMinerStudioSessionSet MinerStudioSessionSet { get; private set; }
         public static IReadOnlyUserSet UserSet { get; private set; }
@@ -53,6 +55,7 @@ namespace NTMiner {
             string durableQueue = queue + MqKeyword.DurableQueueEndsWith;
             AbstractMqMessagePath[] mqMessagePaths = new AbstractMqMessagePath[] {
                 new ReadOnlyUserMqMessagePath(durableQueue),
+                new CalcConfigMqMessagePath(queue),
                 new MinerSignMqMessagePath(queue),
                 new WsServerNodeMqMessagePath(queue),
                 new OperationMqMessagePath(queue),
@@ -63,20 +66,24 @@ namespace NTMiner {
                 NTMinerConsole.UserError("启动失败，无法继续，因为服务器上下文创建失败");
                 return;
             }
-            MinerClientMqSender = new MinerClientMqSender(mqRedis);
-            SpeedDataRedis = new SpeedDataRedis(mqRedis);
-            WsServerNodeRedis = new WsServerNodeRedis(mqRedis);
-            OperationMqSender = new OperationMqSender(mqRedis);
-            UserMqSender = new UserMqSender(mqRedis);
-            _wsServerNodeMqSender = new WsServerNodeMqSender(mqRedis);
+            IRedis redis = mqRedis;
+            IMq mq = mqRedis;
+            MinerClientMqSender = new MinerClientMqSender(mq);
+            SpeedDataRedis = new SpeedDataRedis(redis);
+            WsServerNodeRedis = new WsServerNodeRedis(redis);
+            OperationMqSender = new OperationMqSender(mq);
+            UserMqSender = new UserMqSender(mq);
+            _wsServerNodeMqSender = new WsServerNodeMqSender(mq);
             WsServerNodeAddressSet = new WsServerNodeAddressSet(WsServerNodeRedis, _wsServerNodeMqSender);
-            var minerRedis = new MinerDataRedis(mqRedis);
-            var userRedis = new ReadOnlyUserDataRedis(mqRedis);
+            var minerRedis = new MinerDataRedis(redis);
+            var userRedis = new ReadOnlyUserDataRedis(redis);
+            var calcConfigRedis = new CalcConfigDataRedis(redis);
             VirtualRoot.StartTimer();
             // 构造函数中异步访问redis初始化用户列表，因为是异步的所以提前构造
             UserSet = new ReadOnlyUserSet(userRedis);
             MinerSignSet = new MinerSignSet(minerRedis);
             _wsServer = new SharpWsServerAdapter(ServerRoot.HostConfig);
+            CalcConfigSet = new ReadOnlyCalcConfigSet(calcConfigRedis);
             MinerClientSessionSet = new MinerClientSessionSet(_wsServer.MinerClientWsSessions);
             MinerStudioSessionSet = new MinerStudioSessionSet(_wsServer.MinerStudioWsSessions);
             _started = _wsServer.Start();

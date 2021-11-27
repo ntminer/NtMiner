@@ -34,21 +34,7 @@ namespace NTMiner.Controllers {
         /// <param name="coinCodes"></param>
         /// <returns></returns>
         internal static DataResponse<List<CalcConfigData>> DoCalcConfigs(string coinCodes) {
-            try {
-                string[] coins;
-                if (string.IsNullOrEmpty(coinCodes)) {
-                    coins = new string[0];
-                }
-                else {
-                    coins = coinCodes?.Split(',');
-                }
-                var data = AppRoot.CalcConfigSet.Gets(coins);
-                return DataResponse<List<CalcConfigData>>.Ok(data);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return ResponseBase.ServerError<DataResponse<List<CalcConfigData>>>(e.Message);
-            }
+            return DataResponse<List<CalcConfigData>>.Ok(AppRoot.CalcConfigSet.Gets(coinCodes));
         }
 
         #region SaveCalcConfigs
